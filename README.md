@@ -38,3 +38,93 @@ The project emphasizes advanced software engineering practices, including modula
   - Modular design to support additional features and content.
   - Plugin-friendly for future enhancements.
 - 🖥️ **Cross-Platform Compatibility**: Runs on both Windows and Linux.
+
+---
+
+## ⚙️ Build and Run Instructions
+
+### 🛠️ Prerequisites
+- **C++ Compiler**: GCC (Linux) or MSVC (Windows).
+- **CMake**: Ensure version 3.16 or higher.
+- Optional: Package manager (e.g., Conan, Vcpkg) for dependencies.
+
+### 🔨 Build Instructions
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd Advanced-R-Type```
+
+2.	Build the project using CMake:
+    ```
+    mkdir build && cd build
+    cmake ..
+    make```
+
+### ▶️ Running the Game
+
+- start the server:
+    ```./r-type_server```
+- Launch the client:
+    ```./r-type_client```
+
+### 📦 Dependencies
+
+The project uses the following libraries:
+
+- 🛠️ **Boost.Asio** or equivalent for networking (server).
+- 🎨 **SFML/SDL** for rendering, input, and audio (client).
+- ⚙️ Optional: **CMake FetchContent** or a package manager like **Conan** or **Vcpkg** to manage dependencies.
+
+All third-party dependencies must be bundled with the project or fetched during the build process.
+
+---
+
+### 💻 Platform Support
+
+- 🖥️ **Windows**: Compiled with MSVC.
+- 🐧 **Linux**: Compiled with GCC.
+- 🌐 Cross-compilation supported with CMake and Docker.
+
+---
+
+### 📑 Documentation
+
+- 📚 Comprehensive documentation is included in the `docs` folder.
+- **Developer Documentation**:
+  - 🗂️ Architectural diagrams.
+  - 🛠️ Subsystem overviews.
+  - 📖 Tutorials and “How-To” guides.
+- **Protocol Documentation**:
+  - 📡 Details the binary protocol used for client-server communication.
+
+For a complete reference, see the documentation hosted online (or provide the path/link if applicable).
+
+---
+
+### 🤝 Contributing
+
+We welcome contributions! 🎉 To get started:
+
+1. 🍴 Fork the repository.
+2. 🌿 Create a feature branch.
+3. 📨 Submit a pull request with a clear description of your changes.
+
+#### Development Guidelines
+
+- 📂 Use feature branches for development.
+- 🖋️ Follow the provided coding conventions.
+- ✅ Ensure all changes are documented and tested.
+
+---
+
+### 📝 License
+
+This project is licensed under the **MIT License**. 📜 See the `LICENSE` file for more details.
+
+---
+
+### 📞 Contacts
+
+For questions, suggestions, or feedback:
+
+- 📧 **Team Contact**: [antoine.le@epitech.eu], [tristan.delahousse@epitech.eu], [isaac.gonzalez-bottini@epitech.eu], [nicolas.rodiet@epitech.eu], [theo.fisch-dewailly@epitech.eu]
