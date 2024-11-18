@@ -40,8 +40,6 @@ jobs:
         env:
           VALIDATE_ALL_CODEBASE: true
           GITHUB_TOKEN: ${{ secrets.PAT }}
-          DISABLE_LINTERS: CPP_CPPLINT
-          FILTER_RULES: "-build/include_subdir"
 
       - name: Debug MegaLinter Output
         run: |
