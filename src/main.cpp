@@ -1,16 +1,13 @@
-/*
-** EPITECH PROJECT, 2024
-** Rtype
-** File description:
-** main
-*/
-
-#include "../include/macro.hpp"
+// Copyright 2024 <n0v4: Rtype>
 
 #include <iostream>
 
-int main(void)
-{
-    std::cout << "hello world!" << std::endl;
-    return OK;
+#include "../include/macro.hpp"
+
+int main(void) {
+  std::cout << "hello world!" << std::endl;
+  if (1 > 3) {
+    std::cout << "1 is greater than 3" << std::endl;
+  }
+  return OK;
 }

@@ -1,0 +1,45 @@
+# Base style configuration
+BasedOnStyle: Google  # Alternatives: LLVM, Chromium, Mozilla, WebKit
+IndentWidth: 2        # 2 spaces for indentation
+TabWidth: 2           # Visual width of a tab character
+UseTab: Never         # Use spaces instead of tabs
+
+# Column and wrapping settings
+ColumnLimit: 80       # Max line length (cpplint default)
+BreakBeforeBraces: Attach  # Attach braces to the control statement line
+AllowShortFunctionsOnASingleLine: None  # Always use multiple lines for functions
+
+# Namespace settings
+NamespaceIndentation: None  # No indentation for namespaces
+
+# Pointer and reference alignment
+PointerAlignment: Left       # Place pointer symbol (*) to the left
+ReferenceAlignment: Left     # Place reference symbol (&) to the left
+
+# Include statement formatting
+SortIncludes: true           # Sort includes alphabetically
+IncludeBlocks: Preserve      # Preserve user-defined grouping of includes
+
+# Comments
+ReflowComments: true          # Reformat comments to fit within ColumnLimit
+CommentPragmas: '^IWYU pragma:'  # Preserve special comments (e.g., IWYU pragma)
+
+# Function formatting
+AlwaysBreakAfterReturnType: None  # Do not break return type onto a new line
+AlignTrailingComments: true       # Align trailing comments to the same column
+
+# Constructor initializers
+BreakConstructorInitializersBeforeComma: true  # Break constructor initializer lines
+ConstructorInitializerIndentWidth: 2
+
+# Indentation settings
+AccessModifierOffset: -2         # Indent access modifiers (-2 aligns with class keyword)
+AlignConsecutiveAssignments: true  # Align consecutive assignments
+
+# Formatting rules
+AllowShortIfStatementsOnASingleLine: false  # Do not allow single-line if statements
+SpacesInParentheses: false       # No spaces inside parentheses
+SpacesInSquareBrackets: false    # No spaces inside square brackets
+
+# Experimental features
+IncludeIsMainRegex: '.*'         # Consider all includes as part of the main

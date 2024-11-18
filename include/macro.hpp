@@ -1,14 +1,8 @@
-/*
-** EPITECH PROJECT, 2024
-** Rtype
-** File description:
-** macro
-*/
+// Copyright 2024 <n0v4: Rtype>
+#ifndef INCLUDE_MACRO_HPP_
+#define INCLUDE_MACRO_HPP_
 
-#ifndef MACRO_HPP_
-    #define MACRO_HPP_
-    #define OK 0
-    #define ERROR 84
+#define OK 0
+#define ERROR 84
 
-
-#endif /* !MACRO_HPP_ */
+#endif  // INCLUDE_MACRO_HPP_
