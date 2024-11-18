@@ -1,6 +1,5 @@
 // Copyright 2024 <n0v4: Rtype>
 
-
 #include <iostream>
 
 #include "../include/macro.hpp"
