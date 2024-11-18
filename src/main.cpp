@@ -1,13 +1,9 @@
-/*
-** EPITECH PROJECT, 2024
-** Rtype
-** File description:
-** main
-*/
+// Copyright 2024 <n0v4: Rtype>
 
-#include "../include/macro.hpp"
 
 #include <iostream>
+
+#include "../include/macro.hpp"
 
 int main(void) {
   std::cout << "hello world!" << std::endl;
