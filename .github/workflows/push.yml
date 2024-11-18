@@ -1,4 +1,4 @@
-name: 'area'
+name: 'push on rtype'
 
 on:
   push:
