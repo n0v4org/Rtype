@@ -1,8 +1,8 @@
 // Copyright 2024 <n0v4: Rtype>
-#ifndef _INCLUDE_MACRO_HPP
-#define _INCLUDE_MACRO_HPP
+#ifndef INCLUDE_MACRO_HPP_
+#define INCLUDE_MACRO_HPP_
 
 #define OK 0
 #define ERROR 84
 
-#endif  // _INCLUDE_MACRO_HPP
+#endif  // INCLUDE_MACRO_HPP_
