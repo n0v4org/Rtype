@@ -19,6 +19,8 @@ ENABLE_LINTERS:
 DISABLE:
   - COPYPASTE # Comment to enable checks of excessive copy-pastes
   # - SPELL # Uncomment to disable checks of spelling mistakes
+FILTER_RULES:
+  - build/include_subdir 
 
 SHOW_ELAPSED_TIME: true
 
