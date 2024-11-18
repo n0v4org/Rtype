@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "../include/macro.hpp"
+#include "macro.hpp"
 
 int main(void) {
   std::cout << "hello world!" << std::endl;
