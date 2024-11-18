@@ -13,8 +13,8 @@ APPLY_FIXES: all
 # If you use ENABLE_LINTERS variable, all other linters will be disabled by
 # default
 ENABLE_LINTERS:
+  - CPP_CPPLINT
   - CPP_CLANG_FORMAT
-  - CPP_CLANG_TIDY
 
 DISABLE:
   - COPYPASTE # Comment to enable checks of excessive copy-pastes
