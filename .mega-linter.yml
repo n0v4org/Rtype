@@ -8,9 +8,10 @@ ENABLE_LINTERS:
 DISABLE:
   - COPYPASTE # Disable COPYPASTE checks
 
-# Filter specific rules
-FILTER_RULES:
-  - build/include_subdir # Disable include subdir warnings
+# Configure filters for cpplint
+LINTER_RULES:
+  CPP_CPPLINT:
+    filter: "-build/include_subdir" # Disable include_subdir rule
 
 SHOW_ELAPSED_TIME: true
 
