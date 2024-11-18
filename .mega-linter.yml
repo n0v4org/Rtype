@@ -4,7 +4,9 @@
 # linters documentation
 
 # all, none, or list of linter keys
-APPLY_FIXES: all
+APPLY_FIXES: 
+  - all
+  - CPP_CLANG_FORMAT
 
 # If you use ENABLE variable, all other languages/formats/tooling-formats will
 # be disabled by default
@@ -12,7 +14,9 @@ APPLY_FIXES: all
 
 # If you use ENABLE_LINTERS variable, all other linters will be disabled by
 # default
-# ENABLE_LINTERS:
+ENABLE_LINTERS:
+  - CPP_CPPLINT
+  - CPP_CLANG_FORMAT
 
 DISABLE:
   - COPYPASTE # Comment to enable checks of excessive copy-pastes
