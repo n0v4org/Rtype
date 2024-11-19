@@ -1,4 +1,10 @@
-// Copyright 2024 <n0v4: Rtype>
+/*
+** EPITECH PROJECT, 2024
+** Rtype
+** File description:
+** macro
+*/
+
 #ifndef CLIENT_INCLUDE_MACRO_HPP_
 #define CLIENT_INCLUDE_MACRO_HPP_
 

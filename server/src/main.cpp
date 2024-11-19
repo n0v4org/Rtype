@@ -1,4 +1,9 @@
-// Copyright 2024 <n0v4: Rtype>
+/*
+** EPITECH PROJECT, 2024
+** Rtype
+** File description:
+** main
+*/
 
 #include <iostream>
 
