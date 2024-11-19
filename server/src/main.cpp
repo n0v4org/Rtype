@@ -8,6 +8,7 @@
 #include <iostream>
 
 #include "macro.hpp"
+#include "ServerError.hpp"
 
 int main(void) {
   std::cout << "hello world! welcome to server" << std::endl;
