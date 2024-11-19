@@ -19,4 +19,4 @@ jobs:
 
       - name: Compile C++ code
         run: |
-          cmake && make
+          cmake . && make
