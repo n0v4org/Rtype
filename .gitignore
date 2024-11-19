@@ -31,6 +31,16 @@
 *.out
 *.app
 
+cmake_install.cmake
+CMakeCache.txt
+CMakeFiles/
+Makefile
+
+build/
+
+r-type_client
+r-type_server
+
 .vscode/
 
 megalinter-reports/
