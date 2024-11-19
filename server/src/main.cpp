@@ -7,17 +7,14 @@
 
 #include <iostream>
 
-#include "macro.hpp"
 #include "ServerError.hpp"
+#include "macro.hpp"
 
 int main(void) {
-  try
-  {
+  try {
     throw ServerError("test", SERVER_INTERNAL_ERROR);
     return OK;
-  }
-  catch(const std::exception& e)
-  {
+  } catch (const std::exception& e) {
     std::cerr << e.what() << '\n';
   }
 }
