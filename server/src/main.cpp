@@ -11,6 +11,13 @@
 #include "ServerError.hpp"
 
 int main(void) {
-  std::cout << "hello world! welcome to server" << std::endl;
-  return OK;
+  try
+  {
+    throw ServerError("test", SERVER_INTERNAL_ERROR);
+    return OK;
+  }
+  catch(const std::exception& e)
+  {
+    std::cerr << e.what() << '\n';
+  }
 }
