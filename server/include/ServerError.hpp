@@ -36,7 +36,7 @@ static const std::map<int, std::string> COLORS = {
     {CYAN, "\033[36m"}, 
 };
 
-static const std::string RESET_COLOR = "\033[0m";
+static const char RESET_COLOR[5] = "\033[0m";
 
 class ServerError : public std::exception {
     public:
