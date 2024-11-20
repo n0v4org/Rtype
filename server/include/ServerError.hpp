@@ -7,19 +7,18 @@
 
 #ifndef SERVER_INCLUDE_SERVERERROR_HPP_
 #define SERVER_INCLUDE_SERVERERROR_HPP_
+#include <cstring>
 #include <map>
 #include <string>
-#include <cstring>
 
 enum {
-    SERVER_INTERNAL_ERROR = 0,
-    ARGS_ERROR = 1,
+  SERVER_INTERNAL_ERROR = 0,
+  ARGS_ERROR            = 1,
 };
 
 static const std::map<int, std::string> ERRORS = {
     {SERVER_INTERNAL_ERROR, "Internal Server Error: "},
-    {ARGS_ERROR, "Error while parsing command line arguments: "}
-};
+    {ARGS_ERROR, "Error while parsing command line arguments: "}};
 
 enum Color { RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN };
 
