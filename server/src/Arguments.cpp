@@ -22,6 +22,11 @@ Arguments::Arguments(int argc, char *argv[])
   for (int i = 1; i < argc; i++) _args.push_back(argv[i]);
 }
 
+Arguments::Arguments(int argc, const char *argv[])
+  : _help(false), _debug(false), _port(50000) {
+  for (int i = 1; i < argc; i++) _args.push_back(argv[i]);
+}
+
 bool Arguments::is_number(std::string str) {
   std::string::const_iterator it = str.begin();
 
