@@ -1,4 +1,6 @@
 #include <gtest/gtest.h>
+#include <vector>
+#include <string>
 #include "Arguments.hpp"
 #include "ServerError.hpp"
 
