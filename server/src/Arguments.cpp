@@ -6,6 +6,7 @@
 */
 
 #include <iostream>
+#include <string>
 
 #include "Arguments.hpp"
 #include "ServerError.hpp"

@@ -5,8 +5,8 @@
 ** Core
 */
 
-#ifndef CORE_HPP_
-    #define CORE_HPP_
+#ifndef SERVER_INCLUDE_CORE_HPP_
+    #define SERVER_INCLUDE_CORE_HPP_
     #include <memory>
     #include "Arguments.hpp"
 
@@ -21,4 +21,4 @@ class Core {
         std::unique_ptr<Arguments> _args;
 };
 
-#endif /* !CORE_HPP_ */
+#endif /* !SERVER_INCLUDE_CORE_HPP_ */

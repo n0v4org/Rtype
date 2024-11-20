@@ -5,8 +5,8 @@
 ** Arguments
 */
 
-#ifndef ARGUMENTS_HPP_
-    #define ARGUMENTS_HPP_
+#ifndef SERVER_INCLUDE_ARGUMENTS_HPP_
+    #define SERVER_INCLUDE_ARGUMENTS_HPP_
     #include <string>
     #include <vector>
     #include <map>
@@ -41,4 +41,4 @@ class Arguments {
         int _port;
 };
 
-#endif /* !ARGUMENTS_HPP_ */
+#endif /* !SERVER_INCLUDE_ARGUMENTS_HPP_ */

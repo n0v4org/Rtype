@@ -9,7 +9,6 @@
 #include <memory>
 #include <cstring>
 
-#include "macro.hpp"
 #include "Core.hpp"
 #include "ServerError.hpp"
 #include "macro.hpp"
