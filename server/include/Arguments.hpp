@@ -41,4 +41,4 @@ class Arguments {
         int _port;
 };
 
-#endif /* !SERVER_INCLUDE_ARGUMENTS_HPP_ */
+#endif  // SERVER_INCLUDE_ARGUMENTS_HPP_

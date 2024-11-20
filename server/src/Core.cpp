@@ -12,10 +12,12 @@
 #include "macro.hpp"
 #include "Core.hpp"
 
-static const char USAGE[133] = "usage:\n\
-\t\t -h: run server in help mod\n\
-\t\t -v run server in verbose mode\n\
-\t\t -p <port>: run server on specified port (default is 50000)\n";
+static const char USAGE[151] = R"(
+usage:
+        -h: run server in help mode
+        -v: run server in verbose mode
+        -p <port>: run server on specified port (default is 50000)
+)";
 
 
 Core::Core(char *argv[], int argc)

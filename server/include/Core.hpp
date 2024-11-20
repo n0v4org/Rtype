@@ -21,4 +21,4 @@ class Core {
         std::unique_ptr<Arguments> _args;
 };
 
-#endif /* !SERVER_INCLUDE_CORE_HPP_ */
+#endif  // SERVER_INCLUDE_CORE_HPP_
