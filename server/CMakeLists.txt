@@ -11,5 +11,19 @@ set(SRCS
     src/Arguments.cpp
     )
 
+set(TEST
+    src/test.cpp
+)
+
 add_executable(r-type_server ${SRCS})
 target_include_directories(r-type_server PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+
+find_package(GTest CONFIG REQUIRED)
+
+enable_testing()
+
+add_executable(r-type_server_tests ${TEST})
+
+target_link_libraries(r-type_server_tests PRIVATE GTest::gtest GTest::gtest_main)
+target_include_directories(r-type_server_tests PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+add_test(NAME RtypeTests COMMAND r-type_tests)
