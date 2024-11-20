@@ -40,3 +40,4 @@ jobs:
         run: |
           cd build
           ./server/r-type_server_tests
+          ./client/r-type_client_tests
