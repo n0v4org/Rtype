@@ -12,7 +12,6 @@ set(SRCS
     )
 
 set(TEST
-    src/test.cpp
 )
 
 add_executable(r-type_server ${SRCS})
