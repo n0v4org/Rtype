@@ -40,7 +40,15 @@ build/
 
 r-type_client
 r-type_server
+r-type_server_tests
+r-type_client_tests
+
+vcpkg_installed
+
+Testing
 
 .vscode/
 
 megalinter-reports/
+
+

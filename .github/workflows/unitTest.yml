@@ -1,4 +1,4 @@
-name: Rtype build
+name: Rtype Unit Tests
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
 
     steps:
@@ -35,3 +35,9 @@ jobs:
           cd build
           cmake .. -DCMAKE_TOOLCHAIN_FILE=${{ steps.vcpkg-toolchain.outputs.toolchain-file }}
           make
+
+      - name: Run tests
+        run: |
+          cd build
+          ./server/r-type_server_tests
+          ./client/r-type_client_tests
