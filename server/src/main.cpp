@@ -11,6 +11,7 @@
 #include "macro.hpp"
 #include "Core.hpp"
 #include "ServerError.hpp"
+#include "macro.hpp"
 
 int main(int argc, char *argv[]) {
   try
