@@ -39,5 +39,4 @@ jobs:
       - name: Run tests
         run: |
           cd build
-          ls
-          ./r-type_server_tests
+          ./server/r-type_server_tests
