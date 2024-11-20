@@ -7,6 +7,8 @@ project(RtypeServer VERSION 1.0)
 
 set(SRCS
     src/main.cpp
+    src/Core.cpp
+    src/Arguments.cpp
     )
 
 add_executable(r-type_server ${SRCS})

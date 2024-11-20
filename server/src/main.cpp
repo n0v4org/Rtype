@@ -6,18 +6,23 @@
 */
 
 #include <iostream>
+#include <memory>
 
 #include "macro.hpp"
+#include "Core.hpp"
 #include "ServerError.hpp"
 
-int main(void) {
+int main(int argc, char *argv[]) {
   try
   {
-    throw ServerError("test", SERVER_INTERNAL_ERROR);
-    return OK;
+    std::unique_ptr<Core> core = std::make_unique<Core>(argv, argc);
+    core->run();
   }
   catch(const std::exception& e)
   {
-    std::cerr << e.what() << '\n';
+    if (strcmp(e.what(), EXCEPTION) != 0)
+      std::cerr << e.what() << '\n';
+    return ERROR;
   }
+  return OK;
 }
