@@ -9,6 +9,7 @@
 #define SERVER_INCLUDE_SERVERERROR_HPP_
 #include <map>
 #include <string>
+#include <cstring>
 
 enum {
     SERVER_INTERNAL_ERROR = 0,
