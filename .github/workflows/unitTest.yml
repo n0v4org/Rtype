@@ -39,4 +39,4 @@ jobs:
       - name: Run tests
         run: |
           cd build
-          ctest --output-on-failure
+          ./r-type_server_tests
