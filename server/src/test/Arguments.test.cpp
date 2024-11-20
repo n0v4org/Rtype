@@ -1,3 +1,10 @@
+/*
+** EPITECH PROJECT, 2024
+** Rtype
+** File description:
+** Arguments.test
+*/
+
 #include "Arguments.hpp"
 #include <gtest/gtest.h>
 #include <string>
