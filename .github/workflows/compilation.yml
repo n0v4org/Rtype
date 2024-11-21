@@ -1,37 +1,35 @@
-name: Rtype build
+name: Build on Windows with MSVC and vcpkg
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
   pull_request:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  build-windows:
+    runs-on: windows-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Install system dependencies
-        run: |
-          sudo apt update
-          sudo apt install -y g++ cmake curl zip unzip
-
-      - name: Set up vcpkg
+      - name: Install dependencies
         run: |
           git clone https://github.com/microsoft/vcpkg.git
-          ./vcpkg/bootstrap-vcpkg.sh
-        id: vcpkg
+          cd vcpkg
+          .\bootstrap-vcpkg.bat
 
-      - name: Configure vcpkg toolchain
-        run: echo "::set-output name=toolchain-file::$(pwd)/vcpkg/scripts/buildsystems/vcpkg.cmake"
-        id: vcpkg-toolchain
-
-      - name: Build project
+      - name: Set up MSVC environment
+        shell: cmd
         run: |
-          mkdir -p build
+          call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvars64.bat"
+
+      - name: Configure and build
+        run: |
+          mkdir build
           cd build
-          cmake .. -DCMAKE_TOOLCHAIN_FILE=${{ steps.vcpkg-toolchain.outputs.toolchain-file }}
-          make
+          cmake .. -G "Visual Studio 16 2019" -A x64 -DCMAKE_TOOLCHAIN_FILE=../vcpkg/scripts/buildsystems/vcpkg.cmake
+          cmake --build . --config Release
