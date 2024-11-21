@@ -19,23 +19,27 @@ usage:
         -p <port>: run server on specified port (default is 50000)
 )";
 
-Core::Core(char* argv[], int argc) {
-  _args = std::make_unique<Arguments>(argc, argv);
-}
+namespace rtype {
 
-void Core::run() {
-  try {
-    _args->parse();
-    if (_args->get_help()) {
-      std::cout << USAGE << std::endl;
-      return;
-    }
-  } catch (const std::exception& e) {
-    if (strcmp(e.what(), EXCEPTION) != 0)
-      std::cerr << e.what() << '\n';
-    throw e;
+  Core::Core(char* argv[], int argc) {
+    _args = std::make_unique<Arguments>(argc, argv);
   }
-}
+  
+  void Core::run() {
+    try {
+      _args->parse();
+      if (_args->get_help()) {
+        std::cout << USAGE << std::endl;
+        return;
+      }
+    } catch (const std::exception& e) {
+      if (strcmp(e.what(), EXCEPTION) != 0)
+        std::cerr << e.what() << '\n';
+      throw e;
+    }
+  }
+  
+  Core::~Core() {
+  }
 
-Core::~Core() {
-}
+} // namespace rtype

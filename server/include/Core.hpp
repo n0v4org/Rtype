@@ -10,15 +10,19 @@
 #include <memory>
 #include "Arguments.hpp"
 
-class Core {
-public:
-  Core(char *[], int);
-  void run();
-  ~Core();
+namespace rtype {
 
-protected:
-private:
-  std::unique_ptr<Arguments> _args;
-};
+  class Core {
+  public:
+    Core(char *[], int);
+    void run();
+    ~Core();
+
+  protected:
+  private:
+    std::unique_ptr<Arguments> _args;
+  };
+
+} // namespace rtype
 
 #endif  // SERVER_INCLUDE_CORE_HPP_
