@@ -24,9 +24,17 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-vcpkg
 
-      - name: Install vcpkg
+      - name: clone vcpkg
         run: |
           git clone https://github.com/microsoft/vcpkg.git
+          cd vcpkg
+          .\bootstrap-vcpkg.bat
+          .\vcpkg.exe install gtest
+          ls ..
+        shell: cmd
+
+      - name: install vcpkg
+        run: |
           cd vcpkg
           .\bootstrap-vcpkg.bat
           .\vcpkg.exe install gtest
