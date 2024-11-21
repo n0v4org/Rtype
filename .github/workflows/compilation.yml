@@ -1,37 +1,46 @@
-name: Rtype build
+name: Build on Windows with MSVC and vcpkg
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
   pull_request:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  build-and-test:
+    runs-on: windows-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Install system dependencies
-        run: |
-          sudo apt update
-          sudo apt install -y g++ cmake curl zip unzip
+      - name: Cache vcpkg dependencies
+        uses: actions/cache@v3
+        with:
+          path: vcpkg/installed
+          key: ${{ runner.os }}-vcpkg-${{ hashFiles('vcpkg.json') }}
+          restore-keys: |
+            ${{ runner.os }}-vcpkg
 
-      - name: Set up vcpkg
+      - name: Clone and Bootstrap vcpkg
         run: |
           git clone https://github.com/microsoft/vcpkg.git
-          ./vcpkg/bootstrap-vcpkg.sh
-        id: vcpkg
+          cd vcpkg
+          .\bootstrap-vcpkg.bat
+        shell: cmd
 
-      - name: Configure vcpkg toolchain
-        run: echo "::set-output name=toolchain-file::$(pwd)/vcpkg/scripts/buildsystems/vcpkg.cmake"
-        id: vcpkg-toolchain
-
-      - name: Build project
+      - name: Install dependencies with vcpkg
         run: |
-          mkdir -p build
+          cd vcpkg
+          .\vcpkg.exe install --triplet x64-windows
+        shell: cmd
+
+      - name: Configure and Build
+        run: |
+          mkdir build
           cd build
-          cmake .. -DCMAKE_TOOLCHAIN_FILE=${{ steps.vcpkg-toolchain.outputs.toolchain-file }}
-          make
+          cmake .. -G "Visual Studio 17 2022" -A x64 -DCMAKE_TOOLCHAIN_FILE=../vcpkg/scripts/buildsystems/vcpkg.cmake
+          cmake --build . --config Release
+        shell: cmd
