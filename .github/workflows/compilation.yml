@@ -24,18 +24,16 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-vcpkg
 
-      - name: clone vcpkg
-        run: |
-          git clone https://github.com/microsoft/vcpkg.git
+      - name: Clone vcpkg
+        run: git clone https://github.com/microsoft/vcpkg.git
         shell: cmd
 
-      - name: install vcpkg
+      - name: Install vcpkg and gtest
         run: |
           cd vcpkg
           .\bootstrap-vcpkg.bat
-          .\vcpkg.exe install gtest
-          dir .
-          dir ../
+          .\vcpkg.exe install gtest:x64-windows --debug
+          dir installed
         shell: cmd
 
       - name: List Installed vcpkg Dependencies
@@ -44,6 +42,7 @@ jobs:
 
       - name: Debug vcpkg installation
         run: dir vcpkg
+
 
       - name: Configure and build
         run: |
