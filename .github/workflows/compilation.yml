@@ -31,9 +31,6 @@ jobs:
           .\bootstrap-vcpkg.bat
           .\vcpkg.exe install gtest
           ls ..
-          if exist ..\vcpkg.json (
-            .\vcpkg.exe install
-          )
         shell: cmd
 
       - name: List Installed vcpkg Dependencies
