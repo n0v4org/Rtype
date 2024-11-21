@@ -27,10 +27,6 @@ jobs:
       - name: clone vcpkg
         run: |
           git clone https://github.com/microsoft/vcpkg.git
-          cd vcpkg
-          .\bootstrap-vcpkg.bat
-          .\vcpkg.exe install gtest
-          ls ..
         shell: cmd
 
       - name: install vcpkg
