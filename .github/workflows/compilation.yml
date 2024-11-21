@@ -16,7 +16,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Cache vcpkg
+      - name: Clean up vcpkg directory
+        run: if exist vcpkg rmdir /s /q vcpkg
+        shell: cmd
+
+      - name: Cache vcpkg dependencies
         uses: actions/cache@v3
         with:
           path: vcpkg/installed
@@ -32,17 +36,14 @@ jobs:
         run: |
           cd vcpkg
           .\bootstrap-vcpkg.bat
-          .\vcpkg.exe install --triplet x64-windows
+          echo Installing gtest...
+          .\vcpkg.exe install gtest:x64-windows --debug
           dir installed
         shell: cmd
 
       - name: List Installed vcpkg Dependencies
         run: .\vcpkg\vcpkg.exe list
         shell: cmd
-
-      - name: Debug vcpkg installation
-        run: dir vcpkg
-
 
       - name: Configure and build
         run: |
