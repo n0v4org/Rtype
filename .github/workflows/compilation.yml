@@ -42,7 +42,7 @@ jobs:
         run: |
           cd vcpkg
           echo Installing gtest...
-          .\vcpkg.exe install gtest:x64-windows --debug
+          .\vcpkg.exe install --triplet x64-windows --debug
         shell: cmd
 
       - name: List Installed vcpkg Dependencies
