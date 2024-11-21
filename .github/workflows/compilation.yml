@@ -32,7 +32,7 @@ jobs:
         run: |
           cd vcpkg
           .\bootstrap-vcpkg.bat
-          .\vcpkg.exe install gtest:x64-windows --debug
+          .\vcpkg.exe install --triplet x64-windows
           dir installed
         shell: cmd
 
