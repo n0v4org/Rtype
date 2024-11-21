@@ -32,13 +32,16 @@ jobs:
         run: git clone https://github.com/microsoft/vcpkg.git
         shell: cmd
 
-      - name: Install vcpkg and gtest
+      - name: Install vcpkg
         run: |
           cd vcpkg
           .\bootstrap-vcpkg.bat
+        shell: cmd
+
+      - name: Install gtest
+        run: |
           echo Installing gtest...
           .\vcpkg.exe install gtest:x64-windows --debug
-          dir installed
         shell: cmd
 
       - name: List Installed vcpkg Dependencies
