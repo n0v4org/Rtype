@@ -38,7 +38,8 @@ jobs:
           cd vcpkg
           .\bootstrap-vcpkg.bat
           .\vcpkg.exe install gtest
-          ls ..
+          dir installed
+          dir ..
         shell: cmd
 
       - name: List Installed vcpkg Dependencies
