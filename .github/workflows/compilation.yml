@@ -15,9 +15,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      
-      - name: Debug Visual Studio Installation
-        run: dir "C:\Program Files\Microsoft Visual Studio"
 
       - name: Cache vcpkg
         uses: actions/cache@v3
@@ -32,6 +29,7 @@ jobs:
           git clone https://github.com/microsoft/vcpkg.git
           cd vcpkg
           .\bootstrap-vcpkg.bat
+          .\vcpkg.exe install gtest
           if exist ..\vcpkg.json (
             .\vcpkg.exe install
           )
