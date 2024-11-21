@@ -29,9 +29,13 @@ jobs:
           git clone https://github.com/microsoft/vcpkg.git
           cd vcpkg
           .\bootstrap-vcpkg.bat
-          if (Test-Path ..\vcpkg.json) {
-            .\vcpkg\vcpkg.exe install
-          }
+          if exist ..\vcpkg.json (
+            .\vcpkg.exe install
+          )
+        shell: cmd
+
+      - name: Debug vcpkg installation
+        run: dir vcpkg
 
       - name: Configure and build
         run: |
