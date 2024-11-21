@@ -1,4 +1,4 @@
-name: Build on Windows with MSVC and vcpkg
+name: Build and Test on Windows with MSVC and vcpkg
 
 on:
   push:
@@ -9,16 +9,12 @@ on:
       - main
 
 jobs:
-  build-windows:
+  build-and-test:
     runs-on: windows-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
-      - name: Clean up vcpkg directory
-        run: if exist vcpkg rmdir /s /q vcpkg
-        shell: cmd
 
       - name: Cache vcpkg dependencies
         uses: actions/cache@v3
@@ -28,30 +24,29 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-vcpkg
 
-      - name: Clone vcpkg
-        run: git clone https://github.com/microsoft/vcpkg.git
-        shell: cmd
-
-      - name: Install vcpkg
+      - name: Clone and Bootstrap vcpkg
         run: |
+          git clone https://github.com/microsoft/vcpkg.git
           cd vcpkg
           .\bootstrap-vcpkg.bat
         shell: cmd
 
-      - name: Install gtest
+      - name: Install dependencies with vcpkg
         run: |
           cd vcpkg
-          echo Installing gtest...
-          .\vcpkg.exe install --triplet x64-windows --debug
+          .\vcpkg.exe install --triplet x64-windows
         shell: cmd
 
-      - name: List Installed vcpkg Dependencies
-        run: .\vcpkg\vcpkg.exe list
-        shell: cmd
-
-      - name: Configure and build
+      - name: Configure and Build
         run: |
           mkdir build
           cd build
           cmake .. -G "Visual Studio 17 2022" -A x64 -DCMAKE_TOOLCHAIN_FILE=../vcpkg/scripts/buildsystems/vcpkg.cmake
           cmake --build . --config Release
+        shell: cmd
+
+      - name: Run Tests
+        run: |
+          cd build
+          ctest --output-on-failure
+        shell: cmd
