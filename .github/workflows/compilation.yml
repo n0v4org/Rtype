@@ -1,4 +1,4 @@
-name: Build and Test on Windows with MSVC and vcpkg
+name: Build on Windows with MSVC and vcpkg
 
 on:
   push:
