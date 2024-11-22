@@ -21,10 +21,11 @@ usage:
 
 namespace rtype {
 
-  Core::Core(char* argv[], int argc) {
-    _args = std::make_unique<Arguments>(argc, argv);
-    _network = std::make_unique<net::Server>(_args->get_port(), _args->get_debug());
-  }
+Core::Core(char* argv[], int argc) {
+  _args = std::make_unique<Arguments>(argc, argv);
+  _network =
+      std::make_unique<net::Server>(_args->get_port(), _args->get_debug());
+}
 
 void Core::run() {
   try {

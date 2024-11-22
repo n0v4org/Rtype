@@ -9,18 +9,18 @@
 #define SERVER_INCLUDE_NETWORKING_SERVER_HPP_
 
 namespace rtype {
-    namespace net {
-        class Server {
-            public:
-                Server(int, bool);
-                ~Server();
+namespace net {
+class Server {
+public:
+  Server(int, bool);
+  ~Server();
 
-            protected:
-            private:
-                int _port;
-                bool _debug;
-        };
-    } // namespace net
-} // namespace rtype
+protected:
+private:
+  int _port;
+  bool _debug;
+};
+}  // namespace net
+}  // namespace rtype
 
 #endif  // SERVER_INCLUDE_NETWORKING_SERVER_HPP_

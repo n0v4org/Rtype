@@ -8,15 +8,11 @@
 #include "networking/Server.hpp"
 
 namespace rtype {
-    namespace net {
-        Server::Server(int port, bool debug)
-        : _port(port), _debug(debug)
-        {
-        }
+namespace net {
+Server::Server(int port, bool debug) : _port(port), _debug(debug) {
+}
 
-        Server::~Server()
-        {
-        }
-    } // namespace net
-} // namespace rtype
-
+Server::~Server() {
+}
+}  // namespace net
+}  // namespace rtype

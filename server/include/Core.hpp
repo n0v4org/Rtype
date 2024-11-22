@@ -19,11 +19,11 @@ public:
   void run();
   ~Core();
 
-  protected:
-  private:
-    std::unique_ptr<Arguments> _args;
-    std::unique_ptr<net::Server> _network;
-  };
+protected:
+private:
+  std::unique_ptr<Arguments> _args;
+  std::unique_ptr<net::Server> _network;
+};
 
 }  // namespace rtype
 
