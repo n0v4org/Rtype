@@ -43,4 +43,21 @@ namespace rtype {
   Core::~Core() {
   }
 
-} // namespace rtype
+void Core::run() {
+  try {
+    _args->parse();
+    if (_args->get_help()) {
+      std::cout << USAGE << std::endl;
+      return;
+    }
+  } catch (const std::exception& e) {
+    if (strcmp(e.what(), EXCEPTION) != 0)
+      std::cerr << e.what() << '\n';
+    throw e;
+  }
+}
+
+Core::~Core() {
+}
+
+}  // namespace rtype

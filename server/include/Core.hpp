@@ -13,11 +13,11 @@
 
 namespace rtype {
 
-  class Core {
-  public:
-    Core(char *[], int);
-    void run();
-    ~Core();
+class Core {
+public:
+  Core(char *[], int);
+  void run();
+  ~Core();
 
   protected:
   private:
@@ -25,6 +25,6 @@ namespace rtype {
     std::unique_ptr<net::Server> _network;
   };
 
-} // namespace rtype
+}  // namespace rtype
 
 #endif  // SERVER_INCLUDE_CORE_HPP_
