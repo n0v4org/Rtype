@@ -29,7 +29,6 @@ class Arguments {
 public:
   Arguments(int, char *[]);
   Arguments(int, const char *[]);
-  bool is_number(std::string);
   void parse();
   int get_port() const;
   bool get_help() const;
@@ -38,6 +37,7 @@ public:
 
 protected:
 private:
+  bool is_number(std::string);
   std::vector<std::string> _args;
   bool _help;
   bool _debug;

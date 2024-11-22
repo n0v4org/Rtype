@@ -11,5 +11,6 @@
 #define OK 0
 #define ERROR 84
 #define EXCEPTION "std::exception"
+#define BUFFER_SIZE 1024
 
 #endif  // SERVER_INCLUDE_MACRO_HPP_
