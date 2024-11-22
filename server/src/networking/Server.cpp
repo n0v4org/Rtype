@@ -8,8 +8,8 @@
 #include "networking/Server.hpp"
 #include <boost/asio.hpp>
 #include <iostream>
-#include <string>
 #include <memory>
+#include <string>
 
 
 namespace rtype {
