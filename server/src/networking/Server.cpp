@@ -6,10 +6,10 @@
 */
 
 #include "networking/Server.hpp"
-#include <boost/asio.hpp>
 #include <iostream>
 #include <memory>
 #include <string>
+#include <boost/asio.hpp>
 
 
 namespace rtype {

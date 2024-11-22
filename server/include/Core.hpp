@@ -7,11 +7,10 @@
 
 #ifndef SERVER_INCLUDE_CORE_HPP_
 #define SERVER_INCLUDE_CORE_HPP_
-#include <boost/asio.hpp>
-#include <memory>
 #include "Arguments.hpp"
 #include "networking/Server.hpp"
 #include <memory>
+#include <boost/asio.hpp>
 
 namespace rtype {
 
