@@ -10,11 +10,11 @@ BreakBeforeBraces: Attach  # Attach braces to the control statement line
 AllowShortFunctionsOnASingleLine: None  # Always use multiple lines for functions
 
 # Namespace settings
-NamespaceIndentation: None  # No indentation for namespaces
+NamespaceIndentation: All  # No indentation for namespaces
 
 # Pointer and reference alignment
-PointerAlignment: Left       # Place pointer symbol (*) to the left
-ReferenceAlignment: Left     # Place reference symbol (&) to the left
+PointerAlignment: Right       # Place pointer symbol (*) to the left
+ReferenceAlignment: Right     # Place reference symbol (&) to the left
 
 # Include statement formatting
 SortIncludes: true           # Sort includes alphabetically
