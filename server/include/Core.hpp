@@ -9,6 +9,7 @@
 #define SERVER_INCLUDE_CORE_HPP_
 #include <memory>
 #include "Arguments.hpp"
+#include "networking/Server.hpp"
 
 namespace rtype {
 
@@ -21,6 +22,7 @@ namespace rtype {
   protected:
   private:
     std::unique_ptr<Arguments> _args;
+    std::unique_ptr<net::Server> _network;
   };
 
 } // namespace rtype

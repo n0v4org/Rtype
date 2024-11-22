@@ -8,6 +8,7 @@ project(RtypeServer VERSION 1.0)
 set(SRCS
     src/Core.cpp
     src/Arguments.cpp
+    src/networking/Server.cpp
     )
 
 set(TEST
