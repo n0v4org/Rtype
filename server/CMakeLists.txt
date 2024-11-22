@@ -8,7 +8,8 @@ project(RtypeServer VERSION 1.0)
 set(SRCS
     src/Core.cpp
     src/Arguments.cpp
-    )
+    src/networking/Server.cpp
+)
 
 set(TEST
     src/test/Arguments.test.cpp
@@ -16,6 +17,11 @@ set(TEST
 )
 
 add_executable(r-type_server ${SRCS} src/main.cpp)
+
+find_package(boost_asio REQUIRED CONFIG)
+
+target_link_libraries(r-type_server PRIVATE Boost::asio)
+
 target_include_directories(r-type_server PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 find_package(GTest CONFIG REQUIRED)
