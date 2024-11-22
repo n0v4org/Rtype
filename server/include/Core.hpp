@@ -9,8 +9,8 @@
 #define SERVER_INCLUDE_CORE_HPP_
 #include "Arguments.hpp"
 #include "networking/Server.hpp"
-#include <memory>
 #include <boost/asio.hpp>
+#include <memory>
 
 namespace rtype {
 
