@@ -8,8 +8,8 @@
 #include "networking/Server.hpp"
 
 #include <iostream>
-#include <string>
 #include <memory>
+#include <string>
 
 #include <boost/asio.hpp>
 
