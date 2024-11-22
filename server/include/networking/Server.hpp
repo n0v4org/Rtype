@@ -7,9 +7,9 @@
 
 #ifndef SERVER_INCLUDE_NETWORKING_SERVER_HPP_
 #define SERVER_INCLUDE_NETWORKING_SERVER_HPP_
+#include "macro.hpp"
 #include <string>
 #include <boost/asio.hpp>
-#include "macro.hpp"
 
 using boost::asio::ip::udp;
 
