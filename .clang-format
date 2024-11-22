@@ -17,7 +17,7 @@ PointerAlignment: Right       # Place pointer symbol (*) to the left
 ReferenceAlignment: Right     # Place reference symbol (&) to the left
 
 # Include statement formatting
-SortIncludes: true           # Sort includes alphabetically
+SortIncludes: false           # Sort includes alphabetically
 IncludeBlocks: Preserve      # Preserve user-defined grouping of includes
 
 # Comments
