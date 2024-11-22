@@ -24,4 +24,4 @@ class Client {
   }  // namespace net
 }  // namespace rtype
 
-#endif /* SERVER_INCLUDE_NETWORKING_CLIENT_HPP_ */
+#endif  // SERVER_INCLUDE_NETWORKING_CLIENT_HPP_

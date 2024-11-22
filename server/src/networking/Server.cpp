@@ -5,13 +5,13 @@
 ** Server
 */
 
-#include "networking/Client.hpp"
-#include "networking/Server.hpp"
 #include <iostream>
 #include <memory>
 #include <thread>
 #include <string>
 #include <boost/asio.hpp>
+#include "networking/Client.hpp"
+#include "networking/Server.hpp"
 
 namespace rtype {
   namespace net {
