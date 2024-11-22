@@ -20,12 +20,12 @@ namespace rtype {
     void run();
     ~Core();
 
-protected:
-private:
-  std::unique_ptr<Arguments> _args;
-  std::unique_ptr<net::Server> _server;
-  boost::asio::io_service _io_service;
-};
+  protected:
+  private:
+    std::unique_ptr<Arguments> _args;
+    std::unique_ptr<net::Server> _server;
+    boost::asio::io_service _io_service;
+  };
 
 }  // namespace rtype
 

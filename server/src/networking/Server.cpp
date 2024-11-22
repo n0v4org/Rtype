@@ -11,7 +11,6 @@
 #include <string>
 #include <boost/asio.hpp>
 
-
 namespace rtype {
   namespace net {
     Server::Server(int port, bool debug, boost::asio::io_service &io_service)
