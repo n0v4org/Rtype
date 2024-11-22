@@ -15,7 +15,8 @@
 
 int main(int argc, char* argv[]) {
   try {
-    std::unique_ptr<rtype::Core> core = std::make_unique<rtype::Core>(argv, argc);
+    std::unique_ptr<rtype::Core> core =
+        std::make_unique<rtype::Core>(argv, argc);
     core->run();
   } catch (const std::exception& e) {
     if (strcmp(e.what(), EXCEPTION) != 0)

@@ -12,17 +12,17 @@
 
 namespace rtype {
 
-  class Core {
-  public:
-    Core(char *[], int);
-    void run();
-    ~Core();
+class Core {
+public:
+  Core(char *[], int);
+  void run();
+  ~Core();
 
-  protected:
-  private:
-    std::unique_ptr<Arguments> _args;
-  };
+protected:
+private:
+  std::unique_ptr<Arguments> _args;
+};
 
-} // namespace rtype
+}  // namespace rtype
 
 #endif  // SERVER_INCLUDE_CORE_HPP_
