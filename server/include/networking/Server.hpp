@@ -23,4 +23,4 @@ namespace rtype {
     } // namespace net
 } // namespace rtype
 
-#endif //!SERVER_INCLUDE_NETWORKING_SERVER_HPP_ 
+#endif  // SERVER_INCLUDE_NETWORKING_SERVER_HPP_

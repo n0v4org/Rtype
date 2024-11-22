@@ -35,6 +35,7 @@ jobs:
         run: |
           cd vcpkg
           .\vcpkg.exe install --triplet x64-windows
+          .\vcpkg.exe install --triplet x64-asio
         shell: cmd
 
       - name: Configure and Build
