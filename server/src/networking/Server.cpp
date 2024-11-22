@@ -17,6 +17,6 @@ namespace rtype {
         Server::~Server()
         {
         }
-    }
-}
+    } // namespace net
+} // namespace rtype
 

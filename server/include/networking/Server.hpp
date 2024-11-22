@@ -5,8 +5,8 @@
 ** Server
 */
 
-#ifndef Server_HPP_
-#define Server_HPP_
+#ifndef SERVER_INCLUDE_NETWORKING_SERVER_HPP_
+#define SERVER_INCLUDE_NETWORKING_SERVER_HPP_
 
 namespace rtype {
     namespace net {
@@ -20,7 +20,7 @@ namespace rtype {
                 int _port;
                 bool _debug;
         };
-    }
-}
+    } // namespace net
+} // namespace rtype
 
-#endif /* !Server_HPP_ */
+#endif /* !SERVER_INCLUDE_NETWORKING_SERVER_HPP_ */
