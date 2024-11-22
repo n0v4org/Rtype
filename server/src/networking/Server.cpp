@@ -31,20 +31,21 @@ namespace rtype {
     }
 
     void Server::dispatch_client(const std::error_code ec,
-                                std::size_t byte_size) {
+                                 std::size_t byte_size) {
       if (ec) {
         std::cout << ec << std::endl;
         start_receive();
         return;
       }
-        if (_clients.find(_remote_endpoint_) == _clients.end()) {
-            Client new_client;
+      if (_clients.find(_remote_endpoint_) == _clients.end()) {
+        Client new_client;
 
-            _clients[_remote_endpoint_] = std::thread(new_client, _remote_endpoint_);
-        } else {
-            std::cout << "Client already connect" << std::endl;
-        }
-        start_receive();
+        _clients[_remote_endpoint_] =
+            std::thread(new_client, _remote_endpoint_);
+      } else {
+        std::cout << "Client already connect" << std::endl;
+      }
+      start_receive();
     }
 
     void Server::handle_send(std::shared_ptr<std::string>,

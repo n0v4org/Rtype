@@ -11,14 +11,13 @@
 
 #include <boost/asio.hpp>
 
-
 namespace rtype {
   namespace net {
 
-void Client::operator()(udp::endpoint endpoint) {
-    std::cout << "in operator " << endpoint<<  std::endl;
-    _client_endpoint = endpoint;
-}
+    void Client::operator()(udp::endpoint endpoint) {
+      std::cout << "in operator " << endpoint << std::endl;
+      _client_endpoint = endpoint;
+    }
 
   }  // namespace net
 }  // namespace rtype

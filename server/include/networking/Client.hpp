@@ -13,14 +13,14 @@ using boost::asio::ip::udp;
 
 namespace rtype {
   namespace net {
-class Client {
+    class Client {
     public:
-        void operator()(udp::endpoint);
+      void operator()(udp::endpoint);
 
     protected:
     private:
-        udp::endpoint _client_endpoint;
-};
+      udp::endpoint _client_endpoint;
+    };
   }  // namespace net
 }  // namespace rtype
 
