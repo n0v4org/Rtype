@@ -25,23 +25,6 @@ namespace rtype {
     _args = std::make_unique<Arguments>(argc, argv);
     _network = std::make_unique<net::Server>(_args->get_port(), _args->get_debug());
   }
-  
-  void Core::run() {
-    try {
-      _args->parse();
-      if (_args->get_help()) {
-        std::cout << USAGE << std::endl;
-        return;
-      }
-    } catch (const std::exception& e) {
-      if (strcmp(e.what(), EXCEPTION) != 0)
-        std::cerr << e.what() << '\n';
-      throw e;
-    }
-  }
-  
-  Core::~Core() {
-  }
 
 void Core::run() {
   try {
