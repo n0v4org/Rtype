@@ -23,8 +23,8 @@ public:
 protected:
 private:
   std::unique_ptr<Arguments> _args;
-  std::unique_ptr<net::Server> _network;
-  boost::asio::io_context _io_context;
+  std::unique_ptr<net::Server> _server;
+  boost::asio::io_service _io_service;
 };
 
 }  // namespace rtype
