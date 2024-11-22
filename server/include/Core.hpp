@@ -7,18 +7,18 @@
 
 #ifndef SERVER_INCLUDE_CORE_HPP_
 #define SERVER_INCLUDE_CORE_HPP_
-#include <memory>
 #include <boost/asio.hpp>
+#include <memory>
 #include "Arguments.hpp"
 #include "networking/Server.hpp"
 
 namespace rtype {
 
-class Core {
-public:
-  Core(char *[], int);
-  void run();
-  ~Core();
+  class Core {
+  public:
+    Core(char *[], int);
+    void run();
+    ~Core();
 
 protected:
 private:
