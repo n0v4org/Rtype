@@ -10,10 +10,11 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <array>
 
 namespace rtype {
 
-  static const std::vector<std::string> FLAGS = {
+  static const std::array<std::string, 3> FLAGS = {
       "-p",
       "-h",
       "-v",
