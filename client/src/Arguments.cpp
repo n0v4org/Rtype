@@ -19,7 +19,7 @@ static const char PORT_OUT_OF_RANGE[36] = "port must be between 1024 and 65535";
 
 namespace rtype {
 
-Arguments::Arguments(int argc, char *argv[])
+  Arguments::Arguments(int argc, char *argv[])
     : _help(false), _ip("127.0.0.1"), _port(50001) {
     for (int i = 1; i < argc; i++) _args.push_back(argv[i]);
   }
@@ -29,7 +29,7 @@ Arguments::Arguments(int argc, char *argv[])
     for (int i = 1; i < argc; i++) _args.push_back(argv[i]);
   }
 
-bool Arguments::is_number(std::string str) {
+  bool Arguments::is_number(std::string str) {
     std::string::const_iterator it = str.begin();
 
     for (; it != str.end() && std::isdigit(*it); ++it)
@@ -52,10 +52,10 @@ bool Arguments::is_number(std::string str) {
             if (_port < MIN_PORT || _port > MAX_PORT)
               throw ClientError(PORT_OUT_OF_RANGE, ARGS_ERROR);
             break;
-        
-            case IP:
-                _ip = i;
-                break;
+
+          case IP:
+            _ip = i;
+            break;
           default:
             break;
         }
@@ -90,9 +90,7 @@ bool Arguments::is_number(std::string str) {
     return _ip;
   }
 
+  Arguments::~Arguments() {
+  }
 
-Arguments::~Arguments()
-{
-}
-
-} // namespace rtype
+}  // namespace rtype

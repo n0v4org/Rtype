@@ -10,18 +10,18 @@
 #include <boost/asio.hpp>
 
 namespace rtype {
-namespace net {
+  namespace net {
 
-class Client {
+    class Client {
     public:
-        Client();
-        ~Client();
+      Client();
+      ~Client();
 
     protected:
     private:
-};
+    };
 
-} // namespace net
-} // namespace rtype
+  }  // namespace net
+}  // namespace rtype
 
-#endif // CLIENT_INCLUDE_NETWORKING_CLIENT_HPP_
+#endif  // CLIENT_INCLUDE_NETWORKING_CLIENT_HPP_
