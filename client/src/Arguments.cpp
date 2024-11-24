@@ -16,8 +16,8 @@ static int MIN_PORT                     = 1024;
 static const char UNKNOWN_FLAG[33]      = "unknown flag, args not processes";
 static const char BAD_PORT[22]          = "port must be a number";
 static const char PORT_OUT_OF_RANGE[36] = "port must be between 1024 and 65535";
-static const char EMPTY_FLAG[20] = "found an empty flag";
-static const char INAVLID_IP[19] = "invalid IP address";
+static const char EMPTY_FLAG[20]        = "found an empty flag";
+static const char INAVLID_IP[19]        = "invalid IP address";
 
 namespace client {
 
@@ -44,7 +44,8 @@ namespace client {
   bool Arguments::is_valid_ip(std::string str) {
     std::string::const_iterator it = str.begin();
 
-    for (; it != str.end() && (std::isdigit(*it) || *it == '.' || *it == '/'); ++it)
+    for (; it != str.end() && (std::isdigit(*it) || *it == '.' || *it == '/');
+         ++it)
       ;
     if (it == str.end())
       return true;

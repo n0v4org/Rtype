@@ -108,7 +108,8 @@ TEST_F(ArgumentsTest, FollowingEmptyFlag) {
 }
 
 TEST_F(ArgumentsTest, AllArgs) {
-  const char *argv[] = {"r-type_client", "-p", "45555", "-ip", "127.0.45.1", "-h"};
+  const char *argv[] = {"r-type_client", "-p",         "45555",
+                        "-ip",           "127.0.45.1", "-h"};
   int argc           = 6;
 
   client::Arguments args(argc, argv);
