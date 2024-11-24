@@ -8,8 +8,8 @@
 #include <iostream>
 #include <string>
 
+#include "ClientError.hpp"
 #include "Arguments.hpp"
-#include "ServerError.hpp"
 
 static int MAX_PORT                     = 65535;
 static int MIN_PORT                     = 1024;
@@ -17,16 +17,17 @@ static const char UNKNOWN_FLAG[33]      = "unknown flag, args not processes";
 static const char BAD_PORT[22]          = "port must be a number";
 static const char PORT_OUT_OF_RANGE[36] = "port must be between 1024 and 65535";
 static const char EMPTY_FLAG[20]        = "found an empty flag";
+static const char INAVLID_IP[19]        = "invalid IP address";
 
-namespace rtype {
+namespace client {
 
   Arguments::Arguments(int argc, char *argv[])
-    : _help(false), _debug(false), _port(50000) {
+    : _help(false), _ip("127.0.0.1"), _port(50001) {
     for (int i = 1; i < argc; i++) _args.push_back(argv[i]);
   }
 
   Arguments::Arguments(int argc, const char *argv[])
-    : _help(false), _debug(false), _port(50000) {
+    : _help(false), _ip("127.0.0.1"), _port(50001) {
     for (int i = 1; i < argc; i++) _args.push_back(argv[i]);
   }
 
@@ -40,6 +41,17 @@ namespace rtype {
     return false;
   }
 
+  bool Arguments::is_valid_ip(std::string str) {
+    std::string::const_iterator it = str.begin();
+
+    for (; it != str.end() && (std::isdigit(*it) || *it == '.' || *it == '/');
+         ++it)
+      ;
+    if (it == str.end())
+      return true;
+    return false;
+  }
+
   void Arguments::parse() {
     int current = -1;
 
@@ -47,20 +59,25 @@ namespace rtype {
       if (current != -1) {
         for (int j = 0; j < FLAGS.size(); j++) {
           if (FLAGS[j] == i) {
-            throw ServerError(EMPTY_FLAG, ARGS_ERROR);
+            throw ClientError(EMPTY_FLAG, ARGS_ERROR);
           }
         }
         switch (current) {
           case PORT:
             if (!is_number(i))
-              throw ServerError(BAD_PORT, ARGS_ERROR);
+              throw ClientError(BAD_PORT, ARGS_ERROR);
             _port = std::stoi(i);
             if (_port < MIN_PORT || _port > MAX_PORT)
-              throw ServerError(PORT_OUT_OF_RANGE, ARGS_ERROR);
+              throw ClientError(PORT_OUT_OF_RANGE, ARGS_ERROR);
             break;
 
+          case IP:
+            if (!is_valid_ip(i))
+              throw ClientError(INAVLID_IP, ARGS_ERROR);
+            _ip = i;
+            break;
           default:
-            throw ServerError(EMPTY_FLAG, ARGS_ERROR);
+            throw ClientError(EMPTY_FLAG, ARGS_ERROR);
             break;
         }
         current = -1;
@@ -73,19 +90,15 @@ namespace rtype {
         }
       }
       if (current == -1) {
-        throw ServerError(UNKNOWN_FLAG, ARGS_ERROR);
+        throw ClientError(UNKNOWN_FLAG, ARGS_ERROR);
       }
       if (current == HELP) {
         _help   = true;
         current = -1;
       }
-      if (current == DEBUG) {
-        _debug  = true;
-        current = -1;
-      }
     }
     if (current != -1) {
-      throw ServerError(EMPTY_FLAG, ARGS_ERROR);
+      throw ClientError(EMPTY_FLAG, ARGS_ERROR);
     }
   }
 
@@ -97,11 +110,11 @@ namespace rtype {
     return _help;
   }
 
-  bool Arguments::get_debug() const {
-    return _debug;
+  std::string Arguments::get_ip() const {
+    return _ip;
   }
 
   Arguments::~Arguments() {
   }
 
-}  // namespace rtype
+}  // namespace client

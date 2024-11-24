@@ -10,5 +10,6 @@
 
 #define OK 0
 #define ERROR 84
+#define EXCEPTION "std::exception"
 
 #endif  // CLIENT_INCLUDE_MACRO_HPP_

@@ -5,25 +5,25 @@
 ** Arguments
 */
 
-#ifndef SERVER_INCLUDE_ARGUMENTS_HPP_
-#define SERVER_INCLUDE_ARGUMENTS_HPP_
+#ifndef CLIENT_INCLUDE_ARGUMENTS_HPP_
+#define CLIENT_INCLUDE_ARGUMENTS_HPP_
 #include <map>
 #include <string>
 #include <vector>
 #include <array>
 
-namespace rtype {
+namespace client {
 
   static const std::array<std::string, 3> FLAGS = {
       "-p",
       "-h",
-      "-v",
+      "-ip",
   };
 
   enum {
-    PORT  = 0,
-    HELP  = 1,
-    DEBUG = 2,
+    PORT = 0,
+    HELP = 1,
+    IP   = 2,
   };
 
   class Arguments {
@@ -33,18 +33,19 @@ namespace rtype {
     void parse();
     int get_port() const;
     bool get_help() const;
-    bool get_debug() const;
+    std::string get_ip() const;
     ~Arguments();
 
   protected:
   private:
     bool is_number(std::string);
+    bool is_valid_ip(std::string);
     std::vector<std::string> _args;
     bool _help;
-    bool _debug;
     int _port;
+    std::string _ip;
   };
 
-}  // namespace rtype
+}  // namespace client
 
-#endif  // SERVER_INCLUDE_ARGUMENTS_HPP_
+#endif  // CLIENT_INCLUDE_ARGUMENTS_HPP_
