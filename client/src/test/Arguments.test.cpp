@@ -90,3 +90,30 @@ TEST_F(ArgumentsTest, UnknownFlag) {
   client::Arguments args(argc, argv);
   EXPECT_THROW(args.parse(), ClientError);
 }
+
+TEST_F(ArgumentsTest, EmptyFlag) {
+  const char *argv[] = {"r-type_client", "-p"};
+  int argc           = 2;
+
+  client::Arguments args(argc, argv);
+  EXPECT_THROW(args.parse(), ClientError);
+}
+
+TEST_F(ArgumentsTest, FollowingEmptyFlag) {
+  const char *argv[] = {"r-type_client", "-p", "-ip"};
+  int argc           = 3;
+
+  client::Arguments args(argc, argv);
+  EXPECT_THROW(args.parse(), ClientError);
+}
+
+TEST_F(ArgumentsTest, AllArgs) {
+  const char *argv[] = {"r-type_client", "-p", "45555", "-ip", "127.0.45.1", "-h"};
+  int argc           = 6;
+
+  client::Arguments args(argc, argv);
+  args.parse();
+  EXPECT_EQ(args.get_port(), 45555);
+  EXPECT_TRUE(args.get_help());
+  EXPECT_EQ(args.get_ip(), "127.0.45.1");
+}

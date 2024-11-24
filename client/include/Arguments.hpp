@@ -38,6 +38,7 @@ namespace client {
   protected:
   private:
     bool is_number(std::string);
+    bool is_valid_ip(std::string);
     std::vector<std::string> _args;
     bool _help;
     int _port;
