@@ -9,15 +9,13 @@
 #include "networking/Client.hpp"
 
 namespace rtype {
-namespace net {
+  namespace net {
 
-Client::Client()
-{
-}
+    Client::Client() {
+    }
 
-Client::~Client()
-{
-}
+    Client::~Client() {
+    }
 
-} // namespace net
-} // namespace rtype
+  }  // namespace net
+}  // namespace rtype

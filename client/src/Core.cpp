@@ -21,33 +21,27 @@ usage:
 
 namespace rtype {
 
-Core::Core(int argc, char *argv[])
-{
+  Core::Core(int argc, char *argv[]) {
     _params = std::make_unique<Arguments>(argc, argv);
-}
+  }
 
-void Core::run() {
-    try
-    {
-        _params->parse();
+  void Core::run() {
+    try {
+      _params->parse();
       if (_params->get_help()) {
         std::cout << USAGE << std::endl;
         return;
       }
       std::cout << _params->get_port() << std::endl;
       std::cout << _params->get_ip() << std::endl;
+    } catch (const std::exception &e) {
+      if (strcmp(e.what(), EXCEPTION) != 0)
+        std::cerr << e.what() << '\n';
+      throw e;
     }
-    catch(const std::exception& e)
-    {
-        if (strcmp(e.what(), EXCEPTION) != 0)
-            std::cerr << e.what() << '\n';
-        throw e;
-    }
-    
-}
+  }
 
-Core::~Core()
-{
-}
+  Core::~Core() {
+  }
 
-} // namespace rtype
+}  // namespace rtype
