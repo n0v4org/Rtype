@@ -5,8 +5,8 @@
 ** Client
 */
 
-#ifndef CLIENT_HPP_
-#define CLIENT_HPP_
+#ifndef CLIENT_INCLUDE_NETWORKING_CLIENT_HPP_
+#define CLIENT_INCLUDE_NETWORKING_CLIENT_HPP_
 #include <boost/asio.hpp>
 
 namespace rtype {
@@ -24,4 +24,4 @@ class Client {
 } // namespace net
 } // namespace rtype
 
-#endif /* !CLIENT_HPP_ */
+#endif // CLIENT_INCLUDE_NETWORKING_CLIENT_HPP_
