@@ -5,11 +5,13 @@
 ** Server
 */
 
-#include "networking/Server.hpp"
 #include <iostream>
 #include <memory>
+#include <thread>
 #include <string>
 #include <boost/asio.hpp>
+#include "networking/Client.hpp"
+#include "networking/Server.hpp"
 
 namespace rtype {
   namespace net {
@@ -23,30 +25,27 @@ namespace rtype {
     void Server::start_receive() {
       _socket.async_receive_from(
           boost::asio::buffer(_recv_buffer_), _remote_endpoint_,
-          std::bind(&Server::handle_receive, this,
+          std::bind(&Server::dispatch_client, this,
                     boost::asio::placeholders::error,
                     boost::asio::placeholders::bytes_transferred));
     }
 
-    void Server::handle_receive(const std::error_code ec,
-                                std::size_t byte_size) {
+    void Server::dispatch_client(const std::error_code ec,
+                                 std::size_t byte_size) {
       if (ec) {
         std::cout << ec << std::endl;
         start_receive();
         return;
       }
+      if (_clients.find(_remote_endpoint_) == _clients.end()) {
+        Client new_client;
 
-      std::shared_ptr<std::string> msg =
-          std::make_shared<std::string>("hello world\n");
-
-      std::cout << "received from " << _remote_endpoint_ << ": "
-                << std::string(_recv_buffer_.data(), byte_size) << " "
-                << byte_size << std::endl;
-      _socket.async_send_to(
-          boost::asio::buffer(*msg), _remote_endpoint_,
-          std::bind(&Server::handle_send, this, msg,
-                    boost::asio::placeholders::error,
-                    boost::asio::placeholders::bytes_transferred));
+        _clients[_remote_endpoint_] =
+            std::thread(new_client, _remote_endpoint_);
+      } else {
+        std::cout << "Client already connect" << std::endl;
+      }
+      start_receive();
     }
 
     void Server::handle_send(std::shared_ptr<std::string>,
