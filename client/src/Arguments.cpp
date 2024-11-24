@@ -17,7 +17,7 @@ static const char UNKNOWN_FLAG[33]      = "unknown flag, args not processes";
 static const char BAD_PORT[22]          = "port must be a number";
 static const char PORT_OUT_OF_RANGE[36] = "port must be between 1024 and 65535";
 
-namespace rtype {
+namespace client {
 
   Arguments::Arguments(int argc, char *argv[])
     : _help(false), _ip("127.0.0.1"), _port(50001) {
@@ -93,4 +93,4 @@ namespace rtype {
   Arguments::~Arguments() {
   }
 
-}  // namespace rtype
+}  // namespace client

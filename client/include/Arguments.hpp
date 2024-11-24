@@ -11,7 +11,7 @@
 #include <string>
 #include <vector>
 
-namespace rtype {
+namespace client {
 
   static const std::vector<std::string> FLAGS = {
       "-p",
@@ -44,6 +44,6 @@ namespace rtype {
     std::string _ip;
   };
 
-}  // namespace rtype
+}  // namespace client
 
 #endif  // CLIENT_INCLUDE_ARGUMENTS_HPP_

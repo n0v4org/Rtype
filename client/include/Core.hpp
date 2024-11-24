@@ -10,7 +10,7 @@
 #include <memory>
 #include "Arguments.hpp"
 
-namespace rtype {
+namespace client {
 
   class Core {
   public:
@@ -23,6 +23,6 @@ namespace rtype {
     std::unique_ptr<Arguments> _params;
   };
 
-}  // namespace rtype
+}  // namespace client
 
 #endif  // CLIENT_INCLUDE_CORE_HPP_

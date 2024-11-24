@@ -19,7 +19,7 @@ usage:
         -p <port>: run newtork client in a specified port
 )";
 
-namespace rtype {
+namespace client {
 
   Core::Core(int argc, char *argv[]) {
     _params = std::make_unique<Arguments>(argc, argv);
@@ -44,4 +44,4 @@ namespace rtype {
   Core::~Core() {
   }
 
-}  // namespace rtype
+}  // namespace client

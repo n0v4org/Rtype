@@ -8,7 +8,7 @@
 #include <boost/asio.hpp>
 #include "networking/Client.hpp"
 
-namespace rtype {
+namespace client {
   namespace net {
 
     Client::Client() {
@@ -18,4 +18,4 @@ namespace rtype {
     }
 
   }  // namespace net
-}  // namespace rtype
+}  // namespace client

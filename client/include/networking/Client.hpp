@@ -9,7 +9,7 @@
 #define CLIENT_INCLUDE_NETWORKING_CLIENT_HPP_
 #include <boost/asio.hpp>
 
-namespace rtype {
+namespace client {
   namespace net {
 
     class Client {
@@ -22,6 +22,6 @@ namespace rtype {
     };
 
   }  // namespace net
-}  // namespace rtype
+}  // namespace client
 
 #endif  // CLIENT_INCLUDE_NETWORKING_CLIENT_HPP_
