@@ -16,6 +16,7 @@ static int MIN_PORT                     = 1024;
 static const char UNKNOWN_FLAG[33]      = "unknown flag, args not processes";
 static const char BAD_PORT[22]          = "port must be a number";
 static const char PORT_OUT_OF_RANGE[36] = "port must be between 1024 and 65535";
+static const char EMPTY_FLAG[20] = "found an empty flag";
 
 namespace rtype {
 
@@ -44,6 +45,11 @@ namespace rtype {
 
     for (auto &i : _args) {
       if (current != -1) {
+        for (int j = 0; j < FLAGS.size(); j++) {
+          if (FLAGS[j] == i) {
+            throw ServerError(EMPTY_FLAG, ARGS_ERROR);
+          }
+        }
         switch (current) {
           case PORT:
             if (!is_number(i))
@@ -54,6 +60,7 @@ namespace rtype {
             break;
 
           default:
+            throw ServerError(EMPTY_FLAG, ARGS_ERROR);
             break;
         }
         current = -1;
@@ -76,6 +83,9 @@ namespace rtype {
         _debug  = true;
         current = -1;
       }
+    }
+    if (current != -1) {
+      throw ServerError(EMPTY_FLAG, ARGS_ERROR);
     }
   }
 

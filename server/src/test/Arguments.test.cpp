@@ -90,3 +90,30 @@ TEST_F(ArgumentsTest, UnknownFlag) {
   rtype::Arguments args(argc, argv);
   EXPECT_THROW(args.parse(), ServerError);
 }
+
+TEST_F(ArgumentsTest, EmptyFlag) {
+  const char *argv[] = {"r-type_client", "-p"};
+  int argc           = 2;
+
+  rtype::Arguments args(argc, argv);
+  EXPECT_THROW(args.parse(), ServerError);
+}
+
+TEST_F(ArgumentsTest, FollowingEmptyFlag) {
+  const char *argv[] = {"r-type_client", "-p", "-v"};
+  int argc           = 3;
+
+  rtype::Arguments args(argc, argv);
+  EXPECT_THROW(args.parse(), ServerError);
+}
+
+TEST_F(ArgumentsTest, AllArgs) {
+  const char *argv[] = {"r-type_client", "-p", "45555", "-v", "-h"};
+  int argc           = 5;
+
+  rtype::Arguments args(argc, argv);
+  args.parse();
+  EXPECT_EQ(args.get_port(), 45555);
+  EXPECT_TRUE(args.get_help());
+  EXPECT_TRUE(args.get_debug());
+}
