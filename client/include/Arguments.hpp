@@ -5,8 +5,8 @@
 ** Arguments
 */
 
-#ifndef ARGUMENTS_HPP_
-#define ARGUMENTS_HPP_
+#ifndef CLIENT_INCLUDE_ARGUMENTS_HPP_
+#define CLIENT_INCLUDE_ARGUMENTS_HPP_
 #include <map>
 #include <string>
 #include <vector>
@@ -46,4 +46,4 @@ class Arguments {
 
 } // namespace rtype
 
-#endif /* !ARGUMENTS_HPP_ */
+#endif // CLIENT_INCLUDE_ARGUMENTS_HPP_

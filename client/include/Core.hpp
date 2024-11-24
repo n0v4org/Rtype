@@ -5,8 +5,8 @@
 ** Core
 */
 
-#ifndef CORE_HPP_
-#define CORE_HPP_
+#ifndef CLIENT_INCLUDE_CORE_HPP_
+#define CLIENT_INCLUDE_CORE_HPP_
 #include <memory>
 #include "Arguments.hpp"
 
@@ -25,4 +25,4 @@ class Core {
 
 } // namespace rtype
  
-#endif /* !CORE_HPP_ */
+#endif // CLIENT_INCLUDE_CORE_HPP_

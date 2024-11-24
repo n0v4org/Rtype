@@ -5,8 +5,8 @@
 ** ClientError
 */
 
-#ifndef CLIENTERROR_HPP_
-#define CLIENTERROR_HPP_
+#ifndef CLIENT_INCLUDE_CLIENTERROR_HPP_
+#define CLIENT_INCLUDE_CLIENTERROR_HPP_
 #include <cstring>
 #include <map>
 #include <string>
@@ -49,4 +49,4 @@ class ClientError : public std::exception {
      std::string _msg;
 };
 
-#endif /* !CLIENTERROR_HPP_ */
+#endif // CLIENT_INCLUDE_CLIENTERROR_HPP_
