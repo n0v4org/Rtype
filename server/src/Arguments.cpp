@@ -16,7 +16,7 @@ static int MIN_PORT                     = 1024;
 static const char UNKNOWN_FLAG[33]      = "unknown flag, args not processes";
 static const char BAD_PORT[22]          = "port must be a number";
 static const char PORT_OUT_OF_RANGE[36] = "port must be between 1024 and 65535";
-static const char EMPTY_FLAG[20] = "found an empty flag";
+static const char EMPTY_FLAG[20]        = "found an empty flag";
 
 namespace rtype {
 
