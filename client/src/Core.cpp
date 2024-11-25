@@ -24,9 +24,6 @@ namespace client {
 
   Core::Core(int argc, char *argv[]) {
     _params = std::make_unique<Arguments>(argc, argv);
-    _client = std::make_unique<net::Client>(_params->get_server_port(),
-                                            _params->get_client_port(),
-                                            _params->get_ip(), _io_service);
   }
 
   void Core::run() {
@@ -36,6 +33,12 @@ namespace client {
         std::cout << USAGE << std::endl;
         return;
       }
+      _client = std::make_unique<net::Client>(_params->get_server_port(),
+                                            _params->get_client_port(),
+                                            _params->get_ip(), _io_service);
+      _client->send("hello from client\n");
+      _client->send("skubululupapap\n");
+      _client->close_connection();
     } catch (const std::exception &e) {
       if (strcmp(e.what(), EXCEPTION) != 0)
         std::cerr << e.what() << '\n';
