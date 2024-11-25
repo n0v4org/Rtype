@@ -27,7 +27,8 @@ TEST_F(ArgumentsTest, DefaultValues) {
   int argc           = 1;
 
   client::Arguments args(argc, argv);
-  EXPECT_EQ(args.get_port(), 50001);
+  EXPECT_EQ(args.get_client_port(), 50001);
+  EXPECT_EQ(args.get_server_port(), 50000);
   EXPECT_EQ(args.get_ip(), "127.0.0.1");
   EXPECT_FALSE(args.get_help());
 }
@@ -40,7 +41,8 @@ TEST_F(ArgumentsTest, HelpFlag) {
   args.parse();
   EXPECT_TRUE(args.get_help());
   EXPECT_EQ(args.get_ip(), "127.0.0.1");
-  EXPECT_EQ(args.get_port(), 50001);
+  EXPECT_EQ(args.get_client_port(), 50001);
+  EXPECT_EQ(args.get_server_port(), 50000);
 }
 
 TEST_F(ArgumentsTest, IpFlag) {
@@ -52,23 +54,38 @@ TEST_F(ArgumentsTest, IpFlag) {
 
   EXPECT_EQ(args.get_ip(), "10.255.14");
   EXPECT_FALSE(args.get_help());
-  EXPECT_EQ(args.get_port(), 50001);
+  EXPECT_EQ(args.get_client_port(), 50001);
+  EXPECT_EQ(args.get_server_port(), 50000);
 }
 
-TEST_F(ArgumentsTest, PortFlag) {
-  const char *argv[] = {"r-ClientError", "-p", "12345"};
+TEST_F(ArgumentsTest, ClientPortFlag) {
+  const char *argv[] = {"r-ClientError", "-cp", "12345"};
   int argc           = 3;
 
   client::Arguments args(argc, argv);
   args.parse();
 
-  EXPECT_EQ(args.get_port(), 12345);
+  EXPECT_EQ(args.get_client_port(), 12345);
+  EXPECT_EQ(args.get_server_port(), 50000);
+  EXPECT_FALSE(args.get_help());
+  EXPECT_EQ(args.get_ip(), "127.0.0.1");
+}
+
+TEST_F(ArgumentsTest, ServerPortFlag) {
+  const char *argv[] = {"r-ClientError", "-sp", "12345"};
+  int argc           = 3;
+
+  client::Arguments args(argc, argv);
+  args.parse();
+
+  EXPECT_EQ(args.get_client_port(), 50001);
+  EXPECT_EQ(args.get_server_port(), 12345);
   EXPECT_FALSE(args.get_help());
   EXPECT_EQ(args.get_ip(), "127.0.0.1");
 }
 
 TEST_F(ArgumentsTest, InvalidPortNonNumeric) {
-  const char *argv[] = {"r-type_client", "-p", "abc"};
+  const char *argv[] = {"r-type_client", "-sp", "abc"};
   int argc           = 3;
 
   client::Arguments args(argc, argv);
@@ -76,7 +93,7 @@ TEST_F(ArgumentsTest, InvalidPortNonNumeric) {
 }
 
 TEST_F(ArgumentsTest, InvalidPortOutOfRange) {
-  const char *argv[] = {"r-type_client", "-p", "70000"};
+  const char *argv[] = {"r-type_client", "-sp", "70000"};
   int argc           = 3;
 
   client::Arguments args(argc, argv);
@@ -92,7 +109,7 @@ TEST_F(ArgumentsTest, UnknownFlag) {
 }
 
 TEST_F(ArgumentsTest, EmptyFlag) {
-  const char *argv[] = {"r-type_client", "-p"};
+  const char *argv[] = {"r-type_client", "-sp"};
   int argc           = 2;
 
   client::Arguments args(argc, argv);
@@ -100,7 +117,7 @@ TEST_F(ArgumentsTest, EmptyFlag) {
 }
 
 TEST_F(ArgumentsTest, FollowingEmptyFlag) {
-  const char *argv[] = {"r-type_client", "-p", "-ip"};
+  const char *argv[] = {"r-type_client", "-sp", "-ip"};
   int argc           = 3;
 
   client::Arguments args(argc, argv);
@@ -108,13 +125,15 @@ TEST_F(ArgumentsTest, FollowingEmptyFlag) {
 }
 
 TEST_F(ArgumentsTest, AllArgs) {
-  const char *argv[] = {"r-type_client", "-p",         "45555",
-                        "-ip",           "127.0.45.1", "-h"};
-  int argc           = 6;
+  const char *argv[] = {"r-type_client", "-cp",         "45555",
+                        "-ip",           "127.0.45.1", "-h",
+                        "-sp",         "65535"};
+  int argc           = 8;
 
   client::Arguments args(argc, argv);
   args.parse();
-  EXPECT_EQ(args.get_port(), 45555);
+  EXPECT_EQ(args.get_client_port(), 45555);
+  EXPECT_EQ(args.get_server_port(), 65535);
   EXPECT_TRUE(args.get_help());
   EXPECT_EQ(args.get_ip(), "127.0.45.1");
 }

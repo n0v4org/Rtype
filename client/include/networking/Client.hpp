@@ -9,16 +9,21 @@
 #define CLIENT_INCLUDE_NETWORKING_CLIENT_HPP_
 #include <boost/asio.hpp>
 
+using boost::asio::ip::udp;
+
 namespace client {
   namespace net {
 
     class Client {
     public:
-      Client();
+      Client(int, int, std::string, boost::asio::io_service &);
+      void run();
       ~Client();
 
     protected:
     private:
+      udp::socket _socket;
+      boost::asio::io_service& _io_service;
     };
 
   }  // namespace net
