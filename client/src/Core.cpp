@@ -34,8 +34,8 @@ namespace client {
         return;
       }
       _client = std::make_unique<net::Client>(_params->get_server_port(),
-                                            _params->get_client_port(),
-                                            _params->get_ip(), _io_service);
+                                              _params->get_client_port(),
+                                              _params->get_ip(), _io_service);
       _client->send("hello from client\n");
       _client->send("skubululupapap\n");
       _client->close_connection();

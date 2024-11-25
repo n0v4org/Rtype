@@ -23,12 +23,18 @@ static const char INAVLID_IP[19]        = "invalid IP address";
 namespace client {
 
   Arguments::Arguments(int argc, char *argv[])
-    : _help(false), _ip(SERVER_ADDRESS), _client_port(PORT_CLIENT), _server_port(PORT_SERVER) {
+    : _help(false)
+    , _ip(SERVER_ADDRESS)
+    , _client_port(PORT_CLIENT)
+    , _server_port(PORT_SERVER) {
     for (int i = 1; i < argc; i++) _args.push_back(argv[i]);
   }
 
   Arguments::Arguments(int argc, const char *argv[])
-    : _help(false), _ip(SERVER_ADDRESS), _client_port(PORT_CLIENT), _server_port(PORT_SERVER) {
+    : _help(false)
+    , _ip(SERVER_ADDRESS)
+    , _client_port(PORT_CLIENT)
+    , _server_port(PORT_SERVER) {
     for (int i = 1; i < argc; i++) _args.push_back(argv[i]);
   }
 
