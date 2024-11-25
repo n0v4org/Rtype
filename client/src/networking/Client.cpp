@@ -5,6 +5,7 @@
 ** Client
 */
 
+#include <string>
 #include <boost/asio.hpp>
 #include "networking/Client.hpp"
 

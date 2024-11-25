@@ -7,6 +7,7 @@
 
 #ifndef CLIENT_INCLUDE_NETWORKING_CLIENT_HPP_
 #define CLIENT_INCLUDE_NETWORKING_CLIENT_HPP_
+#include <string>
 #include <boost/asio.hpp>
 
 using boost::asio::ip::udp;
