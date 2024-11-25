@@ -24,8 +24,8 @@ namespace client {
   enum {
     SERVER_PORT = 0,
     CLIENT_PORT = 1,
-    HELP = 2,
-    IP   = 3,
+    HELP        = 2,
+    IP          = 3,
   };
 
   class Arguments {

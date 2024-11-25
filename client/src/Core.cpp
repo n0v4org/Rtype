@@ -24,7 +24,9 @@ namespace client {
 
   Core::Core(int argc, char *argv[]) {
     _params = std::make_unique<Arguments>(argc, argv);
-    _client = std::make_unique<net::Client>(_params->get_server_port(), _params->get_client_port(), _params->get_ip(), _io_service);
+    _client = std::make_unique<net::Client>(_params->get_server_port(),
+                                            _params->get_client_port(),
+                                            _params->get_ip(), _io_service);
   }
 
   void Core::run() {

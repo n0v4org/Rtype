@@ -24,7 +24,7 @@ namespace client {
     protected:
     private:
       udp::socket _socket;
-      boost::asio::io_service& _io_service;
+      boost::asio::io_service &_io_service;
     };
 
   }  // namespace net
