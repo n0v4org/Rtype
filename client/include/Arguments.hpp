@@ -14,16 +14,18 @@
 
 namespace client {
 
-  static const std::array<std::string, 3> FLAGS = {
-      "-p",
+  static const std::array<std::string, 4> FLAGS = {
+      "-sp",
+      "-cp",
       "-h",
       "-ip",
   };
 
   enum {
-    PORT = 0,
-    HELP = 1,
-    IP   = 2,
+    SERVER_PORT = 0,
+    CLIENT_PORT = 1,
+    HELP        = 2,
+    IP          = 3,
   };
 
   class Arguments {
@@ -31,7 +33,8 @@ namespace client {
     Arguments(int, char *[]);
     Arguments(int, const char *[]);
     void parse();
-    int get_port() const;
+    int get_server_port() const;
+    int get_client_port() const;
     bool get_help() const;
     std::string get_ip() const;
     ~Arguments();
@@ -42,7 +45,8 @@ namespace client {
     bool is_valid_ip(std::string);
     std::vector<std::string> _args;
     bool _help;
-    int _port;
+    int _server_port;
+    int _client_port;
     std::string _ip;
   };
 
