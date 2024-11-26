@@ -7,8 +7,8 @@
 
 #include <string>
 #include <iostream>
-#include <boost/asio.hpp>
 #include <thread>
+#include <boost/asio.hpp>
 #include "networking/Client.hpp"
 
 using boost::asio::ip::udp;

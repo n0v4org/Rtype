@@ -8,6 +8,7 @@
 #include <cstring>
 #include <memory>
 #include <iostream>
+#include <string>
 #include "Arguments.hpp"
 #include "Core.hpp"
 #include "macro.hpp"
