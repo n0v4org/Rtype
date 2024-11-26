@@ -41,7 +41,7 @@ namespace client {
       _io_service.run();
       std::string line;
       while (std::getline(std::cin, line)) {
-          _client->send(line);
+        _client->send(line);
       }
       _client->close_connection();
     } catch (const std::exception &e) {
