@@ -45,6 +45,8 @@ namespace rtype {
       } else {
         std::cout << "Client already connect" << std::endl;
       }
+      std::cout << "Received from " << _remote_endpoint_ << ": "
+                << std::string(_recv_buffer_.data(), byte_size) << std::endl;
       start_receive();
     }
 

@@ -8,7 +8,9 @@
 #ifndef CLIENT_INCLUDE_CORE_HPP_
 #define CLIENT_INCLUDE_CORE_HPP_
 #include <memory>
+#include <boost/asio.hpp>
 #include "Arguments.hpp"
+#include "networking/Client.hpp"
 
 namespace client {
 
@@ -21,6 +23,8 @@ namespace client {
   protected:
   private:
     std::unique_ptr<Arguments> _params;
+    std::unique_ptr<net::Client> _client;
+    boost::asio::io_service _io_service;
   };
 
 }  // namespace client

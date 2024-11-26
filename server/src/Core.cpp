@@ -35,7 +35,6 @@ namespace rtype {
         return;
       }
       _io_service.run();
-
     } catch (const std::exception& e) {
       if (strcmp(e.what(), EXCEPTION) != 0)
         std::cerr << e.what() << '\n';

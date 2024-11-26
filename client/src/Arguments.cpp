@@ -10,6 +10,7 @@
 
 #include "ClientError.hpp"
 #include "Arguments.hpp"
+#include "macro.hpp"
 
 static int MAX_PORT                     = 65535;
 static int MIN_PORT                     = 1024;
@@ -22,12 +23,18 @@ static const char INAVLID_IP[19]        = "invalid IP address";
 namespace client {
 
   Arguments::Arguments(int argc, char *argv[])
-    : _help(false), _ip("127.0.0.1"), _port(50001) {
+    : _help(false)
+    , _ip(SERVER_ADDRESS)
+    , _client_port(PORT_CLIENT)
+    , _server_port(PORT_SERVER) {
     for (int i = 1; i < argc; i++) _args.push_back(argv[i]);
   }
 
   Arguments::Arguments(int argc, const char *argv[])
-    : _help(false), _ip("127.0.0.1"), _port(50001) {
+    : _help(false)
+    , _ip(SERVER_ADDRESS)
+    , _client_port(PORT_CLIENT)
+    , _server_port(PORT_SERVER) {
     for (int i = 1; i < argc; i++) _args.push_back(argv[i]);
   }
 
@@ -63,11 +70,19 @@ namespace client {
           }
         }
         switch (current) {
-          case PORT:
+          case SERVER_PORT:
             if (!is_number(i))
               throw ClientError(BAD_PORT, ARGS_ERROR);
-            _port = std::stoi(i);
-            if (_port < MIN_PORT || _port > MAX_PORT)
+            _server_port = std::stoi(i);
+            if (_server_port < MIN_PORT || _server_port > MAX_PORT)
+              throw ClientError(PORT_OUT_OF_RANGE, ARGS_ERROR);
+            break;
+
+          case CLIENT_PORT:
+            if (!is_number(i))
+              throw ClientError(BAD_PORT, ARGS_ERROR);
+            _client_port = std::stoi(i);
+            if (_client_port < MIN_PORT || _client_port > MAX_PORT)
               throw ClientError(PORT_OUT_OF_RANGE, ARGS_ERROR);
             break;
 
@@ -76,6 +91,7 @@ namespace client {
               throw ClientError(INAVLID_IP, ARGS_ERROR);
             _ip = i;
             break;
+
           default:
             throw ClientError(EMPTY_FLAG, ARGS_ERROR);
             break;
@@ -102,8 +118,12 @@ namespace client {
     }
   }
 
-  int Arguments::get_port() const {
-    return _port;
+  int Arguments::get_server_port() const {
+    return _server_port;
+  }
+
+  int Arguments::get_client_port() const {
+    return _client_port;
   }
 
   bool Arguments::get_help() const {
