@@ -30,6 +30,18 @@ namespace rtype {
                     boost::asio::placeholders::bytes_transferred));
     }
 
+    void Server::unpack(std::size_t byte_size)
+    {
+      uint8_t cmd = _recv_buffer_[0];
+      uint16_t data = (_recv_buffer_[1] << 8) | _recv_buffer_[2];
+      uint32_t seq = 0;
+      for (int i = 0; i < 4; i++) {
+        seq = (seq << 8) | _recv_buffer_[3 + i];
+      }
+      std::cout << "Received command: " << (int)cmd << ", data: " << data << ", seq: " << seq
+                << std::endl;
+    }
+
     void Server::dispatch_client(const std::error_code ec,
                                  std::size_t byte_size) {
       if (ec) {
@@ -38,6 +50,7 @@ namespace rtype {
         return;
       }
       if (_clients.find(_remote_endpoint_) == _clients.end()) {
+        std::cout << "New client connected" << std::endl;
         Client new_client;
 
         _clients[_remote_endpoint_] =
@@ -45,8 +58,7 @@ namespace rtype {
       } else {
         std::cout << "Client already connect" << std::endl;
       }
-      std::cout << "Received from " << _remote_endpoint_ << ": "
-                << std::string(_recv_buffer_.data(), byte_size) << std::endl;
+      unpack(byte_size);
       start_receive();
     }
 

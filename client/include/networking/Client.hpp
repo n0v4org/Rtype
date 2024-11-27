@@ -23,13 +23,14 @@ namespace client {
       Client(int, int, std::string, boost::asio::io_service &);
       void recv_thread();
       void close_connection();
-      void send(const std::string &);
+      void send(const std::string &, uint8_t);
       void startReceive();
       void handle_receive(const boost::system::error_code &, std::size_t);
       ~Client();
 
     protected:
     private:
+      uint32_t _sequence_id;
       udp::socket _socket;
       boost::asio::io_service &_io_service;
       udp::endpoint _server_endpoint;
