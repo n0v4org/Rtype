@@ -6,6 +6,7 @@
 */
 
 #include <string>
+#include <vector>
 #include <iostream>
 #include <thread>
 #include <boost/asio.hpp>
@@ -19,7 +20,8 @@ namespace client {
     Client::Client(int server_port, int client_port, std::string ip,
                    boost::asio::io_service &service)
       : _socket(service, udp::endpoint(udp::v4(), client_port))
-      , _io_service(service) {
+      , _io_service(service)
+      , _sequence_id(0) {
       udp::resolver resolver(_io_service);
       udp::resolver::query query(udp::v4(), ip, std::to_string(server_port));
       udp::resolver::iterator iter = resolver.resolve(query);
@@ -27,10 +29,21 @@ namespace client {
       _recv_thread                 = std::thread(&Client::recv_thread, this);
     }
 
-    void Client::send(const std::string &msg) {
-      _socket.send_to(boost::asio::buffer(msg), _server_endpoint);
+    void Client::send(const std::string &msg, uint8_t cmd) { 
+      std::vector<uint8_t> buff;
+      uint16_t payload_size = 5000;
+      _sequence_id = 5689641;
+      
+      buff.push_back(cmd);
+      buff.push_back((payload_size >> 8) & 0xFF); 
+      buff.push_back(payload_size & 0xFF);
+      for (int i = 3; i >= 0 ; i--) {
+        buff.push_back((_sequence_id >> (8 * i)) & 0xFF);
+      }
+      _socket.send_to(boost::asio::buffer(buff), _server_endpoint);
+      _sequence_id++;
     }
-
+  
     void Client::close_connection() {
       _socket.close();
     }
