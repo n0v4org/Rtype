@@ -67,6 +67,10 @@ namespace rtype {
       start_receive();
     }
 
+    void Server::close_connection()  {
+      _socket.close();
+    }
+
     Server::~Server() {
     }
   }  // namespace net

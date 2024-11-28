@@ -20,6 +20,7 @@ namespace rtype {
     class Server {
     public:
       Server(int, bool, boost::asio::io_service &);
+      void close_connection();
       ~Server();
 
     protected:

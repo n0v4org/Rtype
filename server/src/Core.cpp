@@ -23,7 +23,7 @@ namespace rtype {
 
   Core::Core(char* argv[], int argc) {
     _args   = std::make_unique<Arguments>(argc, argv);
-    _server = std::make_unique<net::Server>(_args->get_port(),
+    _server = std::make_unique<net::Server>(_args->get_game_port(),
                                             _args->get_debug(), _io_service);
   }
 
@@ -43,6 +43,7 @@ namespace rtype {
   }
 
   Core::~Core() {
+     _server->close_connection();
   }
 
 }  // namespace rtype

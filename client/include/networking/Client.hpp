@@ -25,7 +25,6 @@ namespace client {
       void close_connection();
       void send(const std::string &, uint8_t);
       void startReceive();
-      void handle_receive(const boost::system::error_code &, std::size_t);
       ~Client();
 
     protected:

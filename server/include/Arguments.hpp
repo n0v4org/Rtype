@@ -14,16 +14,18 @@
 
 namespace rtype {
 
-  static const std::array<std::string, 3> FLAGS = {
-      "-p",
+  static const std::array<std::string, 4> FLAGS = {
+      "-gp",
+      "-lp",
       "-h",
       "-v",
   };
 
   enum {
-    PORT  = 0,
-    HELP  = 1,
-    DEBUG = 2,
+    GAME_PORT  = 0,
+    LOBBY_PORT = 1,
+    HELP  = 2,
+    DEBUG = 3,
   };
 
   class Arguments {
@@ -31,7 +33,8 @@ namespace rtype {
     Arguments(int, char *[]);
     Arguments(int, const char *[]);
     void parse();
-    int get_port() const;
+    int get_game_port() const;
+    int get_lobby_port() const;
     bool get_help() const;
     bool get_debug() const;
     ~Arguments();
@@ -42,7 +45,8 @@ namespace rtype {
     std::vector<std::string> _args;
     bool _help;
     bool _debug;
-    int _port;
+    int _game_port;
+    int _lobby_port;
   };
 
 }  // namespace rtype
