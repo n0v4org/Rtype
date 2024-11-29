@@ -8,6 +8,8 @@
 #ifndef COMPONENTS_HPP_
 #define COMPONENTS_HPP_
 
+#include <string>
+
 enum INPUT {
     NONE,
     Z,
@@ -26,6 +28,11 @@ namespace component {
         float x;
         float y;
     };
+
+    struct collidable {
+        std::string type;
+    };
+    
 
     struct velocity {
         float vx;
