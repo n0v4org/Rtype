@@ -126,7 +126,7 @@ class indexed_zipper {
         using iterator =  indexed_zipper_iterator<Containers...>;
         using iterator_tuple = typename iterator::iterator_tuple;
 
-        indexed_zipper(Containers&... cs): _begin(std::make_tuple(cs.begin()...)), _end(_compute_end(cs...)), _size(_compute_size(cs...)) {}
+        explicit indexed_zipper(Containers&... cs): _begin(std::make_tuple(cs.begin()...)), _end(_compute_end(cs...)), _size(_compute_size(cs...)) {}
 
         iterator begin() {
             return iterator(_begin, _size);
