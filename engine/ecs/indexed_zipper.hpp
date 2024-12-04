@@ -41,6 +41,9 @@ public:
         _max = max;
         _current = it_tuple;
         _idx = 0;
+        if (!all_set(_seq)) {
+            incr_all(_seq);
+        }
     };
 
 public:
@@ -49,7 +52,7 @@ public:
         _current = z._current;
         _max = z._max;
         _idx = z._idx;
-        _seq = z._seq;
+        //_seq = z._seq;
     };
 
     // Post-increment
@@ -77,7 +80,7 @@ public:
 
     // Equality comparison
     friend bool operator==(indexed_zipper_iterator const& lhs, indexed_zipper_iterator const& rhs) {
-        return lhs._current == rhs._current;
+        return lhs._idx == rhs._idx;
     };
 
     // Inequality comparison
@@ -108,11 +111,11 @@ private:
     value_type to_value(std::index_sequence<Is...>) {
         return std::tie(_idx, (*std::get<Is>(_current)).value()...);
     };
-
+public:
+    std::size_t _idx;
 private:
     iterator_tuple _current;
     std::size_t _max; // Prevent infinite loop by comparing to _idx
-    std::size_t _idx;
     static constexpr std::index_sequence_for<Containers...> _seq{};
 };
 
@@ -131,7 +134,9 @@ class indexed_zipper {
         }
 
         iterator end() {
-            return iterator(_end, _size);
+            auto it = iterator(_end, _size);
+            it._idx = _size;
+            return it;
         }
 
     private:

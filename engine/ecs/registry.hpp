@@ -18,6 +18,7 @@
 #include "zipper_iterator.hpp"
 #include "zipper.hpp"
 #include "indexed_zipper.hpp"
+#include <optional>
 
 
 class registry {
@@ -44,6 +45,13 @@ class registry {
         template <class Component>
         sparse_array<Component> const &get_components() const {
             return std::any_cast<const sparse_array<Component>&>(_components_arrays.at(std::type_index(typeid(Component))));
+        }
+
+
+        
+        template <class Component>
+        std::optional<Component>& get_entity_component(size_t e) {
+            return get_components<Component>()[e];
         }
 
         entity_t spawn_entity() {
@@ -106,13 +114,16 @@ class registry {
                 for (auto a : zipper(r.get_components<Components>()...)) {
                     f(std::get<Components&>(a)...);
                 }
-                //f(r.get_components<Components>()...);
             });
         }
 
         template <class... Components, typename Function>
         void add_system(Function const &f) {
-            
+            _systems.push_back([](registry &r, Function const & f) {
+                for (auto a : zipper(r.get_components<Components>()...)) {
+                    f(std::get<Components&>(a)...);
+                }
+            });
         }
 
         void run_systems() {
