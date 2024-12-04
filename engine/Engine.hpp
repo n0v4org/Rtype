@@ -12,12 +12,13 @@
 #include <memory>
 #include <queue>
 
-#include "ecs.hpp"
+#include "ecs/registry.hpp"
 #include "events.hpp"
 
+namespace zef {
 class Engine {
 public:
-  registry reg;
+  ecs::registry reg;
 
   template <typename T, typename... U>
   void sendEvent(size_t entity, U... args) {
@@ -52,5 +53,7 @@ public:
 private:
   std::queue<Event> _events;
 };
+} // namespace zef
+
 
 #endif  // ENGINE_ECS_ENGINE_HPP_

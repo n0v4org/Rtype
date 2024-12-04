@@ -9,7 +9,11 @@
 #define ENGINE_ECS_EVENTS_HPP_
 
 #include <map>
+#include <any>
+#include <typeindex>
+#include <functional>
 
+namespace zef {
 class Engine;
 class Event {
 public:
@@ -38,5 +42,6 @@ public:
   std::map<std::type_index, std::function<void(Engine&, size_t, Event event)>>
       _functions;
 };
+} // namespace zef
 
 #endif  // ENGINE_ECS_EVENTS_HPP_

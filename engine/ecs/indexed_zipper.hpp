@@ -13,6 +13,7 @@
 #include <iterator>
 #include <cstddef>
 
+namespace ecs {
 template <class... Containers>
 class indexed_zipper_iterator {
   template <class Container>
@@ -179,5 +180,6 @@ private:
   std::size_t _idx = 0;
   std::size_t _size;
 };
+} //namespace ecs
 
 #endif  // ENGINE_ECS_INDEXED_ZIPPER_HPP_

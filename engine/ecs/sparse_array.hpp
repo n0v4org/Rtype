@@ -14,6 +14,7 @@
 #include <memory>
 #include <iostream>
 
+namespace ecs {
 template <typename Component>
 class sparse_array {
 public:
@@ -140,5 +141,6 @@ private:
     }
   }
 };
+} //namespace ecs
 
 #endif  // ENGINE_ECS_SPARSE_ARRAY_HPP_

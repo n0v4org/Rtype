@@ -11,6 +11,7 @@
 #include <cstddef>
 #include "registry.hpp"
 
+namespace ecs {
 class registry;
 
 class Entity {
@@ -26,5 +27,6 @@ private:
   }
   size_t _value;
 };
+} // namespace ecs
 
 #endif  // ENGINE_ECS_ENTITIE_HPP_

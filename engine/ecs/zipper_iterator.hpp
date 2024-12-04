@@ -13,6 +13,7 @@
 #include <iterator>
 #include <cstddef>
 
+namespace ecs {
 template <class... Containers>
 class zipper_iterator {
   template <class Container>
@@ -119,5 +120,6 @@ private:
   std::size_t _max;  // Prevent infinite loop by comparing to _idx
   static constexpr std::index_sequence_for<Containers...> _seq{};
 };
+} // namespace ecs
 
 #endif  // ENGINE_ECS_ZIPPER_ITERATOR_HPP_
