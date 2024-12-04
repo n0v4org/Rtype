@@ -75,6 +75,6 @@ namespace ecs {
     iterator_tuple _end;
     size_t _size;
   };
-} // namespace ecs
+}  // namespace ecs
 
 #endif  // ENGINE_ECS_ZIPPER_HPP_

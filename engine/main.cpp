@@ -7,9 +7,8 @@
 
 #include "Engine.hpp"
 
-int main(int argc, char const *argv[])
-{
-    zef::Engine e;
-    
-    return 0;
+int main(int argc, char const *argv[]) {
+  zef::Engine e;
+
+  return 0;
 }

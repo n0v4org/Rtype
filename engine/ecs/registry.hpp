@@ -143,13 +143,13 @@ namespace ecs {
   private:
     std::unordered_map<std::type_index, std::any> _components_arrays;
     std::unordered_map<std::type_index,
-                      std::function<void(registry &, entity_t const &)>>
+                       std::function<void(registry &, entity_t const &)>>
         _deleteFunctions;
     size_t _entityCount = 0;
     size_t _maxId       = 0;
     std::vector<std::function<void(registry &)>> _systems;
     std::queue<size_t> _unusedids;
   };
-} // namespace ecs
+}  // namespace ecs
 
 #endif  // ENGINE_ECS_REGISTRY_HPP_
