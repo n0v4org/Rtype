@@ -5,8 +5,8 @@
 ** entitie
 */
 
-#ifndef ENTITIE_HPP_
-#define ENTITIE_HPP_
+#ifndef ENGINE_ECS_ENTITIE_HPP_
+#define ENGINE_ECS_ENTITIE_HPP_
 
 #include <cstddef>
 #include "registry.hpp"
@@ -27,4 +27,4 @@ class Entity {
 };
 
 
-#endif /* !ENTITIE_HPP_ */
+#endif // ENGINE_ECS_ENTITIE_HPP_

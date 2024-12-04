@@ -5,10 +5,9 @@
 ** indexed_zipper
 */
 
-#ifndef INDEXED_ZIPPER_HPP_
-#define INDEXED_ZIPPER_HPP_
+#ifndef ENGINE_ECS_INDEXED_ZIPPER_HPP_
+#define ENGINE_ECS_INDEXED_ZIPPER_HPP_
 
-#include <tuple>
 #include <tuple>
 #include <optional>
 #include <iterator>
@@ -44,7 +43,7 @@ public:
         if (!all_set(_seq)) {
             incr_all(_seq);
         }
-    };
+    }
 
 public:
     // Copy constructor
@@ -53,40 +52,40 @@ public:
         _max = z._max;
         _idx = z._idx;
         //_seq = z._seq;
-    };
+    }
 
     // Post-increment
     indexed_zipper_iterator operator++(int) {
         indexed_zipper_iterator tmp = *this;
         incr_all(_seq);
         return tmp;
-    };
+    }
 
     // Pre-increment
     indexed_zipper_iterator &operator++() {
         incr_all(_seq);
         return *this;
-    };
+    }
 
     // Dereference
     value_type operator*() {
         return to_value(_seq);
-    };
+    }
 
     // Arrow operator
     value_type operator->() {
         return to_value(_seq);
-    };
+    }
 
     // Equality comparison
     friend bool operator==(indexed_zipper_iterator const& lhs, indexed_zipper_iterator const& rhs) {
         return lhs._idx == rhs._idx;
-    };
+    }
 
     // Inequality comparison
     friend bool operator!=(indexed_zipper_iterator const& lhs, indexed_zipper_iterator const& rhs) {
         return !(lhs == rhs);
-    };
+    }
 
 private:
     // Increment every iterator
@@ -98,19 +97,19 @@ private:
             if (all_set(_seq))
                 break;
         }
-    };
+    }
 
     // Check if every std::optional is set
     template <std::size_t... Is>
     bool all_set(std::index_sequence<Is...>) {
         return (... && (*std::get<Is>(_current)).has_value());
-    };
+    }
 
     // Return a tuple of references to components
     template <std::size_t... Is>
     value_type to_value(std::index_sequence<Is...>) {
         return std::tie(_idx, (*std::get<Is>(_current)).value()...);
-    };
+    }
 public:
     std::size_t _idx;
 private:
@@ -152,7 +151,7 @@ class indexed_zipper {
                 return iterator;
             }())...);
             return ret;
-        };
+        }
 
         static size_t _compute_size(Containers&... containers) {
             size_t size = 0;
@@ -167,7 +166,7 @@ class indexed_zipper {
                 }
             }(), ...);
             return size;
-        };
+        }
 
 
         iterator_tuple _begin;
@@ -177,4 +176,4 @@ class indexed_zipper {
 
 };
 
-#endif /* !INDEXED_ZIPPER_HPP_ */
+#endif // ENGINE_ECS_INDEXED_ZIPPER_HPP_

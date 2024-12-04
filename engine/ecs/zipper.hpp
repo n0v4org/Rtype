@@ -5,11 +5,13 @@
 ** zipper
 */
 
-#ifndef ZIPPER_HPP_
-#define ZIPPER_HPP_
+#ifndef ENGINE_ECS_ZIPPER_HPP_
+#define ENGINE_ECS_ZIPPER_HPP_
+
+#include <functional>
+#include <iostream>
 
 #include "zipper_iterator.hpp"
-#include <functional>
 
 template<typename T>
 void PrintType(T&&) {
@@ -76,4 +78,4 @@ private:
 };
 
 
-#endif /* !ZIPPER_HPP_ */
+#endif // ENGINE_ECS_ZIPPER_HPP_

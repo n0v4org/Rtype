@@ -5,13 +5,14 @@
 ** Engine
 */
 
-#ifndef ENGINE_HPP_
-#define ENGINE_HPP_
+#ifndef ENGINE_ECS_ENGINE_HPP_
+#define ENGINE_ECS_ENGINE_HPP_
 
 #include "ecs.hpp"
 #include "events.hpp"
 #include <map>
 #include <memory>
+#include <queue>
 
 
 class Engine {
@@ -45,4 +46,4 @@ class Engine {
 
 
 
-#endif /* !ENGINE_HPP_ */
+#endif // ENGINE_ECS_ENGINE_HPP_

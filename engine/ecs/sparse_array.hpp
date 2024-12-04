@@ -5,8 +5,8 @@
 ** sparse_array
 */
 
-#ifndef SPARSE_ARRAY_HPP_
-#define SPARSE_ARRAY_HPP_
+#ifndef ENGINE_ECS_SPARSE_ARRAY_HPP_
+#define ENGINE_ECS_SPARSE_ARRAY_HPP_
 
 #include <optional>
 #include <utility>
@@ -140,4 +140,4 @@ class sparse_array {
         }
 };
 
-#endif /* !SPARSE_ARRAY_HPP_ */
+#endif // ENGINE_ECS_SPARSE_ARRAY_HPP_

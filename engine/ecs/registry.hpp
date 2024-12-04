@@ -5,21 +5,23 @@
 ** register
 */
 
-#ifndef REGISTER_HPP_
-#define REGISTER_HPP_
+#ifndef ENGINE_ECS_REGISTRY_HPP_
+#define ENGINE_ECS_REGISTRY_HPP_
 
-#include "sparse_array.hpp"
 #include <unordered_map>
 #include <typeindex>
 #include <any>
-#include "entitie.hpp"
 #include <queue>
 #include <functional>
+#include <optional>
+#include <utility>
+#include <vector>
+
+#include "entitie.hpp"
 #include "zipper_iterator.hpp"
 #include "zipper.hpp"
 #include "indexed_zipper.hpp"
-#include <optional>
-
+#include "sparse_array.hpp"
 
 class registry {
     public:
@@ -144,4 +146,4 @@ class registry {
         
 };
 
-#endif /* !REGISTER_HPP_ */
+#endif // ENGINE_ECS_REGISTRY_HPP_

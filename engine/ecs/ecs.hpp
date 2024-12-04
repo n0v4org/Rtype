@@ -5,9 +5,9 @@
 ** ecs
 */
 
-#ifndef ECS_HPP_
-#define ECS_HPP_
+#ifndef ENGINE_ECS_ECS_HPP_
+#define ENGINE_ECS_ECS_HPP_
 
 #include "registry.hpp"
 
-#endif /* !ECS_HPP_ */
+#endif //!ENGINE_ECS_ECS_HPP_
