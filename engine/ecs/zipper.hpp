@@ -24,17 +24,17 @@ public:
     using iterator = zipper_iterator<Containers...>;
     using iterator_tuple = typename iterator::iterator_tuple;
 
-    zipper(Containers&... cs): _begin(cs.begin()...), _end(_compute_end(cs...)), _size(_compute_size(cs...)) {
-    };
+    explicit zipper(Containers&... cs): _begin(cs.begin()...), _end(_compute_end(cs...)), _size(_compute_size(cs...)) {
+    }
 
     iterator begin() {
         return iterator(_begin, _size);
-    };
+    }
     iterator end() {
         auto it = iterator(_end, _size);
         it._idx = _size;
         return it;
-    };
+    }
 
 private:
     // Helper function to determine the maximum index of our iterators.
@@ -51,7 +51,7 @@ private:
             }
         }(), ...);
         return size;
-    };
+    }
 
     // Helper function to compute an iterator_tuple that will allow us to
     // build our end iterator.
@@ -69,7 +69,7 @@ private:
 
         }())...);
         return ret;
-    };
+    }
 
 private:
     iterator_tuple _begin;

@@ -8,12 +8,12 @@
 #ifndef ENGINE_ECS_ENGINE_HPP_
 #define ENGINE_ECS_ENGINE_HPP_
 
-#include "ecs.hpp"
-#include "events.hpp"
 #include <map>
 #include <memory>
 #include <queue>
 
+#include "ecs.hpp"
+#include "events.hpp"
 
 class Engine {
     public:
