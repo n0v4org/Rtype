@@ -5,8 +5,8 @@
 ** Engine
 */
 
-#ifndef ENGINE_ECS_ENGINE_HPP_
-#define ENGINE_ECS_ENGINE_HPP_
+#ifndef ENGINE_ENGINE_HPP_
+#define ENGINE_ENGINE_HPP_
 
 #include <map>
 #include <memory>
@@ -56,4 +56,4 @@ private:
 } // namespace zef
 
 
-#endif  // ENGINE_ECS_ENGINE_HPP_
+#endif  // ENGINE_ENGINE_HPP_

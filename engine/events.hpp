@@ -5,8 +5,8 @@
 ** events
 */
 
-#ifndef ENGINE_ECS_EVENTS_HPP_
-#define ENGINE_ECS_EVENTS_HPP_
+#ifndef ENGINE_EVENTS_HPP_
+#define ENGINE_EVENTS_HPP_
 
 #include <map>
 #include <any>
@@ -44,4 +44,4 @@ public:
 };
 } // namespace zef
 
-#endif  // ENGINE_ECS_EVENTS_HPP_
+#endif  // ENGINE_EVENTS_HPP_
