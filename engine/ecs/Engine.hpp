@@ -41,12 +41,12 @@ public:
     }
   }
 
-  template<typename Component>
+  template <typename Component>
   Component& fetchEntityComponent(size_t e) {
-      std::optional<Component>& optComp = reg.get_components<Component>()[e];
-      if (optComp == std::nullopt)
-        throw std::runtime_error("amjfeazlja\n");
-      return optComp.value();
+    std::optional<Component>& optComp = reg.get_components<Component>()[e];
+    if (optComp == std::nullopt)
+      throw std::runtime_error("amjfeazlja\n");
+    return optComp.value();
   }
 
 private:
