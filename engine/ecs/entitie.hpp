@@ -14,17 +14,17 @@
 class registry;
 
 class Entity {
-    public:
-        operator size_t() const {
-            return _value;
-        }
+public:
+  operator size_t() const {
+    return _value;
+  }
 
-        friend class registry;
+  friend class registry;
 
-    private:
-        explicit Entity(size_t val) : _value(val) {}
-        size_t _value;
+private:
+  explicit Entity(size_t val) : _value(val) {
+  }
+  size_t _value;
 };
 
-
-#endif // ENGINE_ECS_ENTITIE_HPP_
+#endif  // ENGINE_ECS_ENTITIE_HPP_

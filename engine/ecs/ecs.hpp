@@ -10,4 +10,4 @@
 
 #include "registry.hpp"
 
-#endif // ENGINE_ECS_ECS_HPP_
+#endif  // ENGINE_ECS_ECS_HPP_
