@@ -28,20 +28,33 @@ namespace zef {
     }
   };
 
-  struct event_handler_c {
-  public:
-    template <typename T>
-    void setEvent(std::function<void(Engine&, size_t, T)> f) {
-      _functions[std::type_index(typeid(T))] = [f](Engine& engine, size_t self,
-                                                   Event event) {
-        T str = event.to_struct<T>(f);
-        f(engine, self, str);
-      };
-    }
+  namespace comp
+  {
+    struct event_handler_c {
+    public:
 
-    std::map<std::type_index, std::function<void(Engine&, size_t, Event event)>>
-        _functions;
-  };
+      event_handler_c() {};
+
+      template <typename ...T>
+      static event_handler_c construct(std::function<void(Engine&, size_t, T)> ...funcs) {
+        event_handler_c new_event_handler;
+        ((new_event_handler.setEvent<T>(funcs)), ...);
+        return new_event_handler;
+      }
+
+      template <typename T>
+      void setEvent(std::function<void(Engine&, size_t, T)> f) {
+        _functions[std::type_index(typeid(T))] = [f](Engine& engine, size_t self,
+                                                    Event event) {
+          T str = event.to_struct<T>(f);
+          f(engine, self, str);
+        };
+      }
+
+      std::map<std::type_index, std::function<void(Engine&, size_t, Event event)>>
+          _functions;
+    };
+  } // namespace comp
 }  // namespace zef
 
 #endif  // ENGINE_EVENTS_HPP_
