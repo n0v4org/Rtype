@@ -32,11 +32,13 @@ namespace zef {
     void resolveEvent() {
       while (!_events.empty()) {
         Event evt = _events.front();
-        if (reg.get_entity_component<comp::event_handler_c>(
+        if (reg.get_components<comp::event_handler_c>().size() > evt.entity && reg.get_entity_component<comp::event_handler_c>(
                 evt.entity)) {  // handle error when the entity dont handle the
                                 // event
-          reg.get_entity_component<comp::event_handler_c>(evt.entity)
-              ->_functions[evt.tid](*this, evt.entity, evt);
+          if (reg.get_entity_component<comp::event_handler_c>(evt.entity)->_functions.find(evt.tid)
+          != reg.get_entity_component<comp::event_handler_c>(evt.entity)->_functions.end())
+            reg.get_entity_component<comp::event_handler_c>(evt.entity)
+                ->_functions[evt.tid](*this, evt.entity, evt);
         }
         _events.pop();
       }
