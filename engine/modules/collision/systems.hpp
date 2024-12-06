@@ -5,8 +5,8 @@
 ** move_collidables
 */
 
-#ifndef ENGINE_SYSTEMS_CHECK_COLLIDABLES_HPP_
-#define ENGINE_SYSTEMS_CHECK_COLLIDABLES_HPP_
+#ifndef ENGINE_MODULES_COLLISION_SYSTEMS_HPP_
+#define ENGINE_MODULES_COLLISION_SYSTEMS_HPP_
 
 #include "components.hpp"
 #include "../move/components.hpp"
@@ -38,4 +38,4 @@ namespace zef {
     } // namespace sys
 } // namespace zef
 
-#endif // ENGINE_SYSTEMS_CHECK_COLLIDABLES_HPP_
+#endif // ENGINE_MODULES_COLLISION_SYSTEMS_HPP_

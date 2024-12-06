@@ -5,8 +5,8 @@
 ** collision
 */
 
-#ifndef ENGIN_EVENTS_COLLISION_HPP_
-#define ENGIN_EVENTS_COLLISION_HPP_
+#ifndef ENGINE_MODULES_COLLISION_EVENTS_HPP_
+#define ENGINE_MODULES_COLLISION_EVENTS_HPP_
 
 #include <cstdio>
 
@@ -18,4 +18,4 @@ namespace zef {
     } // namespace evt
 } // namespace zef
 
-#endif // ENGIN_EVENTS_COLLISION_HPP_
+#endif // ENGINE_MODULES_COLLISION_EVENTS_HPP_

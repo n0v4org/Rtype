@@ -5,8 +5,8 @@
 ** hitbox
 */
 
-#ifndef ENGINE_COMPONENTS_HITBOX_HPP_
-#define ENGINE_COMPONENTS_HITBOX_HPP_
+#ifndef ENGINE_MODULES_COLLISION_HITBOX_HPP_
+#define ENGINE_MODULES_COLLISION_HITBOX_HPP_
 
 #include <cmath>
 
@@ -64,4 +64,4 @@ namespace zef {
     } // namespace utils
 }
 
-#endif // ENGINE_COMPONENTS_HITBOX_HPP_
+#endif // ENGINE_MODULES_COLLISION_HITBOX_HPP_

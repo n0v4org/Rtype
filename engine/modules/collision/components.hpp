@@ -5,8 +5,8 @@
 ** collision
 */
 
-#ifndef ENGINE_COMPONENTS_COLLIDABLE_HPP_
-#define ENGINE_COMPONENTS_COLLIDABLE_HPP_
+#ifndef ENGINE_MODULES_COLLISION_COMPONENTS_HPP_
+#define ENGINE_MODULES_COLLISION_COMPONENTS_HPP_
 
 #include <vector>
 #include "hitbox.hpp"
@@ -40,4 +40,4 @@ namespace zef {
     } // namespace comp
 } // namespace zef
 
-#endif // ENGINE_COMPONENTS_COLLIDABLE_HPP_
+#endif // ENGINE_MODULES_COLLISION_COMPONENTS_HPP_

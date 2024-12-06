@@ -5,8 +5,8 @@
 ** position
 */
 
-#ifndef ENGINE_COMPONENTS_POSITION_HPP_
-#define ENGINE_COMPONENTS_POSITION_HPP_
+#ifndef ENGINE_MODULES_MOVE_COMPONENTS_HPP_
+#define ENGINE_MODULES_MOVE_COMPONENTS_HPP_
 
 namespace zef {
     namespace comp {
@@ -21,4 +21,4 @@ namespace zef {
     } // namespace comp
 } // namespace zef
 
-#endif // ENGINE_COMPONENTS_POSITION_HPP_
+#endif // ENGINE_MODULES_MOVE_COMPONENTS_HPP_
