@@ -8,10 +8,7 @@
 #ifndef ENGINE_INPUTS_CONTROLLER_HPP_
 #define ENGINE_INPUTS_CONTROLLER_HPP_
 
-#include <SFML/Window/Keyboard.hpp>
-
 #include <vector>
-
 
 namespace zef
 {

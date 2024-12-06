@@ -13,8 +13,8 @@
 #include <queue>
 
 #include "ecs/registry.hpp"
-#include "events.hpp"
-#include "InputsController.hpp"
+#include "Events.hpp"
+#include "modules/controller/InputsController.hpp"
 
 namespace zef {
   class Engine {

@@ -8,12 +8,11 @@
 #ifndef ENGINE_SYSTEMS_CHECK_COLLIDABLES_HPP_
 #define ENGINE_SYSTEMS_CHECK_COLLIDABLES_HPP_
 
-#include "../ecs/sparse_array.hpp"
-#include "../components/collidable.hpp"
-#include "../components/position.hpp"
-#include "../ecs/zipper.hpp"
-#include "../Engine.hpp"
-#include "../events/collision.hpp"
+#include "components.hpp"
+#include "../move/components.hpp"
+#include "../../ecs/zipper.hpp"
+#include "../../Engine.hpp"
+#include "events.hpp"
 
 namespace zef {
     namespace sys {

@@ -8,9 +8,9 @@
 #ifndef ENGINE_SYSTEMS_CONTROLLABLE_HPP_
 #define ENGINE_SYSTEMS_CONTROLLABLE_HPP_
 
-#include "../Engine.hpp"
-#include "../components/controllable.hpp"
-#include "../ecs/indexed_zipper.hpp"
+#include "../../Engine.hpp"
+#include "components.hpp"
+#include "../../ecs/indexed_zipper.hpp"
 
 namespace zef
 {

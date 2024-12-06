@@ -8,7 +8,7 @@
 #ifndef ENGIN_EVENTS_COLLISION_HPP_
 #define ENGIN_EVENTS_COLLISION_HPP_
 
-#include "../ecs/entitie.hpp"
+#include <cstdio>
 
 namespace zef {
     namespace evt {
