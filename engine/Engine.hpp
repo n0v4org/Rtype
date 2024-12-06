@@ -14,6 +14,7 @@
 
 #include "ecs/registry.hpp"
 #include "events.hpp"
+#include "InputsController.hpp"
 
 namespace zef {
   class Engine {
@@ -77,6 +78,19 @@ namespace zef {
       ecs::Entity new_entity = reg.spawn_entity();
       Patron::instanciate(*this, new_entity, args...);
       return new_entity;
+    }
+
+
+
+    UserInputs getUserInputs() {
+      UserInputs user_inputs;
+
+      user_inputs.mouse.x = 90;
+      user_inputs.mouse.y = 34;
+
+      user_inputs.keyboard.PressedKeys.push_back(zef::A);
+
+      return user_inputs;
     }
 
   private:
