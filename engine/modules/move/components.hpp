@@ -18,6 +18,14 @@ namespace zef {
                 float x;
                 float y;
         };
+        class vector {
+            public:
+                vector(float posX, float posY): x(posX), y(posY) {}
+                ~vector() = default;
+
+                float x;
+                float y;
+        };
     } // namespace comp
 } // namespace zef
 
