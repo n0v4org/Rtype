@@ -15,6 +15,7 @@
 
 namespace zef {
   class Engine;
+  
   class Event {
   public:
     size_t entity;
@@ -30,14 +31,14 @@ namespace zef {
 
   namespace comp
   {
-    struct event_handler_c {
+    struct event_listener {
     public:
 
-      event_handler_c() {};
+      event_listener() {};
 
       template <typename ...T>
-      static event_handler_c construct(std::function<void(Engine&, size_t, T)> ...funcs) {
-        event_handler_c new_event_handler;
+      static event_listener construct(std::function<void(Engine&, size_t, T)> ...funcs) {
+        event_listener new_event_handler;
         ((new_event_handler.setEvent<T>(funcs)), ...);
         return new_event_handler;
       }

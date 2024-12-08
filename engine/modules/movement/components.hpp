@@ -13,8 +13,24 @@
 
 namespace zef {
     namespace comp {
-        class collidable {
+        class position {
             public:
+                position(float posX, float posY): x(posX), y(posY) {}
+                ~position() = default;
+
+                float x;
+                float y;
+        };
+        class vector {
+            public:
+                vector(float posX, float posY): x(posX), y(posY) {}
+                ~vector() = default;
+
+                float x;
+                float y;
+        };
+
+        class collidable {
             
             public:
                 // Collidable constructor
@@ -34,6 +50,25 @@ namespace zef {
                     return false;
                 }
 
+                std::vector<utils::hitbox> _hitboxes;
+        };
+
+        class rigidbody {
+            public: 
+                rigidbody(std::vector<utils::hitbox> hitboxes): _hitboxes(hitboxes) {}
+
+                rigidbody(std::vector<utils::hitbox> &hitboxes): _hitboxes(hitboxes) {}
+
+                ~rigidbody() {}
+
+                bool isColliding(const rigidbody &other) {
+                    for (auto hit : _hitboxes) {
+                        for (auto otherHit : other._hitboxes) {
+                            if (hit.isColliding(otherHit)) return true;
+                        }
+                    }
+                    return false;
+                }
                 std::vector<utils::hitbox> _hitboxes;
         };
         
