@@ -54,10 +54,16 @@ namespace zef {
         };
 
         class rigidbody {
-            public: 
-                rigidbody(std::vector<utils::hitbox> hitboxes): _hitboxes(hitboxes) {}
+            public:
 
-                rigidbody(std::vector<utils::hitbox> &hitboxes): _hitboxes(hitboxes) {}
+                enum type {
+                    STATIC,
+                    DYNAMIC
+                };
+
+                rigidbody(std::vector<utils::hitbox> hitboxes, type rigidity_type): _hitboxes(hitboxes), _rigidity_type(rigidity_type) {}
+
+                rigidbody(std::vector<utils::hitbox> &hitboxes, type rigidity_type): _hitboxes(hitboxes), _rigidity_type(rigidity_type) {}
 
                 ~rigidbody() {}
 
@@ -69,6 +75,7 @@ namespace zef {
                     }
                     return false;
                 }
+                type _rigidity_type;
                 std::vector<utils::hitbox> _hitboxes;
         };
         

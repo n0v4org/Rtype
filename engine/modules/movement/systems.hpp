@@ -53,7 +53,7 @@ namespace zef {
                 for (auto &&[i, rgdb, pos, vec] : ecs::indexed_zipper(rigidbodies, positions, vectors)) {
                     for (auto &&[j, rgdb2] : ecs::indexed_zipper(rigidbodies)) {
                         if (i != j) {
-                            if (rgdb.isColliding(rgdb2)) {
+                            if (rgdb.isColliding(rgdb2) && rgdb._rigidity_type == zef::comp::rigidbody::DYNAMIC) {
                                 pos.x -= vec.x;
                                 pos.y -= vec.y;
                                 //engine.sendEvent<evt::collision>(j);
