@@ -128,9 +128,9 @@ namespace rtype{
 
       virtual void playSound(std::string) = 0;
       virtual void drawText() = 0;
-      virtual void drawSprite(std::string,int,int,int,int,float,float) = 0;
+      virtual void drawSprite() = 0;
 
-      virtual void saveAnimation(std::pair<std::size_t,std::size_t>,std::pair<std::size_t,std::size_t>)=0;
+      virtual void saveAnimation(std::pair<std::size_t,std::size_t>,std::pair<std::size_t,std::size_t>,float,std::chrono::milliseconds)=0;
 
       virtual void playOnce(std::string,std::string)=0;
       virtual void playLoop(std::string,std::string)=0;
