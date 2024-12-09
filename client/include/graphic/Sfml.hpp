@@ -36,6 +36,27 @@ class Sfml : public ADisplayModule<sf::Texture, sf::Sound, sf::Font, sf::Shader>
 
     Event_t getEvent() override;
 
+    void storeAssetsPNG(std::string)override;
+    void storeAssetsWAV(std::string)override;
+    void storeAssetsTTF(std::string)override;
+    void storeAssetsVERT(std::string)override;
+
+
+    void playSound(std::string)override;
+
+    void saveAnimation(std::pair<std::size_t,std::size_t>,std::pair<std::size_t,std::size_t>,float,std::chrono::milliseconds)override;
+
+    void playOnce(std::string,std::string)override;
+    void playLoop(std::string,std::string)override;
+
+    void setAnimationSpeed(std::string,float)override;
+    void setScale(std::string,std::pair<float,float>)override;
+    void setPosition(std::string,std::pair<std::size_t,std::size_t>)override;
+    void setRotation(std::string,float)override;
+
+    void moveCamera(std::vector<float>)override;
+
+
   protected:
   private:
     sf::RenderWindow _window;
