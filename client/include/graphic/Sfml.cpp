@@ -54,14 +54,29 @@ namespace rtype{
 
   void saveAnimation(std::pair<std::size_t,std::size_t>,std::pair<std::size_t,std::size_t>,float,std::chrono::milliseconds){};
 
-  void playOnce(std::string,std::string){};
-  void playLoop(std::string,std::string){};
+  
 
-  void setAnimationSpeed(std::string,float){};
-  void setScale(std::string,std::pair<float,float>){};
-  void setPosition(std::string,std::pair<std::size_t,std::size_t>){};
-  void setRotation(std::string,float){};
+  UserInput Sfml::getEvent(){
+    UserInput userInput;
 
-  void moveCamera(std::vector<float>){};
+    sf::Event event;
+    while (_window.pollEvent(event)) {
+        if (event.type == sf::Event::Closed)
+          userInput.Close = true;
+		if (event.type == sf::Event::KeyPressed) {
+      		if (event.text.unicode == 3 ) { userInput.Pressed_D = true;}
+      		if (event.text.unicode == 8 ) { userInput.Pressed_I = true;}
+      		if (event.text.unicode == 9 ) { userInput.Pressed_J = true;}
+      		if (event.text.unicode == 10) { userInput.Pressed_K = true;}
+      		if (event.text.unicode == 11) { userInput.Pressed_L = true;}
+      		if (event.text.unicode == 12) { userInput.Pressed_M = true;}
+      		if (event.text.unicode == 15) { userInput.Pressed_P = true;}
+      		if (event.text.unicode == 16) { userInput.Pressed_Q = true;}
+      		if (event.text.unicode == 18) { userInput.Pressed_S = true;}
+      		if (event.text.unicode == 25) { userInput.Pressed_Z = true;}
+		}
+    }
+    return userInput;
+  };
 
 }
