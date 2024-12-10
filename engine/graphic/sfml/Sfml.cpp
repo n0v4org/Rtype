@@ -7,8 +7,8 @@
 
 #include "./Sfml.hpp"
 
-namespace rtype{
-
+namespace zef{
+ namespace graph {
   extern "C" Sfml *entryPoint() {
     return new Sfml;
   }
@@ -47,7 +47,7 @@ namespace rtype{
 
     //void Sfml::drawSprite(DrawableSprite_t toDraw) {
     void Sfml::drawSprite(std::string animationName, std::size_t currentFrame, int posX, int posY, float scaleX, float scaleY, float rotation, float opacity) {
-    const rtype::Animation_t anim = _animations.at(animationName);
+    const zef::graph::Animation_t anim = _animations.at(animationName);
     const sf::Texture &texture = _sprites.at(anim.SpriteSheet);
     sf::IntRect rect(anim.Size.first * currentFrame + anim.StartPos.first, anim.StartPos.second * anim.Size.second, anim.Size.first, anim.Size.second);
     sf::Color color(255, 255, 255, 255 * opacity);
@@ -161,5 +161,6 @@ namespace rtype{
     }
     return userInput;
   };
+ }
 
 }

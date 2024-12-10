@@ -17,7 +17,8 @@
 #include <filesystem>
 #include <iostream>
 
-namespace rtype{
+namespace zef{
+  namespace graph {
 
   typedef struct UserInput{
     bool Pressed_Z=false;
@@ -103,6 +104,7 @@ namespace rtype{
     protected:
     private:
   };
+  }
 
 }
 

@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2024
-** Rtype
+** zef
 ** File description:
 ** SFML DisplayModule
 */
@@ -18,7 +18,8 @@
 #include <utility>
 #include <vector>
 
-namespace rtype{
+namespace zef {
+  namespace graph {
 
 class Sfml : public ADisplayModule<sf::Texture, sf::SoundBuffer, sf::Font, sf::Shader>{
 
@@ -69,7 +70,7 @@ class AssetLoadException : public std::exception {
       return "Failed to load Asset.";
     }
 };
-
+  }
 }
 
 #endif //CLIENT_INCLUDE_GRAPHIC_SFML_HPP_

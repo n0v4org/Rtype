@@ -10,7 +10,8 @@
 
 #include "./IDisplayModule.hpp"
 
-namespace rtype{
+namespace zef {
+    namespace graph {
 
 template<typename PNG, typename WAV, typename TTF, typename VERT>
 class ADisplayModule : IDisplayModule{
@@ -113,6 +114,7 @@ class ADisplayModule : IDisplayModule{
   private:
 
 };
+    }
 }
 
 #endif //CLIENT_INCLUDE_GRAPHIC_ADISPLAYMODULE_HPP_
