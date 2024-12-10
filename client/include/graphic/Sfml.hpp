@@ -26,7 +26,7 @@ class Sfml : public ADisplayModule<sf::Texture, sf::SoundBuffer, sf::Font, sf::S
     Sfml *entryPoint();
     ~Sfml();
 
-    void initialize() override;
+    void initialize(std::string)override;
     void stop() override;
     void clear() override;
     void refresh() override;

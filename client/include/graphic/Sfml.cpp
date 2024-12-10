@@ -13,9 +13,9 @@ namespace rtype{
     return new Sfml;
   }
 
-  void Sfml::initialize()
-  {
-    _window.create(sf::VideoMode(1920, 1080), "Arcade");
+  void Sfml::initialize(std::string path) {
+
+    _window.create(sf::VideoMode(_windowSize.first, _windowSize.second), "RType");
 
     if (!_window.isOpen()) {
       throw WindowCreationException();
@@ -23,7 +23,6 @@ namespace rtype{
     }
     _window.setFramerateLimit(60);
 
-    sf::String path = "Assets/";
     loadAssets(path);
   }
 

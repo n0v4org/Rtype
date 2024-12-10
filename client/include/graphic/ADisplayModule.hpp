@@ -15,8 +15,9 @@ namespace rtype{
 template<typename PNG, typename WAV, typename TTF, typename VERT>
 class ADisplayModule : IDisplayModule{
   public:
-    ~ADisplayModule(){};
-    virtual void initialize() = 0;
+    ADisplayModule()=default;
+    ~ADisplayModule()=default;
+    virtual void initialize(std::string) = 0;
     virtual void stop() = 0;
     virtual void clear() = 0;
     virtual void refresh() = 0;
