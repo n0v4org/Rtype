@@ -7,16 +7,16 @@
 
 #ifndef SERVER_INCLUDE_NETWORKING_LOBBY_HPP_
 #define SERVER_INCLUDE_NETWORKING_LOBBY_HPP_
-#include <boost/asio.hpp>
+#include <asio.hpp>
 
-using boost::asio::ip::tcp;
+using asio::ip::tcp;
 
 namespace rtype {
   namespace net {
 
 class Lobby {
     public:
-        Lobby(boost::asio::io_context& io_context);
+        Lobby(asio::io_context& io_context);
         ~Lobby();
 
     protected:

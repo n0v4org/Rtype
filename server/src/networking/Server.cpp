@@ -9,13 +9,13 @@
 #include <memory>
 #include <thread>
 #include <string>
-#include <boost/asio.hpp>
+#include <asio.hpp>
 #include "networking/Client.hpp"
 #include "networking/Server.hpp"
 
 namespace rtype {
   namespace net {
-    Server::Server(int port, bool debug, boost::asio::io_service &io_service)
+    Server::Server(int port, bool debug, asio::io_context &io_service)
       : _port(port)
       , _debug(debug)
       , _socket(io_service, udp::endpoint(udp::v4(), port)) {
@@ -24,10 +24,10 @@ namespace rtype {
 
     void Server::start_receive() {
       _socket.async_receive_from(
-          boost::asio::buffer(_recv_buffer_), _remote_endpoint_,
+          asio::buffer(_recv_buffer_), _remote_endpoint_,
           std::bind(&Server::dispatch_client, this,
-                    boost::asio::placeholders::error,
-                    boost::asio::placeholders::bytes_transferred));
+                    asio::placeholders::error,
+                    asio::placeholders::bytes_transferred));
     }
 
     void Server::unpack(std::size_t byte_size)

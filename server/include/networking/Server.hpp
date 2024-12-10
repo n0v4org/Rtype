@@ -10,16 +10,16 @@
 #include <string>
 #include <map>
 #include <thread>
-#include <boost/asio.hpp>
+#include <asio.hpp>
 #include "macro.hpp"
 
-using boost::asio::ip::udp;
+using asio::ip::udp;
 
 namespace rtype {
   namespace net {
     class Server {
     public:
-      Server(int, bool, boost::asio::io_service &);
+      Server(int, bool, asio::io_context &);
       void close_connection();
       ~Server();
 

@@ -5,13 +5,13 @@
 ** Lobby
 */
 
-#include <boost/asio.hpp>
+#include <asio.hpp>
 #include "networking/Lobby.hpp"
 
 namespace rtype {
   namespace net {
 
-Lobby::Lobby(boost::asio::io_context& io_context)
+Lobby::Lobby(asio::io_context& io_context)
 {
 }
 
