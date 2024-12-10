@@ -77,17 +77,67 @@ namespace rtype{
     _window.draw(text);
   };
 
+  void Sfml::storeAssetsPNG(std::string assetPath) {
+      sf::Texture texture;
+      std::string assetName = assetPath.substr(assetPath.find_last_of("/\\") + 1);
+      assetName = assetName.substr(0, assetName.size()-4);
+      if(!texture.loadFromFile(assetPath.c_str())){
+        throw AssetLoadException();
+      }
+      std::cout<<"Loading texture: "<<assetName<<std::endl;
+      _sprites[assetName.c_str()] = texture;
+  };
+  void Sfml::storeAssetsWAV(std::string assetPath) {
+    sf::SoundBuffer soundbuffer;
+    std::string assetName = assetPath.substr(assetPath.find_last_of("/\\") + 1);
+    assetName = assetName.substr(0, assetName.size()-4);
 
-  void storeAssetsPNG(std::string){};
-  void storeAssetsWAV(std::string){};
-  void storeAssetsTTF(std::string){};
-  void storeAssetsVERT(std::string){};
+    if(!soundbuffer.loadFromFile(assetPath.c_str())){
+      throw AssetLoadException();
+    }
+    _sounds[assetName.c_str()] = soundbuffer;
+  };
+  void Sfml::storeAssetsTTF(std::string assetPath) {
+    sf::Font font;
+    std::string assetName = assetPath.substr(assetPath.find_last_of("/\\") + 1);
+    assetName = assetName.substr(0, assetName.size()-4);
 
-  void playSound(std::string){};
+    if(!font.loadFromFile(assetPath.c_str())){
+      throw AssetLoadException();
+    }
+    _fonts[assetName.c_str()] = font;
+  };
+  void Sfml::storeAssetsVERT(std::string assetPath){
+  };
 
-  void saveAnimation(std::pair<std::size_t,std::size_t>,std::pair<std::size_t,std::size_t>,float,std::chrono::milliseconds){};
+  void Sfml::playSound(std::string toPlay){
+      sf::Sound sound;
+      sf::SoundBuffer soundbuffer = _sounds.find(toPlay)->second;
+      sound.setBuffer(soundbuffer);
+      sound.play();
+  };
 
-  
+  //void Sfml::saveAnimation(std::string name, Animation_t animation){
+  void Sfml::saveAnimation(std::string name, std::string spriteSheet, std::size_t startTileX, std::size_t startTileY, std::size_t SizeX, std::size_t SizeY) {
+      Animation_t animation{spriteSheet, {startTileX, startTileY}, {SizeX, SizeY}};
+
+      _animations[name.c_str()] = animation;
+  };
+
+  void Sfml::moveCamera(int X, int Y, int Z){
+    if (!_window.getView().getViewport().width) {
+        sf::View defaultView = _window.getDefaultView();
+        _window.setView(defaultView);
+    }
+    sf::View view = _window.getView();
+
+    view.move(X,Y);
+    view.zoom(1.0f + Z / 100.0f);
+    _window.setView(view);
+
+  };
+
+
 
   UserInput Sfml::getEvent(){
     UserInput userInput;
