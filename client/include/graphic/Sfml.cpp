@@ -41,8 +41,37 @@ namespace rtype{
   Sfml::~Sfml() {
   }
 
-  void Sfml::drawSprite() {};
-  void Sfml::drawText() {};
+    //void Sfml::drawSprite(DrawableSprite_t toDraw) {
+    void Sfml::drawSprite(std::string animationName, std::size_t currentFrame, int posX, int posY, float scaleX, float scaleY, float rotation, float opacity) {
+    const rtype::Animation_t anim = _animations.at(animationName);
+    const sf::Texture &texture = _sprites.at(anim.SpriteSheet);
+    sf::IntRect rect(anim.Size.first * currentFrame + anim.StartPos.first, anim.StartPos.second * anim.Size.second, anim.Size.first, anim.Size.second);
+    sf::Color color(255, 255, 255, 255 * opacity);
+
+    sf::Sprite sprite(texture, rect);
+    sprite.setColor(color);
+    sprite.setRotation(rotation);
+
+    sprite.setOrigin(anim.Size.first / 2, anim.Size.second / 2);
+    sprite.setPosition(posX, posY);
+    sprite.setScale(scaleX, scaleY);
+
+    _window.draw(sprite);
+  };
+
+  //void Sfml::drawText(DrawableText_t toDraw) {
+  void Sfml::drawText(std::string textString, std::string fontName,std::size_t fontSize, int posX, int posY, float scaleX, float scaleY, float rotation, float opacity) {
+    sf::Font font = _fonts.find(fontName)->second;
+    sf::Text text(textString, font, fontSize);
+
+    text.setPosition(posX, posY);
+    text.setScale(scaleX, scaleY);
+    text.setRotation(rotation);
+
+    /*setorigin X-left Y-middle*/
+
+    _window.draw(text);
+  };
 
 
   void storeAssetsPNG(std::string){};
