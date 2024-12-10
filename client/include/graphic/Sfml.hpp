@@ -32,10 +32,7 @@ class Sfml : public ADisplayModule<sf::Texture, sf::SoundBuffer, sf::Font, sf::S
     void refresh() override;
     bool isOpen() override;
 
-    void drawSprite() override;
-    void drawText() override;
-
-    Event_t getEvent() override;
+    UserInput getEvent() override;
 
     void storeAssetsPNG(std::string)override;
     void storeAssetsWAV(std::string)override;
@@ -61,7 +58,7 @@ class Sfml : public ADisplayModule<sf::Texture, sf::SoundBuffer, sf::Font, sf::S
   protected:
   private:
     sf::RenderWindow _window;
-
+    std::pair<int,int> _windowSize= std::make_pair(1920,1080);
 };
 
 class WindowCreationException : public std::exception {

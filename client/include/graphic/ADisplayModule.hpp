@@ -90,7 +90,8 @@ class ADisplayModule : IDisplayModule{
     virtual void storeAssetsTTF(std::string)=0;
     virtual void storeAssetsVERT(std::string)=0;
 
-    virtual Event_t getEvent() = 0;
+    virtual UserInput getEvent() = 0;
+
 
     virtual void playSound(std::string) = 0;
     virtual void drawText() = 0;
