@@ -26,7 +26,9 @@ namespace client {
     : _help(false)
     , _ip(SERVER_ADDRESS)
     , _client_port(PORT_CLIENT)
-    , _server_port(PORT_SERVER) {
+    , _server_port(PORT_SERVER)
+    , _lobby_client_port(LOBBY_PORT_CLIENT)
+    , _lobby_server_port(LOBBY_PORT_SERVER) {
     for (int i = 1; i < argc; i++) _args.push_back(argv[i]);
   }
 
@@ -34,7 +36,9 @@ namespace client {
     : _help(false)
     , _ip(SERVER_ADDRESS)
     , _client_port(PORT_CLIENT)
-    , _server_port(PORT_SERVER) {
+    , _server_port(PORT_SERVER)
+    , _lobby_client_port(LOBBY_PORT_CLIENT)
+    , _lobby_server_port(LOBBY_PORT_SERVER) {
     for (int i = 1; i < argc; i++) _args.push_back(argv[i]);
   }
 
@@ -86,6 +90,22 @@ namespace client {
               throw ClientError(PORT_OUT_OF_RANGE, ARGS_ERROR);
             break;
 
+          case SERVER_LOBBY_PORT:
+            if (!is_number(i))
+              throw ClientError(BAD_PORT, ARGS_ERROR);
+            _lobby_server_port = std::stoi(i);
+            if (_lobby_server_port < MIN_PORT || _lobby_server_port > MAX_PORT)
+              throw ClientError(PORT_OUT_OF_RANGE, ARGS_ERROR);
+            break;
+
+          case CLIENT_LOBBY_PORT:
+            if (!is_number(i))
+              throw ClientError(BAD_PORT, ARGS_ERROR);
+            _lobby_client_port = std::stoi(i);
+            if (_lobby_client_port < MIN_PORT || _lobby_client_port > MAX_PORT)
+              throw ClientError(PORT_OUT_OF_RANGE, ARGS_ERROR);
+            break;
+
           case IP:
             if (!is_valid_ip(i))
               throw ClientError(INAVLID_IP, ARGS_ERROR);
@@ -124,6 +144,13 @@ namespace client {
 
   int Arguments::get_client_port() const {
     return _client_port;
+  }
+
+  int Arguments::get_lobby_server_port() const {
+    return _lobby_server_port;
+  }
+  int Arguments::get_lobby_client_port() const {
+    return _lobby_client_port;
   }
 
   bool Arguments::get_help() const {
