@@ -38,7 +38,7 @@ namespace rtype {
       for (int i = 0; i < 4; i++) {
         seq = (seq << 8) | _recv_buffer_[3 + i];
       }
-      std::cout << "Received command: " << (int)cmd << ", data: " << data << ", seq: " << seq
+      std::cout << "Received command: " << cmd << ", data: " << data << ", seq: " << seq
                 << std::endl;
     }
 
