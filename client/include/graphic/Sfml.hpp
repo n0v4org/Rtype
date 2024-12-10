@@ -20,7 +20,7 @@
 
 namespace rtype{
 
-class Sfml : public ADisplayModule<sf::Texture, sf::Sound, sf::Font, sf::Shader>{
+class Sfml : public ADisplayModule<sf::Texture, sf::SoundBuffer, sf::Font, sf::Shader>{
 
   public:
     Sfml *entryPoint();
