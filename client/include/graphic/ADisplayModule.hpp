@@ -21,6 +21,7 @@ class ADisplayModule : IDisplayModule{
     virtual void stop() = 0;
     virtual void clear() = 0;
     virtual void refresh() = 0;
+    virtual bool isOpen() = 0;
 
     void loadAssets(std::string folder_path) override
     {

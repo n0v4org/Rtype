@@ -38,6 +38,10 @@ namespace rtype{
     _window.close();
   }
 
+  bool Sfml::isOpen() {
+    return _window.isOpen();
+  }
+
   Sfml::~Sfml() {
   }
 
