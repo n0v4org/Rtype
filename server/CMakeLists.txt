@@ -10,6 +10,7 @@ set(SRCS
     src/Arguments.cpp
     src/networking/Server.cpp
     src/networking/Client.cpp
+    src/networking/Lobby.cpp
 )
 
 set(TEST

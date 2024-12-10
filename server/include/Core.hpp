@@ -11,6 +11,7 @@
 #include <asio.hpp>
 #include "Arguments.hpp"
 #include "networking/Server.hpp"
+#include "networking/Lobby.hpp"
 
 namespace rtype {
 
@@ -24,6 +25,7 @@ namespace rtype {
   private:
     std::unique_ptr<Arguments> _args;
     std::unique_ptr<net::Server> _server;
+    std::unique_ptr<net::Lobby> _lobby;
     asio::io_context _io_service;
   };
 

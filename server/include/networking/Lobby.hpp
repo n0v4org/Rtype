@@ -7,7 +7,10 @@
 
 #ifndef SERVER_INCLUDE_NETWORKING_LOBBY_HPP_
 #define SERVER_INCLUDE_NETWORKING_LOBBY_HPP_
+#include <iostream>
 #include <asio.hpp>
+#include "macro.hpp"
+#include "tcp/Connection.hpp"
 
 using asio::ip::tcp;
 
@@ -16,11 +19,16 @@ namespace rtype {
 
 class Lobby {
     public:
-        Lobby(asio::io_context& io_context);
-        ~Lobby();
+  Lobby(int, bool, asio::io_context&);
 
-    protected:
-    private:
+private:
+  void start_accept();
+  void handle_accept(Connection::pointer,
+      const std::error_code&);
+
+  asio::io_context& io_context_;
+  tcp::acceptor acceptor_;
+  bool _debug;
 };
 
   }  // namespace net
