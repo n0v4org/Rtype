@@ -9,16 +9,16 @@
 #include <vector>
 #include <iostream>
 #include <thread>
-#include <boost/asio.hpp>
+#include <asio.hpp>
 #include "networking/Client.hpp"
 
-using boost::asio::ip::udp;
+using asio::ip::udp;
 
 namespace client {
   namespace net {
 
     Client::Client(int server_port, int client_port, std::string ip,
-                   boost::asio::io_service &service)
+                   asio::io_context &service)
       : _socket(service, udp::endpoint(udp::v4(), client_port))
       , _io_service(service)
       , _sequence_id(0) {
@@ -40,7 +40,7 @@ namespace client {
       for (int i = 3; i >= 0 ; i--) {
         buff.push_back((_sequence_id >> (8 * i)) & 0xFF);
       }
-      _socket.send_to(boost::asio::buffer(buff), _server_endpoint);
+      _socket.send_to(asio::buffer(buff), _server_endpoint);
       _sequence_id++;
     }
   
@@ -51,13 +51,10 @@ namespace client {
     void Client::startReceive() {
       while (1) {
         udp::endpoint remote_endpoint;
-        boost::system::error_code error;
         int byteReceived = _socket.receive_from(
-            boost::asio::buffer(_recvBuffer), remote_endpoint, 0, error);
+            asio::buffer(_recvBuffer), remote_endpoint, 0);
         std::cout << "received : "
                   << std::string(_recvBuffer.data(), byteReceived) << std::endl;
-        if (error && error != boost::asio::error::message_size)
-          throw boost::system::system_error(error);
       }
     }
 
