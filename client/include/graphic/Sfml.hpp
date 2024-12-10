@@ -39,22 +39,18 @@ class Sfml : public ADisplayModule<sf::Texture, sf::SoundBuffer, sf::Font, sf::S
     void storeAssetsTTF(std::string)override;
     void storeAssetsVERT(std::string)override;
 
+    //void drawSprite(DrawableSprite_t) override;
+    void drawSprite(std::string, std::size_t, int, int, float, float, float, float) override;
+    //void drawText(DrawableText_t) override;
+    void drawText(std::string, std::string, std::size_t, int, int, float, float, float, float) override;
+
 
     void playSound(std::string)override;
 
-    void saveAnimation(std::pair<std::size_t,std::size_t>,std::pair<std::size_t,std::size_t>,float,std::chrono::milliseconds)override;
+    //void saveAnimation(std::string, Animation_t) override;
+    void saveAnimation(std::string, std::string, std::size_t, std::size_t, std::size_t, std::size_t) override;
 
-    void playOnce(std::string,std::string)override;
-    void playLoop(std::string,std::string)override;
-
-    void setAnimationSpeed(std::string,float)override;
-    void setScale(std::string,std::pair<float,float>)override;
-    void setPosition(std::string,std::pair<std::size_t,std::size_t>)override;
-    void setRotation(std::string,float)override;
-
-    void moveCamera(std::vector<float>)override;
-
-
+    void moveCamera(int,int,int) override;
   protected:
   private:
     sf::RenderWindow _window;
@@ -66,7 +62,14 @@ class WindowCreationException : public std::exception {
     const char* what() const noexcept override {
       return "Failed to open window.";
     }
-  };
+};
+class AssetLoadException : public std::exception {
+  public:
+    const char* what() const noexcept override {
+      return "Failed to load Asset.";
+    }
+};
+
 }
 
 #endif //CLIENT_INCLUDE_GRAPHIC_SFML_HPP_
