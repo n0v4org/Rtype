@@ -28,52 +28,60 @@ class ADisplayModule : IDisplayModule{
       std::string pathname;
       std::string folder_name;
       bool status = false;
-      for (const auto &i: std::filesystem::directory_iterator(folder_path + "/sprites")) {
-        for (auto &[key, data]: _sprites) {
-          if (key == folder_path) {
-            status = true;
+      if (std::filesystem::exists(folder_path + "/sprites")) {
+        for (const auto &i: std::filesystem::directory_iterator(folder_path + "/sprites")) {
+          for (auto &[key, data]: _sprites) {
+            if (key == folder_path) {
+              status = true;
+            }
           }
+          if (status) {
+            break;
+          }
+          storeAssetsPNG(i.path());
         }
-        if (status) {
-          break;
-        }
-        storeAssetsPNG(i.path());
       }
       status = false;
-      for (const auto &i: std::filesystem::directory_iterator(folder_path + "/fonts")) {
-        for (auto &[key, data]: _fonts) {
-          if (key == folder_path) {
-            status = true;
+      if (std::filesystem::exists(folder_path + "/fonts")) {
+        for (const auto &i: std::filesystem::directory_iterator(folder_path + "/fonts")) {
+          for (auto &[key, data]: _fonts) {
+            if (key == folder_path) {
+              status = true;
+            }
           }
+          if (status) {
+            break;
+          }
+          storeAssetsTTF(i.path());
         }
-        if (status) {
-          break;
-        }
-        storeAssetsTTF(i.path());
       }
       status = false;
-      for (const auto &i: std::filesystem::directory_iterator(folder_path + "/sounds")) {
-        for (auto &[key, data]: _sounds) {
-          if (key == folder_path) {
-            status = true;
+      if (std::filesystem::exists(folder_path + "/sounds")) {
+        for (const auto &i: std::filesystem::directory_iterator(folder_path + "/sounds")) {
+          for (auto &[key, data]: _sounds) {
+            if (key == folder_path) {
+              status = true;
+            }
           }
+          if (status) {
+            break;
+          }
+          storeAssetsWAV(i.path());
         }
-        if (status) {
-          break;
-        }
-        storeAssetsWAV(i.path());
       }
       status = false;
-      for (const auto &i: std::filesystem::directory_iterator(folder_path + "/shaders")) {
-        for (auto &[key, data]: _shaders) {
-          if (key == folder_path) {
-            status = true;
+      if (std::filesystem::exists(folder_path + "/shaders")) {
+        for (const auto &i: std::filesystem::directory_iterator(folder_path + "/shaders")) {
+          for (auto &[key, data]: _shaders) {
+            if (key == folder_path) {
+              status = true;
+            }
           }
+          if (status) {
+            break;
+          }
+          storeAssetsVERT(i.path());
         }
-        if (status) {
-          break;
-        }
-        storeAssetsVERT(i.path());
       }
     };
     virtual void storeAssetsPNG(std::string)=0;
