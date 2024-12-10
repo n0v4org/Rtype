@@ -8,7 +8,7 @@
 #ifndef CLIENT_INCLUDE_GRAPHIC_SFML_HPP_
 #define CLIENT_INCLUDE_GRAPHIC_SFML_HPP_
 
-#include "./ADisplayModule.hpp"
+#include "../ADisplayModule.hpp"
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
