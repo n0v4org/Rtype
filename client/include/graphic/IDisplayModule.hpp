@@ -15,109 +15,71 @@
 #include <map>
 #include <vector>
 #include <filesystem>
-
+#include <iostream>
 
 namespace rtype{
 
+  typedef struct UserInput{
+    bool Pressed_Z=false;
+    bool Pressed_Q=false;
+    bool Pressed_S=false;
+    bool Pressed_D=false;
 
-/**/
-  typedef struct Event{
-    bool A;
-    bool B;
-    bool C;
-    bool D;
-    bool E;
-    bool F;
-    bool G;
-    bool H;
-    bool I;
-    bool J;
-    bool K;
-    bool L;
-    bool M;
-    bool N;
-    bool O;
-    bool P;
-    bool Q;
-    bool R;
-    bool S;
-    bool T;
-    bool U;
-    bool V;
-    bool W;
-    bool X;
-    bool Y;
-    bool Z;
+    bool Pressed_I=false;
+    bool Pressed_J=false;
+    bool Pressed_K=false;
+    bool Pressed_L=false;
 
-    bool _1;
-    bool _2;
-    bool _3;
-    bool _4;
-    bool _5;
-    bool _6;
-    bool _7;
-    bool _8;
-    bool _9;
-    bool _0;
+    bool Pressed_P=false;
+    bool Pressed_M=false;
 
-    bool Enter;
-    bool Escape;
-    bool Shift;
-    bool Control;
-    bool Alt;
-    bool CapsLock;
-
-    bool ArrowUp;
-    bool ArrowDown;
-    bool ArrowLeft;
-    bool ArrowRight;
-
-    bool JoyStickUp;
-    bool JoyStickDown;
-    bool JoyStickLeft;
-    bool JoyStickRight;
-
-    bool LeftClick;
-    bool RightClick;
-    bool MiddleClick;
-    int MouseX;
-    int MouseY;
-  }Event_t;
-/**/
-
+    bool Close=false;
+  } UserInput;
 
   typedef struct Animation{
-    std::string AnimationName;
+    std::string SpriteSheet;
+
     std::pair<std::size_t,std::size_t> StartPos;
     std::pair<std::size_t,std::size_t> Size;
-    int NbFrames;
-    std::chrono::milliseconds TimeBetweenFrames;
+  } Animation_t;
 
+  typedef struct DrawableSprite{
+    std::string AnimationName;
+    std::size_t CurrentFrame;
 
-  }Animation_t;
+    int PosX;
+    int PosY;
 
-  typedef struct Entity{
-    std::string SpriteName;
-    std::string CurrentAnimationName;
-    int CurrentFrame;
-    std::vector<int> Position;
-    std::pair<std::size_t,std::size_t> Scale;
+    float ScaleX;
+    float ScaleY;
     float Rotation;
-    float AnimationSpeed;
+    float Opacity;
+  } DrawableSprite_t;
 
+  typedef struct DrawableText{
+    std::string Text;
+    std::string FontName;
+    std::size_t FontSize;
+    int PosX;
+    int PosY;
 
-  }Entity_t;
+    float ScaleX;
+    float ScaleY;
+    float Rotation;
+    float Opacity;
+  } DrawableText_t;
 
   class IDisplayModule{
     public:
-      IDisplayModule(){};
-      ~IDisplayModule(){};
-      virtual void initialize() = 0;
+      ~IDisplayModule()=default;
+      virtual void initialize(std::string) = 0;
       virtual void stop() = 0;
       virtual void clear() = 0;
       virtual void refresh() = 0;
+      virtual bool isOpen() = 0;
 
-      virtual Event_t getEvent() = 0;
+
+      virtual UserInput getEvent() = 0;
 
       virtual void loadAssets(std::string)=0;
 
@@ -126,21 +88,17 @@ namespace rtype{
       virtual void storeAssetsTTF(std::string)=0;
       virtual void storeAssetsVERT(std::string)=0;
 
+      //virtual void drawSprite(DrawableSprite_t) = 0;
+      virtual void drawSprite(std::string, std::size_t, int, int, float, float, float, float) = 0;
+      //virtual void drawText(DrawableText_t) = 0;
+      virtual void drawText(std::string, std::string, std::size_t, int, int, float, float, float, float) = 0;
+
       virtual void playSound(std::string) = 0;
-      virtual void drawText() = 0;
-      virtual void drawSprite() = 0;
 
-      virtual void saveAnimation(std::pair<std::size_t,std::size_t>,std::pair<std::size_t,std::size_t>,float,std::chrono::milliseconds)=0;
+      //virtual void saveAnimation(std::string, Animation_t)=0;
+      virtual void saveAnimation(std::string, std::string, std::size_t, std::size_t, std::size_t, std::size_t) = 0;
 
-      virtual void playOnce(std::string,std::string)=0;
-      virtual void playLoop(std::string,std::string)=0;
-
-      virtual void setAnimationSpeed(std::string,float)=0;
-      virtual void setScale(std::string,std::pair<float,float>)=0;
-      virtual void setPosition(std::string,std::pair<std::size_t,std::size_t>)=0;
-      virtual void setRotation(std::string,float)=0;
-
-      virtual void moveCamera(std::vector<float>)=0;
+      virtual void moveCamera(int,int,int)=0;
 
     protected:
     private:
@@ -149,5 +107,3 @@ namespace rtype{
 }
 
 #endif //CLIENT_INCLUDE_GRAPHIC_IDISPLAYMODULE_HPP_
-
-
