@@ -7,9 +7,9 @@
 
 #ifndef SERVER_INCLUDE_NETWORKING_CLIENT_HPP_
 #define SERVER_INCLUDE_NETWORKING_CLIENT_HPP_
-#include <boost/asio.hpp>
+#include <asio.hpp>
 
-using boost::asio::ip::udp;
+using asio::ip::udp;
 
 namespace rtype {
   namespace net {

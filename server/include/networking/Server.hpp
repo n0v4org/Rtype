@@ -10,16 +10,17 @@
 #include <string>
 #include <map>
 #include <thread>
-#include <boost/asio.hpp>
+#include <asio.hpp>
 #include "macro.hpp"
 
-using boost::asio::ip::udp;
+using asio::ip::udp;
 
 namespace rtype {
   namespace net {
     class Server {
     public:
-      Server(int, bool, boost::asio::io_service &);
+      Server(int, bool, asio::io_context &);
+      void close_connection();
       ~Server();
 
     protected:
@@ -28,11 +29,12 @@ namespace rtype {
       void dispatch_client(const std::error_code, std::size_t);
       void handle_send(std::shared_ptr<std::string>, const std::error_code &,
                        std::size_t);
+      void unpack(std::size_t);
       int _port;
       bool _debug;
       udp::socket _socket;
       std::map<udp::endpoint, std::thread> _clients;
-      std::array<char, BUFFER_SIZE> _recv_buffer_;
+      std::array<uint8_t, BUFFER_SIZE> _recv_buffer_;
       udp::endpoint _remote_endpoint_;
     };
   }  // namespace net

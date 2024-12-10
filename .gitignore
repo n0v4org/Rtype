@@ -37,6 +37,8 @@ CMakeFiles/
 Makefile
 
 build/
+client_build/
+server_build/
 
 r-type_client
 r-type_server
