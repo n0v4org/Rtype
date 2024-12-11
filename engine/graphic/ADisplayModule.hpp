@@ -14,7 +14,7 @@ namespace zef{
 namespace graph{
 
 template<typename PNG, typename WAV, typename TTF, typename VERT>
-class ADisplayModule : IDisplayModule{
+class ADisplayModule : public IDisplayModule{
   public:
     ADisplayModule()=default;
     ~ADisplayModule()=default;
