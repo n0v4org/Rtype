@@ -84,9 +84,13 @@ class ADisplayModule : public IDisplayModule{
           storeAssetsVERT(i.path());
         }
       }
+      if (std::filesystem::exists(assetFolderPath + "/Config/Animations.txt")) {
+        configAssetsAnimations(assetFolderPath + "/Config/Animations.txt");
+      }
+
     };
 
-    void configAssetsAnimation(std::string assetPath) override{};
+    void configAssetsAnimations(std::string assetPath) override{};
 
 
     virtual void storeAssetsPNG(std::string assetPath)=0;
