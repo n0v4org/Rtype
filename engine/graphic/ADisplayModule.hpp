@@ -25,14 +25,14 @@ class ADisplayModule : public IDisplayModule{
     virtual bool isOpen() = 0;
 
 
-    void loadAssets(std::string folder_path) override{
+    void loadAssets(std::string assetFolderPath) override{
       std::string pathname;
       std::string folder_name;
       bool status = false;
-      if (std::filesystem::exists(folder_path + "/sprites")) {
-        for (const auto &i: std::filesystem::directory_iterator(folder_path + "/sprites")) {
+      if (std::filesystem::exists(assetFolderPath + "/sprites")) {
+        for (const auto &i: std::filesystem::directory_iterator(assetFolderPath + "/sprites")) {
           for (auto &[key, data]: _sprites) {
-            if (key == folder_path) {
+            if (key == assetFolderPath) {
               status = true;
             }
           }
@@ -43,10 +43,10 @@ class ADisplayModule : public IDisplayModule{
         }
       }
       status = false;
-      if (std::filesystem::exists(folder_path + "/fonts")) {
-        for (const auto &i: std::filesystem::directory_iterator(folder_path + "/fonts")) {
+      if (std::filesystem::exists(assetFolderPath + "/fonts")) {
+        for (const auto &i: std::filesystem::directory_iterator(assetFolderPath + "/fonts")) {
           for (auto &[key, data]: _fonts) {
-            if (key == folder_path) {
+            if (key == assetFolderPath) {
               status = true;
             }
           }
@@ -57,10 +57,10 @@ class ADisplayModule : public IDisplayModule{
         }
       }
       status = false;
-      if (std::filesystem::exists(folder_path + "/sounds")) {
-        for (const auto &i: std::filesystem::directory_iterator(folder_path + "/sounds")) {
+      if (std::filesystem::exists(assetFolderPath + "/sounds")) {
+        for (const auto &i: std::filesystem::directory_iterator(assetFolderPath + "/sounds")) {
           for (auto &[key, data]: _sounds) {
-            if (key == folder_path) {
+            if (key == assetFolderPath) {
               status = true;
             }
           }
@@ -71,10 +71,10 @@ class ADisplayModule : public IDisplayModule{
         }
       }
       status = false;
-      if (std::filesystem::exists(folder_path + "/shaders")) {
-        for (const auto &i: std::filesystem::directory_iterator(folder_path + "/shaders")) {
+      if (std::filesystem::exists(assetFolderPath + "/shaders")) {
+        for (const auto &i: std::filesystem::directory_iterator(assetFolderPath + "/shaders")) {
           for (auto &[key, data]: _shaders) {
-            if (key == folder_path) {
+            if (key == assetFolderPath) {
               status = true;
             }
           }
@@ -85,24 +85,24 @@ class ADisplayModule : public IDisplayModule{
         }
       }
     };
-    virtual void storeAssetsPNG(std::string)=0;
-    virtual void storeAssetsWAV(std::string)=0;
-    virtual void storeAssetsTTF(std::string)=0;
-    virtual void storeAssetsVERT(std::string)=0;
+    virtual void storeAssetsPNG(std::string assetPath)=0;
+    virtual void storeAssetsWAV(std::string assetPath)=0;
+    virtual void storeAssetsTTF(std::string assetPath)=0;
+    virtual void storeAssetsVERT(std::string assetPath)=0;
 
     virtual UserInput getEvent() = 0;
 
     //virtual void drawSprite(DrawableSprite_t) = 0;
-    virtual void drawSprite(std::string, std::size_t, int, int, float, float, float, float) = 0;
+    virtual void drawSprite(std::string animationName, std::size_t currentFrame, int posX, int posY, float scaleX, float scaleY, float roation, float opacity) = 0;
     //virtual void drawText(DrawableText_t) = 0;
-    virtual void drawText(std::string, std::string, std::size_t, int, int, float, float, float, float) = 0;
+    virtual void drawText(std::string textString, std::string fontName, std::size_t fontSize, int posX, int posY, float scaleX, float scaleY, float rotation, float opacity) = 0;
 
-    virtual void playSound(std::string) = 0;
+    virtual void playSound(std::string soundName) = 0;
 
     //virtual void saveAnimation(std::string, Animation_t)=0;
-    virtual void saveAnimation(std::string, std::string, std::size_t, std::size_t, std::size_t, std::size_t) = 0;
+    virtual void saveAnimation(std::string animationName, std::string spriteSheetName, std::size_t startTileX, std::size_t startTileY, std::size_t tileSizeX, std::size_t tileSizeY) = 0;
 
-    virtual void moveCamera(int,int,int)=0;
+    virtual void moveCamera(int x,int y,int z)=0;
 
   protected:
     std::map<std::string,Animation_t> _animations;

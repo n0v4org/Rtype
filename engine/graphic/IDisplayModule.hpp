@@ -82,24 +82,24 @@ namespace graph{
 
       virtual UserInput getEvent() = 0;
 
-      virtual void loadAssets(std::string)=0;
+      virtual void loadAssets(std::string assetFolderPath)=0;
 
-      virtual void storeAssetsPNG(std::string)=0;
-      virtual void storeAssetsWAV(std::string)=0;
-      virtual void storeAssetsTTF(std::string)=0;
-      virtual void storeAssetsVERT(std::string)=0;
+      virtual void storeAssetsPNG(std::string assetPath)=0;
+      virtual void storeAssetsWAV(std::string assetPath)=0;
+      virtual void storeAssetsTTF(std::string assetPath)=0;
+      virtual void storeAssetsVERT(std::string assetPath)=0;
 
       //virtual void drawSprite(DrawableSprite_t) = 0;
-      virtual void drawSprite(std::string, std::size_t, int, int, float, float, float, float) = 0;
+      virtual void drawSprite(std::string animationName, std::size_t currentFrame, int posX, int posY, float scaleX, float scaleY, float rotation, float opactiy) = 0;
       //virtual void drawText(DrawableText_t) = 0;
-      virtual void drawText(std::string, std::string, std::size_t, int, int, float, float, float, float) = 0;
+      virtual void drawText(std::string textString, std::string fontName, std::size_t fontSize, int posX, int posY, float scaleX, float sclaeY, float rotation, float opacity) = 0;
 
-      virtual void playSound(std::string) = 0;
+      virtual void playSound(std::string soundName) = 0;
 
       //virtual void saveAnimation(std::string, Animation_t)=0;
-      virtual void saveAnimation(std::string, std::string, std::size_t, std::size_t, std::size_t, std::size_t) = 0;
+      virtual void saveAnimation(std::string animationName, std::string spriteSheetName, std::size_t startTileX, std::size_t startTileY, std::size_t tileSizeX, std::size_t tileSizeY) = 0;
 
-      virtual void moveCamera(int,int,int)=0;
+      virtual void moveCamera(int x,int y,int z)=0;
 
     protected:
     private:
