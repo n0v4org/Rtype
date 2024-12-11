@@ -88,6 +88,7 @@ namespace graph{
       virtual void storeAssetsWAV(std::string assetPath)=0;
       virtual void storeAssetsTTF(std::string assetPath)=0;
       virtual void storeAssetsVERT(std::string assetPath)=0;
+      virtual void configAssetsAnimation(std::string animationConfigPath)=0;
 
       //virtual void drawSprite(DrawableSprite_t) = 0;
       virtual void drawSprite(std::string animationName, std::size_t currentFrame, int posX, int posY, float scaleX, float scaleY, float rotation, float opactiy) = 0;

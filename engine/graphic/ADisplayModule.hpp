@@ -85,6 +85,10 @@ class ADisplayModule : public IDisplayModule{
         }
       }
     };
+
+    void configAssetsAnimation(std::string assetPath) override{};
+
+
     virtual void storeAssetsPNG(std::string assetPath)=0;
     virtual void storeAssetsWAV(std::string assetPath)=0;
     virtual void storeAssetsTTF(std::string assetPath)=0;
