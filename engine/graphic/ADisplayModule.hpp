@@ -18,7 +18,7 @@ class ADisplayModule : public IDisplayModule{
   public:
     ADisplayModule()=default;
     ~ADisplayModule()=default;
-    virtual void initialize(std::string) = 0;
+    virtual void initialize(std::string assetFolderPath, std::string windowName) = 0;
     virtual void stop() = 0;
     virtual void clear() = 0;
     virtual void refresh() = 0;

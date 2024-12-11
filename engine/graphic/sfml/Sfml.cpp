@@ -10,9 +10,7 @@
 namespace zef{
 namespace graph{
 
-  extern "C" Sfml *entryPoint() {
-    return new Sfml;
-  }
+  void Sfml::initialize(std::string assetFolderPath, std::string windowName) {
 
   void Sfml::initialize(std::string path) {
 
