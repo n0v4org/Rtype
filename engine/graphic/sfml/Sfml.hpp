@@ -24,7 +24,6 @@ namespace graph{
 class Sfml : public ADisplayModule<sf::Texture, sf::SoundBuffer, sf::Font, sf::Shader>{
 
   public:
-    Sfml *entryPoint();
     ~Sfml();
 
     void initialize(std::string, std::string)override;

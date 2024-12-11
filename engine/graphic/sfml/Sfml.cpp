@@ -12,17 +12,14 @@ namespace graph{
 
   void Sfml::initialize(std::string assetFolderPath, std::string windowName) {
 
-  void Sfml::initialize(std::string path) {
-
-    _window.create(sf::VideoMode(_windowSize.first, _windowSize.second), "RType");
+    _window.create(sf::VideoMode(_windowSize.first, _windowSize.second), windowName.c_str());
 
     if (!_window.isOpen()) {
       throw WindowCreationException();
-      return;
     }
     _window.setFramerateLimit(60);
 
-    loadAssets(path);
+    loadAssets(assetFolderPath);
   }
 
   void Sfml::refresh() {
@@ -109,18 +106,18 @@ namespace graph{
   void Sfml::storeAssetsVERT(std::string assetPath){
   };
 
-  void Sfml::playSound(std::string toPlay){
+  void Sfml::playSound(std::string soundName){
       sf::Sound sound;
-      sf::SoundBuffer soundbuffer = _sounds.find(toPlay)->second;
+      sf::SoundBuffer soundbuffer = _sounds.find(soundName)->second;
       sound.setBuffer(soundbuffer);
       sound.play();
   };
 
   //void Sfml::saveAnimation(std::string name, Animation_t animation){
-  void Sfml::saveAnimation(std::string name, std::string spriteSheet, std::size_t startTileX, std::size_t startTileY, std::size_t SizeX, std::size_t SizeY) {
-      Animation_t animation{spriteSheet, {startTileX, startTileY}, {SizeX, SizeY}};
+  void Sfml::saveAnimation(std::string animationName, std::string spriteSheetName, std::size_t startTileX, std::size_t startTileY, std::size_t tileSizeX, std::size_t tileSizeY) {
+      Animation_t animation{spriteSheetName, {startTileX, startTileY}, {tileSizeX, tileSizeY}};
 
-      _animations[name.c_str()] = animation;
+      _animations[animationName.c_str()] = animation;
   };
 
   void Sfml::moveCamera(int X, int Y, int Z){
