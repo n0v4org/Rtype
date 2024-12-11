@@ -7,7 +7,8 @@
 
 #include "./Sfml.hpp"
 
-namespace rtype{
+namespace zef{
+namespace graph{
 
   extern "C" Sfml *entryPoint() {
     return new Sfml;
@@ -162,4 +163,5 @@ namespace rtype{
     return userInput;
   };
 
+}
 }

@@ -18,7 +18,8 @@
 #include <utility>
 #include <vector>
 
-namespace rtype{
+namespace zef{
+namespace graph{
 
 class Sfml : public ADisplayModule<sf::Texture, sf::SoundBuffer, sf::Font, sf::Shader>{
 
@@ -70,6 +71,7 @@ class AssetLoadException : public std::exception {
     }
 };
 
+}
 }
 
 #endif //CLIENT_INCLUDE_GRAPHIC_SFML_HPP_
