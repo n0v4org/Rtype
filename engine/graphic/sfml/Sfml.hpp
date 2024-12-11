@@ -20,12 +20,16 @@
 
 namespace zef {
   namespace graph {
+    
 
 class Sfml : public ADisplayModule<sf::Texture, sf::SoundBuffer, sf::Font, sf::Shader>{
 
   public:
-    Sfml *entryPoint();
+    //Sfml *entryPoint();
     ~Sfml();
+    Sfml() {
+
+    }
 
     void initialize(std::string)override;
     void stop() override;
@@ -51,7 +55,11 @@ class Sfml : public ADisplayModule<sf::Texture, sf::SoundBuffer, sf::Font, sf::S
     //void saveAnimation(std::string, Animation_t) override;
     void saveAnimation(std::string, std::string, std::size_t, std::size_t, std::size_t, std::size_t) override;
 
+    void setCamera(int,int,int) override;
     void moveCamera(int,int,int) override;
+
+    void updateUserInputs(utils::UserInputs& ui) override;
+
   protected:
   private:
     sf::RenderWindow _window;

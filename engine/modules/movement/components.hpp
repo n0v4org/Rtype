@@ -9,7 +9,8 @@
 #define ENGINE_MODULES_COLLISION_COMPONENTS_HPP_
 
 #include <vector>
-#include "hitbox.hpp"
+#include <string>
+#include "../../utils/hitbox.hpp"
 
 namespace zef {
     namespace comp {
@@ -23,11 +24,12 @@ namespace zef {
         };
         class vector {
             public:
-                vector(float posX, float posY): x(posX), y(posY) {}
+                vector(float posX, float posY, float vec_norm): x(posX), y(posY), norm(vec_norm) {}
                 ~vector() = default;
 
                 float x;
                 float y;
+                float norm;
         };
 
         class collidable {
@@ -51,6 +53,7 @@ namespace zef {
                 }
 
                 std::vector<utils::hitbox> _hitboxes;
+                std::vector<size_t> _colliding;
         };
 
         class rigidbody {
@@ -75,8 +78,19 @@ namespace zef {
                     }
                     return false;
                 }
+
+                void setTag(const std::string& tag) {
+                    _tags.push_back(tag);
+                }
+
+                void setThrough(const std::string& through) {
+                    _pass_through.push_back(through);
+                }
+
                 type _rigidity_type;
                 std::vector<utils::hitbox> _hitboxes;
+                std::vector<std::string> _tags;
+                std::vector<std::string> _pass_through;
         };
         
     } // namespace comp

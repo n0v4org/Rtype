@@ -117,9 +117,9 @@ namespace ecs {
 
     template <class... Components, typename Function>
     void add_system(Function &&f) {
-      _systems.push_back([f = std::forward<Function>(f)](zef::Engine& e, registry &r) {
-        f(e, r.get_components<Components>()...);
-      });
+        this->_systems.push_back([f = std::forward<Function>(f)](zef::Engine& e, ecs::registry &r) {
+            f(e, r.get_components<Components>()...);
+        });
     }
 
     template <class... Components, typename Function>
@@ -147,11 +147,11 @@ namespace ecs {
     }
 
   private:
+    size_t _entityCount = 0;
     std::unordered_map<std::type_index, std::any> _components_arrays;
     std::unordered_map<std::type_index,
                        std::function<void(registry &, entity_t const &)>>
         _deleteFunctions;
-    size_t _entityCount = 0;
     size_t _maxId       = 0;
     std::vector<std::function<void(zef::Engine&, registry &)>> _systems;
     std::queue<size_t> _unusedids;

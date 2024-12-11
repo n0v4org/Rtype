@@ -13,6 +13,7 @@
 #include "../../ecs/zipper.hpp"
 #include "../../Engine.hpp"
 #include "events.hpp"
+#include <cmath>
 
 namespace zef {
     namespace sys {
@@ -34,7 +35,17 @@ namespace zef {
                     for (auto &&[j, col2] : ecs::indexed_zipper(collidables)) {
                         if (i != j) {
                             if (col.isColliding(col2)) {
-                                engine.sendEvent<evt::collision>(j);
+                                auto find = std::find(col._colliding.begin(), col._colliding.end(), j);
+                                if (find == col._colliding.end()) {
+                                    engine.sendEvent<evt::startCollision>(i, j);
+                                    col._colliding.push_back(j);
+                                }
+                                engine.sendEvent<evt::collision>(i, j);
+                            } else {
+                                auto find = std::find(col._colliding.begin(), col._colliding.end(), j);
+                                if (find != col._colliding.end()) {
+                                    col._colliding.erase(find);
+                                }
                             }
                         }
                     }
@@ -54,8 +65,18 @@ namespace zef {
                     for (auto &&[j, rgdb2] : ecs::indexed_zipper(rigidbodies)) {
                         if (i != j) {
                             if (rgdb.isColliding(rgdb2) && rgdb._rigidity_type == zef::comp::rigidbody::DYNAMIC) {
-                                pos.x -= vec.x;
-                                pos.y -= vec.y;
+                                bool pass_through = false;
+                                for (auto&& pass: rgdb._pass_through) {
+                                    for (auto&& tag: rgdb2._tags) {
+                                        if (pass == tag) {
+                                            pass_through = true;
+                                        }
+                                    }
+                                }
+                                if (!pass_through) {
+                                    pos.x -= vec.x;
+                                    pos.y -= vec.y;
+                                }
                                 //engine.sendEvent<evt::collision>(j);
                             }
                         }
@@ -63,6 +84,21 @@ namespace zef {
                 }
 
             }
+        void normalize_velocity_vectors(Engine& engine, ecs::sparse_array<comp::vector>& vecs) {
+            for (auto&& [i, vec] : ecs::indexed_zipper(vecs)) {
+                float tmpx = vec.x;
+                float tmpy = vec.y;
+
+                if (tmpx == 0 && tmpy == 0)
+                    continue;
+
+                float norm = std::sqrt(std::pow(tmpx, 2) + std::pow(tmpy, 2));
+                vec.x /= norm; 
+                vec.y /= norm;
+                vec.x *= vec.norm;
+                vec.y *= vec.norm;       
+            }
+        }
     } // namespace sys
 } // namespace zef
 

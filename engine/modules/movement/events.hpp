@@ -15,6 +15,9 @@ namespace zef {
         struct collision {
             size_t other;
         };
+        struct startCollision {
+            size_t other;
+        };
     } // namespace evt
 } // namespace zef
 

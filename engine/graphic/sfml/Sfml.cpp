@@ -6,12 +6,12 @@
 */
 
 #include "./Sfml.hpp"
+#include "Sfml.hpp"
 
 namespace zef{
  namespace graph {
-  extern "C" Sfml *entryPoint() {
-    return new Sfml;
-  }
+  
+  
 
   void Sfml::initialize(std::string path) {
 
@@ -21,8 +21,11 @@ namespace zef{
       throw WindowCreationException();
       return;
     }
-    _window.setFramerateLimit(60);
-
+    //_window.setFramerateLimit(60);
+    sf::View view({0, 0}, {1920, 1080});
+    view.setCenter(0, 0);
+    _window.setView(view);
+//
     loadAssets(path);
   }
 
@@ -124,22 +127,65 @@ namespace zef{
       _animations[name.c_str()] = animation;
   };
 
-  void Sfml::moveCamera(int X, int Y, int Z){
+  void Sfml::setCamera(int X, int Y, int Z){
     if (!_window.getView().getViewport().width) {
         sf::View defaultView = _window.getDefaultView();
         _window.setView(defaultView);
     }
     sf::View view = _window.getView();
-
     view.move(X,Y);
     view.zoom(1.0f + Z / 100.0f);
     _window.setView(view);
 
   };
 
+  void Sfml::moveCamera(int X, int Y, int Z){
+    if (!_window.getView().getViewport().width) {
+        sf::View defaultView = _window.getDefaultView();
+        _window.setView(defaultView);
+    }
+    sf::View view = _window.getView();
+    view.setCenter(view.getCenter().x + X,view.getCenter().y + Y);
+    view.zoom(1.0f + Z / 100.0f);
+    _window.setView(view);
+
+  };
+
+  void Sfml::updateUserInputs(utils::UserInputs &ui) {
+    sf::Event evt;
+    while (_window.pollEvent(evt))
+    {
+      if (evt.type == evt.KeyPressed) {
+        if (ui.keyboard._key_map[static_cast<utils::Keys>(evt.key.code)] == false)
+          ui.keyboard._pressed.push_back(static_cast<utils::Keys>(evt.key.code));
+        ui.keyboard._key_map[static_cast<utils::Keys>(evt.key.code)] = true;
+      }
+      if (evt.type == evt.KeyReleased) {
+        ui.keyboard._key_map[static_cast<utils::Keys>(evt.key.code)] = false;
+        ui.keyboard._released.push_back(static_cast<utils::Keys>(evt.key.code));
+      }
+      if (evt.type == evt.MouseButtonPressed) {
+        if (ui.mouse._mb_map[static_cast<utils::MouseButtons>(evt.mouseButton.button)] == false)
+          ui.mouse._pressed.push_back(static_cast<utils::MouseButtons>(evt.mouseButton.button));
+        ui.mouse._mb_map[static_cast<utils::MouseButtons>(evt.mouseButton.button)] = true;
+      }
+      if (evt.type == evt.MouseButtonReleased) {
+        ui.mouse._mb_map[static_cast<utils::MouseButtons>(evt.mouseButton.button)] = false;
+        ui.mouse._released.push_back(static_cast<utils::MouseButtons>(evt.mouseButton.button));
+      }
+      
+      sf::Vector2i mousePosWindow = sf::Mouse::getPosition(_window);
+      sf::Vector2f mousePosInView = _window.mapPixelToCoords(mousePosWindow);
+
+      ui.mouse.x = mousePosInView.x;
+      ui.mouse.y = mousePosInView.y;
+    }
+    
+
+  }
 
 
-  UserInput Sfml::getEvent(){
+  UserInput Sfml::getEvent() {
     UserInput userInput;
 
     sf::Event event;
@@ -161,6 +207,13 @@ namespace zef{
     }
     return userInput;
   };
+
+
+  IDisplayModule* entryPoint() {
+    return new Sfml;
+  }
+
+
  }
 
 }

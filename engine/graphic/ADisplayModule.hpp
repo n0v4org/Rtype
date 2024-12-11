@@ -14,10 +14,10 @@ namespace zef {
     namespace graph {
 
 template<typename PNG, typename WAV, typename TTF, typename VERT>
-class ADisplayModule : IDisplayModule{
+class ADisplayModule : public IDisplayModule{
   public:
     ADisplayModule()=default;
-    ~ADisplayModule()=default;
+    virtual ~ADisplayModule()=default;
     virtual void initialize(std::string) = 0;
     virtual void stop() = 0;
     virtual void clear() = 0;
@@ -102,7 +102,11 @@ class ADisplayModule : IDisplayModule{
     //virtual void saveAnimation(std::string, Animation_t)=0;
     virtual void saveAnimation(std::string, std::string, std::size_t, std::size_t, std::size_t, std::size_t) = 0;
 
+    virtual void setCamera(int,int,int)=0;
     virtual void moveCamera(int,int,int)=0;
+
+    virtual void updateUserInputs(utils::UserInputs& ui) = 0;
+
 
   protected:
     std::map<std::string,Animation_t> _animations;
