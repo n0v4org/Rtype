@@ -21,7 +21,7 @@
 namespace zef{
 namespace graph{
 
-class Sfml : public ADisplayModule<sf::Texture, sf::SoundBuffer, sf::Font, sf::Shader>{
+class Sfml : public ADisplayModule<std::pair<sf::Sprite,sf::Texture>, sf::SoundBuffer, sf::Font, sf::Shader>{
 
   public:
     ~Sfml();
