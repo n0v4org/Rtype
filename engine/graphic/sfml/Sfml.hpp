@@ -40,10 +40,10 @@ class Sfml : public ADisplayModule<sf::Texture, sf::SoundBuffer, sf::Font, sf::S
     void storeAssetsTTF(std::string)override;
     void storeAssetsVERT(std::string)override;
 
-    //void drawSprite(DrawableSprite_t) override;
     void drawSprite(std::string, std::size_t, int, int, float, float, float, float) override;
-    //void drawText(DrawableText_t) override;
     void drawText(std::string, std::string, std::size_t, int, int, float, float, float, float) override;
+    void drawSpriteHUD(std::string, std::size_t, int, int, float, float, float, float) override;
+    void drawTextHUD(std::string, std::string, std::size_t, int, int, float, float, float, float) override;
 
 
     void playSound(std::string)override;

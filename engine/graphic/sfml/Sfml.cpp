@@ -41,7 +41,6 @@ namespace graph{
   Sfml::~Sfml() {
   }
 
-  //void Sfml::drawSprite(DrawableSprite_t toDraw) {
   void Sfml::drawSprite(std::string animationName, std::size_t currentFrame, int posX, int posY, float scaleX, float scaleY, float rotation, float opacity) {
     const zef::graph::Animation_t anim = _animations.at(animationName);
     const sf::Texture &texture = _sprites.at(anim.SpriteSheet);

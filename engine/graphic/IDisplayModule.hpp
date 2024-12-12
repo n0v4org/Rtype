@@ -89,10 +89,10 @@ namespace graph{
       virtual void storeAssetsVERT(std::string assetPath)=0;
       virtual void configAssetsAnimations(std::string animationConfigPath)=0;
 
-      //virtual void drawSprite(DrawableSprite_t) = 0;
       virtual void drawSprite(std::string animationName, std::size_t currentFrame, int posX, int posY, float scaleX, float scaleY, float rotation, float opactiy) = 0;
-      //virtual void drawText(DrawableText_t) = 0;
       virtual void drawText(std::string textString, std::string fontName, std::size_t fontSize, int posX, int posY, float scaleX, float sclaeY, float rotation, float opacity) = 0;
+      virtual void drawSpriteHUD(std::string animationName, std::size_t currentFrame, int posX, int posY, float scaleX, float scaleY, float rotation, float opactiy) = 0;
+      virtual void drawTextHUD(std::string textString, std::string fontName, std::size_t fontSize, int posX, int posY, float scaleX, float sclaeY, float rotation, float opacity) = 0;
 
       virtual void playSound(std::string soundName) = 0;
 
