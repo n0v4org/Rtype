@@ -48,7 +48,6 @@ class Sfml : public ADisplayModule<sf::Texture, sf::SoundBuffer, sf::Font, sf::S
 
     void playSound(std::string)override;
 
-    //void saveAnimation(std::string, Animation_t) override;
     void saveAnimation(std::string, std::string, std::size_t, std::size_t, std::size_t, std::size_t) override;
 
     void setCamera(int,int,int) override;

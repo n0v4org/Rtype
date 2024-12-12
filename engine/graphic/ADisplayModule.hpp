@@ -84,14 +84,36 @@ class ADisplayModule : public IDisplayModule{
           storeAssetsVERT(i.path());
         }
       }
-      if (std::filesystem::exists(assetFolderPath + "/Config/Animations.txt")) {
-        configAssetsAnimations(assetFolderPath + "/Config/Animations.txt");
+      if (std::filesystem::exists(assetFolderPath + "/config/Animations.txt")) {
+        configAssetsAnimations(assetFolderPath + "/config/Animations.txt");
       }
 
     };
 
-    void configAssetsAnimations(std::string assetPath) override{};
+    void configAssetsAnimations(std::string assetPath) override{
+      std::ifstream file(assetPath);
+   	  std::string line;
 
+      if (!file.is_open()) {
+        return;
+      }
+
+      while (std::getline(file, line)) {
+        if (line.empty() || line[0] == '#') {
+          continue;
+        }
+
+        std::istringstream stream(line);
+        std::string animationName, spriteSheetName;
+        std::size_t startTileX, startTileY, tileSizeX, tileSizeY;
+
+        if (stream >> animationName >> spriteSheetName >> startTileX >> startTileY >> tileSizeX >> tileSizeY) {
+          saveAnimation(animationName, spriteSheetName, startTileX, startTileY, tileSizeX, tileSizeY);
+          std::cout << "Loaded animation :" << animationName << std::endl;
+        }
+      }
+      file.close();
+    };
 
     virtual void storeAssetsPNG(std::string assetPath)=0;
     virtual void storeAssetsWAV(std::string assetPath)=0;
@@ -105,7 +127,6 @@ class ADisplayModule : public IDisplayModule{
 
     virtual void playSound(std::string soundName) = 0;
 
-    //virtual void saveAnimation(std::string, Animation_t)=0;
     virtual void saveAnimation(std::string animationName, std::string spriteSheetName, std::size_t startTileX, std::size_t startTileY, std::size_t tileSizeX, std::size_t tileSizeY) = 0;
 
     virtual void setCamera(int x, int y, int z)=0;

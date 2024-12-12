@@ -15,6 +15,8 @@
 #include <map>
 #include <vector>
 #include <filesystem>
+#include <fstream>
+#include <sstream>
 #include <iostream>
 
 #include "../utils/inputsUtils.hpp"
@@ -96,7 +98,6 @@ namespace graph{
 
       virtual void playSound(std::string soundName) = 0;
 
-      //virtual void saveAnimation(std::string, Animation_t)=0;
       virtual void saveAnimation(std::string animationName, std::string spriteSheetName, std::size_t startTileX, std::size_t startTileY, std::size_t tileSizeX, std::size_t tileSizeY) = 0;
 
       virtual void setCamera(int x, int y, int z)=0;
