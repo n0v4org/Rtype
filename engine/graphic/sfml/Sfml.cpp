@@ -17,12 +17,23 @@ namespace graph{
     if (!_window.isOpen()) {
       throw WindowCreationException();
     }
-    _window.setFramerateLimit(60);
 
+    sf::View view({0, 0}, {1920, 1080});
+    sf::View HUD({0, 0}, {1920, 1080});
+//    view.setCenter(0, 0);
+//    HUD.setCenter(0,0);
+	_views["Default"] = view;
+	_views["HUD"] = HUD;
+
+    _window.setView(view);
     loadAssets(assetFolderPath);
   }
 
   void Sfml::refresh() {
+    _window.setView(_views["Default"]);
+//    _window.draw(_views["Default"]);
+    _window.setView(_views["HUD"]);
+//    _window.draw(_views["HUD"]);
     _window.display();
   }
 
@@ -55,10 +66,30 @@ namespace graph{
     sprite.setPosition(posX, posY);
     sprite.setScale(scaleX, scaleY);
 
+    _window.setView(_views["Default"]);
     _window.draw(sprite);
   };
 
-  //void Sfml::drawText(DrawableText_t toDraw) {
+  void Sfml::drawSpriteHUD(std::string animationName, std::size_t currentFrame, int posX, int posY, float scaleX, float scaleY, float rotation, float opacity) {
+    const zef::graph::Animation_t anim = _animations.at(animationName);
+    sf::Sprite sprite = _sprites.at(anim.SpriteSheet).first;
+    sf::Texture texture = _sprites.at(anim.SpriteSheet).second;
+    sf::IntRect rect(anim.Size.first * currentFrame + anim.StartPos.first, anim.StartPos.second * anim.Size.second, anim.Size.first, anim.Size.second);
+    sf::Color color(255, 255, 255, 255 * opacity);
+
+    sprite.setTexture(texture);
+    sprite.setTextureRect(rect);
+    sprite.setColor(color);
+    sprite.setRotation(rotation);
+
+    sprite.setOrigin(anim.Size.first / 2, anim.Size.second / 2);
+    sprite.setPosition(posX, posY);
+    sprite.setScale(scaleX, scaleY);
+
+    _window.setView(_views["HUD"]);
+    _window.draw(sprite);
+  };
+
   void Sfml::drawText(std::string textString, std::string fontName,std::size_t fontSize, int posX, int posY, float scaleX, float scaleY, float rotation, float opacity) {
     sf::Font font = _fonts.find(fontName)->second;
     sf::Text text(textString, font, fontSize);
@@ -67,8 +98,22 @@ namespace graph{
     text.setScale(scaleX, scaleY);
     text.setRotation(rotation);
 
-    /*setorigin X-left Y-middle*/
+    /*setorigin middle*/
 
+    _window.setView(_views["Default"]);
+    _window.draw(text);
+  };
+
+  void Sfml::drawTextHUD(std::string textString, std::string fontName,std::size_t fontSize, int posX, int posY, float scaleX, float scaleY, float rotation, float opacity) {
+    sf::Font font = _fonts.find(fontName)->second;
+    sf::Text text(textString, font, fontSize);
+
+    text.setPosition(posX, posY);
+    text.setScale(scaleX, scaleY);
+    text.setRotation(rotation);
+
+    /*setorigin middle*/
+    _window.setView(_views["HUD"]);
     _window.draw(text);
   };
 
@@ -126,6 +171,19 @@ namespace graph{
     }
     sf::View view = _window.getView();
 
+    _views["Default"].setCenter(_views["Default"].getCenter().x + X,_views["Default"].getCenter().y + Y);
+    _views["Default"].move(X,Y);
+    _views["Default"].zoom(1.0f + Z / 100.0f);
+    _window.setView(_views["Default"]);
+
+  };
+
+  void Sfml::setCamera(int X, int Y, int Z){
+    if (!_window.getView().getViewport().width) {
+        sf::View defaultView = _window.getDefaultView();
+        _window.setView(defaultView);
+    }
+    sf::View view = _window.getView();
     view.move(X,Y);
     view.zoom(1.0f + Z / 100.0f);
     _window.setView(view);

@@ -60,6 +60,8 @@ class Sfml : public ADisplayModule<sf::Texture, sf::SoundBuffer, sf::Font, sf::S
   private:
     sf::RenderWindow _window;
     std::pair<int,int> _windowSize= std::make_pair(1920,1080);
+    std::map<std::string, sf::View> _views;
+
 };
 
 class WindowCreationException : public std::exception {
