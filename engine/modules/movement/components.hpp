@@ -11,17 +11,11 @@
 #include <vector>
 #include <string>
 #include "../../utils/hitbox.hpp"
+#include "../../utils/positions.hpp"
 
 namespace zef {
     namespace comp {
-        class position {
-            public:
-                position(float posX, float posY): x(posX), y(posY) {}
-                ~position() = default;
-
-                float x;
-                float y;
-        };
+        
         class vector {
             public:
                 vector(float posX, float posY, float vec_norm): x(posX), y(posY), norm(vec_norm) {}

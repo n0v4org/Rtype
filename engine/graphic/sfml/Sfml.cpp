@@ -21,7 +21,7 @@ namespace zef{
       throw WindowCreationException();
       return;
     }
-    //_window.setFramerateLimit(60);
+    _window.setFramerateLimit(60);
     sf::View view({0, 0}, {1920, 1080});
     view.setCenter(0, 0);
     _window.setView(view);
@@ -139,14 +139,14 @@ namespace zef{
 
   };
 
-  void Sfml::moveCamera(int X, int Y, int Z){
+  void Sfml::moveCamera(int X, int Y, float Z){
     if (!_window.getView().getViewport().width) {
         sf::View defaultView = _window.getDefaultView();
         _window.setView(defaultView);
     }
     sf::View view = _window.getView();
     view.setCenter(view.getCenter().x + X,view.getCenter().y + Y);
-    view.zoom(1.0f + Z / 100.0f);
+    view.zoom(Z);
     _window.setView(view);
 
   };

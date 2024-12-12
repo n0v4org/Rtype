@@ -56,6 +56,15 @@ namespace zef
                     return loop_animation_speed;
                 }
 
+
+                void setScale(float x, float y) {
+                    scaleX = x;
+                    scaleY = y;
+                }
+
+                float scaleX = 1.0;
+                float scaleY = 1.0;
+
                 size_t current_frame = 0;
 
                 std::string loop_animation = "";
@@ -64,7 +73,7 @@ namespace zef
                 std::string animation = "";
                 float speed;
 
-
+                int layer;
                 size_t timer = 0;
 
                 std::map<std::string, std::pair<size_t, size_t>> _animation_sizes;

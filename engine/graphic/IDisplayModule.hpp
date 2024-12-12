@@ -102,7 +102,7 @@ namespace zef{
       virtual void saveAnimation(std::string, std::string, std::size_t, std::size_t, std::size_t, std::size_t) = 0;
 
       virtual void setCamera(int,int,int)=0;
-      virtual void moveCamera(int,int,int)=0;
+      virtual void moveCamera(int,int,float)=0;
 
       virtual void updateUserInputs(utils::UserInputs& ui) = 0;
 

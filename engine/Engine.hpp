@@ -11,6 +11,7 @@
 #include <map>
 #include <memory>
 #include <queue>
+#include <thread>
 
 
 #include "graphic/sfml/Sfml.hpp"
@@ -23,6 +24,10 @@
 #include "Events.hpp"
 #include "utils/inputsUtils.hpp"
 
+#include "Scene.hpp"
+
+
+#include "Patron.hpp"
 
 
 
@@ -114,6 +119,18 @@ namespace zef {
       return new_entity;
     }
 
+    template <typename Scene>
+    void loadScene() {
+      Scene::loadScene(*this);
+    }
+
+    template <typename Scene>
+    void registerScene() {
+      
+    }
+
+
+
     void updateUserInputs() {
       _user_inputs.keyboard._released.clear();
       _user_inputs.keyboard._pressed.clear();
@@ -133,7 +150,25 @@ namespace zef {
       GraphLib->initialize(assetFolder);
     }
 
+   
 
+
+  void loadScene(const std::string& name) {
+    _next_scene = name;
+  }
+
+  template <typename T>
+  void _loadScene() {
+    
+    T::loadScene(*this);
+  } 
+
+  template <typename T>
+  void registerScene(const std::string& name ) {
+    _scenes[name] = [](Engine& engine) {
+      engine._loadScene<T>();
+    };
+  } 
 
     void run() {
       clock = std::chrono::high_resolution_clock::now();
@@ -143,17 +178,24 @@ namespace zef {
         
 
         
-        if (GraphLib)
-          GraphLib->clear();
+          if (GraphLib)
+            GraphLib->clear();
 
-        reg.run_systems(*this);
+          reg.run_systems(*this);
 
-        if (GraphLib)
-          GraphLib->refresh();
+          if (GraphLib)
+            GraphLib->refresh();
+
+          if (_next_scene != "") {
+            for (int i = 0; i < reg.getMaxId() ; i++) {
+              reg.kill_entity(ecs::Entity(i));
+            }
+            _scenes[_next_scene](*this);
+            _next_scene = "";
+          }
 
       }
     }
-
 
     std::unique_ptr<zef::graph::IDisplayModule> GraphLib;
     std::chrono::high_resolution_clock::time_point clock;// = std::chrono::high_resolution_clock::now();
@@ -164,27 +206,19 @@ namespace zef {
 
     utils::UserInputs _user_inputs;
     std::queue<Event> _events;
+
+
+
+    std::map<std::string, std::function<void(Engine&)>> _scenes;
+    std::string _next_scene = "";
   };
 
 
 
   namespace sys
   {
-    void resolveEvent(Engine& engine, ecs::sparse_array<comp::event_listener>& evtls) {
-      while (!engine._events.empty()) {
-        Event evt = engine._events.front();
-        if (engine.reg.get_components<comp::event_listener>().size() > evt.entity && engine.reg.get_entity_component<comp::event_listener>(
-                evt.entity)) {  // handle error when the entity dont handle the
-                                // event
-          if (engine.reg.get_entity_component<comp::event_listener>(evt.entity)->_functions.find(evt.tid)
-          != engine.reg.get_entity_component<comp::event_listener>(evt.entity)->_functions.end())
-            engine.reg.get_entity_component<comp::event_listener>(evt.entity)
-                ->_functions[evt.tid](engine, evt.entity, evt);
-        }
-        engine._events.pop();
-      }
-    }
-  } // namespace sys
+    void resolveEvent(Engine& engine, ecs::sparse_array<comp::event_listener>& evtls);
+  }
 }  // namespace zef
 
 #endif  // ENGINE_ENGINE_HPP_

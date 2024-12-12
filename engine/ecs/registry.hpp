@@ -146,6 +146,14 @@ namespace ecs {
       }
     }
 
+    size_t getEntityCount() {
+      return _entityCount;
+    }
+
+    size_t getMaxId() {
+      return _maxId;
+    }
+
   private:
     size_t _entityCount = 0;
     std::unordered_map<std::type_index, std::any> _components_arrays;
