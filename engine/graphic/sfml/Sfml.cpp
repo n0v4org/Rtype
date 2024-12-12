@@ -135,6 +135,38 @@ namespace graph{
 
 
 
+  void Sfml::updateUserInputs(utils::UserInputs &ui) {
+    sf::Event evt;
+    while (_window.pollEvent(evt))
+    {
+      if (evt.type == evt.KeyPressed) {
+        if (ui.keyboard._key_map[static_cast<utils::Keys>(evt.key.code)] == false)
+          ui.keyboard._pressed.push_back(static_cast<utils::Keys>(evt.key.code));
+        ui.keyboard._key_map[static_cast<utils::Keys>(evt.key.code)] = true;
+      }
+      if (evt.type == evt.KeyReleased) {
+        ui.keyboard._key_map[static_cast<utils::Keys>(evt.key.code)] = false;
+        ui.keyboard._released.push_back(static_cast<utils::Keys>(evt.key.code));
+      }
+      if (evt.type == evt.MouseButtonPressed) {
+        if (ui.mouse._mb_map[static_cast<utils::MouseButtons>(evt.mouseButton.button)] == false)
+          ui.mouse._pressed.push_back(static_cast<utils::MouseButtons>(evt.mouseButton.button));
+        ui.mouse._mb_map[static_cast<utils::MouseButtons>(evt.mouseButton.button)] = true;
+      }
+      if (evt.type == evt.MouseButtonReleased) {
+        ui.mouse._mb_map[static_cast<utils::MouseButtons>(evt.mouseButton.button)] = false;
+        ui.mouse._released.push_back(static_cast<utils::MouseButtons>(evt.mouseButton.button));
+      }
+
+      sf::Vector2i mousePosWindow = sf::Mouse::getPosition(_window);
+      sf::Vector2f mousePosInView = _window.mapPixelToCoords(mousePosWindow);
+
+      ui.mouse.x = mousePosInView.x;
+      ui.mouse.y = mousePosInView.y;
+    }
+  }
+
+
   UserInput Sfml::getEvent(){
     UserInput userInput;
 
@@ -157,6 +189,10 @@ namespace graph{
     }
     return userInput;
   };
+
+  IDisplayModule* entryPoint() {
+    return new Sfml;
+  }
 
 }
 }

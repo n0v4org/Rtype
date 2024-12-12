@@ -17,6 +17,8 @@
 #include <filesystem>
 #include <iostream>
 
+#include "../utils/inputsUtils.hpp"
+
 namespace zef{
 namespace graph{
 
@@ -72,15 +74,12 @@ namespace graph{
 
   class IDisplayModule{
     public:
-      ~IDisplayModule()=default;
+      virtual ~IDisplayModule()=default;
       virtual void initialize(std::string assetFolderPath, std::string windowName) = 0;
       virtual void stop() = 0;
       virtual void clear() = 0;
       virtual void refresh() = 0;
       virtual bool isOpen() = 0;
-
-
-      virtual UserInput getEvent() = 0;
 
       virtual void loadAssets(std::string assetFolderPath)=0;
 
@@ -100,11 +99,16 @@ namespace graph{
       //virtual void saveAnimation(std::string, Animation_t)=0;
       virtual void saveAnimation(std::string animationName, std::string spriteSheetName, std::size_t startTileX, std::size_t startTileY, std::size_t tileSizeX, std::size_t tileSizeY) = 0;
 
-      virtual void moveCamera(int x,int y,int z)=0;
+      virtual void setCamera(int x, int y, int z)=0;
+      virtual void moveCamera(int x, int y, int z)=0;
+
+      virtual UserInput getEvent() = 0;
+      virtual void updateUserInputs(utils::UserInputs& ui) = 0;
 
     protected:
     private:
   };
+  IDisplayModule* entryPoint();
 
 }
 }

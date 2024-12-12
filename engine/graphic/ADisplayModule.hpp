@@ -17,7 +17,7 @@ template<typename PNG, typename WAV, typename TTF, typename VERT>
 class ADisplayModule : public IDisplayModule{
   public:
     ADisplayModule()=default;
-    ~ADisplayModule()=default;
+    virtual ~ADisplayModule()=default;
     virtual void initialize(std::string assetFolderPath, std::string windowName) = 0;
     virtual void stop() = 0;
     virtual void clear() = 0;
@@ -110,7 +110,11 @@ class ADisplayModule : public IDisplayModule{
     //virtual void saveAnimation(std::string, Animation_t)=0;
     virtual void saveAnimation(std::string animationName, std::string spriteSheetName, std::size_t startTileX, std::size_t startTileY, std::size_t tileSizeX, std::size_t tileSizeY) = 0;
 
-    virtual void moveCamera(int x,int y,int z)=0;
+    virtual void setCamera(int x, int y, int z)=0;
+    virtual void moveCamera(int x, int y, int z)=0;
+
+    virtual UserInput getEvent() = 0;
+    virtual void updateUserInputs(utils::UserInputs& ui) = 0;
 
   protected:
     std::map<std::string,Animation_t> _animations;
