@@ -5,20 +5,19 @@
 ** Tcp
 */
 
-#ifndef TCP_HPP_
-#define TCP_HPP_
+#ifndef SERVER_INCLUDE_NETWORKING_TCP_CONNECTION_HPP_
+#define SERVER_INCLUDE_NETWORKING_TCP_CONNECTION_HPP_
 
 #include <string>
-#include <asio.hpp>
 #include <memory>
 #include <iostream>
-#include "macro.hpp"
+#include <asio.hpp>
 
 using asio::ip::tcp;
 
 
-namespace rtype {
-namespace net {
+namespace network {
+    namespace lobby {
         class Connection
   : public std::enable_shared_from_this<Connection>
 {
@@ -35,30 +34,49 @@ public:
     return socket_;
   }
 
-  void start()
+  void write(std::string msg)
   {
-    socket_.async_read_some(asio::buffer(_data, BUFFER_SIZE),
+    asio::async_write(socket_, asio::buffer("test"),
         std::bind(&Connection::handle_write, shared_from_this(),
           asio::placeholders::error,
           asio::placeholders::bytes_transferred));
   }
 
+  void start()
+  {
+    write("200");
+  }
+
 private:
-  Connection(asio::io_context& io_context)
+  explicit Connection(asio::io_context& io_context)
     : socket_(io_context)
   {
   }
+
+  void read() {
+    socket_.async_read_some(asio::buffer(_data, 1024),
+        std::bind(&Connection::handle_read, shared_from_this(),
+          asio::placeholders::error,
+          asio::placeholders::bytes_transferred));
+  }
+
   void handle_write(const std::error_code& /*error*/,
       size_t bytes_transferred)
   {
+    read();
+  }
+
+  void handle_read(const std::error_code& /*error*/,
+      size_t bytes_transferred)
+  {
     std::cout << std::string(_data, bytes_transferred) << std::endl;
-    start();
+    read();
   }
   asio::ip::tcp::socket socket_;
   std::string message_;
-  char _data[BUFFER_SIZE];
+  char _data[1024];
 };
+    }
   }  // namespace net
-}  // namespace rtype
 
-#endif /* !TCP_HPP_ */
+#endif  // SERVER_INCLUDE_NETWORKING_TCP_CONNECTION_HPP_

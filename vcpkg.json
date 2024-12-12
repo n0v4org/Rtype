@@ -1,6 +1,7 @@
 {
   "dependencies": [
     "gtest",
-    "asio"
+    "asio",
+    "nlohmann-json"
   ]
 }

@@ -26,7 +26,7 @@ namespace rtype {
     _args   = std::make_unique<Arguments>(argc, argv);
     // _server = std::make_unique<net::Server>(_args->get_game_port(),
     //                                         _args->get_debug(), _io_service);
-    _lobby = std::make_unique<net::Lobby>(_args->get_lobby_port(), _args->get_debug(),_io_service);
+    _lobby = std::make_unique<network::lobby::Server>(_args->get_lobby_port(), _args->get_debug(),_io_service);
   }
 
   void Core::run() {

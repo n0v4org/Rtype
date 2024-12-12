@@ -1,0 +1,14 @@
+{
+    "JOIN": {
+        "params": {
+            "nb_args": 1,
+            "types": ["string"]
+        }
+    },
+    "QUIT": {
+        "params": {
+            "nb_args": 2,
+            "types": ["string", "int"]
+        }
+    }
+}
