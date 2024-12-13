@@ -51,12 +51,12 @@ namespace graph{
   Sfml::~Sfml() {
   }
 
-  void Sfml::drawSprite(std::string animationName, std::size_t currentFrame, int posX, int posY, float scaleX, float scaleY, float rotation, float opacity) {
+  void Sfml::drawSprite(std::string animationName, std::size_t currentFrame, int posX, int posY, float scaleX, float scaleY, float rotation, RGBA mask) {
     const zef::graph::Animation_t anim = _animations.at(animationName);
     sf::Sprite sprite = _sprites.at(anim.SpriteSheet).first;
     sf::Texture texture = _sprites.at(anim.SpriteSheet).second;
     sf::IntRect rect(anim.Size.first * currentFrame + anim.StartPos.first, anim.StartPos.second * anim.Size.second, anim.Size.first, anim.Size.second);
-    sf::Color color(255, 255, 255, 255 * opacity);
+    sf::Color color(255 * mask.R, 255 * mask.G, 255 * mask.B, 255 * mask.A);
 
     sprite.setTexture(texture);
     sprite.setTextureRect(rect);
@@ -71,12 +71,12 @@ namespace graph{
     _window.draw(sprite);
   };
 
-  void Sfml::drawSpriteHUD(std::string animationName, std::size_t currentFrame, int posX, int posY, float scaleX, float scaleY, float rotation, float opacity) {
+  void Sfml::drawSpriteHUD(std::string animationName, std::size_t currentFrame, int posX, int posY, float scaleX, float scaleY, float rotation, RGBA mask) {
     const zef::graph::Animation_t anim = _animations.at(animationName);
     sf::Sprite sprite = _sprites.at(anim.SpriteSheet).first;
     sf::Texture texture = _sprites.at(anim.SpriteSheet).second;
     sf::IntRect rect(anim.Size.first * currentFrame + anim.StartPos.first, anim.StartPos.second * anim.Size.second, anim.Size.first, anim.Size.second);
-    sf::Color color(255, 255, 255, 255 * opacity);
+    sf::Color color(255 * mask.R, 255 * mask.G, 255 * mask.B, 255 * mask.A);
 
     sprite.setTexture(texture);
     sprite.setTextureRect(rect);
@@ -91,12 +91,14 @@ namespace graph{
     _window.draw(sprite);
   };
 
-  void Sfml::drawText(std::string textString, std::string fontName,std::size_t fontSize, int posX, int posY, float scaleX, float scaleY, float rotation, float opacity) {
+  void Sfml::drawText(std::string textString, std::string fontName,std::size_t fontSize, int posX, int posY, float scaleX, float scaleY, float rotation, RGBA mask) {
     sf::Font font = _fonts.find(fontName)->second;
     sf::Text text(textString, font, fontSize);
+    sf::Color color(255 * mask.R, 255 * mask.G, 255 * mask.B, 255 * mask.A);
 
     text.setPosition(posX, posY);
     text.setScale(scaleX, scaleY);
+    text.setColor(color);
     text.setRotation(rotation);
 
     /*setorigin middle*/
@@ -105,12 +107,14 @@ namespace graph{
     _window.draw(text);
   };
 
-  void Sfml::drawTextHUD(std::string textString, std::string fontName,std::size_t fontSize, int posX, int posY, float scaleX, float scaleY, float rotation, float opacity) {
+  void Sfml::drawTextHUD(std::string textString, std::string fontName,std::size_t fontSize, int posX, int posY, float scaleX, float scaleY, float rotation, RGBA mask) {
     sf::Font font = _fonts.find(fontName)->second;
     sf::Text text(textString, font, fontSize);
+    sf::Color color(255 * mask.R, 255 * mask.G, 255 * mask.B, 255 * mask.A);
 
     text.setPosition(posX, posY);
     text.setScale(scaleX, scaleY);
+    text.setColor(color);
     text.setRotation(rotation);
 
     /*setorigin middle*/

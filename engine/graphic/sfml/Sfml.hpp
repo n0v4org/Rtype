@@ -39,10 +39,10 @@ class Sfml : public ADisplayModule<std::pair<sf::Sprite,sf::Texture>, sf::SoundB
     void storeAssetsTTF(std::string assetPath)override;
     void storeAssetsVERT(std::string assetPath)override;
 
-    void drawSprite(std::string animationName, std::size_t currentFrame, int posX, int posY, float scaleX, float scaleY, float roation, float opacity) override;
-    void drawText(std::string textString, std::string fontName, std::size_t fontSize, int posX, int posY, float scaleX, float scaleY, float roation, float opacity) override;
-    void drawSpriteHUD(std::string animationName, std::size_t currentFrame, int posX, int posY, float scaleX, float scaleY, float roation, float opacity) override;
-    void drawTextHUD(std::string textString, std::string fontName, std::size_t fontSize, int posX, int posY, float scaleX, float scaleY, float roation, float opacity) override;
+    void drawSprite(std::string animationName, std::size_t currentFrame, int posX, int posY, float scaleX, float scaleY, float roation, RGBA mask) override;
+    void drawText(std::string textString, std::string fontName, std::size_t fontSize, int posX, int posY, float scaleX, float scaleY, float roation, RGBA mask) override;
+    void drawSpriteHUD(std::string animationName, std::size_t currentFrame, int posX, int posY, float scaleX, float scaleY, float roation, RGBA mask) override;
+    void drawTextHUD(std::string textString, std::string fontName, std::size_t fontSize, int posX, int posY, float scaleX, float scaleY, float roation, RGBA mask) override;
 
     void playSound(std::string)override;
 
