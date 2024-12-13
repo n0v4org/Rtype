@@ -130,7 +130,7 @@ class ADisplayModule : public IDisplayModule{
     virtual void saveAnimation(std::string animationName, std::string spriteSheetName, std::size_t startTileX, std::size_t startTileY, std::size_t tileSizeX, std::size_t tileSizeY) = 0;
 
     virtual void setCamera(int x, int y, int z)=0;
-    virtual void moveCamera(int x, int y, int z)=0;
+    virtual void moveCamera(int x, int y, float z)=0;
 
     virtual UserInput getEvent() = 0;
     virtual void updateUserInputs(utils::UserInputs& ui) = 0;

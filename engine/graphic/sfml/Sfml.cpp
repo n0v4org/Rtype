@@ -166,29 +166,27 @@ namespace graph{
       _animations[animationName.c_str()] = animation;
   };
 
-  void Sfml::moveCamera(int X, int Y, int Z){
+  void Sfml::moveCamera(int X, int Y, float Z){
     if (!_window.getView().getViewport().width) {
         sf::View defaultView = _window.getDefaultView();
-        _window.setView(defaultView);
+        _views["Default"] = defaultView;
     }
-    sf::View view = _window.getView();
 
     _views["Default"].setCenter(_views["Default"].getCenter().x + X,_views["Default"].getCenter().y + Y);
-    _views["Default"].move(X,Y);
-    _views["Default"].zoom(1.0f + Z / 100.0f);
+  //_views["Default"].move(X,Y);
+    _views["Default"].zoom(Z);
     _window.setView(_views["Default"]);
-
   };
 
   void Sfml::setCamera(int X, int Y, int Z){
     if (!_window.getView().getViewport().width) {
         sf::View defaultView = _window.getDefaultView();
-        _window.setView(defaultView);
+        _views["Default"] = defaultView;
     }
-    sf::View view = _window.getView();
-    view.move(X,Y);
-    view.zoom(1.0f + Z / 100.0f);
-    _window.setView(view);
+
+    _views["Default"].move(X,Y);
+    _views["Default"].zoom(1.0f + Z / 100.0f);
+    _window.setView(_views["Default"]);
 
   };
 
