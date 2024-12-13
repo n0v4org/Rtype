@@ -27,24 +27,22 @@ class Sfml : public ADisplayModule<std::pair<sf::Sprite,sf::Texture>, sf::SoundB
     ~Sfml();
     Sfml() {}
 
-    void initialize(std::string, std::string)override;
+    void initialize(std::string assetFolderPath, std::string windowName)override;
     void stop() override;
     void clear() override;
     void refresh() override;
     bool isOpen() override;
 
-    UserInput getEvent() override;
 
-    void storeAssetsPNG(std::string)override;
-    void storeAssetsWAV(std::string)override;
-    void storeAssetsTTF(std::string)override;
-    void storeAssetsVERT(std::string)override;
+    void storeAssetsPNG(std::string assetPath)override;
+    void storeAssetsWAV(std::string assetPath)override;
+    void storeAssetsTTF(std::string assetPath)override;
+    void storeAssetsVERT(std::string assetPath)override;
 
-    void drawSprite(std::string, std::size_t, int, int, float, float, float, float) override;
-    void drawText(std::string, std::string, std::size_t, int, int, float, float, float, float) override;
-    void drawSpriteHUD(std::string, std::size_t, int, int, float, float, float, float) override;
-    void drawTextHUD(std::string, std::string, std::size_t, int, int, float, float, float, float) override;
-
+    void drawSprite(std::string animationName, std::size_t currentFrame, int posX, int posY, float scaleX, float scaleY, float roation, float opacity) override;
+    void drawText(std::string textString, std::string fontName, std::size_t fontSize, int posX, int posY, float scaleX, float scaleY, float roation, float opacity) override;
+    void drawSpriteHUD(std::string animationName, std::size_t currentFrame, int posX, int posY, float scaleX, float scaleY, float roation, float opacity) override;
+    void drawTextHUD(std::string textString, std::string fontName, std::size_t fontSize, int posX, int posY, float scaleX, float scaleY, float roation, float opacity) override;
 
     void playSound(std::string)override;
 
@@ -53,6 +51,7 @@ class Sfml : public ADisplayModule<std::pair<sf::Sprite,sf::Texture>, sf::SoundB
     void setCamera(int,int,int) override;
     void moveCamera(int,int,float) override;
 
+    UserInput getEvent() override;
     void updateUserInputs(utils::UserInputs& ui) override;
 
   protected:
