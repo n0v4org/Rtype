@@ -11,30 +11,17 @@
 #include "../../Engine.hpp"
 #include "components.hpp"
 #include "../../ecs/indexed_zipper.hpp"
+#include "../../utils/inputsUtils.hpp"
+#include "events.hpp"
 
 namespace zef
 {
     namespace sys
     {
-        void system_constrollables(zef::Engine& engine, ecs::sparse_array<zef::comp::controllable>& controllables) {
-            for (auto &&[i, co] : ecs::indexed_zipper(controllables)) {
-                zef::UserInputs ui = engine.getUserInputs();
-                
-                for (auto& k : ui.keyboard.PressedKeys) {
-                    if (co._pressed.find(k) != co._pressed.end()) {
-                        co._pressed[k](engine, i);
-                    }    
-                }
-                for (auto& k : ui.keyboard.ReleasedKeys) {
-                    if (co._released.find(k) != co._released.end()) {
-                        co._released[k](engine, i);
-                    }    
-                }
 
-
-
-            }
-        }
+        void system_constrollables(zef::Engine& engine, ecs::sparse_array<zef::comp::controllable>& controllables);
+        void update_user_inputs(zef::Engine& engine);
+        void handleclickable(zef::Engine& engine, ecs::sparse_array<zef::comp::clickable>& clickables, ecs::sparse_array<zef::comp::position>& positions);
     } // namespace sys
 } // namespace zef
 

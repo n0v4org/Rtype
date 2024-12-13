@@ -13,11 +13,10 @@ namespace graph{
   void Sfml::initialize(std::string assetFolderPath, std::string windowName) {
 
     _window.create(sf::VideoMode(_windowSize.first, _windowSize.second), windowName.c_str());
-
     if (!_window.isOpen()) {
       throw WindowCreationException();
     }
-
+    _window.setFramerateLimit(60);
     sf::View view({0, 0}, {1920, 1080});
     sf::View HUD({0, 0}, {1920, 1080});
 //    view.setCenter(0, 0);

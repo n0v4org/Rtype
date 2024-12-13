@@ -11,15 +11,42 @@
 #include <map>
 #include <memory>
 #include <queue>
+#include <thread>
+
+
+#include "graphic/sfml/Sfml.hpp"
+
+
+#include "graphic/IDisplayModule.hpp"
+#include "graphic/ADisplayModule.hpp"
 
 #include "ecs/registry.hpp"
 #include "Events.hpp"
-#include "modules/controller/InputsController.hpp"
+#include "utils/inputsUtils.hpp"
+
+#include "Scene.hpp"
+
+
+#include "Patron.hpp"
+
+
 
 namespace zef {
+
+  namespace sys
+  {
+    void resolveEvent(Engine& engine, ecs::sparse_array<comp::event_listener>& evtls);
+  } // namespace sys
+
   class Engine {
   public:
+
+    Engine() {
+      clock = std::chrono::high_resolution_clock::now();
+    }
     ecs::registry reg;
+
+    friend void sys::resolveEvent(Engine& engine, ecs::sparse_array<comp::event_listener>& evtls);
 
     template <typename T, typename... U>
     void sendEvent(size_t entity, U... args) {
@@ -29,6 +56,7 @@ namespace zef {
       evt.tid    = std::type_index(typeid(T));
       _events.push(evt);
     }
+
 
     void resolveEvent() {
       while (!_events.empty()) {
@@ -54,6 +82,11 @@ namespace zef {
     }
 
     template <typename Component>
+    void registerComponent() {
+      reg.register_component<Component>();
+    }
+
+    template <typename Component>
     void addEntityComponent(ecs::Entity e, Component&& c) {
       reg.add_component<Component>(e, c);
     }
@@ -73,6 +106,12 @@ namespace zef {
       reg.remove_component<Component>(e);
     }
 
+
+    template <class... Components, typename Function>
+    void addSystem(Function &&f) {
+      reg.add_system<Components...>(f);
+    }
+
     template <typename Patron, typename ...T>
     ecs::Entity instanciatePatron(T... args) {
       ecs::Entity new_entity = reg.spawn_entity();
@@ -80,22 +119,106 @@ namespace zef {
       return new_entity;
     }
 
-
-
-    UserInputs getUserInputs() {
-      UserInputs user_inputs;
-
-      user_inputs.mouse.x = 90;
-      user_inputs.mouse.y = 34;
-
-      user_inputs.keyboard.PressedKeys.push_back(zef::A);
-
-      return user_inputs;
+    template <typename Scene>
+    void loadScene() {
+      Scene::loadScene(*this);
     }
 
+    template <typename Scene>
+    void registerScene() {
+      
+    }
+
+
+
+    void updateUserInputs() {
+      _user_inputs.keyboard._released.clear();
+      _user_inputs.keyboard._pressed.clear();
+      _user_inputs.mouse._pressed.clear();
+      _user_inputs.mouse._released.clear();
+      GraphLib->updateUserInputs(_user_inputs);
+    }
+
+    const utils::UserInputs& getUserInputs() {
+      return _user_inputs;
+    }
+
+
+
+    void initGraphLib(const std::string& assetFolder, const std::string& windowName) {
+      GraphLib.reset(graph::entryPoint());
+      GraphLib->initialize(assetFolder);
+    }
+
+   
+
+
+  void loadScene(const std::string& name) {
+    _next_scene = name;
+  }
+
+  template <typename T>
+  void _loadScene() {
+    
+    T::loadScene(*this);
+  } 
+
+  template <typename T>
+  void registerScene(const std::string& name ) {
+    _scenes[name] = [](Engine& engine) {
+      engine._loadScene<T>();
+    };
+  } 
+
+    void run() {
+      clock = std::chrono::high_resolution_clock::now();
+      while (true) {
+        elapsed = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now() - clock);
+        clock = std::chrono::high_resolution_clock::now();
+        
+
+        
+          if (GraphLib)
+            GraphLib->clear();
+
+          reg.run_systems(*this);
+
+          if (GraphLib)
+            GraphLib->refresh();
+
+          if (_next_scene != "") {
+            for (int i = 0; i < reg.getMaxId() ; i++) {
+              reg.kill_entity(ecs::Entity(i));
+            }
+            _scenes[_next_scene](*this);
+            _next_scene = "";
+          }
+
+      }
+    }
+
+    std::unique_ptr<zef::graph::IDisplayModule> GraphLib;
+    std::chrono::high_resolution_clock::time_point clock;// = std::chrono::high_resolution_clock::now();
+    std::chrono::microseconds elapsed;
+
   private:
+    int gameFps = 60;
+
+    utils::UserInputs _user_inputs;
     std::queue<Event> _events;
+
+
+
+    std::map<std::string, std::function<void(Engine&)>> _scenes;
+    std::string _next_scene = "";
   };
+
+
+
+  namespace sys
+  {
+    void resolveEvent(Engine& engine, ecs::sparse_array<comp::event_listener>& evtls);
+  }
 }  // namespace zef
 
 #endif  // ENGINE_ENGINE_HPP_
