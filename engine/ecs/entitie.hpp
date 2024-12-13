@@ -22,9 +22,9 @@ namespace ecs {
 
     friend class registry;
 
-  private:
     explicit Entity(size_t val) : _value(val) {
     }
+  private:
     size_t _value;
   };
 }  // namespace ecs

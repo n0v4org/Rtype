@@ -12,6 +12,7 @@
 #include <any>
 #include <typeindex>
 #include <functional>
+#include "./ecs/sparse_array.hpp"
 
 namespace zef {
   class Engine;
