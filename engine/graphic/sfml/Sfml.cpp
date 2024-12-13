@@ -100,7 +100,7 @@ namespace graph{
     text.setOrigin(textRect.left + textRect.width / 2, textRect.top + textRect.height / 2);
     text.setPosition(posX, posY);
     text.setScale(scaleX, scaleY);
-    text.setColor(color);
+    text.setFillColor(color);
     text.setRotation(rotation);
 
     _window.setView(_views["Default"]);
@@ -116,7 +116,7 @@ namespace graph{
     text.setOrigin(textRect.left + textRect.width / 2, textRect.top + textRect.height / 2);
     text.setPosition(posX, posY);
     text.setScale(scaleX, scaleY);
-    text.setColor(color);
+    text.setFillColor(color);
     text.setRotation(rotation);
 
     _window.setView(_views["HUD"]);
