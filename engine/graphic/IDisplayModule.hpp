@@ -41,6 +41,13 @@ namespace graph{
     bool Close=false;
   } UserInput;
 
+  typedef struct RGBA{
+    float R;
+    float G;
+    float B;
+    float A;
+  } RGBA_t;
+
   typedef struct Animation{
     std::string SpriteSheet;
 
@@ -58,7 +65,7 @@ namespace graph{
     float ScaleX;
     float ScaleY;
     float Rotation;
-    float Opacity;
+    RGBA_t mask;
   } DrawableSprite_t;
 
   typedef struct DrawableText{
@@ -73,13 +80,6 @@ namespace graph{
     float Rotation;
     float Opacity;
   } DrawableText_t;
-
-  typedef struct RGBA{
-    float R;
-    float G;
-    float B;
-    float A;
-  } RGBA_t;
 
   class IDisplayModule{
     public:
