@@ -96,12 +96,12 @@ namespace graph{
     sf::Text text(textString, font, fontSize);
     sf::Color color(255 * mask.R, 255 * mask.G, 255 * mask.B, 255 * mask.A);
 
+    sf::FloatRect textRect = text.getLocalBounds();
+    text.setOrigin(textRect.left + textRect.width / 2, textRect.top + textRect.height / 2);
     text.setPosition(posX, posY);
     text.setScale(scaleX, scaleY);
     text.setColor(color);
     text.setRotation(rotation);
-
-    /*setorigin middle*/
 
     _window.setView(_views["Default"]);
     _window.draw(text);
@@ -112,12 +112,13 @@ namespace graph{
     sf::Text text(textString, font, fontSize);
     sf::Color color(255 * mask.R, 255 * mask.G, 255 * mask.B, 255 * mask.A);
 
+    sf::FloatRect textRect = text.getLocalBounds();
+    text.setOrigin(textRect.left + textRect.width / 2, textRect.top + textRect.height / 2);
     text.setPosition(posX, posY);
     text.setScale(scaleX, scaleY);
     text.setColor(color);
     text.setRotation(rotation);
 
-    /*setorigin middle*/
     _window.setView(_views["HUD"]);
     _window.draw(text);
   };
