@@ -12,6 +12,8 @@
 #include <map>
 #include <functional>
 #include "../../Engine.hpp"
+#include "../../utils/hitbox.hpp"
+#include "../movement/components.hpp"
 
 namespace zef {
 
@@ -22,21 +24,37 @@ namespace zef {
                 controllable(){}
 
                 template <typename Events, typename ...T>
-                void bindOnPressed(zef::Keys key, T ...args) {
+                void bindOnPressed(zef::utils::Keys key, T ...args) {
                     _pressed[key] = [args...](Engine& engine, size_t entity){
                         engine.sendEvent<Events>(entity, args...);
                     };
                 }
 
                 template <typename Events, typename ...T>
-                void bindOnRelease(zef::Keys key, T ...args) {
+                void bindOnRelease(zef::utils::Keys key, T ...args) {
                     _released[key] = [args...](Engine& engine, size_t entity){
                         engine.sendEvent<Events>(entity, args...);
                     };
                 }
+                template <typename Events, typename ...T>
+                void bindOnDown(zef::utils::Keys key, T ...args) {
+                    _is_down[key] = [args...](Engine& engine, size_t entity){
+                        engine.sendEvent<Events>(entity, args...);
+                    };
+                }
 
-                std::map<zef::Keys, std::function<void(Engine &, size_t)>> _pressed;
-                std::map<zef::Keys, std::function<void(Engine &, size_t)>> _released;
+                std::map<zef::utils::Keys, std::function<void(Engine &, size_t)>> _pressed;
+                std::map<zef::utils::Keys, std::function<void(Engine &, size_t)>> _released;
+                std::map<zef::utils::Keys, std::function<void(Engine &, size_t)>> _is_down;
+        };
+
+        class clickable {
+            public:
+                clickable(std::vector<utils::hitbox> hitboxes) : _hitboxes(hitboxes) {
+
+                }
+
+                std::vector<utils::hitbox> _hitboxes;
         };
     } // namespace comp
 } // namespace zef

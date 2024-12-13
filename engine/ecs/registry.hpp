@@ -117,9 +117,9 @@ namespace ecs {
 
     template <class... Components, typename Function>
     void add_system(Function &&f) {
-      this->_systems.push_back([f = std::forward<Function>(f)](zef::Engine& e, ecs::registry &r) {
-          f(e, r.get_components<Components>()...);
-      });
+        this->_systems.push_back([f = std::forward<Function>(f)](zef::Engine& e, ecs::registry &r) {
+            f(e, r.get_components<Components>()...);
+        });
     }
 
     template <class... Components, typename Function>
