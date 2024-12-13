@@ -9,15 +9,15 @@
 #define EVENTS_HPP_
 
 namespace zef {
-  namespace evt {
+    namespace evt {
 
-    struct hover {};
-    struct LeftclickPress {};
-    struct LeftclickRelease {};
-    struct RightclickPress {};
-    struct RightclickRelease {};
+        struct hover {};
+        struct LeftclickPress {};
+        struct LeftclickRelease {};
+        struct RightclickPress {};
+        struct RightclickRelease {};
 
-  } // namespace evt
+    } // namespace evt
 } // namespace zef
 
 
