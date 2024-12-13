@@ -8,7 +8,7 @@
 #include "./Sfml.hpp"
 
 namespace zef{
-namespace graph{
+    namespace graph{
 
   void Sfml::initialize(std::string assetFolderPath, std::string windowName) {
 
@@ -256,5 +256,5 @@ namespace graph{
     return new Sfml;
   }
 
-}
+    }
 }
