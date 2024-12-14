@@ -11,6 +11,10 @@
 
 #include <nlohmann/json.hpp>
 #include "Commands/FactoryCmd.hpp"
+#include "Commands/GetAllLobby.hpp"
+#include "Commands/GetLobby.hpp"
+#include "Commands/Launch.hpp"
+
 
 static const char CONFIG_FILE[] = "network/tcp/conf/cmd.json";
 
@@ -18,8 +22,10 @@ void FactoryCmd::registerAllCommand() {
     std::ifstream jsonFile(CONFIG_FILE);
     json data = json::parse(jsonFile);
 
- 
-   _map["JOIN"] = [data]() { return std::make_shared<Join>(data["JOIN"]);};
+  _map["JOIN"] = [data]() { return std::make_shared<Join>(data["JOIN"]);};
+  _map["GET_ALL_LOBBY"] = [data]() { return std::make_shared<GetAllLobby>(data["GET_ALL_LOBBY"]);};
+  _map["GET_LOBBY"] = [data]() { return std::make_shared<GetLobby>(data["GET_LOBBY"]);};
+  _map["LAUNCH_GAME"] = [data]() { return std::make_shared<Launch>(data["LAUNCH_GAME"]);};
 
     jsonFile.close();
 }

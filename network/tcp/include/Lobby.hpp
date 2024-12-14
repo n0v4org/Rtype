@@ -8,10 +8,14 @@
 #ifndef SERVER_INCLUDE_NETWORKING_LOBBY_HPP_
 #define SERVER_INCLUDE_NETWORKING_LOBBY_HPP_
 #include <asio.hpp>
+#include <vector>
+#include <array>
 #include <iostream>
 #include "Connection.hpp"
 #include "Commands/FactoryCmd.hpp"
 #include "Commands/ACommand.hpp"
+
+extern std::array<std::vector<asio::ip::tcp::endpoint>, 5> LOBBY;
 
 using asio::ip::tcp;
 

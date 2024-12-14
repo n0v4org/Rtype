@@ -9,6 +9,9 @@ set(SRCS
     src/Lobby.cpp
     src/Commands/FactoryCmd.cpp
     src/Commands/Join.cpp
+    src/Commands/GetAllLobby.cpp
+    src/Commands/GetLobby.cpp
+    src/Commands/Launch.cpp
 )
 
 add_library(network STATIC ${SRCS})

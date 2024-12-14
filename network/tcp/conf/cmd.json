@@ -10,5 +10,23 @@
             "nb_args": 2,
             "types": ["string", "int"]
         }
+    },
+    "GET_ALL_LOBBY": {
+        "params": {
+            "nb_args": 0,
+            "types": []
+        }
+    },
+    "GET_LOBBY": {
+        "params": {
+            "nb_args": 1,
+            "types": ["string"]
+        }
+    },
+    "LAUNCH_GAME": {
+        "params": {
+            "nb_args": 1,
+            "types": ["int"]
+        }
     }
 }

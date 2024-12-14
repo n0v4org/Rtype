@@ -2,26 +2,24 @@
 ** EPITECH PROJECT, 2024
 ** Rtype
 ** File description:
-** Join
+** GetAllLobby
 */
 
-#ifndef JOIN_HPP_
-#define JOIN_HPP_
+#ifndef GETALLLOBBY_HPP_
+#define GETALLLOBBY_HPP_
 
 #include "ACommand.hpp"
 #include <nlohmann/json.hpp>
 
-class Join : public ACommand
+class GetAllLobby : public ACommand
 {
     public:
-        Join(json data);
-
+        GetAllLobby(json data);
         void exec_cmd(std::string, asio::ip::tcp::socket&) override;
-
-        ~Join();
+        ~GetAllLobby();
 
     protected:
     private:
 };
 
-#endif /* !JOIN_HPP_ */
+#endif /* !GETALLLOBBY_HPP_ */

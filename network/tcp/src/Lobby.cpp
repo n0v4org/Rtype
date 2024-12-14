@@ -10,6 +10,9 @@
 #include "Lobby.hpp"
 #include "Connection.hpp"
 
+
+std::array<std::vector<asio::ip::tcp::endpoint>, 5> LOBBY;
+
   namespace network {
     namespace lobby {
     Server::Server(int port, bool debug, asio::io_context& io_context)
@@ -19,7 +22,6 @@
   {
     auto& _factoryCmd = FactoryCmd::getInstance();
     _factoryCmd.registerAllCommand();
-    auto cmd = _factoryCmd.createCmd("JOIN");
     start_accept();
   }
 
@@ -43,8 +45,7 @@
     } else {
         std::cerr << "Accept failed: " << error.message() << std::endl;
     }
-
     start_accept();
-  }
+  } 
     }
   }  // namespace net

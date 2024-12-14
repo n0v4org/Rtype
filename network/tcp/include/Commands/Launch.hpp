@@ -2,26 +2,24 @@
 ** EPITECH PROJECT, 2024
 ** Rtype
 ** File description:
-** Join
+** Launch
 */
 
-#ifndef JOIN_HPP_
-#define JOIN_HPP_
+#ifndef LAUNCH_HPP_
+#define LAUNCH_HPP_
 
 #include "ACommand.hpp"
 #include <nlohmann/json.hpp>
 
-class Join : public ACommand
+class Launch : public ACommand
 {
     public:
-        Join(json data);
-
+        Launch(json data);
         void exec_cmd(std::string, asio::ip::tcp::socket&) override;
-
-        ~Join();
+        ~Launch();
 
     protected:
     private:
 };
 
-#endif /* !JOIN_HPP_ */
+#endif /* !LAUNCH_HPP_ */
