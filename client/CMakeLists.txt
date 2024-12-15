@@ -21,7 +21,7 @@ add_executable(r-type_client ${SRCS} src/main.cpp)
 
 find_package(asio REQUIRED CONFIG)
 
-target_link_libraries(r-type_client PRIVATE asio network)
+target_link_libraries(r-type_client PRIVATE asio lobby_network game_network)
 
 target_include_directories(r-type_client PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
@@ -31,6 +31,6 @@ enable_testing()
 
 add_executable(r-type_client_tests ${TEST} ${SRCS})
 
-target_link_libraries(r-type_client_tests PRIVATE GTest::gtest GTest::gtest_main network)
+target_link_libraries(r-type_client_tests PRIVATE GTest::gtest GTest::gtest_main lobby_network game_network)
 target_include_directories(r-type_client_tests PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 add_test(NAME type_client_tests COMMAND r-type_tests)
