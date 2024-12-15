@@ -5,13 +5,14 @@
 ** Lobby
 */
 
-#ifndef SERVER_INCLUDE_NETWORKING_LOBBY_HPP_
-#define SERVER_INCLUDE_NETWORKING_LOBBY_HPP_
-#include <asio.hpp>
+#ifndef NETWORK_TCP_INCLUDE_LOBBY_HPP_
+#define NETWORK_TCP_INCLUDE_LOBBY_HPP_
 #include <vector>
 #include <array>
 #include <iostream>
 #include <deque>
+#include <string>
+#include <asio.hpp>
 #include "Connection.hpp"
 #include "Commands/FactoryCmd.hpp"
 #include "Commands/ACommand.hpp"
@@ -127,7 +128,7 @@ private:
     std::string _server;
     int _port;
 };
-    }
-  }
+    } // namespace lobby
+  } //namespace network
 
-#endif  // SERVER_INCLUDE_NETWORKING_LOBBY_HPP_
+#endif  // NETWORK_TCP_INCLUDE_LOBBY_HPP_

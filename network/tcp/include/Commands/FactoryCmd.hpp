@@ -5,11 +5,13 @@
 ** FactoryCmd
 */
 
-#ifndef FACTORYCMD_HPP_
-#define FACTORYCMD_HPP_
+#ifndef NETWORK_TCP_INCLUDE_COMMANDS_FACTORYCMD_HPP_
+#define NETWORK_TCP_INCLUDE_COMMANDS_FACTORYCMD_HPP_
 #include <functional>
 #include <map>
 #include <memory>
+#include <string>
+#include <unordered_map>
 #include <nlohmann/json.hpp>
 #include "ACommand.hpp"
 #include "Join.hpp"
@@ -37,4 +39,4 @@ class FactoryCmd {
         FactoryCmd& operator=(const FactoryCmd&) = delete;
 };
 
-#endif /* !FACTORYCMD_HPP_ */
+#endif // NETWORK_TCP_INCLUDE_COMMANDS_FACTORYCMD_HPP_

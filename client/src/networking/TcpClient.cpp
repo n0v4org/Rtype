@@ -5,10 +5,12 @@
 ** TcpClient
 */
 
+#include <iostream>
+#include <string>
+
 #include "networking/TcpClient.hpp"
 #include "ClientError.hpp"
 
-#include <iostream>
 
 namespace client {
     namespace net{
@@ -37,5 +39,5 @@ void TcpClient::send(const std::string &msg) {
 TcpClient::~TcpClient()
 {
 }
-    }
-}
+    } // namespace net
+}   // namespace client

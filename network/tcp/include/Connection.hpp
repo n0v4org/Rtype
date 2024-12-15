@@ -5,8 +5,8 @@
 ** Tcp
 */
 
-#ifndef SERVER_INCLUDE_NETWORKING_TCP_CONNECTION_HPP_
-#define SERVER_INCLUDE_NETWORKING_TCP_CONNECTION_HPP_
+#ifndef NETWORK_TCP_INCLUDE_CONNECTION_HPP_
+#define NETWORK_TCP_INCLUDE_CONNECTION_HPP_
 
 #include <string>
 #include <memory>
@@ -108,7 +108,7 @@ private:
   std::string message_;
   char _data[1024];
 };
-    }
-  }  // namespace net
+    } // namespace lobby
+  }  // namespace network
 
-#endif  // SERVER_INCLUDE_NETWORKING_TCP_CONNECTION_HPP_
+#endif  // NETWORK_TCP_INCLUDE_CONNECTION_HPP_

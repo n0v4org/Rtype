@@ -6,6 +6,7 @@
 */
 
 #include <iostream>
+#include <string>
 
 #include "Commands/Join.hpp"
 #include "Lobby.hpp"

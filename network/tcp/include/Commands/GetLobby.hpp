@@ -5,8 +5,10 @@
 ** GetLobby
 */
 
-#ifndef GETLOBBY_HPP_
-#define GETLOBBY_HPP_
+#ifndef NETWORK_TCP_INCLUDE_COMMANDS_GETLOBBY_HPP_ 
+#define NETWORK_TCP_INCLUDE_COMMANDS_GETLOBBY_HPP_ 
+
+#include <string>
 
 #include "ACommand.hpp"
 #include <nlohmann/json.hpp>
@@ -14,7 +16,7 @@
 class GetLobby : public ACommand
 {
     public:
-        GetLobby(json data);
+        explicit GetLobby(json data);
         void exec_cmd(std::string, asio::ip::tcp::socket&) override;
         ~GetLobby();
 
@@ -22,4 +24,4 @@ class GetLobby : public ACommand
     private:
 };
 
-#endif /* !GETLOBBY_HPP_ */
+#endif // NETWORK_TCP_INCLUDE_COMMANDS_GETLOBBY_HPP_ 

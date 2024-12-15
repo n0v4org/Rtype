@@ -6,6 +6,7 @@
 */
 
 #include <iostream>
+#include <string>
 
 #include "Lobby.hpp"
 #include "Commands/Launch.hpp"

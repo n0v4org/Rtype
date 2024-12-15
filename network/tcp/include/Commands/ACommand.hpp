@@ -5,8 +5,8 @@
 ** ACommand
 */
 
-#ifndef ACOMMAND_HPP_
-#define ACOMMAND_HPP_
+#ifndef NETWORK_TCP_INCLUDE_COMMANDS_ACOMMAND_HPP_ 
+#define NETWORK_TCP_INCLUDE_COMMANDS_ACOMMAND_HPP_ 
 
 #include <vector>
 #include <string>
@@ -21,9 +21,8 @@ static const char INVALID_ARGS[] = "400 : invalid args";
 class ACommand : public ICommand
 {
     public:
-        ACommand(json data)
-        : _nb_args(data["params"]["nb_args"].get<int>()), _payload_type(data["params"]["types"].get<std::vector<std::string>>()) {};
-        virtual void exec_cmd(std::string, asio::ip::tcp::socket&) override = 0;
+        explicit ACommand(json data)
+        : _nb_args(data["params"]["nb_args"].get<int>()), _payload_type(data["params"]["types"].get<std::vector<std::string>>()) {}
         std::string get_resp() const override { return _resp;}
         void set_resp(std::string resp) override {
             _resp = resp;
@@ -72,4 +71,4 @@ class ACommand : public ICommand
         std::vector<std::string> _payload_type;
 };
 
-#endif /* !ACOMMAND_HPP_ */
+#endif // NETWORK_TCP_INCLUDE_COMMANDS_ACOMMAND_HPP_ 

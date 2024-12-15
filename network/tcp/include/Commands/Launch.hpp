@@ -5,8 +5,10 @@
 ** Launch
 */
 
-#ifndef LAUNCH_HPP_
-#define LAUNCH_HPP_
+#ifndef NETWORK_TCP_INCLUDE_COMMANDS_LAUNCH_HPP_
+#define NETWORK_TCP_INCLUDE_COMMANDS_LAUNCH_HPP_
+
+#include <string>
 
 #include "ACommand.hpp"
 #include <nlohmann/json.hpp>
@@ -14,7 +16,7 @@
 class Launch : public ACommand
 {
     public:
-        Launch(json data);
+        explicit Launch(json data);
         void exec_cmd(std::string, asio::ip::tcp::socket&) override;
         ~Launch();
 
@@ -22,4 +24,4 @@ class Launch : public ACommand
     private:
 };
 
-#endif /* !LAUNCH_HPP_ */
+#endif // NETWORK_TCP_INCLUDE_COMMANDS_LAUNCH_HPP_

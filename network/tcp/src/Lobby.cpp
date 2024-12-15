@@ -5,8 +5,8 @@
 ** Lobby
 */
 
-#include <asio.hpp>
 #include <iostream>
+#include <asio.hpp>
 #include "Lobby.hpp"
 #include "Connection.hpp"
 
@@ -47,5 +47,5 @@ std::array<std::vector<asio::ip::tcp::endpoint>, 5> LOBBY;
     }
     start_accept();
   } 
-    }
-  }  // namespace net
+    } // namespace lobby
+  }  // namespace network

@@ -5,8 +5,8 @@
 ** TcpClient
 */
 
-#ifndef TCPCLIENT_HPP_
-#define TCPCLIENT_HPP_
+#ifndef CLIENT_INCLUDE_NETWORKING_TCPCLIENT_HPP_
+#define CLIENT_INCLUDE_NETWORKING_TCPCLIENT_HPP_
 #include <string>
 #include <asio.hpp>
 #include "macro.hpp"
@@ -28,7 +28,7 @@ namespace client {
             asio::io_context &_io_service;
             std::array<char, BUFFER_SIZE> _recvBuffer;
 };
-    }
-}
+    } // namespace net
+} // namespace client
 
-#endif /* !TCPCLIENT_HPP_ */
+#endif // CLIENT_INCLUDE_NETWORKING_TCPCLIENT_HPP_

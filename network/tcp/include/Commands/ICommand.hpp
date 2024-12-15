@@ -5,8 +5,8 @@
 ** ICommand
 */
 
-#ifndef ICOMMAND_HPP_
-#define ICOMMAND_HPP_
+#ifndef NETWORK_TCP_INCLUDE_COMMANDS_ICOMMAND_HPP_
+#define NETWORK_TCP_INCLUDE_COMMANDS_ICOMMAND_HPP_
 
 #include <string>
 #include <asio.hpp>
@@ -22,4 +22,4 @@ class ICommand {
     private:
 };
 
-#endif /* !ICOMMAND_HPP_ */
+#endif // NETWORK_TCP_INCLUDE_COMMANDS_ICOMMAND_HPP_

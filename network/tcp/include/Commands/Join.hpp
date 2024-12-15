@@ -5,8 +5,10 @@
 ** Join
 */
 
-#ifndef JOIN_HPP_
-#define JOIN_HPP_
+#ifndef NETWORK_TCP_INCLUDE_COMMANDS_JOIN_HPP_
+#define NETWORK_TCP_INCLUDE_COMMANDS_JOIN_HPP_
+
+#include <string>
 
 #include "ACommand.hpp"
 #include <nlohmann/json.hpp>
@@ -14,7 +16,7 @@
 class Join : public ACommand
 {
     public:
-        Join(json data);
+        explicit Join(json data);
 
         void exec_cmd(std::string, asio::ip::tcp::socket&) override;
 
@@ -24,4 +26,4 @@ class Join : public ACommand
     private:
 };
 
-#endif /* !JOIN_HPP_ */
+#endif // NETWORK_TCP_INCLUDE_COMMANDS_JOIN_HPP_
