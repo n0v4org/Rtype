@@ -49,6 +49,7 @@ namespace client {
       std::string line;
       while (std::getline(std::cin, line)) {
         _tcp_client->write(line);
+        std::cout << "here" << _tcp_client->fetchLatestMessage() << std::endl;
       }
       t.join();
     } catch (const std::exception &e) {
