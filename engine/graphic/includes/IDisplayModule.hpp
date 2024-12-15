@@ -17,7 +17,7 @@
 #include <filesystem>
 #include <iostream>
 
-#include "../utils/inputsUtils.hpp"
+#include "utils/inputsUtils.hpp"
 
 namespace zef{
   namespace graph {

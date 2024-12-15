@@ -9,8 +9,9 @@
 #include <iostream>
 #include <memory>
 
-#include "Core.hpp"
+#include "../include/Core.hpp"
 #include "macro.hpp"
+#include "game.hpp"
 
 static const char USAGE[151] = R"(
 usage:
@@ -23,8 +24,6 @@ namespace rtype {
 
   Core::Core(char* argv[], int argc) {
     _args   = std::make_unique<Arguments>(argc, argv);
-    _server = std::make_unique<net::Server>(_args->get_port(),
-                                            _args->get_debug(), _io_service);
   }
 
   void Core::run() {
@@ -34,7 +33,7 @@ namespace rtype {
         std::cout << USAGE << std::endl;
         return;
       }
-      _io_service.run();
+      runServer();
     } catch (const std::exception& e) {
       if (strcmp(e.what(), EXCEPTION) != 0)
         std::cerr << e.what() << '\n';
@@ -43,6 +42,7 @@ namespace rtype {
   }
 
   Core::~Core() {
+
   }
 
 }  // namespace rtype

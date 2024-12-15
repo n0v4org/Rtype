@@ -5,8 +5,8 @@
 ** systems
 */
 
-#ifndef SYSTEMS_HPP_
-#define SYSTEMS_HPP_
+#ifndef DISPLAY_SYSTEMS_HPP_
+#define DISPLAY_SYSTEMS_HPP_
 
 #include "../../Engine.hpp"
 #include "components.hpp"

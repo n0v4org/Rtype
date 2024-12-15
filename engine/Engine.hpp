@@ -14,20 +14,17 @@
 #include <thread>
 
 
-#include "graphic/sfml/Sfml.hpp"
 
 
-#include "graphic/IDisplayModule.hpp"
-#include "graphic/ADisplayModule.hpp"
+#include "graphic/includes/IDisplayModule.hpp"
+#include "graphic/includes/ADisplayModule.hpp"
 
 #include "ecs/registry.hpp"
 #include "Events.hpp"
 #include "utils/inputsUtils.hpp"
 
-#include "Scene.hpp"
-
-
-#include "Patron.hpp"
+//#include "Scene.hpp"
+//#include "Patron.hpp"
 
 
 
@@ -84,6 +81,7 @@ namespace zef {
     template <typename Component>
     void registerComponent() {
       reg.register_component<Component>();
+      //reg.get_components<Component>().emplace_component(std::nullopt);
     }
 
     template <typename Component>

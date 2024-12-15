@@ -5,7 +5,6 @@
 ** SFML DisplayModule
 */
 
-#include "./Sfml.hpp"
 #include "Sfml.hpp"
 
 namespace zef{
@@ -74,6 +73,7 @@ namespace zef{
     text.setPosition(posX, posY);
     text.setScale(scaleX, scaleY);
     text.setRotation(rotation);
+    text.setFillColor(sf::Color::Red);
 
     /*setorigin X-left Y-middle*/
 
@@ -108,6 +108,7 @@ namespace zef{
     if(!font.loadFromFile(assetPath.c_str())){
       throw AssetLoadException();
     }
+    std::cout<<"Loading fonts: "<<assetName<<std::endl;
     _fonts[assetName.c_str()] = font;
   };
   void Sfml::storeAssetsVERT(std::string assetPath){

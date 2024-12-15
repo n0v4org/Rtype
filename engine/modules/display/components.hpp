@@ -5,8 +5,8 @@
 ** components
 */
 
-#ifndef COMPONENTS_HPP_
-#define COMPONENTS_HPP_
+#ifndef DISPLAY_COMPONENTS_HPP_
+#define DISPLAY_COMPONENTS_HPP_
 
 #include "../../Engine.hpp"
 
