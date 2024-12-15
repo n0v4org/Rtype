@@ -14,18 +14,16 @@
 
 namespace client {
 
-  static const std::array<std::string, 4> FLAGS = {
-      "-sp",
-      "-cp",
-      "-h",
-      "-ip",
-  };
+  static const std::array<std::string, 6> FLAGS = {"-sp", "-cp",  "-h",
+                                                   "-ip", "-lsp", "-lcp"};
 
   enum {
-    SERVER_PORT = 0,
-    CLIENT_PORT = 1,
-    HELP        = 2,
-    IP          = 3,
+    SERVER_PORT       = 0,
+    CLIENT_PORT       = 1,
+    HELP              = 2,
+    IP                = 3,
+    SERVER_LOBBY_PORT = 4,
+    CLIENT_LOBBY_PORT = 5
   };
 
   class Arguments {
@@ -35,6 +33,8 @@ namespace client {
     void parse();
     int get_server_port() const;
     int get_client_port() const;
+    int get_lobby_server_port() const;
+    int get_lobby_client_port() const;
     bool get_help() const;
     std::string get_ip() const;
     ~Arguments();
@@ -47,6 +47,8 @@ namespace client {
     bool _help;
     int _server_port;
     int _client_port;
+    int _lobby_server_port;
+    int _lobby_client_port;
     std::string _ip;
   };
 

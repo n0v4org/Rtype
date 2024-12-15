@@ -9,7 +9,7 @@
 
 #include <iostream>
 
-#include <boost/asio.hpp>
+#include <asio.hpp>
 
 namespace rtype {
   namespace net {
