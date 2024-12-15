@@ -14,20 +14,14 @@
 
 namespace client {
 
-  static const std::array<std::string, 6> FLAGS = {
-      "-sp",
-      "-cp",
-      "-h",
-      "-ip",
-      "-lsp",
-      "-lcp"
-  };
+  static const std::array<std::string, 6> FLAGS = {"-sp", "-cp",  "-h",
+                                                   "-ip", "-lsp", "-lcp"};
 
   enum {
-    SERVER_PORT = 0,
-    CLIENT_PORT = 1,
-    HELP        = 2,
-    IP          = 3,
+    SERVER_PORT       = 0,
+    CLIENT_PORT       = 1,
+    HELP              = 2,
+    IP                = 3,
     SERVER_LOBBY_PORT = 4,
     CLIENT_LOBBY_PORT = 5
   };

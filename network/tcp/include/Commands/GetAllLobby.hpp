@@ -12,15 +12,14 @@
 #include "ACommand.hpp"
 #include <nlohmann/json.hpp>
 
-class GetAllLobby : public ACommand
-{
-    public:
-        explicit GetAllLobby(json data);
-        void exec_cmd(std::string, asio::ip::tcp::socket&) override;
-        ~GetAllLobby();
+class GetAllLobby : public ACommand {
+public:
+  explicit GetAllLobby(json data);
+  void exec_cmd(std::string, asio::ip::tcp::socket &) override;
+  ~GetAllLobby();
 
-    protected:
-    private:
+protected:
+private:
 };
 
-#endif // NETWORK_TCP_INCLUDE_COMMANDS_GETALLLOBBY_HPP_
+#endif  // NETWORK_TCP_INCLUDE_COMMANDS_GETALLLOBBY_HPP_

@@ -25,21 +25,19 @@ namespace rtype {
     void Server::start_receive() {
       _socket.async_receive_from(
           asio::buffer(_recv_buffer_), _remote_endpoint_,
-          std::bind(&Server::dispatch_client, this,
-                    asio::placeholders::error,
+          std::bind(&Server::dispatch_client, this, asio::placeholders::error,
                     asio::placeholders::bytes_transferred));
     }
 
-    void Server::unpack(std::size_t byte_size)
-    {
-      uint8_t cmd = _recv_buffer_[0];
+    void Server::unpack(std::size_t byte_size) {
+      uint8_t cmd   = _recv_buffer_[0];
       uint16_t data = (_recv_buffer_[1] << 8) | _recv_buffer_[2];
-      uint32_t seq = 0;
+      uint32_t seq  = 0;
       for (int i = 0; i < 4; i++) {
         seq = (seq << 8) | _recv_buffer_[3 + i];
       }
-      std::cout << "Received command: " << cmd << ", data: " << data << ", seq: " << seq
-                << std::endl;
+      std::cout << "Received command: " << cmd << ", data: " << data
+                << ", seq: " << seq << std::endl;
     }
 
     void Server::dispatch_client(const std::error_code ec,
@@ -67,7 +65,7 @@ namespace rtype {
       start_receive();
     }
 
-    void Server::close_connection()  {
+    void Server::close_connection() {
       _socket.close();
     }
 

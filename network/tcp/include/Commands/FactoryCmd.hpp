@@ -16,27 +16,26 @@
 #include "ACommand.hpp"
 #include "Join.hpp"
 
-
-using json = nlohmann::json;
+using json            = nlohmann::json;
 using FactoryFunction = std::function<std::shared_ptr<ICommand>()>;
 
 class FactoryCmd {
-    public:
-        static FactoryCmd& getInstance() {
-            static FactoryCmd instance;
-            return instance;
-        }
+public:
+  static FactoryCmd& getInstance() {
+    static FactoryCmd instance;
+    return instance;
+  }
 
-        void registerAllCommand();
-        void registerCommand(const std::string&, FactoryFunction);
-        std::shared_ptr<ICommand> createCmd(const std::string &name) const;
+  void registerAllCommand();
+  void registerCommand(const std::string&, FactoryFunction);
+  std::shared_ptr<ICommand> createCmd(const std::string& name) const;
 
-    protected:
-    private:
-        std::unordered_map<std::string, FactoryFunction> _map;
-        FactoryCmd() = default;
-        FactoryCmd(const FactoryCmd&) = delete;
-        FactoryCmd& operator=(const FactoryCmd&) = delete;
+protected:
+private:
+  std::unordered_map<std::string, FactoryFunction> _map;
+  FactoryCmd()                             = default;
+  FactoryCmd(const FactoryCmd&)            = delete;
+  FactoryCmd& operator=(const FactoryCmd&) = delete;
 };
 
-#endif // NETWORK_TCP_INCLUDE_COMMANDS_FACTORYCMD_HPP_
+#endif  // NETWORK_TCP_INCLUDE_COMMANDS_FACTORYCMD_HPP_

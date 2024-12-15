@@ -13,27 +13,24 @@
 
 static const char LOBBY_NOT_FOUND[] = "404 Lobby not found";
 
-GetLobby::GetLobby(json data)
-: ACommand(data)
-{
+GetLobby::GetLobby(json data) : ACommand(data) {
 }
 
 void GetLobby::exec_cmd(std::string payload, asio::ip::tcp::socket &socket_) {
-    std::string resp = "200 ";
+  std::string resp = "200 ";
 
-    if (!parse_input(payload))
-        return;
-    int lobby_id = std::stoi(get_payload().at(0));
-    if (LOBBY.size() < lobby_id) {
-        set_resp(LOBBY_NOT_FOUND);
-        return;
-    }
-    for (auto &i: LOBBY.at(lobby_id)) {
-        resp += i.address().to_string() + ":" + std::to_string(i.port()) + " ";
-    }
-    set_resp(resp);
+  if (!parse_input(payload))
+    return;
+  int lobby_id = std::stoi(get_payload().at(0));
+  if (LOBBY.size() < lobby_id) {
+    set_resp(LOBBY_NOT_FOUND);
+    return;
+  }
+  for (auto &i : LOBBY.at(lobby_id)) {
+    resp += i.address().to_string() + ":" + std::to_string(i.port()) + " ";
+  }
+  set_resp(resp);
 }
 
-GetLobby::~GetLobby()
-{
+GetLobby::~GetLobby() {
 }

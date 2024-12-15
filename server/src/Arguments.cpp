@@ -22,12 +22,18 @@ static const char EMPTY_FLAG[20]        = "found an empty flag";
 namespace rtype {
 
   Arguments::Arguments(int argc, char *argv[])
-    : _help(false), _debug(false), _game_port(PORT_GAME), _lobby_port(PORT_LOBBY) {
+    : _help(false)
+    , _debug(false)
+    , _game_port(PORT_GAME)
+    , _lobby_port(PORT_LOBBY) {
     for (int i = 1; i < argc; i++) _args.push_back(argv[i]);
   }
 
   Arguments::Arguments(int argc, const char *argv[])
-    : _help(false), _debug(false), _game_port(PORT_GAME), _lobby_port(PORT_LOBBY) {
+    : _help(false)
+    , _debug(false)
+    , _game_port(PORT_GAME)
+    , _lobby_port(PORT_LOBBY) {
     for (int i = 1; i < argc; i++) _args.push_back(argv[i]);
   }
 
@@ -102,7 +108,7 @@ namespace rtype {
     return _game_port;
   }
 
-    int Arguments::get_lobby_port() const {
+  int Arguments::get_lobby_port() const {
     return _lobby_port;
   }
 

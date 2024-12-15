@@ -13,15 +13,14 @@
 #include "ACommand.hpp"
 #include <nlohmann/json.hpp>
 
-class Launch : public ACommand
-{
-    public:
-        explicit Launch(json data);
-        void exec_cmd(std::string, asio::ip::tcp::socket&) override;
-        ~Launch();
+class Launch : public ACommand {
+public:
+  explicit Launch(json data);
+  void exec_cmd(std::string, asio::ip::tcp::socket &) override;
+  ~Launch();
 
-    protected:
-    private:
+protected:
+private:
 };
 
-#endif // NETWORK_TCP_INCLUDE_COMMANDS_LAUNCH_HPP_
+#endif  // NETWORK_TCP_INCLUDE_COMMANDS_LAUNCH_HPP_

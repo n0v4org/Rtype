@@ -13,17 +13,16 @@
 #include "ACommand.hpp"
 #include <nlohmann/json.hpp>
 
-class Join : public ACommand
-{
-    public:
-        explicit Join(json data);
+class Join : public ACommand {
+public:
+  explicit Join(json data);
 
-        void exec_cmd(std::string, asio::ip::tcp::socket&) override;
+  void exec_cmd(std::string, asio::ip::tcp::socket &) override;
 
-        ~Join();
+  ~Join();
 
-    protected:
-    private:
+protected:
+private:
 };
 
-#endif // NETWORK_TCP_INCLUDE_COMMANDS_JOIN_HPP_
+#endif  // NETWORK_TCP_INCLUDE_COMMANDS_JOIN_HPP_

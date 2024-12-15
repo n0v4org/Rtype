@@ -24,8 +24,8 @@ namespace rtype {
   enum {
     GAME_PORT  = 0,
     LOBBY_PORT = 1,
-    HELP  = 2,
-    DEBUG = 3,
+    HELP       = 2,
+    DEBUG      = 3,
   };
 
   class Arguments {

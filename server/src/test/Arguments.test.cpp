@@ -80,7 +80,7 @@ TEST_F(ArgumentsTest, LobbyPortFlag) {
   args.parse();
 
   EXPECT_EQ(args.get_lobby_port(), 12345);
-   EXPECT_EQ(args.get_game_port(), PORT_GAME);
+  EXPECT_EQ(args.get_game_port(), PORT_GAME);
   EXPECT_FALSE(args.get_help());
   EXPECT_FALSE(args.get_debug());
 }
@@ -126,7 +126,8 @@ TEST_F(ArgumentsTest, FollowingEmptyFlag) {
 }
 
 TEST_F(ArgumentsTest, AllArgs) {
-  const char *argv[] = {"r-type_client", "-gp", "45555", "-v", "-h", "-lp", "35555"};
+  const char *argv[] = {"r-type_client", "-gp",  "45555", "-v", "-h",
+                        "-lp",           "35555"};
   int argc           = 7;
 
   rtype::Arguments args(argc, argv);

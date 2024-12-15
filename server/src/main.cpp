@@ -14,7 +14,6 @@
 #include "macro.hpp"
 
 int main(int argc, char* argv[]) {
-
   try {
     std::unique_ptr<rtype::Core> core =
         std::make_unique<rtype::Core>(argv, argc);
