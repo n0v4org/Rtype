@@ -7,6 +7,7 @@
 
 #ifndef CLIENT_INCLUDE_CORE_HPP_
 #define CLIENT_INCLUDE_CORE_HPP_
+
 #include <memory>
 #include <asio.hpp>
 #include "Arguments.hpp"
