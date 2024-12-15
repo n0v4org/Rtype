@@ -69,8 +69,7 @@ namespace network {
         std::string latest = _read_queue.front();
         _read_queue.pop_front();
         return latest;
-        
-    }
+      }
 
     private:
       void resolveServer() {
@@ -109,10 +108,10 @@ namespace network {
             [this, self](std::error_code ec, std::size_t length) {
               if (!ec) {
                 std::string message(_read_buffer.data(), length);
-                    {
-                        std::lock_guard<std::mutex> lock(_read_queue_mutex);
-                        _read_queue.push_back(message);
-                    }
+                {
+                  std::lock_guard<std::mutex> lock(_read_queue_mutex);
+                  _read_queue.push_back(message);
+                }
                 std::cout << "Server: "
                           << std::string(_read_buffer.data(), length)
                           << std::endl;
@@ -150,7 +149,7 @@ namespace network {
       std::deque<std::string> _read_queue;
       std::deque<std::string> _write_queue;
       std::condition_variable _read_queue_cv;
-      std::mutex _read_queue_mutex; 
+      std::mutex _read_queue_mutex;
       std::string _server;
       int _port;
     };
