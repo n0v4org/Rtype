@@ -9,6 +9,7 @@
 #include <gtest/gtest.h>
 #include <string>
 #include <vector>
+#include "macro.hpp"
 #include "ClientError.hpp"
 
 class ArgumentsTest : public ::testing::Test {
@@ -27,8 +28,10 @@ TEST_F(ArgumentsTest, DefaultValues) {
   int argc           = 1;
 
   client::Arguments args(argc, argv);
-  EXPECT_EQ(args.get_client_port(), 50001);
-  EXPECT_EQ(args.get_server_port(), 50000);
+  EXPECT_EQ(args.get_client_port(), PORT_CLIENT);
+  EXPECT_EQ(args.get_server_port(), PORT_SERVER);
+  EXPECT_EQ(args.get_lobby_server_port(), LOBBY_PORT_SERVER);
+  EXPECT_EQ(args.get_lobby_client_port(), LOBBY_PORT_CLIENT);
   EXPECT_EQ(args.get_ip(), "127.0.0.1");
   EXPECT_FALSE(args.get_help());
 }
@@ -41,8 +44,10 @@ TEST_F(ArgumentsTest, HelpFlag) {
   args.parse();
   EXPECT_TRUE(args.get_help());
   EXPECT_EQ(args.get_ip(), "127.0.0.1");
-  EXPECT_EQ(args.get_client_port(), 50001);
-  EXPECT_EQ(args.get_server_port(), 50000);
+  EXPECT_EQ(args.get_client_port(), PORT_CLIENT);
+  EXPECT_EQ(args.get_server_port(), PORT_SERVER);
+  EXPECT_EQ(args.get_lobby_server_port(), LOBBY_PORT_SERVER);
+  EXPECT_EQ(args.get_lobby_client_port(), LOBBY_PORT_CLIENT);
 }
 
 TEST_F(ArgumentsTest, IpFlag) {
@@ -54,8 +59,10 @@ TEST_F(ArgumentsTest, IpFlag) {
 
   EXPECT_EQ(args.get_ip(), "10.255.14");
   EXPECT_FALSE(args.get_help());
-  EXPECT_EQ(args.get_client_port(), 50001);
-  EXPECT_EQ(args.get_server_port(), 50000);
+  EXPECT_EQ(args.get_client_port(), PORT_CLIENT);
+  EXPECT_EQ(args.get_server_port(), PORT_SERVER);
+  EXPECT_EQ(args.get_lobby_server_port(), LOBBY_PORT_SERVER);
+  EXPECT_EQ(args.get_lobby_client_port(), LOBBY_PORT_CLIENT);
 }
 
 TEST_F(ArgumentsTest, ClientPortFlag) {
@@ -66,7 +73,9 @@ TEST_F(ArgumentsTest, ClientPortFlag) {
   args.parse();
 
   EXPECT_EQ(args.get_client_port(), 12345);
-  EXPECT_EQ(args.get_server_port(), 50000);
+  EXPECT_EQ(args.get_server_port(), PORT_SERVER);
+  EXPECT_EQ(args.get_lobby_server_port(), LOBBY_PORT_SERVER);
+  EXPECT_EQ(args.get_lobby_client_port(), LOBBY_PORT_CLIENT);
   EXPECT_FALSE(args.get_help());
   EXPECT_EQ(args.get_ip(), "127.0.0.1");
 }
@@ -78,8 +87,40 @@ TEST_F(ArgumentsTest, ServerPortFlag) {
   client::Arguments args(argc, argv);
   args.parse();
 
-  EXPECT_EQ(args.get_client_port(), 50001);
   EXPECT_EQ(args.get_server_port(), 12345);
+  EXPECT_EQ(args.get_client_port(), PORT_CLIENT);
+  EXPECT_EQ(args.get_lobby_server_port(), LOBBY_PORT_SERVER);
+  EXPECT_EQ(args.get_lobby_client_port(), LOBBY_PORT_CLIENT);
+  EXPECT_FALSE(args.get_help());
+  EXPECT_EQ(args.get_ip(), "127.0.0.1");
+}
+
+TEST_F(ArgumentsTest, ServerLobbyPortFlag) {
+  const char *argv[] = {"r-ClientError", "-lsp", "12345"};
+  int argc           = 3;
+
+  client::Arguments args(argc, argv);
+  args.parse();
+
+  EXPECT_EQ(args.get_server_port(), PORT_SERVER);
+  EXPECT_EQ(args.get_client_port(), PORT_CLIENT);
+  EXPECT_EQ(args.get_lobby_server_port(), 12345);
+  EXPECT_EQ(args.get_lobby_client_port(), LOBBY_PORT_CLIENT);
+  EXPECT_FALSE(args.get_help());
+  EXPECT_EQ(args.get_ip(), "127.0.0.1");
+}
+
+TEST_F(ArgumentsTest, ClientLobbyPortFlag) {
+  const char *argv[] = {"r-ClientError", "-lcp", "12345"};
+  int argc           = 3;
+
+  client::Arguments args(argc, argv);
+  args.parse();
+
+  EXPECT_EQ(args.get_server_port(), PORT_SERVER);
+  EXPECT_EQ(args.get_client_port(), PORT_CLIENT);
+  EXPECT_EQ(args.get_lobby_server_port(), LOBBY_PORT_SERVER);
+  EXPECT_EQ(args.get_lobby_client_port(), 12345);
   EXPECT_FALSE(args.get_help());
   EXPECT_EQ(args.get_ip(), "127.0.0.1");
 }
@@ -125,14 +166,17 @@ TEST_F(ArgumentsTest, FollowingEmptyFlag) {
 }
 
 TEST_F(ArgumentsTest, AllArgs) {
-  const char *argv[] = {"r-type_client", "-cp", "45555", "-ip",
-                        "127.0.45.1",    "-h",  "-sp",   "65535"};
-  int argc           = 8;
+  const char *argv[] = {"r-type_client", "-cp",   "45555", "-ip",
+                        "127.0.45.1",    "-h",    "-sp",   "65535",
+                        "-lsp",          "12345", "-lcp",  "54901"};
+  int argc           = 12;
 
   client::Arguments args(argc, argv);
   args.parse();
   EXPECT_EQ(args.get_client_port(), 45555);
   EXPECT_EQ(args.get_server_port(), 65535);
+  EXPECT_EQ(args.get_lobby_server_port(), 12345);
+  EXPECT_EQ(args.get_lobby_client_port(), 54901);
   EXPECT_TRUE(args.get_help());
   EXPECT_EQ(args.get_ip(), "127.0.45.1");
 }
