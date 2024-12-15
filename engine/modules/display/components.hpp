@@ -5,9 +5,13 @@
 ** components
 */
 
-#ifndef DISPLAY_COMPONENTS_HPP_
-#define DISPLAY_COMPONENTS_HPP_
+#ifndef ENGINE_MODULES_DISPLAY_COMPONENTS_HPP_
+#define ENGINE_MODULES_DISPLAY_COMPONENTS_HPP_
 
+
+#include <map>
+#include <utility> 
+#include <string>
 #include "../../Engine.hpp"
 
 namespace zef
@@ -85,4 +89,4 @@ namespace zef
 } // namespace zef
 
 
-#endif /* !COMPONENTS_HPP_ */
+#endif // ENGINE_MODULES_DISPLAY_COMPONENTS_HPP_

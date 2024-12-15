@@ -5,9 +5,11 @@
 ** IDisplayModule
 */
 
-#ifndef CLIENT_INCLUDE_GRAPHIC_ADISPLAYMODULE_HPP_
-#define CLIENT_INCLUDE_GRAPHIC_ADISPLAYMODULE_HPP_
+#ifndef ENGINE_GRAPHIC_INCLUDES_ADISPLAYMODULE_HPP_
+#define ENGINE_GRAPHIC_INCLUDES_ADISPLAYMODULE_HPP_
 
+#include <string>
+#include <map>
 #include "./IDisplayModule.hpp"
 
 namespace zef {
@@ -118,7 +120,7 @@ class ADisplayModule : public IDisplayModule{
   private:
 
 };
-    }
-}
+    } // namespace graph
+} // namespace zef
 
-#endif //CLIENT_INCLUDE_GRAPHIC_ADISPLAYMODULE_HPP_
+#endif // ENGINE_GRAPHIC_INCLUDES_ADISPLAYMODULE_HPP_

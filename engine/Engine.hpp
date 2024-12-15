@@ -12,6 +12,7 @@
 #include <memory>
 #include <queue>
 #include <thread>
+#include <string>
 
 
 

@@ -5,8 +5,12 @@
 ** systems
 */
 
-#ifndef DISPLAY_SYSTEMS_HPP_
-#define DISPLAY_SYSTEMS_HPP_
+#ifndef ENGINE_MODULES_DISPLAY_SYSTEMS_HPP_
+#define ENGINE_MODULES_DISPLAY_SYSTEMS_HPP_
+
+#include <vector>
+#include <algorithm>
+#include <string>
 
 #include "../../Engine.hpp"
 #include "components.hpp"
@@ -54,4 +58,4 @@ namespace zef
 } // namespace zef
 
 
-#endif /* !SYSTEMS_HPP_ */
+#endif // ENGINE_MODULES_DISPLAY_SYSTEMS_HPP_

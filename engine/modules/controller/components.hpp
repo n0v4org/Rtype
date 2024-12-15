@@ -5,12 +5,13 @@
 ** controllable
 */
 
-#ifndef ENGINE_MODULES_CONTROLLER_COMPONENTS_HPP_
-#define ENGINE_MODULES_CONTROLLER_COMPONENTS_HPP_
+#ifndef ENGINE_MODULES_CONTROLLER_EVENTS_HPP_
+#define ENGINE_MODULES_CONTROLLER_EVENTS_HPP_
 
 
 #include <map>
 #include <functional>
+#include <vector>
 #include "../../Engine.hpp"
 #include "../../utils/hitbox.hpp"
 #include "../movement/components.hpp"
@@ -50,7 +51,7 @@ namespace zef {
 
         class clickable {
             public:
-                clickable(std::vector<utils::hitbox> hitboxes) : _hitboxes(hitboxes) {
+                explicit clickable(std::vector<utils::hitbox> hitboxes) : _hitboxes(hitboxes) {
 
                 }
 
@@ -60,4 +61,4 @@ namespace zef {
 } // namespace zef
 
 
-#endif // ENGINE_MODULES_CONTROLLER_COMPONENTS_HPP_
+#endif // ENGINE_MODULES_CONTROLLER_EVENTS_HPP_

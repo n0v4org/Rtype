@@ -5,6 +5,8 @@
 ** SFML DisplayModule
 */
 
+#include <iostream>
+#include <string>
 #include "Sfml.hpp"
 
 namespace zef{
@@ -63,7 +65,7 @@ namespace zef{
     sprite.setScale(scaleX, scaleY);
 
     _window.draw(sprite);
-  };
+  }
 
   //void Sfml::drawText(DrawableText_t toDraw) {
   void Sfml::drawText(std::string textString, std::string fontName,std::size_t fontSize, int posX, int posY, float scaleX, float scaleY, float rotation, float opacity) {
@@ -78,7 +80,7 @@ namespace zef{
     /*setorigin X-left Y-middle*/
 
     _window.draw(text);
-  };
+  }
 
   void Sfml::storeAssetsPNG(std::string assetPath) {
       sf::Texture texture;
@@ -89,7 +91,7 @@ namespace zef{
       }
       std::cout<<"Loading texture: "<<assetName<<std::endl;
       _sprites[assetName.c_str()] = texture;
-  };
+  }
   void Sfml::storeAssetsWAV(std::string assetPath) {
     sf::SoundBuffer soundbuffer;
     std::string assetName = assetPath.substr(assetPath.find_last_of("/\\") + 1);
@@ -99,7 +101,7 @@ namespace zef{
       throw AssetLoadException();
     }
     _sounds[assetName.c_str()] = soundbuffer;
-  };
+  }
   void Sfml::storeAssetsTTF(std::string assetPath) {
     sf::Font font;
     std::string assetName = assetPath.substr(assetPath.find_last_of("/\\") + 1);
@@ -110,23 +112,23 @@ namespace zef{
     }
     std::cout<<"Loading fonts: "<<assetName<<std::endl;
     _fonts[assetName.c_str()] = font;
-  };
+  }
   void Sfml::storeAssetsVERT(std::string assetPath){
-  };
+  }
 
   void Sfml::playSound(std::string toPlay){
       sf::Sound sound;
       sf::SoundBuffer soundbuffer = _sounds.find(toPlay)->second;
       sound.setBuffer(soundbuffer);
       sound.play();
-  };
+  }
 
   //void Sfml::saveAnimation(std::string name, Animation_t animation){
   void Sfml::saveAnimation(std::string name, std::string spriteSheet, std::size_t startTileX, std::size_t startTileY, std::size_t SizeX, std::size_t SizeY) {
       Animation_t animation{spriteSheet, {startTileX, startTileY}, {SizeX, SizeY}};
 
       _animations[name.c_str()] = animation;
-  };
+  }
 
   void Sfml::setCamera(int X, int Y, int Z){
     if (!_window.getView().getViewport().width) {
@@ -138,7 +140,7 @@ namespace zef{
     view.zoom(1.0f + Z / 100.0f);
     _window.setView(view);
 
-  };
+  }
 
   void Sfml::moveCamera(int X, int Y, float Z){
     if (!_window.getView().getViewport().width) {
@@ -150,7 +152,7 @@ namespace zef{
     view.zoom(Z);
     _window.setView(view);
 
-  };
+  }
 
   void Sfml::updateUserInputs(utils::UserInputs &ui) {
     sf::Event evt;
@@ -207,7 +209,7 @@ namespace zef{
 		}
     }
     return userInput;
-  };
+  }
 
 
   IDisplayModule* entryPoint() {
@@ -215,6 +217,5 @@ namespace zef{
   }
 
 
- }
-
-}
+ } // namespace graph
+} // namespace zef

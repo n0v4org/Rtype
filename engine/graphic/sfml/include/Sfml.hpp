@@ -5,18 +5,20 @@
 ** SFML DisplayModule
 */
 
-#ifndef CLIENT_INCLUDE_GRAPHIC_SFML_HPP_
-#define CLIENT_INCLUDE_GRAPHIC_SFML_HPP_
+#ifndef ENGINE_GRAPHIC_SFML_INCLUDE_SFML_HPP_
+#define ENGINE_GRAPHIC_SFML_INCLUDE_SFML_HPP_
 
-#include "ADisplayModule.hpp"
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/Audio.hpp>
 #include <cstddef>
 #include <memory>
+#include <string>
 #include <utility>
 #include <vector>
+
+#include "ADisplayModule.hpp"
 
 namespace zef {
   namespace graph {
@@ -78,7 +80,7 @@ class AssetLoadException : public std::exception {
       return "Failed to load Asset.";
     }
 };
-  }
-}
+  } // namespace graph 
+} // namespace zef
 
-#endif //CLIENT_INCLUDE_GRAPHIC_SFML_HPP_
+#endif // ENGINE_GRAPHIC_SFML_INCLUDE_SFML_HPP_

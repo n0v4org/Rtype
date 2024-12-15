@@ -5,8 +5,8 @@
 ** IDisplayModule
 */
 
-#ifndef CLIENT_INCLUDE_GRAPHIC_IDISPLAYMODULE_HPP_
-#define CLIENT_INCLUDE_GRAPHIC_IDISPLAYMODULE_HPP_
+#ifndef ENGINE_GRAPHIC_INCLUDES_IDISPLAYMODULE_HPP_
+#define ENGINE_GRAPHIC_INCLUDES_IDISPLAYMODULE_HPP_
 
 #include <cstdio>
 #include <utility>
@@ -113,8 +113,7 @@ namespace zef{
 
 
     IDisplayModule* entryPoint();
-  }
+  } // namespace graph
+} // namespace zef
 
-}
-
-#endif //CLIENT_INCLUDE_GRAPHIC_IDISPLAYMODULE_HPP_
+#endif //ENGINE_GRAPHIC_INCLUDES_IDISPLAYMODULE_HPP_
