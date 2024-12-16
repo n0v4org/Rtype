@@ -9,6 +9,7 @@
 #define SERVER_INCLUDE_CORE_HPP_
 #include <memory>
 #include <thread>
+#include <vector>
 #include <asio.hpp>
 #include "Arguments.hpp"
 #include "Server.hpp"

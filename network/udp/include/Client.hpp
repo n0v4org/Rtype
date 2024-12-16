@@ -5,8 +5,8 @@
 ** Client
 */
 
-#ifndef CLIENT_INCLUDE_NETWORKING_CLIENT_HPP_
-#define CLIENT_INCLUDE_NETWORKING_CLIENT_HPP_
+#ifndef NETWORK_UDP_INCLUDE_CLIENT_HPP_
+#define NETWORK_UDP_INCLUDE_CLIENT_HPP_
 #include <string>
 #include <array>
 #include <deque>
@@ -46,4 +46,4 @@ namespace network {
   }  // namespace game
 }  // namespace network
 
-#endif  // CLIENT_INCLUDE_NETWORKING_CLIENT_HPP_
+#endif  // NETWORK_UDP_INCLUDE_CLIENT_HPP_

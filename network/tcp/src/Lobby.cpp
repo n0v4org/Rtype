@@ -6,8 +6,8 @@
 */
 
 #include <iostream>
-#include <asio.hpp>
 #include <random>
+#include <asio.hpp>
 #include "Lobby.hpp"
 #include "Connection.hpp"
 

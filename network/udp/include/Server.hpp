@@ -5,8 +5,8 @@
 ** Server
 */
 
-#ifndef SERVER_HPP_
-#define SERVER_HPP_
+#ifndef NETWORK_UDP_INCLUDE_SERVER_HPP_
+#define NETWORK_UDP_INCLUDE_SERVER_HPP_
 
 #include <map>
 #include <memory>
@@ -49,4 +49,4 @@ private:
     } // namespace game
 } // namespace network
 
-#endif /* SERVER_HPP_ */
+#endif // NETWORK_UDP_INCLUDE_SERVER_HPP_

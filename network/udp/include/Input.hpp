@@ -5,8 +5,8 @@
 ** Input
 */
 
-#ifndef INPUT_HPP_
-#define INPUT_HPP_
+#ifndef NETWORK_UDP_INCLUDE_INPUT_HPP_
+#define NETWORK_UDP_INCLUDE_INPUT_HPP_
 
 struct input_t {
     uint8_t cmd;
@@ -16,4 +16,4 @@ struct input_t {
 };
 
 
-#endif /* !INPUT_HPP_ */
+#endif // NETWORK_UDP_INCLUDE_INPUT_HPP_

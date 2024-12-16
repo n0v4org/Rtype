@@ -5,8 +5,8 @@
 ** Commands
 */
 
-#ifndef COMMANDS_HPP_
-#define COMMANDS_HPP_
+#ifndef NETWORK_UDP_INCLUDE_COMMANDS_HPP_
+#define NETWORK_UDP_INCLUDE_COMMANDS_HPP_
 
 #include "Input.hpp"
 
@@ -37,10 +37,6 @@ static input_t unpack(std::size_t byte_size, std::array<uint8_t, 1024 > _recv_bu
 template <typename T>
 class Commands {
     public:
-        Commands(const input_t& input) {
-            parsePayload(input);
-        }
-        
         T getCommand() const {
             return _cmd;
         }
@@ -72,6 +68,9 @@ class Commands {
     protected:
     private:
         T _cmd;
+        explicit Commands(const input_t& input) {
+            parsePayload(input);
+        }
         void parsePayload(const input_t& input) {
             constexpr size_t dataSize = sizeof(T);
 
@@ -86,4 +85,4 @@ class Commands {
     } // namespace game
 } // namespace network
 
-#endif /* !COMMANDS_HPP_ */
+#endif // NETWORK_UDP_INCLUDE_COMMANDS_HPP_
