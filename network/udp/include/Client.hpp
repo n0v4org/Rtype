@@ -22,7 +22,8 @@ namespace network {
 
     class Client {
     public:
-      Client(int server_port, int client_port, std::string ip, asio::io_context &service);
+      Client(int server_port, int client_port, std::string ip,
+             asio::io_context &service);
       void close_connection();
       input_t popMessage();
       bool isQueueEmpty();
@@ -40,7 +41,8 @@ namespace network {
       std::deque<input_t> _command_queue;
       std::mutex _mutex;
 
-      void handleReceive(const asio::error_code &error, std::size_t bytes_transferred);
+      void handleReceive(const asio::error_code &error,
+                         std::size_t bytes_transferred);
     };
 
   }  // namespace game

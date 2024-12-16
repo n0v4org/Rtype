@@ -17,14 +17,15 @@ using asio::ip::udp;
 namespace network {
   namespace game {
 
-    Client::Client(int server_port, int client_port, std::string ip, asio::io_context &service)
-        : _socket(service, udp::endpoint(udp::v4(), client_port))
-        , _io_service(service)
-        , _sequence_id(0) {
+    Client::Client(int server_port, int client_port, std::string ip,
+                   asio::io_context &service)
+      : _socket(service, udp::endpoint(udp::v4(), client_port))
+      , _io_service(service)
+      , _sequence_id(0) {
       udp::resolver resolver(_io_service);
       udp::resolver::query query(udp::v4(), ip, std::to_string(server_port));
       udp::resolver::iterator iter = resolver.resolve(query);
-      _server_endpoint = *iter;
+      _server_endpoint             = *iter;
 
       // Start receiving asynchronously
       startReceive();
@@ -64,14 +65,14 @@ namespace network {
 
     void Client::startReceive() {
       _socket.async_receive_from(
-          asio::buffer(_recvBuffer),
-          _remote_endpoint,
+          asio::buffer(_recvBuffer), _remote_endpoint,
           [this](const asio::error_code &error, std::size_t bytes_transferred) {
             handleReceive(error, bytes_transferred);
           });
     }
 
-    void Client::handleReceive(const asio::error_code &error, std::size_t bytes_transferred) {
+    void Client::handleReceive(const asio::error_code &error,
+                               std::size_t bytes_transferred) {
       if (!error && bytes_transferred > 0) {
         input_t receivedMessage = unpack(bytes_transferred, _recvBuffer);
         {
@@ -79,7 +80,8 @@ namespace network {
           _command_queue.push_back(receivedMessage);
         }
 
-        std::cout << "Received message: cmd=" << static_cast<int>(receivedMessage.cmd)
+        std::cout << "Received message: cmd="
+                  << static_cast<int>(receivedMessage.cmd)
                   << ", seq=" << receivedMessage.seq << std::endl;
 
         startReceive();

@@ -38,7 +38,8 @@ void Join::exec_cmd(std::string payload, asio::ip::tcp::socket &socket) {
     }
   }
   for (auto &i : LOBBY) {
-    auto it = std::find(i.endpoints.begin(), i.endpoints.end(), socket.remote_endpoint());
+    auto it = std::find(i.endpoints.begin(), i.endpoints.end(),
+                        socket.remote_endpoint());
     if (it != i.endpoints.end()) {
       i.endpoints.erase(it);
     }
