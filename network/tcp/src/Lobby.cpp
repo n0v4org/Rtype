@@ -7,10 +7,11 @@
 
 #include <iostream>
 #include <asio.hpp>
+#include <random>
 #include "Lobby.hpp"
 #include "Connection.hpp"
 
-std::array<std::vector<asio::ip::tcp::endpoint>, 5> LOBBY;
+std::array<Room, 5> LOBBY;
 
 namespace network {
   namespace lobby {
@@ -21,6 +22,19 @@ namespace network {
       auto& _factoryCmd = FactoryCmd::getInstance();
       _factoryCmd.registerAllCommand();
       start_accept();
+      for (int i  = 0; i < LOBBY.size(); i++) {
+        LOBBY.at(i).port = generateRandomPort();
+      }
+    }
+
+    int Server::generateRandomPort() {
+        constexpr int min_port = 1024;
+        constexpr int max_port = 65535;
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::uniform_int_distribution<> dis(min_port, max_port);
+
+        return dis(gen);
     }
 
     void Server::start_accept() {

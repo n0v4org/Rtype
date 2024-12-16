@@ -19,7 +19,13 @@
 #include "Commands/FactoryCmd.hpp"
 #include "Commands/ACommand.hpp"
 
-extern std::array<std::vector<asio::ip::tcp::endpoint>, 5> LOBBY;
+struct Room {
+  std::vector<asio::ip::tcp::endpoint> endpoints;
+  bool launched = false;
+  int port;
+};
+
+extern std::array<Room, 5> LOBBY;
 
 using asio::ip::tcp;
 
@@ -32,6 +38,7 @@ namespace network {
 
     private:
       void start_accept();
+      int generateRandomPort();
       void handle_accept(Connection::pointer, const std::error_code &);
 
       asio::io_context &io_context_;
@@ -65,7 +72,8 @@ namespace network {
 
       std::string fetchLatestMessage() {
         std::unique_lock<std::mutex> lock(_read_queue_mutex);
-        _read_queue_cv.wait(lock, [this]() { return !_read_queue.empty(); });
+        if (_read_queue.empty())
+          return "";
         std::string latest = _read_queue.front();
         _read_queue.pop_front();
         return latest;

@@ -6,7 +6,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 project(Rtype VERSION 1.0)
 
 set(SRCS
-    src/networking/Client.cpp
     src/Core.cpp
     src/Arguments.cpp
     src/networking/TcpClient.cpp

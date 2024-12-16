@@ -9,36 +9,41 @@
 #define CLIENT_INCLUDE_NETWORKING_CLIENT_HPP_
 #include <string>
 #include <array>
+#include <deque>
 #include <thread>
+#include <mutex>
 #include <asio.hpp>
-#include "macro.hpp"
+#include "Input.hpp"
 
 using asio::ip::udp;
 
-namespace client {
-  namespace net {
+namespace network {
+  namespace game {
 
     class Client {
     public:
-      Client(int, int, std::string, asio::io_context &);
-      void recv_thread();
+      Client(int server_port, int client_port, std::string ip, asio::io_context &service);
       void close_connection();
-      void send(const std::string &, uint8_t);
+      input_t popMessage();
+      bool isQueueEmpty();
+      void send(std::array<uint8_t, 1024> buff);
       void startReceive();
       ~Client();
 
-    protected:
     private:
       uint32_t _sequence_id;
       udp::socket _socket;
       asio::io_context &_io_service;
       udp::endpoint _server_endpoint;
       udp::endpoint _remote_endpoint;
-      std::array<char, BUFFER_SIZE> _recvBuffer;
-      std::thread _recv_thread;
+      std::array<uint8_t, 1024> _recvBuffer;
+      std::deque<input_t> _command_queue;
+      std::mutex _mutex;
+
+      void handleReceive(const asio::error_code &error, std::size_t bytes_transferred);
     };
 
-  }  // namespace net
-}  // namespace client
+  }  // namespace game
+}  // namespace network
 
 #endif  // CLIENT_INCLUDE_NETWORKING_CLIENT_HPP_

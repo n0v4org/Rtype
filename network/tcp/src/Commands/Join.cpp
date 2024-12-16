@@ -22,29 +22,28 @@ Join::Join(json data) : ACommand(data) {
 void Join::exec_cmd(std::string payload, asio::ip::tcp::socket &socket) {
   if (!parse_input(payload))
     return;
-  std::cout << get_payload().at(0) << std::endl;
   int lobby_id = std::stoi(get_payload().at(0));
   if (LOBBY.size() < lobby_id) {
     set_resp(LOBBY_NOT_FOUND);
     return;
   }
-  if (LOBBY.at(lobby_id).size() > 5) {
+  if (LOBBY.at(lobby_id).endpoints.size() > 5) {
     set_resp(MAX_PLAYER);
     return;
   }
-  for (auto &i : LOBBY.at(lobby_id)) {
+  for (auto &i : LOBBY.at(lobby_id).endpoints) {
     if (i == socket.remote_endpoint()) {
       set_resp(ALREADY_IN_LOBBY);
       return;
     }
   }
   for (auto &i : LOBBY) {
-    auto it = std::find(i.begin(), i.end(), socket.remote_endpoint());
-    if (it != i.end()) {
-      i.erase(it);
+    auto it = std::find(i.endpoints.begin(), i.endpoints.end(), socket.remote_endpoint());
+    if (it != i.endpoints.end()) {
+      i.endpoints.erase(it);
     }
   }
-  LOBBY.at(lobby_id).push_back(socket.remote_endpoint());
+  LOBBY.at(lobby_id).endpoints.push_back(socket.remote_endpoint());
   set_resp(SUCCEED);
 }
 

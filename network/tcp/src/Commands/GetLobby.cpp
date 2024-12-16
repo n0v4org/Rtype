@@ -26,7 +26,7 @@ void GetLobby::exec_cmd(std::string payload, asio::ip::tcp::socket &socket_) {
     set_resp(LOBBY_NOT_FOUND);
     return;
   }
-  for (auto &i : LOBBY.at(lobby_id)) {
+  for (auto &i : LOBBY.at(lobby_id).endpoints) {
     resp += i.address().to_string() + ":" + std::to_string(i.port()) + " ";
   }
   set_resp(resp);
