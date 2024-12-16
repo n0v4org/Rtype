@@ -23,3 +23,7 @@ find_package(nlohmann_json 3.2.0 REQUIRED)
 target_link_libraries(lobby_network PRIVATE asio nlohmann_json::nlohmann_json)
 
 target_include_directories(lobby_network PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+
+if(WIN32)
+    target_compile_definitions(game_network PRIVATE _WIN32_WINNT=0x0A00)
+endif()
