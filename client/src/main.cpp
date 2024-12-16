@@ -21,7 +21,7 @@ int main(int argc, char *argv[]) {
   } catch (const std::exception &e) {
     if (strcmp(e.what(), EXCEPTION) != 0)
       std::cerr << e.what() << '\n';
-    return ERROR;
+    return KO;
   }
 
   return OK;
