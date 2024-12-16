@@ -59,8 +59,8 @@ namespace client {
       //     else
       //       std::cout << tmp << std::endl;
       //   }
-      //   std::cout << "here" << _tcp_client->fetchLatestMessage() << std::endl;
-      //   if (line.compare(0, 11, "LAUNCH_GAME") == 0)
+      //   std::cout << "here" << _tcp_client->fetchLatestMessage() <<
+      //   std::endl; if (line.compare(0, 11, "LAUNCH_GAME") == 0)
       //     break;
       // }
       // std::string port;
@@ -68,29 +68,23 @@ namespace client {
       //   port = _tcp_client->fetchLatestMessage();
       //   if (!port.empty()) {
       //     if (port.find(":") != std::string::npos) {
-      //       port = port.substr(port.find(":"), port.length() - port.find(":"));
+      //       port = port.substr(port.find(":"), port.length() -
+      //       port.find(":"));
       //     }
       //     break;
       //   }
       // }
       // std::cout << "aqui" << std::endl;
-      _client = std::make_unique<network::game::Client>(_params->get_server_port(),
-                                              _params->get_client_port(),
-                                              _params->get_ip(),
-                                              _io_service);
+      _client = std::make_unique<network::game::Client>(
+          _params->get_server_port(), _params->get_client_port(),
+          _params->get_ip(), _io_service);
       std::string line;
-       while (std::getline(std::cin, line)) {
-        input_t test = {
-          .cmd = 1,
-          .payload_size = sizeof(struct test),
-          .seq = 2,
-          .payload = {0}
-        };
-        struct test yh = {
-          .a = 42,
-          .b = "hello",
-          .c = 89
-        };
+      while (std::getline(std::cin, line)) {
+        input_t test   = {.cmd          = 1,
+                          .payload_size = sizeof(struct test),
+                          .seq          = 2,
+                          .payload      = {0}};
+        struct test yh = {.a = 42, .b = "hello", .c = 89};
         _client->send(network::game::Commands<struct test>::toArray(yh, test));
       }
       // t.join();

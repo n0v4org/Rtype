@@ -20,33 +20,35 @@
 using asio::ip::udp;
 
 namespace network {
-    namespace game {
+  namespace game {
 
-class Server {
-public:
-    Server(asio::io_context& context, int port);
+    class Server {
+    public:
+      Server(asio::io_context& context, int port);
 
-    void close_connection();
-    input_t popMessage();
-    bool isQueueEmpty();
+      void close_connection();
+      input_t popMessage();
+      bool isQueueEmpty();
 
-    void send(const udp::endpoint& client, std::array<uint8_t, 1024> message);
-    ~Server();
+      void send(const udp::endpoint& client, std::array<uint8_t, 1024> message);
+      ~Server();
 
-private:
-    void start_receive();
-    void dispatch_client(const std::error_code& ec, std::size_t bytes_transferred);
-    void handle_send(const std::error_code& ec, std::size_t bytes_transferred);
+    private:
+      void start_receive();
+      void dispatch_client(const std::error_code& ec,
+                           std::size_t bytes_transferred);
+      void handle_send(const std::error_code& ec,
+                       std::size_t bytes_transferred);
 
-    udp::socket _socket;
-    udp::endpoint _remote_endpoint_;
-    std::array<uint8_t, 1024> _recv_buffer_;
-    std::deque<input_t> _command_queue;
-    std::mutex _mutex;
-    bool _debug;
-};
+      udp::socket _socket;
+      udp::endpoint _remote_endpoint_;
+      std::array<uint8_t, 1024> _recv_buffer_;
+      std::deque<input_t> _command_queue;
+      std::mutex _mutex;
+      bool _debug;
+    };
 
-    } // namespace game
-} // namespace network
+  }  // namespace game
+}  // namespace network
 
-#endif // NETWORK_UDP_INCLUDE_SERVER_HPP_
+#endif  // NETWORK_UDP_INCLUDE_SERVER_HPP_
