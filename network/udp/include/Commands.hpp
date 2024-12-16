@@ -42,7 +42,7 @@ namespace network {
       explicit Commands(const input_t& input) {
         parsePayload(input);
       }
-        Commands() = default;
+      Commands() = default;
 
       static std::array<uint8_t, 1024> toArray(const T& data, input_t& input) {
         std::array<uint8_t, 1024> result = {0};
