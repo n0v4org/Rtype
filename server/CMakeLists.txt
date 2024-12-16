@@ -34,5 +34,6 @@ target_include_directories(r-type_server_tests PUBLIC ${CMAKE_CURRENT_SOURCE_DIR
 add_test(NAME RtypeTests COMMAND r-type_tests)
 
 if(WIN32)
-    target_compile_definitions(game_network PRIVATE _WIN32_WINNT=0x0A00)
+    target_compile_definitions(r-type_server PRIVATE _WIN32_WINNT=0x0A00)
+    target_compile_definitions(r-type_server_tests PRIVATE _WIN32_WINNT=0x0A00)
 endif()

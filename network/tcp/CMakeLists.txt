@@ -25,5 +25,5 @@ target_link_libraries(lobby_network PRIVATE asio nlohmann_json::nlohmann_json)
 target_include_directories(lobby_network PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 if(WIN32)
-    target_compile_definitions(game_network PRIVATE _WIN32_WINNT=0x0A00)
+    target_compile_definitions(lobby_network PRIVATE _WIN32_WINNT=0x0A00)
 endif()
