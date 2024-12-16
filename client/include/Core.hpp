@@ -11,8 +11,8 @@
 #include <memory>
 #include <asio.hpp>
 #include "Arguments.hpp"
-#include "networking/Client.hpp"
 #include "Lobby.hpp"
+#include "Client.hpp"
 #include "networking/TcpClient.hpp"
 
 namespace client {
@@ -26,7 +26,7 @@ namespace client {
   protected:
   private:
     std::unique_ptr<Arguments> _params;
-    std::unique_ptr<net::Client> _client;
+    std::unique_ptr<network::game::Client> _client;
     std::shared_ptr<network::lobby::Client> _tcp_client;
     asio::io_context _io_service;
   };
