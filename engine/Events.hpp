@@ -28,7 +28,7 @@ namespace zef {
     T to_struct(std::function<void(Engine&, size_t, T)> f) {
       return std::any_cast<T>(tpl);
     }
-  }
+  };
 
   namespace comp
   {

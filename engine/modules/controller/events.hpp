@@ -5,8 +5,8 @@
 ** events
 */
 
-#ifndef EVENTS_HPP_
-#define EVENTS_HPP_
+#ifndef ENGINE_MODULES_CONTROLLER_EVENTS_HPP_
+#define ENGINE_MODULES_CONTROLLER_EVENTS_HPP_
 
 namespace zef {
     namespace evt {
@@ -21,5 +21,5 @@ namespace zef {
 } // namespace zef
 
 
-#endif /* !EVENTS_HPP_ */
+#endif // ENGINE_MODULES_CONTROLLER_EVENTS_HPP_
 

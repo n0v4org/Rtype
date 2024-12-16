@@ -44,7 +44,7 @@ namespace zef
                 dr.timer += engine.elapsed.count();
 
                 //std::cout << dr.current_frame << std::endl;
-                if (dr.timer > (float)(dr.getAnimationFreq() * 1000) * (1.0 /dr.getAnimationSpeed())) {
+                if (dr.timer > static_cast<float>((dr.getAnimationFreq() * 1000) * (1.0 /dr.getAnimationSpeed()))) {
                     if (dr.current_frame >= dr.max_frame_cur() - 1) {
                         dr.current_frame = -1;
                         if (dr.animation != "") dr.animation = "";

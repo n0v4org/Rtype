@@ -39,17 +39,14 @@ include_directories(r-type_server PUBLIC
 #if (NOT SFML OR NOT ZEFIR)
 #    message(FATAL_ERROR "Une ou plusieurs bibliothèques n'ont pas été trouvées.")
 #endif()
-set(LIBRARY_SEARCH_PATH "${CMAKE_SOURCE_DIR}/../engine/bin")
-link_directories(${LIBRARY_SEARCH_PATH})
 
-find_library(SFML sfmlt PATHS ${LIBRARY_SEARCH_PATH})
-find_library(ZEFIR zefir PATHS ${LIBRARY_SEARCH_PATH})
 
 
 
 target_link_libraries(r-type_server PRIVATE 
-    ${SFML}
-    ${ZEFIR}
+    sfml
+    zefir
+    network
     sfml-system
     sfml-window
     sfml-graphics

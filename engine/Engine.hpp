@@ -27,7 +27,7 @@
 //#include "Scene.hpp"
 //#include "Patron.hpp"
 
-
+#include "tcp/include/Lobby.hpp"
 
 namespace zef {
 

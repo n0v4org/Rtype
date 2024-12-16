@@ -8,15 +8,15 @@
 #ifndef ENGINE_GRAPHIC_SFML_INCLUDE_SFML_HPP_
 #define ENGINE_GRAPHIC_SFML_INCLUDE_SFML_HPP_
 
-#include <SFML/Graphics.hpp>
-#include <SFML/System.hpp>
-#include <SFML/Window.hpp>
-#include <SFML/Audio.hpp>
 #include <cstddef>
 #include <memory>
 #include <string>
 #include <utility>
 #include <vector>
+#include <SFML/Graphics.hpp>
+#include <SFML/System.hpp>
+#include <SFML/Window.hpp>
+#include <SFML/Audio.hpp>
 
 #include "ADisplayModule.hpp"
 
