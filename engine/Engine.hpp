@@ -27,7 +27,6 @@
 //#include "Scene.hpp"
 //#include "Patron.hpp"
 
-#include "tcp/include/Lobby.hpp"
 
 namespace zef {
 
@@ -195,6 +194,7 @@ namespace zef {
 
       }
     }
+
 
     std::unique_ptr<zef::graph::IDisplayModule> GraphLib;
     std::chrono::high_resolution_clock::time_point clock;// = std::chrono::high_resolution_clock::now();

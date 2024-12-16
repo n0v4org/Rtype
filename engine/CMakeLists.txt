@@ -11,4 +11,5 @@ set(SRC
 
 add_library(zefir STATIC ${SRC})
 
-target_include_directories(zefir PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/ ${CMAKE_CURRENT_SOURCE_DIR}/../network)
+
+target_include_directories(zefir PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/ )

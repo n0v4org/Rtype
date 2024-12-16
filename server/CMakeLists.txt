@@ -46,7 +46,6 @@ include_directories(r-type_server PUBLIC
 target_link_libraries(r-type_server PRIVATE 
     sfml
     zefir
-    network
     sfml-system
     sfml-window
     sfml-graphics

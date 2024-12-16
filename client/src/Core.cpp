@@ -11,9 +11,9 @@
 #include <string>
 #include <thread>
 #include "Arguments.hpp"
-#include "Lobby.hpp"
 #include "Core.hpp"
 #include "macro.hpp"
+#include "game.hpp"
 
 static const char USAGE[406] = R"(
 usage:
@@ -38,19 +38,7 @@ namespace client {
         std::cout << USAGE << std::endl;
         return;
       }
-      // _client = std::make_unique<net::Client>(_params->get_server_port(),
-      //                                         _params->get_client_port(),
-      //                                         _params->get_ip(),
-      //                                         _io_service);
-      _tcp_client = std::make_shared<network::lobby::Client>(
-          _io_service, _params->get_ip(), _params->get_lobby_server_port());
-      _tcp_client->start();
-      std::thread t([this]() { _io_service.run(); });
-      std::string line;
-      while (std::getline(std::cin, line)) {
-        _tcp_client->write(line);
-      }
-      t.join();
+      runClient();
     } catch (const std::exception &e) {
       if (strcmp(e.what(), EXCEPTION) != 0)
         std::cerr << e.what() << '\n';
