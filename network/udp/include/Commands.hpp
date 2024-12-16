@@ -8,6 +8,7 @@
 #ifndef NETWORK_UDP_INCLUDE_COMMANDS_HPP_
 #define NETWORK_UDP_INCLUDE_COMMANDS_HPP_
 
+#include <algorithm>
 #include "Input.hpp"
 
 namespace network {
