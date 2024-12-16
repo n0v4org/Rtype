@@ -5,8 +5,13 @@
 ** Client
 */
 
+#ifndef _WIN32_WINNT
+#define _WIN32_WINNT 0x0A00
+#endif
+
 #ifndef NETWORK_UDP_INCLUDE_CLIENT_HPP_
 #define NETWORK_UDP_INCLUDE_CLIENT_HPP_
+
 #include <string>
 #include <array>
 #include <deque>
