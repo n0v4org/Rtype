@@ -39,6 +39,10 @@ namespace network {
       T getCommand() const {
         return _cmd;
       }
+      explicit Commands(const input_t& input) {
+        parsePayload(input);
+      }
+        Commands() = default;
 
       static std::array<uint8_t, 1024> toArray(const T& data, input_t& input) {
         std::array<uint8_t, 1024> result = {0};
@@ -68,9 +72,6 @@ namespace network {
     protected:
     private:
       T _cmd;
-      explicit Commands(const input_t& input) {
-        parsePayload(input);
-      }
       void parsePayload(const input_t& input) {
         constexpr size_t dataSize = sizeof(T);
 
