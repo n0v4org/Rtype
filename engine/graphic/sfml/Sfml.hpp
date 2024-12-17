@@ -43,7 +43,7 @@ namespace zef{
                 void drawSpriteHUD(std::string animationName, std::size_t currentFrame, int posX, int posY, float scaleX = 1, float scaleY = 1, float rotation = 0, RGBA mask = {1,1,1,1}) override;
                 void drawTextHUD(std::string textString, std::string fontName, std::size_t fontSize, int posX, int posY, float scaleX = 1, float scaleY = 1, float rotation = 0, RGBA mask = {1,1,1,1}) override;
 
-                void playSound(std::string)override;
+                void playSound(std::string soundName, int volume = 50)override;
 
                 void saveAnimation(std::string, std::string, std::size_t, std::size_t, std::size_t, std::size_t) override;
 
