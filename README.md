@@ -97,7 +97,7 @@ All third-party dependencies must be bundled with the project or fetched during 
 - **Protocol Documentation**:
   - 📡 Details the binary protocol used for client-server communication.
 
-For a complete reference, see the documentation hosted online (or provide the path/link if applicable).
+For a complete reference, see [the documentation hosted online](https://epitech-f1becc07.mintlify.app/introduction).
 
 ---
 
