@@ -33,6 +33,13 @@ void handleHealth(zef::Engine& engine, ecs::sparse_array<Health>& hps) {
     }
 }
 
+void convertHolderToVect(zef::Engine& engine, ecs::sparse_array<VectorHolder>& vhs, ecs::sparse_array<zef::comp::vector>& vvs) {
+    for (auto &&[i, vh, vc] : ecs::indexed_zipper(vhs, vvs)) {
+        vc.x = vh.x;
+        vc.y = vh.y;
+    }
+}
+
 
 #endif /* !SYSTEMS_HPP_ */
 

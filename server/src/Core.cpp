@@ -46,7 +46,9 @@ namespace rtype {
         std::cout << USAGE << std::endl;
         return;
       }
-      runServer();
+
+
+      runServer(_args->get_game_port());
     } catch (const std::exception& e) {
       std::cerr << e.what() << '\n';
       //t.join();

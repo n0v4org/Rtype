@@ -4,24 +4,62 @@
 ** File description:
 ** game
 */
+#include "asio.hpp"
 
 #include "Engine.hpp"
 #include "Scenes.hpp"
 #include "systems.hpp"
 
+#include "CommonCommands.hpp"
 
 #include "modules/display/systems.hpp"
 #include "modules/movement/systems.hpp"
-#include "asio.hpp"
+#include "modules/network/systems.hpp"
 
-void runServer(/*port*/) {
+void runServer(int port) {
     zef::Engine engine;
 
     engine.initGraphLib("Assets", "");
 
     engine.GraphLib->saveAnimation("ship", "image", 0, 0, 65, 66);
 
-    engine.initServer(13001);
+    engine.initServer(port);
+
+    engine.registerCommand(CONNECT, [](zef::Engine& engine, input_t input) {
+        engine.ServerSend<CommandSpawnPlayer>(input.id, SPAWNPLAYER, {static_cast<size_t>(input.id)}); 
+        engine.instanciatePatron<PlayerPatron>(0.0f, 0.0f, input.id);
+
+        for (auto &i : engine._server->getAllIds()) {
+            if (i != input.id) {
+                engine.ServerSend<CommandSpawnAlly>(i, SPAWNALLY, {0.0f, 0.0f, static_cast<size_t>(input.id)}); 
+            }
+        }
+
+        for (auto &&[pl, pos, rep] : ecs::zipper(engine.reg.get_components<Player>(), engine.reg.get_components<zef::comp::position>(), engine.reg.get_components<zef::comp::replicable>())) {
+            if (rep._id != input.id)
+                engine.ServerSend<CommandSpawnAlly>(input.id, SPAWNALLY, {pos.x, pos.y, rep._id});
+        }
+
+
+    });
+
+    engine.registerCommand(MOVEPLAYER, [](zef::Engine& engine, input_t input) {
+        CommandMovePlayer cmp = network::game::Commands<CommandMovePlayer>(input).getCommand();
+
+        for (auto &&[i,  rep] : ecs::indexed_zipper(
+            engine.reg.get_components<zef::comp::replicable>()
+            )) {
+                if (rep._id == input.id) {
+                    engine.sendEvent<SetPlayerVectorEvent>(i, cmp.x, cmp.y);
+                }
+            }
+
+        for (auto &&[p, rep] : ecs::zipper(engine.reg.get_components<Player>(), engine.reg.get_components<zef::comp::replicable>())) {
+            if (rep._id != input.id) {
+                engine.ServerSend<CommandMoveAlly>(rep._id, MOVEALLY, {input.id, cmp.x, cmp.y});
+            }
+        }
+    });
 
 
     
@@ -33,12 +71,18 @@ void runServer(/*port*/) {
     engine.registerComponent<Owner>();
     engine.registerComponent<Lifetime>();
     engine.registerComponent<zef::comp::event_listener>();
+    engine.registerComponent<zef::comp::replicable>();
+    engine.registerComponent<VectorHolder>();
+    engine.registerComponent<Player>();
     
 
     //engine.addSystem<>(entitycountdisplay);
 
     engine.addSystem<Lifetime>(lifetime_system);
+    engine.addSystem<>(zef::sys::handle_server);
 
+
+    engine.addSystem<VectorHolder, zef::comp::vector>(convertHolderToVect);
     engine.addSystem<zef::comp::vector>(zef::sys::normalize_velocity_vectors);
     engine.addSystem<zef::comp::position, zef::comp::vector>(zef::sys::move);
     engine.addSystem<zef::comp::collidable, zef::comp::position>(zef::sys::check_collidables);

@@ -33,6 +33,15 @@ class BackGround {
     BackGround() {}
 };
 
+class VectorHolder {
+    public:
+    VectorHolder(float _x, float _y): x(_x), y(_y) {}
+
+    float x;
+    float y;
+};
+
+
 
 
 #endif /* !COMPONENTS_HPP_ */

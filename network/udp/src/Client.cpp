@@ -74,7 +74,7 @@ namespace network {
     void Client::handleReceive(const asio::error_code &error,
                                std::size_t bytes_transferred) {
       if (!error && bytes_transferred > 0) {
-        input_t receivedMessage = unpack(bytes_transferred, _recvBuffer);
+        input_t receivedMessage = unpack(bytes_transferred, _recvBuffer, 0);
         {
           std::lock_guard<std::mutex> lock(_mutex);
           _command_queue.push_back(receivedMessage);

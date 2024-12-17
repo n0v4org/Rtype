@@ -8,6 +8,6 @@
 #ifndef GAME_HPP_
 #define GAME_HPP_
 
-void runServer(/*port*/);
+void runServer(int port);
 
 #endif /* !GAME_HPP_ */

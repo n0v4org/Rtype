@@ -15,10 +15,18 @@
 #include "modules/movement/components.hpp"
 #include "modules/display/components.hpp"
 #include "modules/controller/components.hpp"
+#include "modules/network/components.hpp"
+
+#include "CommonCommands.hpp"
 
 #include "events.hpp"
 
 #include "BulletPatron.hpp"
+
+struct sendingVectorEvt {
+    float x;
+    float y;
+};
 
 zef::comp::event_listener createPlayerEventListener() {
     zef::comp::event_listener evtl;
@@ -34,12 +42,17 @@ zef::comp::event_listener createPlayerEventListener() {
         engine.instanciatePatron<BulletPatron>(p.x, p.y);
     });
 
+    evtl.setEvent<sendingVectorEvt>([](zef::Engine& engine, size_t self, sendingVectorEvt sve) {
+        engine.ClientSend<CommandMovePlayer>(MOVEPLAYER, {sve.x, sve.y});
+    });
+
+
     return evtl;
 }
 
 class PlayerPatron {
 public:
-    static void instanciate(zef::Engine& engine, const ecs::Entity& self, float x, float y) {
+    static void instanciate(zef::Engine& engine, const ecs::Entity& self, float x, float y, size_t rep) {
         engine.addEntityComponent<zef::comp::position>(self, x, y);
         engine.addEntityComponent<zef::comp::vector>(self, 0, 0, 10);
 
@@ -58,8 +71,20 @@ public:
         cont.bindOnDown<SetPlayerVectorEvent>(zef::utils::ArrowLeft, -1.0f, 0.0f);
         cont.bindOnRelease<ShootPlayerEvent>(zef::utils::E);
 
+
+        cont.bindOnPressed<sendingVectorEvt>(zef::utils::ArrowUp, 0.0f, -1.0f);
+        cont.bindOnPressed<sendingVectorEvt>(zef::utils::ArrowDown, 0.0f, 1.0f);
+        cont.bindOnPressed<sendingVectorEvt>(zef::utils::ArrowRight, 1.0f, 0.0f);
+        cont.bindOnPressed<sendingVectorEvt>(zef::utils::ArrowLeft, -1.0f, 0.0f);
+
+        cont.bindOnRelease<sendingVectorEvt>(zef::utils::ArrowUp, 0.0f, 1.0f);
+        cont.bindOnRelease<sendingVectorEvt>(zef::utils::ArrowDown, 0.0f, -1.0f);
+        cont.bindOnRelease<sendingVectorEvt>(zef::utils::ArrowRight, -1.0f, 0.0f);
+        cont.bindOnRelease<sendingVectorEvt>(zef::utils::ArrowLeft, 1.0f, 0.0f);
+
         engine.addEntityComponent<zef::comp::controllable>(self, cont);
         engine.addEntityComponent<Player>(self);
+        engine.addEntityComponent<zef::comp::replicable>(self, rep);
 
     }
 };

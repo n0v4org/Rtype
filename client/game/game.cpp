@@ -12,10 +12,16 @@
 
 #include "modules/display/systems.hpp"
 #include "modules/movement/systems.hpp"
+#include "modules/network/systems.hpp"
 #include "modules/controller/systems.hpp"
 #include "asio.hpp"
+#include "CommonCommands.hpp"
+#include "udp/include/Commands.hpp"
 
-void runClient(/*port*/) {
+
+
+
+void runClient(int sport, int cport, std::string ip) {
     zef::Engine engine;
 
     engine.initGraphLib("Assets", "");
@@ -23,7 +29,31 @@ void runClient(/*port*/) {
     engine.GraphLib->saveAnimation("ship", "image", 0, 0, 65, 66);
     engine.GraphLib->saveAnimation("bg", "bg2", 0, 0, 1000, 562);
 
-    
+    engine.initClient(sport, cport, ip);
+
+    engine.registerCommand(SPAWNPLAYER, [](zef::Engine& engine, input_t input) {
+        network::game::Commands<CommandSpawnPlayer> csp = network::game::Commands<CommandSpawnPlayer>(input);
+        engine.instanciatePatron<PlayerPatron>(0.0f, 0.0f, csp.getCommand().replicable);
+    });
+
+    engine.registerCommand(SPAWNALLY, [](zef::Engine& engine, input_t input) {
+        CommandSpawnAlly csp = network::game::Commands<CommandSpawnAlly>(input).getCommand();
+        engine.instanciatePatron<AllyPatron>(csp.x, csp.y, csp.replicable);
+    });
+
+    engine.registerCommand(MOVEALLY, [](zef::Engine& engine, input_t input) {
+        CommandMoveAlly mva = network::game::Commands<CommandMoveAlly>(input).getCommand();
+        //engine.instanciatePatron<AllyPatron>(csp.x, csp.y, csp.replicable);
+        for (auto&& [i, rep]: ecs::indexed_zipper(engine.reg.get_components<zef::comp::replicable>())) {
+            if (rep._id == mva.id) {
+                engine.sendEvent<SetPlayerVectorEvent>(i, mva.x, mva.y);
+            }
+        }
+    });
+
+    engine.ClientSend<CommandConnect>(CONNECT, {});
+
+
     engine.registerComponent<zef::comp::position>();
     engine.registerComponent<zef::comp::vector>();
     engine.registerComponent<zef::comp::drawable>();
@@ -34,13 +64,17 @@ void runClient(/*port*/) {
     engine.registerComponent<zef::comp::controllable>();
     engine.registerComponent<Player>();
     engine.registerComponent<BackGround>();
+    engine.registerComponent<zef::comp::replicable>();
+    engine.registerComponent<VectorHolder>();
     
 
     //engine.addSystem<>(entitycountdisplay);
 
+    engine.addSystem<>(zef::sys::handle_client);
     engine.addSystem<>(zef::sys::update_user_inputs);
     engine.addSystem<BackGround, zef::comp::position>(handleBackgroundScroll);
     engine.addSystem<Lifetime>(lifetime_system);
+    engine.addSystem<VectorHolder, zef::comp::vector>(convertHolderToVect);
     engine.addSystem<zef::comp::vector, Player>(resetPlayerMovement);
     engine.addSystem<zef::comp::controllable>(zef::sys::system_constrollables);
     engine.addSystem<zef::comp::event_listener>(zef::sys::resolveEvent);
