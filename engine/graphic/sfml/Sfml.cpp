@@ -158,10 +158,12 @@ namespace zef{
   };
 
   void Sfml::playSound(std::string soundName){
-      sf::Sound sound;
-      sf::SoundBuffer soundbuffer = _sounds.find(soundName)->second;
-      sound.setBuffer(soundbuffer);
-      sound.play();
+    //sf::Sound sound = _sounds.find(soundName)->second.first;
+    //sf::SoundBuffer *soundBuffer = _sounds.find(soundName)->second.second;
+    _sounds.find(soundName)->second.first.setBuffer(_sounds.find(soundName)->second.second);
+    std::cout << soundName << std::endl;
+    _sounds.find(soundName)->second.first.play();
+
   };
 
   //void Sfml::saveAnimation(std::string name, Animation_t animation){
