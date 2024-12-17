@@ -40,8 +40,9 @@ namespace ecs {
       _max     = max;
       _current = it_tuple;
       _idx     = 0;
-      if (!all_set(_seq))
+      if (_max != 0 && !all_set(_seq)) {
         incr_all(_seq);
+      }
     }
 
   public:

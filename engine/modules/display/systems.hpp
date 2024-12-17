@@ -5,8 +5,12 @@
 ** systems
 */
 
-#ifndef SYSTEMS_HPP_
-#define SYSTEMS_HPP_
+#ifndef ENGINE_MODULES_DISPLAY_SYSTEMS_HPP_
+#define ENGINE_MODULES_DISPLAY_SYSTEMS_HPP_
+
+#include <vector>
+#include <algorithm>
+#include <string>
 
 #include "../../Engine.hpp"
 #include "components.hpp"
@@ -40,7 +44,7 @@ namespace zef
                 dr.timer += engine.elapsed.count();
 
                 //std::cout << dr.current_frame << std::endl;
-                if (dr.timer > (float)(dr.getAnimationFreq() * 1000) * (1.0 /dr.getAnimationSpeed())) {
+                if (dr.timer > static_cast<float>((dr.getAnimationFreq() * 1000) * (1.0 /dr.getAnimationSpeed()))) {
                     if (dr.current_frame >= dr.max_frame_cur() - 1) {
                         dr.current_frame = -1;
                         if (dr.animation != "") dr.animation = "";
@@ -54,4 +58,4 @@ namespace zef
 } // namespace zef
 
 
-#endif /* !SYSTEMS_HPP_ */
+#endif // ENGINE_MODULES_DISPLAY_SYSTEMS_HPP_

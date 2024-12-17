@@ -30,9 +30,9 @@ namespace zef {
             
             public:
                 // Collidable constructor
-                collidable(std::vector<utils::hitbox> hitboxes): _hitboxes(hitboxes) {}
+                explicit collidable(std::vector<utils::hitbox> hitboxes): _hitboxes(hitboxes) {}
                 // Collidable constructor
-                collidable(std::vector<utils::hitbox> &hitboxes): _hitboxes(hitboxes) {}
+                //collidable(std::vector<utils::hitbox> &hitboxes): _hitboxes(hitboxes) {}
                 // Destructor
                 ~collidable() {}
 

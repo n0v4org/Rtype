@@ -5,8 +5,8 @@
 ** Patron
 */
 
-#ifndef PATRON_HPP_
-#define PATRON_HPP_
+#ifndef ENGINE_PATRON_HPP_
+#define ENGINE_PATRON_HPP_
 
 
 #include <map>
@@ -22,5 +22,5 @@ namespace zef
     };
 } // namespace zef
 
-#endif /* !PATRON_HPP_ */
+#endif // ENGINE_PATRON_HPP_
 

@@ -9,17 +9,27 @@
 #include <memory>
 #include <iostream>
 #include <string>
+#include <thread>
 #include "Arguments.hpp"
 #include "Core.hpp"
 #include "macro.hpp"
+#include "game.hpp"
 
-static const char USAGE[253] = R"(
+static const char USAGE[406] = R"(
 usage:
         -h: run client in help mode
         -ip <server ip>: run network client with specified server ip
         -sp <port>: specified server port (default is 50000)
         -cp <port>: run newtork client in a specified port (default is 50001)
+        -lsp <port>: specified server lobby port (default is 50003)
+        -lcp <port>: run newtork client lobby in a specified port (default is 50004)
 )";
+
+struct test {
+  int a;
+  char b[24];
+  int c;
+};
 
 namespace client {
 
@@ -34,16 +44,7 @@ namespace client {
         std::cout << USAGE << std::endl;
         return;
       }
-      _client = std::make_unique<net::Client>(_params->get_server_port(),
-                                              _params->get_client_port(),
-                                              _params->get_ip(), _io_service);
-
-      _io_service.run();
-      std::string line;
-      while (std::getline(std::cin, line)) {
-        _client->send(line);
-      }
-      _client->close_connection();
+      runClient();
     } catch (const std::exception &e) {
       if (strcmp(e.what(), EXCEPTION) != 0)
         std::cerr << e.what() << '\n';

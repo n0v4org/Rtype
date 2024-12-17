@@ -71,8 +71,8 @@ The project emphasizes advanced software engineering practices, including modula
 
 The project uses the following libraries:
 
-- 🛠️ **Boost.Asio** or equivalent for networking (server).
-- 🎨 **SFML/SDL** for rendering, input, and audio (client).
+- 🛠️ **Asio** or equivalent for networking (server).
+- 🎨 **SFML** for rendering, input, and audio (client).
 - ⚙️ Optional: **CMake FetchContent** or a package manager like **Conan** or **Vcpkg** to manage dependencies.
 
 All third-party dependencies must be bundled with the project or fetched during the build process.
@@ -82,8 +82,8 @@ All third-party dependencies must be bundled with the project or fetched during 
 ### 💻 Platform Support
 
 - 🖥️ **Windows**: Compiled with MSVC.
-- 🐧 **Linux**: Compiled with GCC.
-- 🌐 Cross-compilation supported with CMake and Docker.
+- 🐧 **Linux**: Compiled with G++.
+- 🌐 Cross-compilation supported with CMake.
 
 ---
 

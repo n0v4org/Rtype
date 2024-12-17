@@ -5,7 +5,9 @@
 ** SFML DisplayModule
 */
 
-#include "./Sfml.hpp"
+#include <iostream>
+#include <string>
+#include "Sfml.hpp"
 
 namespace zef{
     namespace graph{
@@ -89,7 +91,7 @@ namespace zef{
 
     _window.setView(_views["HUD"]);
     _window.draw(sprite);
-  };
+  }
 
   void Sfml::drawText(std::string textString, std::string fontName,std::size_t fontSize, int posX, int posY, float scaleX, float scaleY, float rotation, RGBA mask) {
     sf::Font font = _fonts.find(fontName)->second;
@@ -121,7 +123,7 @@ namespace zef{
 
     _window.setView(_views["HUD"]);
     _window.draw(text);
-  };
+  }
 
   void Sfml::storeAssetsPNG(std::string assetPath) {
       sf::Texture texture;
@@ -156,10 +158,11 @@ namespace zef{
     if(!font.loadFromFile(assetPath.c_str())){
       throw AssetLoadException();
     }
+    std::cout<<"Loading fonts: "<<assetName<<std::endl;
     _fonts[assetName.c_str()] = font;
-  };
+  }
   void Sfml::storeAssetsVERT(std::string assetPath){
-  };
+  }
 
   void Sfml::playSound(std::string soundName, int volume){
     _sounds.find(soundName)->second.first.setBuffer(_sounds.find(soundName)->second.second);
@@ -186,7 +189,7 @@ namespace zef{
   //_views["Default"].move(X,Y);
     _views["Default"].zoom(Z);
     _window.setView(_views["Default"]);
-  };
+  }
 
   void Sfml::setCamera(int X, int Y, int Z){
     if (!_window.getView().getViewport().width) {
@@ -198,9 +201,7 @@ namespace zef{
     _views["Default"].zoom(1.0f + Z / 100.0f);
     _window.setView(_views["Default"]);
 
-  };
-
-
+  }
 
   void Sfml::updateUserInputs(utils::UserInputs &ui) {
     sf::Event evt;
@@ -231,6 +232,8 @@ namespace zef{
       ui.mouse.x = mousePosInView.x;
       ui.mouse.y = mousePosInView.y;
     }
+    
+
   }
 
 
@@ -255,11 +258,12 @@ namespace zef{
 		}
     }
     return userInput;
-  };
+  }
 
   IDisplayModule* entryPoint() {
     return new Sfml;
   }
 
-    }
-}
+
+ } // namespace graph
+} // namespace zef

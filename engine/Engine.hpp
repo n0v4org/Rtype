@@ -12,23 +12,23 @@
 #include <memory>
 #include <queue>
 #include <thread>
+#include <string>
+
+#include <asio.hpp>
 
 
-#include "graphic/sfml/Sfml.hpp"
+#include  "udp/include/Server.hpp"
+#include  "udp/include/Client.hpp"
 
-
-#include "graphic/IDisplayModule.hpp"
-#include "graphic/ADisplayModule.hpp"
+#include "graphic/includes/IDisplayModule.hpp"
+#include "graphic/includes/ADisplayModule.hpp"
 
 #include "ecs/registry.hpp"
 #include "Events.hpp"
 #include "utils/inputsUtils.hpp"
 
-#include "Scene.hpp"
-
-
-#include "Patron.hpp"
-
+//#include "Scene.hpp"
+//#include "Patron.hpp"
 
 
 namespace zef {
@@ -84,6 +84,7 @@ namespace zef {
     template <typename Component>
     void registerComponent() {
       reg.register_component<Component>();
+      //reg.get_components<Component>().emplace_component(std::nullopt);
     }
 
     template <typename Component>
@@ -196,6 +197,20 @@ namespace zef {
 
       }
     }
+
+    void initServer(int port) {
+      //network::game::Server s(ctx, 5456);
+      _server = std::make_unique<network::game::Server>(_context, port);
+    }
+
+    void initClient() {
+      
+    }
+
+    std::unique_ptr<network::game::Server> _server;
+    //std::unique_ptr<int> _server;
+
+    asio::io_context _context;
 
     std::unique_ptr<zef::graph::IDisplayModule> GraphLib;
     std::chrono::high_resolution_clock::time_point clock;// = std::chrono::high_resolution_clock::now();

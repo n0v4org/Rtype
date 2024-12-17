@@ -8,12 +8,12 @@
 #ifndef ENGINE_MODULES_COLLISION_SYSTEMS_HPP_
 #define ENGINE_MODULES_COLLISION_SYSTEMS_HPP_
 
+#include <cmath>
 #include "components.hpp"
 #include "../movement/components.hpp"
 #include "../../ecs/zipper.hpp"
 #include "../../Engine.hpp"
 #include "events.hpp"
-#include <cmath>
 
 namespace zef {
     namespace sys {

@@ -27,6 +27,8 @@ namespace ecs {
     }
 
     iterator begin() {
+      if (_size == 0)
+        return iterator(_end, _size);
       return iterator(_begin, _size);
     }
     iterator end() {

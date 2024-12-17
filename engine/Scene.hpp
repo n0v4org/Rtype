@@ -5,10 +5,11 @@
 ** Scene
 */
 
-#ifndef SCENE_HPP_
-#define SCENE_HPP_
+#ifndef ENGINE_SCENE_HPP_
+#define ENGINE_SCENE_HPP_
 
 #include <iostream>
+#include <string>
 
 namespace zef
 {
@@ -23,5 +24,5 @@ namespace zef
 
 
 
-#endif /* !SCENE_HPP_ */
+#endif // ENGINE_SCENE_HPP_
 
