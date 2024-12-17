@@ -14,6 +14,7 @@
 enum {
   CLIENT_INTERNAL_ERROR = 0,
   ARGS_ERROR            = 1,
+  NETWORK_ERROR         = 2,
 };
 
 static const std::map<int, std::string> ERRORS = {

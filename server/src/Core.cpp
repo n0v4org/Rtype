@@ -7,24 +7,33 @@
 
 #include <cstring>
 #include <iostream>
+#include <thread>
 #include <memory>
 
 #include "Core.hpp"
 #include "macro.hpp"
+#include "Commands.hpp"
 
-static const char USAGE[151] = R"(
+static const char USAGE[231] = R"(
 usage:
         -h: run server in help mode
         -v: run server in verbose mode
-        -p <port>: run server on specified port (default is 50000)
+        -gp <port>: run game server on specified port (default is 50000)
+        -lp <port>: run lobby server on specified port (default is 50002)
 )";
+
+struct test {
+  int a;
+  char b[24];
+  int c;
+};
 
 namespace rtype {
 
   Core::Core(char* argv[], int argc) {
     _args   = std::make_unique<Arguments>(argc, argv);
-    _server = std::make_unique<net::Server>(_args->get_port(),
-                                            _args->get_debug(), _io_service);
+    _server = std::make_unique<network::game::Server>(_io_service,
+                                                      _args->get_game_port());
   }
 
   void Core::run() {
@@ -34,15 +43,25 @@ namespace rtype {
         std::cout << USAGE << std::endl;
         return;
       }
-      _io_service.run();
+      t = std::thread([this]() { _io_service.run(); });
+      while (1) {
+        if (!_server->isQueueEmpty()) {
+          network::game::Commands<struct test> test =
+              network::game::Commands<struct test>(_server->popMessage());
+          std::cout << test.getCommand().a << " " << test.getCommand().b << " "
+                    << test.getCommand().c << std::endl;
+        }
+      }
     } catch (const std::exception& e) {
-      if (strcmp(e.what(), EXCEPTION) != 0)
-        std::cerr << e.what() << '\n';
-      throw e;
+      std::cerr << e.what() << '\n';
+      t.join();
+      _server->close_connection();
+      return;
     }
   }
 
   Core::~Core() {
+    _server->close_connection();
   }
 
 }  // namespace rtype
