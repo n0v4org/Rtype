@@ -162,9 +162,8 @@ namespace zef{
   };
 
   void Sfml::playSound(std::string soundName, int volume){
-    //sf::Sound sound = _sounds.find(soundName)->second.first;
-    //sf::SoundBuffer *soundBuffer = _sounds.find(soundName)->second.second;
     _sounds.find(soundName)->second.first.setBuffer(_sounds.find(soundName)->second.second);
+    _sounds.find(soundName)->second.first.setVolume(volume);
     std::cout << soundName << std::endl;
     _sounds.find(soundName)->second.first.play();
 
