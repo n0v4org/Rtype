@@ -21,5 +21,7 @@ struct SetPlayerVectorEvent {
 };
 struct ShootPlayerEvent {};
 
+struct CollideWithEnnemy {};
+
 
 #endif /* !EVENTS_HPP_ */

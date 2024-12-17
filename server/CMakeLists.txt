@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.26)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 project(RtypeServer VERSION 1.0)
@@ -24,24 +24,8 @@ include_directories(r-type_server PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/game
     ${CMAKE_CURRENT_SOURCE_DIR}/../engine
     ${CMAKE_CURRENT_SOURCE_DIR}/../engine/ecs
+    ${CMAKE_CURRENT_SOURCE_DIR}/../network/udp
 )
-#find_package(boost_asio REQUIRED CONFIG)
-
-
-
-
-
-# Chercher les bibliothèques par leur nom (sans extension)
-#find_library(SFML sfmlt PATHS ${LIBRARY_SEARCH_PATH})
-#find_library(ZEFIR zefir PATHS ${LIBRARY_SEARCH_PATH})
-#
-## Vérifier si les bibliothèques ont été trouvées
-#if (NOT SFML OR NOT ZEFIR)
-#    message(FATAL_ERROR "Une ou plusieurs bibliothèques n'ont pas été trouvées.")
-#endif()
-
-
-
 
 target_link_libraries(r-type_server PRIVATE 
     sfml
@@ -50,6 +34,7 @@ target_link_libraries(r-type_server PRIVATE
     sfml-window
     sfml-graphics
     sfml-audio
+    game_network
 )
 
 #enable_testing()

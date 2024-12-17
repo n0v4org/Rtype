@@ -21,6 +21,7 @@ void runClient(/*port*/) {
     engine.initGraphLib("Assets", "");
 
     engine.GraphLib->saveAnimation("ship", "image", 0, 0, 65, 66);
+    engine.GraphLib->saveAnimation("bg", "bg2", 0, 0, 1000, 562);
 
     
     engine.registerComponent<zef::comp::position>();
@@ -32,11 +33,13 @@ void runClient(/*port*/) {
     engine.registerComponent<zef::comp::event_listener>();
     engine.registerComponent<zef::comp::controllable>();
     engine.registerComponent<Player>();
+    engine.registerComponent<BackGround>();
     
 
     //engine.addSystem<>(entitycountdisplay);
 
     engine.addSystem<>(zef::sys::update_user_inputs);
+    engine.addSystem<BackGround, zef::comp::position>(handleBackgroundScroll);
     engine.addSystem<Lifetime>(lifetime_system);
     engine.addSystem<zef::comp::vector, Player>(resetPlayerMovement);
     engine.addSystem<zef::comp::controllable>(zef::sys::system_constrollables);

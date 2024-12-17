@@ -21,6 +21,7 @@ public:
 
 protected:
 private:
+  int generateRandomPort();
 };
 
 #endif  // NETWORK_TCP_INCLUDE_COMMANDS_LAUNCH_HPP_

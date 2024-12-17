@@ -21,6 +21,9 @@ void runServer(/*port*/) {
 
     engine.GraphLib->saveAnimation("ship", "image", 0, 0, 65, 66);
 
+    engine.initServer(13001);
+
+
     
     engine.registerComponent<zef::comp::position>();
     engine.registerComponent<zef::comp::vector>();
@@ -50,7 +53,7 @@ void runServer(/*port*/) {
 
     engine.registerScene<LevelScene>("level");
     engine.registerScene<LobbyScene>("lobby");
-    engine.loadScene("lobby");
+    engine.loadScene("level");
 
     engine.run();
 }

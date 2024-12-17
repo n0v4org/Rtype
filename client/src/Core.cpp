@@ -25,6 +25,12 @@ usage:
         -lcp <port>: run newtork client lobby in a specified port (default is 50004)
 )";
 
+struct test {
+  int a;
+  char b[24];
+  int c;
+};
+
 namespace client {
 
   Core::Core(int argc, char *argv[]) {

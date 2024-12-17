@@ -7,6 +7,7 @@
 
 #include <cstring>
 #include <iostream>
+#include <thread>
 #include <memory>
 
 #include "../include/Core.hpp"
@@ -21,6 +22,12 @@ usage:
         -gp <port>: run game server on specified port (default is 50000)
         -lp <port>: run lobby server on specified port (default is 50002)
 )";
+
+struct test {
+  int a;
+  char b[24];
+  int c;
+};
 
 namespace rtype {
 
@@ -41,9 +48,10 @@ namespace rtype {
       }
       runServer();
     } catch (const std::exception& e) {
-      if (strcmp(e.what(), EXCEPTION) != 0)
-        std::cerr << e.what() << '\n';
-      throw e;
+      std::cerr << e.what() << '\n';
+      //t.join();
+      //_server->close_connection();
+      return;
     }
   }
 

@@ -27,6 +27,9 @@ zef::comp::event_listener createEnemyEventListener() {
         engine.sendEvent<DestroyBullet>(g.bullet);
     });
 
+    evtl.setEvent<zef::evt::startCollision>([](zef::Engine& engine, size_t self, zef::evt::startCollision g) {
+        engine.sendEvent<CollideWithEnnemy>(g.other);
+    });
     
     
     return evtl;

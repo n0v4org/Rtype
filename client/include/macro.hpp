@@ -9,7 +9,7 @@
 #define CLIENT_INCLUDE_MACRO_HPP_
 
 #define OK 0
-#define ERROR 84
+#define KO 84
 #define EXCEPTION "std::exception"
 #define BUFFER_SIZE 1024
 #define SERVER_ADDRESS "127.0.0.1"

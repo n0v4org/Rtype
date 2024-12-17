@@ -9,6 +9,8 @@
 #define NETWORK_TCP_INCLUDE_LOBBY_HPP_
 #include <vector>
 #include <array>
+#include <mutex>
+#include <condition_variable>
 #include <iostream>
 #include <deque>
 #include <string>
@@ -17,7 +19,13 @@
 #include "Commands/FactoryCmd.hpp"
 #include "Commands/ACommand.hpp"
 
-extern std::array<std::vector<asio::ip::tcp::endpoint>, 5> LOBBY;
+struct Room {
+  std::vector<asio::ip::tcp::endpoint> endpoints;
+  bool launched = false;
+  int port;
+};
+
+extern std::array<Room, 5> LOBBY;
 
 using asio::ip::tcp;
 
@@ -30,6 +38,7 @@ namespace network {
 
     private:
       void start_accept();
+      int generateRandomPort();
       void handle_accept(Connection::pointer, const std::error_code &);
 
       asio::io_context &io_context_;
@@ -59,6 +68,15 @@ namespace network {
 
       void close() {
         asio::post(_socket.get_executor(), [this]() { _socket.close(); });
+      }
+
+      std::string fetchLatestMessage() {
+        std::unique_lock<std::mutex> lock(_read_queue_mutex);
+        if (_read_queue.empty())
+          return "";
+        std::string latest = _read_queue.front();
+        _read_queue.pop_front();
+        return latest;
       }
 
     private:
@@ -97,6 +115,11 @@ namespace network {
             asio::buffer(_read_buffer),
             [this, self](std::error_code ec, std::size_t length) {
               if (!ec) {
+                std::string message(_read_buffer.data(), length);
+                {
+                  std::lock_guard<std::mutex> lock(_read_queue_mutex);
+                  _read_queue.push_back(message);
+                }
                 std::cout << "Server: "
                           << std::string(_read_buffer.data(), length)
                           << std::endl;
@@ -131,7 +154,10 @@ namespace network {
       asio::ip::tcp::socket _socket;
       asio::ip::tcp::resolver _resolver;
       std::array<char, 1024> _read_buffer;
+      std::deque<std::string> _read_queue;
       std::deque<std::string> _write_queue;
+      std::condition_variable _read_queue_cv;
+      std::mutex _read_queue_mutex;
       std::string _server;
       int _port;
     };
