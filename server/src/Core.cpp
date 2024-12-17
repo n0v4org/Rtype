@@ -49,8 +49,8 @@ namespace rtype {
       runServer();
     } catch (const std::exception& e) {
       std::cerr << e.what() << '\n';
-      t.join();
-      _server->close_connection();
+      //t.join();
+      //_server->close_connection();
       return;
     }
   }

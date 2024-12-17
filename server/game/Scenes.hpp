@@ -21,9 +21,8 @@ public:
         engine.instanciatePatron<PlayerPatron>(0.0f, 150.0f);
         ecs::Entity e = engine.instanciatePatron<PlayerPatron>(0.0f, -150.0f);
         engine.instanciatePatron<EnemyPatron>(600.0f, -150.0f);
-        engine.instanciatePatron<BulletPatron>(1000.0f, -150.0f);
-
-        engine.sendEvent<ShootPlayerEvent>(e);
+        
+        engine.sendEvent<SetPlayerVectorEvent>(e, 1.0f, 0.0f);
     }
 
     

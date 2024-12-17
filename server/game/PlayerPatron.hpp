@@ -33,6 +33,10 @@ zef::comp::event_listener createPlayerEventListener() {
         engine.instanciatePatron<BulletPatron>(p.x, p.y);
     });
 
+    evtl.setEvent<CollideWithEnnemy>([](zef::Engine& engine, size_t self, CollideWithEnnemy sht) {
+        engine.fetchEntityComponent<Health>(self).hp = 0;
+    });
+
     return evtl;
 }
 
@@ -48,6 +52,9 @@ public:
         dr.addAnimation("ship", 5, 200);
         dr.playAnimationLoop("ship", 1);
         engine.addEntityComponent<zef::comp::drawable>(self, dr);
+
+        zef::comp::collidable coll({zef::utils::hitbox(0, 0, 60, 60)});
+        engine.addEntityComponent<zef::comp::collidable>(self, coll);
 
         engine.addEntityComponent<zef::comp::event_listener>(self, createPlayerEventListener());
 

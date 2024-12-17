@@ -28,6 +28,12 @@ class Player {
     Player() {}
 };
 
+class BackGround {
+    public:
+    BackGround() {}
+};
+
+
 
 #endif /* !COMPONENTS_HPP_ */
 

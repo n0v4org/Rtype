@@ -26,12 +26,18 @@ void lifetime_system(zef::Engine& engine, ecs::sparse_array<Lifetime>& lts) {
 }
 
 
-
-
 void resetPlayerMovement(zef::Engine& engine, ecs::sparse_array<zef::comp::vector>& hps, ecs::sparse_array<Player>& pys) {
     for (auto &&[i, hp, ps] : ecs::indexed_zipper(hps, pys)) {
         hp.x = 0.0;
         hp.y = 0.0;
+    }
+}
+
+void handleBackgroundScroll(zef::Engine& engine, ecs::sparse_array<BackGround>& bgs, ecs::sparse_array<zef::comp::position>& poss) {
+    for (auto &&[i, bg, pos] : ecs::indexed_zipper(bgs, poss)) {
+        if (pos.x == -1920) {
+            pos.x = 1920.0f;
+        }
     }
 }
 
