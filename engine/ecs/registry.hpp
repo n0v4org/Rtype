@@ -23,6 +23,12 @@
 #include "indexed_zipper.hpp"
 #include "sparse_array.hpp"
 
+
+namespace zef
+{
+  class Engine;
+} // namespace zef
+
 namespace ecs {
   class registry {
   public:
@@ -111,43 +117,51 @@ namespace ecs {
 
     template <class... Components, typename Function>
     void add_system(Function &&f) {
-      _systems.push_back([f = std::forward<Function>(f)](registry &r) {
-        f(r.get_components<Components>()...);
-      });
+        this->_systems.push_back([f = std::forward<Function>(f)](zef::Engine& e, ecs::registry &r) {
+            f(e, r.get_components<Components>()...);
+        });
     }
 
     template <class... Components, typename Function>
     void new_add_system(Function &&f) {
-      _systems.push_back([f = std::forward<Function>(f)](registry &r) {
+      _systems.push_back([f = std::forward<Function>(f)](zef::Engine& e, registry &r) {
         for (auto a : zipper(r.get_components<Components>()...)) {
-          f(std::get<Components &>(a)...);
+          f(e, std::get<Components &>(a)...);
         }
       });
     }
 
-    template <class... Components, typename Function>
-    void add_system(Function const &f) {
-      _systems.push_back([](registry &r, Function const &f) {
-        for (auto a : zipper(r.get_components<Components>()...)) {
-          f(std::get<Components &>(a)...);
-        }
-      });
-    }
+    //template <class... Components, typename Function>
+    //void add_system(Function const &f) {
+    //  _systems.push_back([](registry &r, Function const &f) {
+    //    for (auto a : zipper(r.get_components<Components>()...)) {
+    //      f(std::get<Components &>(a)...);
+    //    }
+    //  });
+    //}
 
-    void run_systems() {
+    void run_systems(zef::Engine& engine) {
       for (auto &system : _systems) {
-        system(*this);
+        system(engine, *this);
       }
     }
 
+    size_t getEntityCount() {
+      return _entityCount;
+    }
+
+    size_t getMaxId() {
+      return _maxId;
+    }
+
   private:
+    size_t _entityCount = 0;
     std::unordered_map<std::type_index, std::any> _components_arrays;
     std::unordered_map<std::type_index,
                        std::function<void(registry &, entity_t const &)>>
         _deleteFunctions;
-    size_t _entityCount = 0;
     size_t _maxId       = 0;
-    std::vector<std::function<void(registry &)>> _systems;
+    std::vector<std::function<void(zef::Engine&, registry &)>> _systems;
     std::queue<size_t> _unusedids;
   };
 }  // namespace ecs

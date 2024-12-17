@@ -16,8 +16,9 @@ namespace network {
 
     Server::Server(asio::io_context& context, int port)
       : _socket(context, udp::endpoint(udp::v4(), port)) {
-      start_receive();
+      //start_receive();
     }
+  
 
     void Server::start_receive() {
       _socket.async_receive_from(
