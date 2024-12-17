@@ -136,13 +136,17 @@ namespace zef{
   };
   void Sfml::storeAssetsWAV(std::string assetPath) {
     sf::SoundBuffer soundbuffer;
+    sf::Sound sound;
     std::string assetName = assetPath.substr(assetPath.find_last_of("/\\") + 1);
     assetName = assetName.substr(0, assetName.size()-4);
 
     if(!soundbuffer.loadFromFile(assetPath.c_str())){
       throw AssetLoadException();
     }
-    _sounds[assetName.c_str()] = soundbuffer;
+    sound.setBuffer(soundbuffer);
+    sound.setVolume(50);
+
+    _sounds[assetName.c_str()] = {sound,soundbuffer};
   };
   void Sfml::storeAssetsTTF(std::string assetPath) {
     sf::Font font;
