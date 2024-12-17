@@ -18,7 +18,7 @@
 #include <SFML/Window.hpp>
 #include <SFML/Audio.hpp>
 
-#include "ADisplayModule.hpp"
+#include "../../includes/ADisplayModule.hpp"
 
 namespace zef{
     namespace graph{
@@ -57,6 +57,10 @@ namespace zef{
 
             protected:
             private:
+                RGBA colorBlindMask;
+                sf::Color colorBlindness(RGBA mask);
+
+
                 sf::RenderWindow _window;
                 std::pair<int,int> _windowSize= std::make_pair(1920,1080);
                 std::map<std::string, sf::View> _views;

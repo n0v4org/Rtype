@@ -7,7 +7,7 @@
 
 #include <iostream>
 #include <string>
-#include "Sfml.hpp"
+#include "include/Sfml.hpp"
 
 namespace zef{
     namespace graph{
@@ -53,6 +53,48 @@ namespace zef{
   Sfml::~Sfml() {
   }
 
+  void Sfml::storeAssetsPNG(std::string assetPath) {
+    sf::Texture texture;
+    sf::Sprite sprite;
+    std::string assetName = assetPath.substr(assetPath.find_last_of("/\\") + 1);
+    assetName = assetName.substr(0, assetName.size()-4);
+    if(!texture.loadFromFile(assetPath.c_str())){
+      throw AssetLoadException();
+    }
+    std::cout<<"Loading texture: "<<assetName<<std::endl;
+    _sprites[assetName.c_str()] = {sprite,texture};
+  }
+
+  void Sfml::storeAssetsWAV(std::string assetPath) {
+    sf::SoundBuffer soundbuffer;
+    sf::Sound sound;
+    std::string assetName = assetPath.substr(assetPath.find_last_of("/\\") + 1);
+    assetName = assetName.substr(0, assetName.size()-4);
+
+    if(!soundbuffer.loadFromFile(assetPath.c_str())){
+      throw AssetLoadException();
+    }
+    sound.setBuffer(soundbuffer);
+    sound.setVolume(50);
+
+    _sounds[assetName.c_str()] = {sound,soundbuffer};
+  }
+
+  void Sfml::storeAssetsTTF(std::string assetPath) {
+    sf::Font font;
+    std::string assetName = assetPath.substr(assetPath.find_last_of("/\\") + 1);
+    assetName = assetName.substr(0, assetName.size()-4);
+
+    if(!font.loadFromFile(assetPath.c_str())){
+      throw AssetLoadException();
+    }
+    std::cout<<"Loading fonts: "<<assetName<<std::endl;
+    _fonts[assetName.c_str()] = font;
+  }
+
+  void Sfml::storeAssetsVERT(std::string assetPath){
+  }
+
   void Sfml::drawSprite(std::string animationName, std::size_t currentFrame, int posX, int posY, float scaleX, float scaleY, float rotation, RGBA mask) {
     const zef::graph::Animation_t anim = _animations.at(animationName);
     sf::Sprite sprite = _sprites.at(anim.SpriteSheet).first;
@@ -62,7 +104,8 @@ namespace zef{
 
     sprite.setTexture(texture);
     sprite.setTextureRect(rect);
-    sprite.setColor(color);
+//    sprite.setColor(color);
+    sprite.setColor(colorBlindness(mask));
     sprite.setRotation(rotation);
 
     sprite.setOrigin(anim.Size.first / 2, anim.Size.second / 2);
@@ -71,20 +114,49 @@ namespace zef{
 
     _window.setView(_views["Default"]);
     _window.draw(sprite);
-  };
+  }
+
+  sf::Color Sfml::colorBlindness(RGBA mask) {
+    std::string cb = "ColorBlindness";
+    std::string D = "Deuteranopia";
+    std::string P = "Protanopia";
+    std::string T = "Tritanopia";
+    std::string colorBlind = _settings.find(cb)->second;
+    RGBA colorBlindMask{1,1,1,1};
+    if (colorBlind == "None") {
+      colorBlindMask = {1,1,1,1};
+    }
+    if (colorBlind == D) {
+      colorBlindMask = {1,0.2,1,1};
+    }
+    if (colorBlind == P) {
+      colorBlindMask = {0.2,1,1,1};
+    }
+    if (colorBlind == T) {
+      colorBlindMask = {1,1,0.2,1};
+    }
+    if (colorBlind == "GreyScale") {
+      colorBlindMask = {0.2,0.2,0.2,1};
+    }
+
+    sf::Color color(255 * mask.R * colorBlindMask.R, 255 * mask.G * colorBlindMask.G, 255 * mask.B * colorBlindMask.B, 255 * mask.A);
+    return color;
+  }
 
   void Sfml::drawSpriteHUD(std::string animationName, std::size_t currentFrame, int posX, int posY, float scaleX, float scaleY, float rotation, RGBA mask) {
     const zef::graph::Animation_t anim = _animations.at(animationName);
     sf::Sprite sprite = _sprites.at(anim.SpriteSheet).first;
     sf::Texture texture = _sprites.at(anim.SpriteSheet).second;
     sf::IntRect rect(anim.Size.first * currentFrame + anim.StartPos.first, anim.StartPos.second * anim.Size.second, anim.Size.first, anim.Size.second);
-    sf::Color color(255 * mask.R, 255 * mask.G, 255 * mask.B, 255 * mask.A);
+//    sf::Color color(255 * mask.R, 255 * mask.G, 255 * mask.B, 255 * mask.A);
 
     sprite.setTexture(texture);
     sprite.setTextureRect(rect);
-    sprite.setColor(color);
+//    sprite.setColor(color);
+    sprite.setColor(colorBlindness(mask));
     sprite.setRotation(rotation);
 
+    sprite.getColor();
     sprite.setOrigin(anim.Size.first / 2, anim.Size.second / 2);
     sprite.setPosition(posX, posY);
     sprite.setScale(scaleX, scaleY);
@@ -107,7 +179,7 @@ namespace zef{
 
     _window.setView(_views["Default"]);
     _window.draw(text);
-  };
+  }
 
   void Sfml::drawTextHUD(std::string textString, std::string fontName,std::size_t fontSize, int posX, int posY, float scaleX, float scaleY, float rotation, RGBA mask) {
     sf::Font font = _fonts.find(fontName)->second;
@@ -125,59 +197,19 @@ namespace zef{
     _window.draw(text);
   }
 
-  void Sfml::storeAssetsPNG(std::string assetPath) {
-      sf::Texture texture;
-      sf::Sprite sprite;
-      std::string assetName = assetPath.substr(assetPath.find_last_of("/\\") + 1);
-      assetName = assetName.substr(0, assetName.size()-4);
-      if(!texture.loadFromFile(assetPath.c_str())){
-        throw AssetLoadException();
-      }
-      std::cout<<"Loading texture: "<<assetName<<std::endl;
-      _sprites[assetName.c_str()] = {sprite,texture};
-  };
-  void Sfml::storeAssetsWAV(std::string assetPath) {
-    sf::SoundBuffer soundbuffer;
-    sf::Sound sound;
-    std::string assetName = assetPath.substr(assetPath.find_last_of("/\\") + 1);
-    assetName = assetName.substr(0, assetName.size()-4);
-
-    if(!soundbuffer.loadFromFile(assetPath.c_str())){
-      throw AssetLoadException();
-    }
-    sound.setBuffer(soundbuffer);
-    sound.setVolume(50);
-
-    _sounds[assetName.c_str()] = {sound,soundbuffer};
-  };
-  void Sfml::storeAssetsTTF(std::string assetPath) {
-    sf::Font font;
-    std::string assetName = assetPath.substr(assetPath.find_last_of("/\\") + 1);
-    assetName = assetName.substr(0, assetName.size()-4);
-
-    if(!font.loadFromFile(assetPath.c_str())){
-      throw AssetLoadException();
-    }
-    std::cout<<"Loading fonts: "<<assetName<<std::endl;
-    _fonts[assetName.c_str()] = font;
-  }
-  void Sfml::storeAssetsVERT(std::string assetPath){
-  }
-
   void Sfml::playSound(std::string soundName, int volume){
     _sounds.find(soundName)->second.first.setBuffer(_sounds.find(soundName)->second.second);
     _sounds.find(soundName)->second.first.setVolume(volume);
     std::cout << soundName << std::endl;
     _sounds.find(soundName)->second.first.play();
 
-  };
+  }
 
-  //void Sfml::saveAnimation(std::string name, Animation_t animation){
   void Sfml::saveAnimation(std::string animationName, std::string spriteSheetName, std::size_t startTileX, std::size_t startTileY, std::size_t tileSizeX, std::size_t tileSizeY) {
       Animation_t animation{spriteSheetName, {startTileX, startTileY}, {tileSizeX, tileSizeY}};
 
       _animations[animationName.c_str()] = animation;
-  };
+  }
 
   void Sfml::moveCamera(int X, int Y, float Z){
     if (!_window.getView().getViewport().width) {
@@ -186,7 +218,6 @@ namespace zef{
     }
 
     _views["Default"].setCenter(_views["Default"].getCenter().x + X,_views["Default"].getCenter().y + Y);
-  //_views["Default"].move(X,Y);
     _views["Default"].zoom(Z);
     _window.setView(_views["Default"]);
   }
@@ -232,10 +263,7 @@ namespace zef{
       ui.mouse.x = mousePosInView.x;
       ui.mouse.y = mousePosInView.y;
     }
-    
-
   }
-
 
   UserInput Sfml::getEvent(){
     UserInput userInput;

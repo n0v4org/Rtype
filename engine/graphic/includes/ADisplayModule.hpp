@@ -88,10 +88,13 @@ namespace zef{
                     if (std::filesystem::exists(assetFolderPath + "/config/Animations.txt")) {
                         configAssetsAnimations(assetFolderPath + "/config/Animations.txt");
                     }
-                    };
+                    if (std::filesystem::exists(assetFolderPath + "/config/Settings.txt")) {
+                      configSettings(assetFolderPath + "/config/Settings.txt");
+                    }
+                };
 
-                void configAssetsAnimations(std::string assetPath) override{
-                    std::ifstream file(assetPath);
+                void configAssetsAnimations(std::string animationConfigPath) override{
+                    std::ifstream file(animationConfigPath);
    	                std::string line;
 
                     if (!file.is_open()) {
@@ -113,6 +116,29 @@ namespace zef{
                     }
                     file.close();
                 };
+                virtual void configSettings(std::string settingsConfigPath) override{
+                  std::ifstream file(settingsConfigPath);
+                  std::string line;
+
+                  if (!file.is_open()) {
+                    return;
+                  }
+
+                  while (std::getline(file, line)) {
+                    if (line.empty() || line[0] == '#') {
+                      continue;
+                    }
+                    std::istringstream stream(line);
+                    std::string settingName, settingValue;
+
+                    if (stream >> settingName >> settingValue) {
+                      _settings[settingName] = settingValue;
+                      std::cout << "Loaded setting :" << settingName << settingValue << std::endl;
+                    }
+                  }
+                  file.close();
+                };
+
 
                 virtual void storeAssetsPNG(std::string assetPath)=0;
                 virtual void storeAssetsWAV(std::string assetPath)=0;
@@ -135,12 +161,13 @@ namespace zef{
                 virtual void updateUserInputs(utils::UserInputs& ui) = 0;
 
             protected:
-                std::map<std::string,Animation_t> _animations;
+                std::map<std::string, Animation_t> _animations;
+                std::map<std::string, std::string> _settings;
 
-                std::map<std::string,PNG> _sprites;
-                std::map<std::string,WAV> _sounds;
-                std::map<std::string,TTF> _fonts;
-                std::map<std::string,VERT> _shaders;
+                std::map<std::string, PNG> _sprites;
+                std::map<std::string, WAV> _sounds;
+                std::map<std::string, TTF> _fonts;
+                std::map<std::string, VERT> _shaders;
             private:
 
 };

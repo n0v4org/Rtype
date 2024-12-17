@@ -19,7 +19,7 @@
 #include <sstream>
 #include <iostream>
 
-#include "utils/inputsUtils.hpp"
+#include "../../utils/inputsUtils.hpp"
 
 namespace zef{
     namespace graph{
@@ -97,6 +97,7 @@ namespace zef{
                 virtual void storeAssetsTTF(std::string assetPath)=0;
                 virtual void storeAssetsVERT(std::string assetPath)=0;
                 virtual void configAssetsAnimations(std::string animationConfigPath)=0;
+                virtual void configSettings(std::string settingsConfigPath)=0;
 
                 virtual void drawSprite(std::string animationName, std::size_t currentFrame, int posX, int posY, float scaleX, float scaleY, float rotation, RGBA mask) = 0;
                 virtual void drawText(std::string textString, std::string fontName, std::size_t fontSize, int posX, int posY, float scaleX, float sclaeY, float rotation, RGBA mask) = 0;
