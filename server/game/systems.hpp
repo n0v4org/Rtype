@@ -59,6 +59,19 @@ void handleHealth(zef::Engine& engine, ecs::sparse_array<Health>& hps) {
     }
 }
 
+void spawnEnemies(zef::Engine& engine, ecs::sparse_array<Player>& players, ecs::sparse_array<zef::comp::replicable>& replicables) {
+    if (engine._enemyCooldown > 6 * 1000 * 1000) {
+        float y = (rand() % 800) - 400;
+        engine.instanciatePatron<EnemyPatron>(1000, y, engine.replicableId);
+        for (auto &&[player, rep] : ecs::zipper(players, replicables)) {
+            engine.ServerSend<CommandSpawnMonster>(rep._id, SPAWNMONSTER, {engine.replicableId, 1000, y});
+            engine.replicableId++;
+        }
+        engine._enemyCooldown = 0;
+    }
+    engine._enemyCooldown += engine.elapsed.count();
+}
+
 void convertHolderToVect(zef::Engine& engine, ecs::sparse_array<VectorHolder>& vhs, ecs::sparse_array<zef::comp::vector>& vvs) {
     for (auto &&[i, vh, vc] : ecs::indexed_zipper(vhs, vvs)) {
         vc.x = vh.x;

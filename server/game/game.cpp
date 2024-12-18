@@ -17,9 +17,11 @@
 #include "modules/display/systems.hpp"
 #include "modules/movement/systems.hpp"
 #include "modules/network/systems.hpp"
+#include <random>
 
 void runServer(int port) {
     zef::Engine engine;
+    srand(time(NULL));
 
     engine.initGraphLib("Assets", "");
 
@@ -121,6 +123,9 @@ void runServer(int port) {
     engine.addSystem<zef::comp::vector>(zef::sys::normalize_velocity_vectors);
     engine.addSystem<zef::comp::position, zef::comp::vector>(zef::sys::move);
     engine.addSystem<PlayerReplacer>(syncPlayers);
+
+    engine.addSystem<Player, zef::comp::replicable>(spawnEnemies);
+
     engine.addSystem<zef::comp::collidable, zef::comp::position>(zef::sys::check_collidables);
     engine.addSystem<zef::comp::event_listener>(zef::sys::resolveEvent);
 

@@ -40,10 +40,11 @@ class EnemyPatron {
 public:
     static void instanciate(zef::Engine& engine, const ecs::Entity& self, float x, float y, size_t rep) {
         engine.addEntityComponent<zef::comp::position>(self, x, y);
-        engine.addEntityComponent<zef::comp::vector>(self, 0, 0, 10);
+        engine.addEntityComponent<zef::comp::vector>(self, -1, 0, 5);
         engine.addEntityComponent<zef::comp::replicable>(self, rep);
         engine.addEntityComponent<Health>(self, 100, 100);
         engine.addEntityComponent<Monster>(self);
+        engine.addEntityComponent<Lifetime>(self, 10 * 1000 * 1000);
 
         zef::comp::drawable dr;
         dr.addAnimation("ship", 5, 200);

@@ -256,6 +256,7 @@ namespace zef {
     std::unique_ptr<zef::graph::IDisplayModule> GraphLib;
     std::chrono::high_resolution_clock::time_point clock;// = std::chrono::high_resolution_clock::now();
     std::chrono::microseconds elapsed;
+    size_t _enemyCooldown = 0;
 
   private:
     int gameFps = 60;
@@ -267,6 +268,8 @@ namespace zef {
 
     std::map<std::string, std::function<void(Engine&)>> _scenes;
     std::string _next_scene = "";
+
+
   };
 
 
