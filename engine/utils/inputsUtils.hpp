@@ -51,7 +51,7 @@ namespace zef
             NUM_7,
             NUM_8,
             NUM_9,
-    
+
             Escape,
             LControl,
             LShift,
@@ -91,7 +91,7 @@ namespace zef
             ArrowRight,
             ArrowUp,
             ArrowDown,
-            
+
             NUMPAD_0,
             NUMPAD_1,
             NUMPAD_2,

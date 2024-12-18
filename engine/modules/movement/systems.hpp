@@ -93,10 +93,10 @@ namespace zef {
                     continue;
 
                 float norm = std::sqrt(std::pow(tmpx, 2) + std::pow(tmpy, 2));
-                vec.x /= norm; 
+                vec.x /= norm;
                 vec.y /= norm;
                 vec.x *= vec.norm;
-                vec.y *= vec.norm;       
+                vec.y *= vec.norm;
             }
         }
     } // namespace sys

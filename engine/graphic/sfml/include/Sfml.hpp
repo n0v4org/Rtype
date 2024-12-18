@@ -14,59 +14,59 @@
 #include <utility>
 #include <vector>
 #include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Shader.hpp>
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/Audio.hpp>
 
 #include "ADisplayModule.hpp"
 
-namespace zef {
-  namespace graph {
-    
+namespace zef{
+    namespace graph{
 
-class Sfml : public ADisplayModule<sf::Texture, sf::SoundBuffer, sf::Font, sf::Shader>{
+        class Sfml : public ADisplayModule<std::pair<sf::Sprite,sf::Texture>, std::pair<sf::Sound,sf::SoundBuffer>, sf::Font, sf::Shader>{
 
-  public:
-    //Sfml *entryPoint();
-    ~Sfml();
-    Sfml() {
+            public:
+                ~Sfml();
+                Sfml() {}
 
-    }
+                void initialize(std::string assetFolderPath, std::string windowName)override;
+                void stop() override;
+                void clear() override;
+                void refresh() override;
+                bool isOpen() override;
 
-    void initialize(std::string)override;
-    void stop() override;
-    void clear() override;
-    void refresh() override;
-    bool isOpen() override;
+                void storeAssetsPNG(std::string assetPath)override;
+                void storeAssetsWAV(std::string assetPath)override;
+                void storeAssetsTTF(std::string assetPath)override;
+                void storeAssetsSHAD(std::string assetPath)override;
 
-    UserInput getEvent() override;
+                void drawSprite(std::string animationName, std::size_t currentFrame, int posX, int posY, float scaleX = 1, float scaleY = 1, float rotation = 0, RGBA mask = {1,1,1,1}) override;
+                void drawText(std::string textString, std::string fontName, std::size_t fontSize, int posX, int posY, float scaleX = 1, float scaleY = 1, float rotation = 0, RGBA mask = {1,1,1,1}) override;
+                void drawSpriteHUD(std::string animationName, std::size_t currentFrame, int posX, int posY, float scaleX = 1, float scaleY = 1, float rotation = 0, RGBA mask = {1,1,1,1}) override;
+                void drawTextHUD(std::string textString, std::string fontName, std::size_t fontSize, int posX, int posY, float scaleX = 1, float scaleY = 1, float rotation = 0, RGBA mask = {1,1,1,1}) override;
 
-    void storeAssetsPNG(std::string)override;
-    void storeAssetsWAV(std::string)override;
-    void storeAssetsTTF(std::string)override;
-    void storeAssetsVERT(std::string)override;
+                void playSound(std::string soundName, int volume = 50)override;
 
-    //void drawSprite(DrawableSprite_t) override;
-    void drawSprite(std::string, std::size_t, int, int, float, float, float, float) override;
-    //void drawText(DrawableText_t) override;
-    void drawText(std::string, std::string, std::size_t, int, int, float, float, float, float) override;
+                void saveAnimation(std::string, std::string, std::size_t, std::size_t, std::size_t, std::size_t) override;
 
+                void setCamera(int,int,int) override;
+                void moveCamera(int,int,float) override;
 
-    void playSound(std::string)override;
+                UserInput getEvent() override;
+                void updateUserInputs(utils::UserInputs& ui) override;
 
-    //void saveAnimation(std::string, Animation_t) override;
-    void saveAnimation(std::string, std::string, std::size_t, std::size_t, std::size_t, std::size_t) override;
+            protected:
+            private:
+                RGBA colorBlindMask;
 
-    void setCamera(int,int,int) override;
-    void moveCamera(int,int,float) override;
+                sf::Color colorBlindness(RGBA mask);
+                void drawShaders(sf::Sprite sprite);
 
-    void updateUserInputs(utils::UserInputs& ui) override;
-
-  protected:
-  private:
-    sf::RenderWindow _window;
-    std::pair<int,int> _windowSize= std::make_pair(1920,1080);
-};
+                sf::RenderWindow _window;
+                std::pair<int,int> _windowSize= std::make_pair(1920,1080);
+                std::map<std::string, sf::View> _views;
+        };
 
 class WindowCreationException : public std::exception {
   public:
@@ -80,7 +80,7 @@ class AssetLoadException : public std::exception {
       return "Failed to load Asset.";
     }
 };
-  } // namespace graph 
+  } // namespace graph
 } // namespace zef
 
 #endif // ENGINE_GRAPHIC_SFML_INCLUDE_SFML_HPP_

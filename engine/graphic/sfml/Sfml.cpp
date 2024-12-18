@@ -10,27 +10,31 @@
 #include "Sfml.hpp"
 
 namespace zef{
- namespace graph {
-  
-  
+    namespace graph{
 
-  void Sfml::initialize(std::string path) {
+  void Sfml::initialize(std::string assetFolderPath, std::string windowName) {
 
-    _window.create(sf::VideoMode(_windowSize.first, _windowSize.second), "RType");
-
+    _window.create(sf::VideoMode(_windowSize.first, _windowSize.second), windowName.c_str());
     if (!_window.isOpen()) {
       throw WindowCreationException();
-      return;
     }
     _window.setFramerateLimit(60);
     sf::View view({0, 0}, {1920, 1080});
-    view.setCenter(0, 0);
+    sf::View HUD({0, 0}, {1920, 1080});
+//    view.setCenter(0, 0);
+//    HUD.setCenter(0,0);
+	_views["Default"] = view;
+	_views["HUD"] = HUD;
+
     _window.setView(view);
-//
-    loadAssets(path);
+    loadAssets(assetFolderPath);
   }
 
   void Sfml::refresh() {
+    _window.setView(_views["Default"]);
+//    _window.draw(_views["Default"]);
+    _window.setView(_views["HUD"]);
+//    _window.draw(_views["HUD"]);
     _window.display();
   }
 
@@ -49,59 +53,33 @@ namespace zef{
   Sfml::~Sfml() {
   }
 
-    //void Sfml::drawSprite(DrawableSprite_t toDraw) {
-    void Sfml::drawSprite(std::string animationName, std::size_t currentFrame, int posX, int posY, float scaleX, float scaleY, float rotation, float opacity) {
-    const zef::graph::Animation_t anim = _animations.at(animationName);
-    const sf::Texture &texture = _sprites.at(anim.SpriteSheet);
-    sf::IntRect rect(anim.Size.first * currentFrame + anim.StartPos.first, anim.StartPos.second * anim.Size.second, anim.Size.first, anim.Size.second);
-    sf::Color color(255, 255, 255, 255 * opacity);
-
-    sf::Sprite sprite(texture, rect);
-    sprite.setColor(color);
-    sprite.setRotation(rotation);
-
-    sprite.setOrigin(anim.Size.first / 2, anim.Size.second / 2);
-    sprite.setPosition(posX, posY);
-    sprite.setScale(scaleX, scaleY);
-
-    _window.draw(sprite);
-  }
-
-  //void Sfml::drawText(DrawableText_t toDraw) {
-  void Sfml::drawText(std::string textString, std::string fontName,std::size_t fontSize, int posX, int posY, float scaleX, float scaleY, float rotation, float opacity) {
-    sf::Font font = _fonts.find(fontName)->second;
-    sf::Text text(textString, font, fontSize);
-
-    text.setPosition(posX, posY);
-    text.setScale(scaleX, scaleY);
-    text.setRotation(rotation);
-    text.setFillColor(sf::Color::Red);
-
-    /*setorigin X-left Y-middle*/
-
-    _window.draw(text);
-  }
-
   void Sfml::storeAssetsPNG(std::string assetPath) {
-      sf::Texture texture;
-      std::string assetName = assetPath.substr(assetPath.find_last_of("/\\") + 1);
-      assetName = assetName.substr(0, assetName.size()-4);
-      if(!texture.loadFromFile(assetPath.c_str())){
-        throw AssetLoadException();
-      }
-      std::cout<<"Loading texture: "<<assetName<<std::endl;
-      _sprites[assetName.c_str()] = texture;
+    sf::Texture texture;
+    sf::Sprite sprite;
+    std::string assetName = assetPath.substr(assetPath.find_last_of("/\\") + 1);
+    assetName = assetName.substr(0, assetName.size()-4);
+    if(!texture.loadFromFile(assetPath.c_str())){
+      throw AssetLoadException();
+    }
+    std::cout<<"Loading texture: "<<assetName<<std::endl;
+    _sprites[assetName.c_str()] = {sprite,texture};
   }
+
   void Sfml::storeAssetsWAV(std::string assetPath) {
     sf::SoundBuffer soundbuffer;
+    sf::Sound sound;
     std::string assetName = assetPath.substr(assetPath.find_last_of("/\\") + 1);
     assetName = assetName.substr(0, assetName.size()-4);
 
     if(!soundbuffer.loadFromFile(assetPath.c_str())){
       throw AssetLoadException();
     }
-    _sounds[assetName.c_str()] = soundbuffer;
+    sound.setBuffer(soundbuffer);
+    sound.setVolume(50);
+
+    _sounds[assetName.c_str()] = {sound,soundbuffer};
   }
+
   void Sfml::storeAssetsTTF(std::string assetPath) {
     sf::Font font;
     std::string assetName = assetPath.substr(assetPath.find_last_of("/\\") + 1);
@@ -113,44 +91,179 @@ namespace zef{
     std::cout<<"Loading fonts: "<<assetName<<std::endl;
     _fonts[assetName.c_str()] = font;
   }
-  void Sfml::storeAssetsVERT(std::string assetPath){
-  }
 
-  void Sfml::playSound(std::string toPlay){
-      sf::Sound sound;
-      sf::SoundBuffer soundbuffer = _sounds.find(toPlay)->second;
-      sound.setBuffer(soundbuffer);
-      sound.play();
-  }
+  void Sfml::storeAssetsSHAD(std::string assetPath){
+    std::string loadName = assetPath.substr(0, assetPath.size()-4);
+    std::string assetName = assetPath.substr(assetPath.find_last_of("/\\") + 1);
+    assetName = assetName.substr(0, assetName.size()-5);
+    auto& shader = _shaders[assetName];
+    loadName = loadName + "vert";
 
-  //void Sfml::saveAnimation(std::string name, Animation_t animation){
-  void Sfml::saveAnimation(std::string name, std::string spriteSheet, std::size_t startTileX, std::size_t startTileY, std::size_t SizeX, std::size_t SizeY) {
-      Animation_t animation{spriteSheet, {startTileX, startTileY}, {SizeX, SizeY}};
-
-      _animations[name.c_str()] = animation;
-  }
-
-  void Sfml::setCamera(int X, int Y, int Z){
-    if (!_window.getView().getViewport().width) {
-        sf::View defaultView = _window.getDefaultView();
-        _window.setView(defaultView);
+    if(!shader.loadFromFile(loadName.c_str(), sf::Shader::Vertex)){
+      throw AssetLoadException();
     }
-    sf::View view = _window.getView();
-    view.move(X,Y);
-    view.zoom(1.0f + Z / 100.0f);
-    _window.setView(view);
+    loadName = loadName.substr(0, loadName.size()-4);
+    loadName = loadName + "frag";
+    if(!shader.loadFromFile(loadName.c_str(), sf::Shader::Fragment)){
+      throw AssetLoadException();
+    }
 
+    std::cout<<"Loading shader: "<<assetName<<std::endl;
+  }
+
+    sf::Color Sfml::colorBlindness(RGBA mask) {
+    std::string cb = "ColorBlindness";
+    std::string D = "D";
+    std::string P = "P";
+    std::string T = "T";
+    std::string colorBlind = _settings.find(cb)->second;
+    RGBA colorBlindMask{1,1,1,1};
+    if (colorBlind == "None") {
+      colorBlindMask = {1,1,1,1};
+    }
+    if (colorBlind == D) {
+      colorBlindMask = {1,0.2,1,1};
+    }
+    if (colorBlind == P) {
+      colorBlindMask = {0.2,1,1,1};
+    }
+    if (colorBlind == T) {
+      colorBlindMask = {1,1,0.2,1};
+    }
+    if (colorBlind == "GreyScale") {
+      colorBlindMask = {0.2,0.2,0.2,1};
+    }
+
+    sf::Color color(255 * mask.R * colorBlindMask.R,
+                    255 * mask.G * colorBlindMask.G,
+                    255 * mask.B * colorBlindMask.B,
+                    255 * mask.A);
+    return color;
+  }
+
+  void Sfml::drawShaders(sf::Sprite sprite) {
+    std::string cb= "ColorBlindness";
+    if (_settings.find(cb) != _settings.end()) {
+      _window.draw(sprite, &_shaders[_settings[cb]]);
+    } else {
+      _window.draw(sprite);
+    }
+  }
+
+  void Sfml::drawSprite(std::string animationName, std::size_t currentFrame, int posX, int posY, float scaleX, float scaleY, float rotation, RGBA mask) {
+    const zef::graph::Animation_t anim = _animations.at(animationName);
+
+    _sprites.at(anim.SpriteSheet).first.setTexture(_sprites.at(anim.SpriteSheet).second);
+    _sprites.at(anim.SpriteSheet).first.setTextureRect(sf::IntRect(anim.Size.first * currentFrame + anim.StartPos.first, anim.StartPos.second * anim.Size.second, anim.Size.first, anim.Size.second));
+    _sprites.at(anim.SpriteSheet).first.setColor(sf::Color(255 * mask.R, 255 * mask.G, 255 * mask.B, 255 * mask.A));
+//    sprite.setColor(colorBlindness(mask));
+    _sprites.at(anim.SpriteSheet).first.setRotation(rotation);
+
+    _sprites.at(anim.SpriteSheet).first.setOrigin(anim.Size.first / 2, anim.Size.second / 2);
+    _sprites.at(anim.SpriteSheet).first.setPosition(posX, posY);
+    _sprites.at(anim.SpriteSheet).first.setScale(scaleX, scaleY);
+
+    _window.setView(_views["Default"]);
+    drawShaders(_sprites.at(anim.SpriteSheet).first);
+//    if (_shaders.find("tritanopia") != _shaders.end()) {
+//      _shaders["tritanopia"].setUniform("texture", sf::Shader::CurrentTexture);
+//      _window.draw(sprite, &_shaders["tritanopia"]);
+//    } else {
+//      _window.draw(sprite);
+//    }
+
+  }
+
+  void Sfml::drawSpriteHUD(std::string animationName, std::size_t currentFrame, int posX, int posY, float scaleX, float scaleY, float rotation, RGBA mask) {
+    const zef::graph::Animation_t anim = _animations.at(animationName);
+
+    _sprites.at(anim.SpriteSheet).first.setTexture(_sprites.at(anim.SpriteSheet).second);
+    _sprites.at(anim.SpriteSheet).first.setTextureRect(sf::IntRect(anim.Size.first * currentFrame + anim.StartPos.first, anim.StartPos.second * anim.Size.second, anim.Size.first, anim.Size.second));
+    _sprites.at(anim.SpriteSheet).first.setColor(sf::Color(255 * mask.R, 255 * mask.G, 255 * mask.B, 255 * mask.A));
+//    sprite.setColor(colorBlindness(mask));
+    _sprites.at(anim.SpriteSheet).first.setRotation(rotation);
+
+    _sprites.at(anim.SpriteSheet).first.setOrigin(anim.Size.first / 2, anim.Size.second / 2);
+    _sprites.at(anim.SpriteSheet).first.setPosition(posX, posY);
+    _sprites.at(anim.SpriteSheet).first.setScale(scaleX, scaleY);
+
+    _window.setView(_views["HUD"]);
+	drawShaders(_sprites.at(anim.SpriteSheet).first);
+//    _window.draw(sprite);
+//    if (_shaders.find("tritanopia") != _shaders.end()) {
+//      _shaders["tritanopia"].setUniform("texture", sf::Shader::CurrentTexture);
+//      _window.draw(sprite, &_shaders["tritanopia"]);
+//    } else {
+//      _window.draw(sprite);
+//    }
+  }
+
+  void Sfml::drawText(std::string textString, std::string fontName,std::size_t fontSize, int posX, int posY, float scaleX, float scaleY, float rotation, RGBA mask) {
+    sf::Font font = _fonts.find(fontName)->second;
+    sf::Text text(textString, font, fontSize);
+    sf::Color color(255 * mask.R, 255 * mask.G, 255 * mask.B, 255 * mask.A);
+
+    sf::FloatRect textRect = text.getLocalBounds();
+    text.setOrigin(textRect.left + textRect.width / 2, textRect.top + textRect.height / 2);
+    text.setPosition(posX, posY);
+    text.setScale(scaleX, scaleY);
+    text.setFillColor(color);
+    text.setRotation(rotation);
+
+    _window.setView(_views["Default"]);
+    _window.draw(text);
+  }
+
+  void Sfml::drawTextHUD(std::string textString, std::string fontName,std::size_t fontSize, int posX, int posY, float scaleX, float scaleY, float rotation, RGBA mask) {
+    sf::Font font = _fonts.find(fontName)->second;
+    sf::Text text(textString, font, fontSize);
+    sf::Color color(255 * mask.R, 255 * mask.G, 255 * mask.B, 255 * mask.A);
+
+    sf::FloatRect textRect = text.getLocalBounds();
+    text.setOrigin(textRect.left + textRect.width / 2, textRect.top + textRect.height / 2);
+    text.setPosition(posX, posY);
+    text.setScale(scaleX, scaleY);
+    text.setFillColor(color);
+    text.setRotation(rotation);
+
+    _window.setView(_views["HUD"]);
+    _window.draw(text);
+  }
+
+  void Sfml::playSound(std::string soundName, int volume){
+    _sounds.find(soundName)->second.first.setBuffer(_sounds.find(soundName)->second.second);
+    _sounds.find(soundName)->second.first.setVolume(volume);
+    std::cout << soundName << std::endl;
+    _sounds.find(soundName)->second.first.play();
+
+  }
+
+  void Sfml::saveAnimation(std::string animationName, std::string spriteSheetName, std::size_t startTileX, std::size_t startTileY, std::size_t tileSizeX, std::size_t tileSizeY) {
+      Animation_t animation{spriteSheetName, {startTileX, startTileY}, {tileSizeX, tileSizeY}};
+
+      _animations[animationName.c_str()] = animation;
   }
 
   void Sfml::moveCamera(int X, int Y, float Z){
     if (!_window.getView().getViewport().width) {
         sf::View defaultView = _window.getDefaultView();
-        _window.setView(defaultView);
+        _views["Default"] = defaultView;
     }
-    sf::View view = _window.getView();
-    view.setCenter(view.getCenter().x + X,view.getCenter().y + Y);
-    view.zoom(Z);
-    _window.setView(view);
+
+    _views["Default"].setCenter(_views["Default"].getCenter().x + X,_views["Default"].getCenter().y + Y);
+    _views["Default"].zoom(Z);
+    _window.setView(_views["Default"]);
+  }
+
+  void Sfml::setCamera(int X, int Y, int Z){
+    if (!_window.getView().getViewport().width) {
+        sf::View defaultView = _window.getDefaultView();
+        _views["Default"] = defaultView;
+    }
+
+    _views["Default"].move(X,Y);
+    _views["Default"].zoom(1.0f + Z / 100.0f);
+    _window.setView(_views["Default"]);
 
   }
 
@@ -176,19 +289,16 @@ namespace zef{
         ui.mouse._mb_map[static_cast<utils::MouseButtons>(evt.mouseButton.button)] = false;
         ui.mouse._released.push_back(static_cast<utils::MouseButtons>(evt.mouseButton.button));
       }
-      
+
       sf::Vector2i mousePosWindow = sf::Mouse::getPosition(_window);
       sf::Vector2f mousePosInView = _window.mapPixelToCoords(mousePosWindow);
 
       ui.mouse.x = mousePosInView.x;
       ui.mouse.y = mousePosInView.y;
     }
-    
-
   }
 
-
-  UserInput Sfml::getEvent() {
+  UserInput Sfml::getEvent(){
     UserInput userInput;
 
     sf::Event event;
@@ -210,7 +320,6 @@ namespace zef{
     }
     return userInput;
   }
-
 
   IDisplayModule* entryPoint() {
     return new Sfml;
