@@ -80,6 +80,16 @@ void runServer(int port) {
         }
     });
 
+    engine.registerCommand(SENDPOSITION, [](zef::Engine& engine, input_t input) {
+        CommandSendPosition cmp = network::game::Commands<CommandSendPosition>(input).getCommand();
+        for (auto &&[pl, rep, pos] : ecs::zipper(engine.reg.get_components<Player>(), engine.reg.get_components<zef::comp::replicable>(), engine.reg.get_components<zef::comp::position>())) {
+            if (rep._id == input.id) {
+                pos.x = cmp.x;
+                pos.y = cmp.y;
+            }
+        }
+    });
+
     
     engine.registerComponent<zef::comp::position>();
     engine.registerComponent<zef::comp::vector>();
