@@ -1,0 +1,4 @@
+# Use this file to create Animation based on sprite sheets, see usage below.
+#animationName spriteSheetName startTileX startTileY tileSizeX tileSizeY
+
+

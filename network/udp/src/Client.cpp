@@ -26,6 +26,8 @@ namespace network {
       udp::resolver::query query(udp::v4(), ip, std::to_string(server_port));
       udp::resolver::iterator iter = resolver.resolve(query);
       _server_endpoint             = *iter;
+        std::cout << "Connecting to: " << _server_endpoint.address().to_string()
+          << ":" << _server_endpoint.port() << " " << ip << std::endl;
 
       // Start receiving asynchronously
       startReceive();
@@ -74,7 +76,7 @@ namespace network {
     void Client::handleReceive(const asio::error_code &error,
                                std::size_t bytes_transferred) {
       if (!error && bytes_transferred > 0) {
-        input_t receivedMessage = unpack(bytes_transferred, _recvBuffer);
+        input_t receivedMessage = unpack(bytes_transferred, _recvBuffer, 0);
         {
           std::lock_guard<std::mutex> lock(_mutex);
           _command_queue.push_back(receivedMessage);

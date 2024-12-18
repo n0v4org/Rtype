@@ -41,9 +41,8 @@ public:
         engine.addEntityComponent<Lifetime>(self, 1500 * 1000);
 
         zef::comp::drawable dr;
-        dr.addAnimation("ship", 5, 200);
-        dr.playAnimationLoop("ship", 1);
-        dr.setScale(0.2, 0.2);
+        dr.addAnimation("bullet", 1, 200);
+        dr.playAnimationLoop("bullet", 1);
         engine.addEntityComponent<zef::comp::drawable>(self, dr);
 
         engine.addEntityComponent<zef::comp::event_listener>(self, createBulletEventListener());

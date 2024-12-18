@@ -14,7 +14,7 @@ add_library(game_network STATIC ${SRCS})
 
 find_package(asio REQUIRED CONFIG)
 
-find_package(nlohmann_json 3.2.0 REQUIRED)
+find_package(nlohmann_json REQUIRED)
 
 target_link_libraries(game_network PRIVATE asio nlohmann_json::nlohmann_json)
 

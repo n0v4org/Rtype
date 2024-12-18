@@ -19,11 +19,15 @@ set(TEST
 
 add_executable(r-type_client ${SRCS})
 
+find_package(asio REQUIRED CONFIG)
+
+
 include_directories(r-type_client PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/include
     ${CMAKE_CURRENT_SOURCE_DIR}/game
     ${CMAKE_CURRENT_SOURCE_DIR}/../engine
     ${CMAKE_CURRENT_SOURCE_DIR}/../engine/ecs
+    ${CMAKE_CURRENT_SOURCE_DIR}/../Common
 )
 #find_package(boost_asio REQUIRED CONFIG)
 
@@ -46,6 +50,7 @@ include_directories(r-type_client PUBLIC
 target_link_libraries(r-type_client PRIVATE 
     sfml
     zefir
+    asio
     sfml-system
     sfml-window
     sfml-graphics

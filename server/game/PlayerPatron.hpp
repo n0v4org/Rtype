@@ -14,6 +14,7 @@
 
 #include "modules/movement/components.hpp"
 #include "modules/display/components.hpp"
+#include "modules/network/components.hpp"
 
 #include "events.hpp"
 
@@ -24,8 +25,10 @@ zef::comp::event_listener createPlayerEventListener() {
 
 
     evtl.setEvent<SetPlayerVectorEvent>([](zef::Engine& engine, size_t self, SetPlayerVectorEvent nv) {
-        engine.fetchEntityComponent<zef::comp::vector>(self).x = nv.x;
-        engine.fetchEntityComponent<zef::comp::vector>(self).y = nv.y;
+        engine.fetchEntityComponent<VectorHolder>(self).x += nv.x;
+        engine.fetchEntityComponent<VectorHolder>(self).y += nv.y;
+
+        std::cout << engine.fetchEntityComponent<VectorHolder>(self).x << " " <<  engine.fetchEntityComponent<VectorHolder>(self).y << std::endl;
     });
 
     evtl.setEvent<ShootPlayerEvent>([](zef::Engine& engine, size_t self, ShootPlayerEvent sht) {
@@ -42,9 +45,12 @@ zef::comp::event_listener createPlayerEventListener() {
 
 class PlayerPatron {
 public:
-    static void instanciate(zef::Engine& engine, const ecs::Entity& self, float x, float y) {
+    static void instanciate(zef::Engine& engine, const ecs::Entity& self, float x, float y, size_t rep) {
         engine.addEntityComponent<zef::comp::position>(self, x, y);
         engine.addEntityComponent<zef::comp::vector>(self, 0, 0, 10);
+        engine.addEntityComponent<zef::comp::replicable>(self, rep);
+        engine.addEntityComponent<VectorHolder>(self, 0.0f, 0.0f);
+        engine.addEntityComponent<Player>(self);
 
         engine.addEntityComponent<Health>(self, 100, 100);
 

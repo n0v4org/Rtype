@@ -1,3 +1,4 @@
+
 /*
 ** EPITECH PROJECT, 2024
 ** RTYPE
@@ -21,7 +22,7 @@ namespace zef
         class timer {
             public:
                 timer() {
-                    
+
                 }
 
                 void startTimer(const std::string& name) {
@@ -30,7 +31,7 @@ namespace zef
 
                 size_t get(const std::string& name) {
                     return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now() - _timers[name]).count();
-                } 
+                }
 
                 std::map<std::string, std::chrono::_V2::system_clock::time_point> _timers;
 
