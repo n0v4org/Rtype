@@ -43,5 +43,12 @@ class Player {
 
 };
 
+class PlayerReplacer {
+    public:
+    PlayerReplacer(){}
+    size_t time = 0;
+};
+
+
 #endif /* !COMPONENTS_HPP_ */
 

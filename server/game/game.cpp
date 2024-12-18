@@ -92,6 +92,7 @@ void runServer(int port) {
     engine.registerComponent<zef::comp::replicable>();
     engine.registerComponent<VectorHolder>();
     engine.registerComponent<Player>();
+    engine.registerComponent<PlayerReplacer>();
     
 
     //engine.addSystem<>(entitycountdisplay);
@@ -103,6 +104,7 @@ void runServer(int port) {
     engine.addSystem<VectorHolder, zef::comp::vector>(convertHolderToVect);
     engine.addSystem<zef::comp::vector>(zef::sys::normalize_velocity_vectors);
     engine.addSystem<zef::comp::position, zef::comp::vector>(zef::sys::move);
+    engine.addSystem<PlayerReplacer>(syncPlayers);
     engine.addSystem<zef::comp::collidable, zef::comp::position>(zef::sys::check_collidables);
     engine.addSystem<zef::comp::event_listener>(zef::sys::resolveEvent);
 

@@ -25,6 +25,7 @@ public:
         //engine.sendEvent<SetPlayerVectorEvent>(e, 1.0f, 0.0f);
 
         //engine.instanciatePatron<BulletPatron>(0.0f, 0.0f);
+        engine.addEntityComponent<PlayerReplacer>(engine.reg.spawn_entity());
     }
 
     

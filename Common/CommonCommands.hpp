@@ -17,9 +17,21 @@ enum Commands {
     SPAWNPLAYER,
     SPAWNALLY,
     MOVEALLY,
-    SPAWNBULLET
+    SPAWNBULLET,
+    SETPLAYERPOS,
+    SETALLYPOS
 };
 
+struct CommandSetAllyPos {
+    size_t rep;
+    float x;
+    float y;
+};
+
+struct CommandSetPlayerPos {
+    float x;
+    float y;
+};
 
 struct CommandConnect {};
 
