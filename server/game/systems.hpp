@@ -45,14 +45,14 @@ void syncPlayers(zef::Engine& engine, ecs::sparse_array<PlayerReplacer>& prs) {
     for (auto &&[pr] : ecs::zipper(prs)) {
         pr.time += engine.elapsed.count();
 
-        if (pr.time > 5 * 100 * 1000) {
+        if (pr.time > 2 * 100 * 1000) {
             
             for (auto&& [pl, rep, pos] : ecs::zipper(
                 engine.reg.get_components<Player>(), 
                 engine.reg.get_components<zef::comp::replicable>(), 
                 engine.reg.get_components<zef::comp::position>() 
             )) {
-                engine.ServerSend<CommandSetPlayerPos>(rep._id, SETPLAYERPOS, {pos.x, pos.y});
+                //engine.ServerSend<CommandSetPlayerPos>(rep._id, SETPLAYERPOS, {pos.x, pos.y});
                 for (auto&& [pl2, rep2, pos2] : ecs::zipper(
                     engine.reg.get_components<Player>(), 
                     engine.reg.get_components<zef::comp::replicable>(), 
