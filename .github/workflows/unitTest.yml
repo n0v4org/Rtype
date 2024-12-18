@@ -25,7 +25,8 @@ jobs:
       - name: Install system dependencies
         run: |
           sudo apt update
-          sudo apt install -y ninja-build g++ cmake curl zip unzip
+          sudo apt install -y g++ cmake curl zip unzip ninja-build \
+          libx11-dev libxrandr-dev libxcursor-dev libxi-dev libudev-dev libgl1-mesa-dev
 
       - name: Set up vcpkg
         run: |
@@ -33,15 +34,16 @@ jobs:
           ./vcpkg/bootstrap-vcpkg.sh
         id: vcpkg
 
+      - name: Configure vcpkg toolchain
+        run: echo "::set-output name=toolchain-file::$(pwd)/vcpkg/scripts/buildsystems/vcpkg.cmake"
+        id: vcpkg-toolchain
+
       - name: Build project
         run: |
           mkdir -p build
           cd build
-          cmake .. -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/vcpkg/scripts/buildsystems/vcpkg.cmake -G Ninja
-          ninja
-        env:
-          CXX: /usr/bin/g++
-          CC: /usr/bin/gcc
+          cmake .. -DCMAKE_TOOLCHAIN_FILE=${{ steps.vcpkg-toolchain.outputs.toolchain-file }}
+          make
 
       - name: Run tests
         run: |
