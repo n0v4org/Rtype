@@ -40,6 +40,7 @@ zef::comp::event_listener createPlayerEventListener() {
     evtl.setEvent<ShootPlayerEvent>([](zef::Engine& engine, size_t self, ShootPlayerEvent sht) {
         zef::comp::position& p = engine.fetchEntityComponent<zef::comp::position>(self);
         engine.instanciatePatron<BulletPatron>(p.x, p.y);
+        engine.ClientSend<CommandShoot>(SHOOTPLAYER, {});
     });
 
     evtl.setEvent<sendingVectorEvt>([](zef::Engine& engine, size_t self, sendingVectorEvt sve) {

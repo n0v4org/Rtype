@@ -54,6 +54,7 @@ namespace network {
 
     void Server::dispatch_client(const std::error_code& ec,
                                  std::size_t bytes_transferred) {
+                                  std::cout << "hahahahaha\n";
       if (ec) {
         std::cerr << "Error during receive: " << ec.message() << std::endl;
         start_receive();

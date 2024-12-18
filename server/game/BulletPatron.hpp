@@ -23,7 +23,7 @@ zef::comp::event_listener createBulletEventListener() {
 
     evtl.setEvent<zef::evt::startCollision>([](zef::Engine& engine, size_t self, zef::evt::startCollision col) {
         engine.sendEvent<GetHittedByBullet>(col.other, self, 10);
-        engine.reg.kill_entity(ecs::Entity(self));
+        //engine.reg.kill_entity(ecs::Entity(self));
     });
 
     evtl.setEvent<DestroyBullet>([](zef::Engine& engine, size_t self, DestroyBullet db){
@@ -37,7 +37,7 @@ class BulletPatron {
 public:
     static void instanciate(zef::Engine& engine, const ecs::Entity& self, float x, float y) {
         engine.addEntityComponent<zef::comp::position>(self, x, y);
-        engine.addEntityComponent<zef::comp::vector>(self, 1, 0, 10);
+        engine.addEntityComponent<zef::comp::vector>(self, 1, 0, 18);
         engine.addEntityComponent<Lifetime>(self, 1500 * 1000);
 
         zef::comp::drawable dr;
@@ -50,6 +50,8 @@ public:
 
         std::vector<zef::utils::hitbox> hb = {zef::utils::hitbox(0, 0, 20, 20)};
         engine.addEntityComponent<zef::comp::collidable>(self, hb);
+
+        //std::cout <<" hahahaha\n";
     }
 };
 

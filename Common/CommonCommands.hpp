@@ -11,11 +11,13 @@
 enum Commands {
     CONNECT,
     MOVEPLAYER,
+    SHOOTPLAYER,
 
 
     SPAWNPLAYER,
     SPAWNALLY,
-    MOVEALLY
+    MOVEALLY,
+    SPAWNBULLET
 };
 
 
@@ -40,6 +42,12 @@ struct CommandSpawnAlly {
     float x;
     float y;
     size_t replicable;
+};
+
+struct CommandShoot {};
+
+struct CommandSpawnBullet {
+    size_t ship;
 };
 
 #endif // COMMON_COMMONCOMMANDS_HPP_

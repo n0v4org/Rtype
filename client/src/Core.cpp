@@ -45,7 +45,7 @@ namespace client {
         return;
       }
       
-      runClient(_params->get_server_port(), _params->get_client_port(), "127.0.0.1");
+      runClient(_params->get_server_port(), _params->get_client_port(), _params->get_ip());
     } catch (const std::exception &e) {
       if (strcmp(e.what(), EXCEPTION) != 0)
         std::cerr << e.what() << '\n';

@@ -61,6 +61,24 @@ void runServer(int port) {
         }
     });
 
+    engine.registerCommand(SHOOTPLAYER, [](zef::Engine& engine, input_t input) {
+   
+        for (auto &&[i,  rep] : ecs::indexed_zipper(
+            engine.reg.get_components<zef::comp::replicable>()
+            )) {
+                if (rep._id == input.id) {
+                    engine.sendEvent<ShootPlayerEvent>(i);
+                }
+            }
+
+        for (auto && [rep, player] : ecs::zipper(
+            engine.reg.get_components<zef::comp::replicable>(), engine.reg.get_components<Player>()
+        )) {
+            if (rep._id != input.id) {
+                engine.ServerSend<CommandSpawnBullet>(rep._id, SPAWNBULLET, {static_cast<size_t>(input.id)});
+            }
+        }
+    });
 
     
     engine.registerComponent<zef::comp::position>();

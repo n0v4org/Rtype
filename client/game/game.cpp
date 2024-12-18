@@ -51,6 +51,19 @@ void runClient(int sport, int cport, std::string ip) {
         }
     });
 
+    engine.registerCommand(SPAWNBULLET, [](zef::Engine& engine, input_t input) {
+        CommandSpawnBullet mva = network::game::Commands<CommandSpawnBullet>(input).getCommand();
+        std::cout << "ship to shoot: " << mva.ship << std::endl;
+
+        for (auto&& [i, rep] : ecs::indexed_zipper(engine.reg.get_components<zef::comp::replicable>())) {
+            if( rep._id == mva.ship) {
+                engine.sendEvent<ShootPlayerEvent>(i);
+            }
+        }
+        //engine.instanciatePatron<AllyPatron>(csp.x, csp.y, csp.replicable);
+        //engine.instanciatePatron<BulletPatron>(mva.x, mva.y);
+    });
+
     engine.ClientSend<CommandConnect>(CONNECT, {});
 
 

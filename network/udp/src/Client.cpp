@@ -26,6 +26,8 @@ namespace network {
       udp::resolver::query query(udp::v4(), ip, std::to_string(server_port));
       udp::resolver::iterator iter = resolver.resolve(query);
       _server_endpoint             = *iter;
+        std::cout << "Connecting to: " << _server_endpoint.address().to_string()
+          << ":" << _server_endpoint.port() << " " << ip << std::endl;
 
       // Start receiving asynchronously
       startReceive();
