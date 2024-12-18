@@ -7,7 +7,7 @@
 
 #include <iostream>
 #include <string>
-#include "include/Sfml.hpp"
+#include "Sfml.hpp"
 
 namespace zef{
     namespace graph{
