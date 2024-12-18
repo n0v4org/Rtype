@@ -19,7 +19,7 @@
 #include <SFML/Window.hpp>
 #include <SFML/Audio.hpp>
 
-#include "../../includes/ADisplayModule.hpp"
+#include "ADisplayModule.hpp"
 
 namespace zef{
     namespace graph{
