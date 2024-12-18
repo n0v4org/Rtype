@@ -92,28 +92,23 @@ namespace zef{
     _fonts[assetName.c_str()] = font;
   }
 
-  void Sfml::storeAssetsVERT(std::string assetPath){
-  }
+  void Sfml::storeAssetsSHAD(std::string assetPath){
+    std::string loadName = assetPath.substr(0, assetPath.size()-4);
+    std::string assetName = assetPath.substr(assetPath.find_last_of("/\\") + 1);
+    assetName = assetName.substr(0, assetName.size()-5);
+    auto& shader = _shaders[assetName];
+    loadName = loadName + "vert";
 
-  void Sfml::drawSprite(std::string animationName, std::size_t currentFrame, int posX, int posY, float scaleX, float scaleY, float rotation, RGBA mask) {
-    const zef::graph::Animation_t anim = _animations.at(animationName);
-    sf::Sprite sprite = _sprites.at(anim.SpriteSheet).first;
-    sf::Texture texture = _sprites.at(anim.SpriteSheet).second;
-    sf::IntRect rect(anim.Size.first * currentFrame + anim.StartPos.first, anim.StartPos.second * anim.Size.second, anim.Size.first, anim.Size.second);
-    sf::Color color(255 * mask.R, 255 * mask.G, 255 * mask.B, 255 * mask.A);
+    if(!shader.loadFromFile(loadName.c_str(), sf::Shader::Vertex)){
+      throw AssetLoadException();
+    }
+    loadName = loadName.substr(0, loadName.size()-4);
+    loadName = loadName + "frag";
+    if(!shader.loadFromFile(loadName.c_str(), sf::Shader::Fragment)){
+      throw AssetLoadException();
+    }
 
-    sprite.setTexture(texture);
-    sprite.setTextureRect(rect);
-//    sprite.setColor(color);
-    sprite.setColor(colorBlindness(mask));
-    sprite.setRotation(rotation);
-
-    sprite.setOrigin(anim.Size.first / 2, anim.Size.second / 2);
-    sprite.setPosition(posX, posY);
-    sprite.setScale(scaleX, scaleY);
-
-    _window.setView(_views["Default"]);
-    _window.draw(sprite);
+    std::cout<<"Loading shader: "<<assetName<<std::endl;
   }
 
     sf::Color Sfml::colorBlindness(RGBA mask) {
