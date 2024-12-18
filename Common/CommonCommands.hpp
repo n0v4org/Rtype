@@ -8,10 +8,13 @@
 #ifndef COMMON_COMMONCOMMANDS_HPP_
 #define COMMON_COMMONCOMMANDS_HPP_
 
+#include <cstdlib>
+
 enum Commands {
     CONNECT,
     MOVEPLAYER,
     SHOOTPLAYER,
+    SENDPOSITION,
 
 
     SPAWNPLAYER,
@@ -19,7 +22,8 @@ enum Commands {
     MOVEALLY,
     SPAWNBULLET,
     SETPLAYERPOS,
-    SETALLYPOS
+    SETALLYPOS,
+    ASKPOSITION
 };
 
 struct CommandSetAllyPos {
@@ -60,6 +64,13 @@ struct CommandShoot {};
 
 struct CommandSpawnBullet {
     size_t ship;
+};
+
+struct CommandAskPosition {};
+
+struct CommandSendPosition {
+    float x;
+    float y;
 };
 
 #endif // COMMON_COMMONCOMMANDS_HPP_

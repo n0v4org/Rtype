@@ -52,7 +52,8 @@ void syncPlayers(zef::Engine& engine, ecs::sparse_array<PlayerReplacer>& prs) {
                 engine.reg.get_components<zef::comp::replicable>(), 
                 engine.reg.get_components<zef::comp::position>() 
             )) {
-                //engine.ServerSend<CommandSetPlayerPos>(rep._id, SETPLAYERPOS, {pos.x, pos.y});
+                engine.ServerSend<CommandAskPosition>(rep._id, ASKPOSITION, {});
+                
                 for (auto&& [pl2, rep2, pos2] : ecs::zipper(
                     engine.reg.get_components<Player>(), 
                     engine.reg.get_components<zef::comp::replicable>(), 
