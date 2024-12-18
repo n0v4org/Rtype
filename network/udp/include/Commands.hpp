@@ -15,12 +15,13 @@ namespace network {
   namespace game {
 
     static input_t unpack(std::size_t byte_size,
-                          std::array<uint8_t, 1024> _recv_buffer_) {
+                          std::array<uint8_t, 1024> _recv_buffer_, int id) {
       input_t input = {0};
 
       input.cmd          = _recv_buffer_[0];
       input.payload_size = (_recv_buffer_[1] << 8) | _recv_buffer_[2];
       input.seq          = 0;
+      input.id = id;
       for (int i = 0; i < 4; i++) {
         input.seq = (input.seq << 8) | _recv_buffer_[3 + i];
       }

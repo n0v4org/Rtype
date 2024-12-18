@@ -29,5 +29,32 @@ class Lifetime {
 };
 
 
+class VectorHolder {
+    public:
+    VectorHolder(float _x, float _y): x(_x), y(_y) {}
+
+    float x;
+    float y;
+};
+
+class Player {
+    public:
+    Player(){}
+
+};
+
+class Monster {
+    public:
+    Monster(){}
+
+};
+
+class PlayerReplacer {
+    public:
+    PlayerReplacer(){}
+    size_t time = 0;
+};
+
+
 #endif /* !COMPONENTS_HPP_ */
 

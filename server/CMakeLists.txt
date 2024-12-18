@@ -19,15 +19,19 @@ set(TEST
 
 add_executable(r-type_server ${SRCS})
 
+find_package(asio REQUIRED CONFIG)
+
 include_directories(r-type_server PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/include
     ${CMAKE_CURRENT_SOURCE_DIR}/game
     ${CMAKE_CURRENT_SOURCE_DIR}/../engine
     ${CMAKE_CURRENT_SOURCE_DIR}/../engine/ecs
     ${CMAKE_CURRENT_SOURCE_DIR}/../network/udp
+    ${CMAKE_CURRENT_SOURCE_DIR}/../Common
 )
 
 target_link_libraries(r-type_server PRIVATE 
+    asio
     sfml
     zefir
     sfml-system

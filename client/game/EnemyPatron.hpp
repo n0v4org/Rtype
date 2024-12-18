@@ -15,6 +15,7 @@
 #include "modules/movement/components.hpp"
 #include "modules/movement/events.hpp"
 #include "modules/display/components.hpp"
+#include "modules/network/components.hpp"
 
 #include "events.hpp"
 
@@ -34,14 +35,17 @@ zef::comp::event_listener createEnemyEventListener() {
 
 class EnemyPatron {
 public:
-    static void instanciate(zef::Engine& engine, const ecs::Entity& self, float x, float y) {
+    static void instanciate(zef::Engine& engine, const ecs::Entity& self, float x, float y, size_t rep) {
         engine.addEntityComponent<zef::comp::position>(self, x, y);
         engine.addEntityComponent<zef::comp::vector>(self, 0, 0, 10);
+        engine.addEntityComponent<zef::comp::replicable>(self, rep);
+        engine.addEntityComponent<Monster>(self);
 
 
         zef::comp::drawable dr;
         dr.addAnimation("ship", 5, 200);
         dr.playAnimationLoop("ship", 1);
+        //dr.setScale(4, 4);
         engine.addEntityComponent<zef::comp::drawable>(self, dr);
 
         engine.addEntityComponent<zef::comp::event_listener>(self, createEnemyEventListener());
