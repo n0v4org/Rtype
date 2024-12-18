@@ -4,6 +4,9 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 project(Rtype VERSION 1.0)
+
+find_package(SFML 2.5 COMPONENTS graphics window system REQUIRED)
+
 #add_subdirectory(network/tcp)
 add_subdirectory(engine/graphic/sfml)
 add_subdirectory(network/tcp)
