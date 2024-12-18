@@ -23,7 +23,19 @@ enum Commands {
     SPAWNBULLET,
     SETPLAYERPOS,
     SETALLYPOS,
-    ASKPOSITION
+    ASKPOSITION,
+    SPAWNMONSTER,
+    KILLMONSTER
+};
+
+struct CommandSpawnMonster {
+    size_t rep;
+    float x;
+    float y;
+};
+
+struct CommandKillMonster {
+    size_t rep;
 };
 
 struct CommandSetAllyPos {

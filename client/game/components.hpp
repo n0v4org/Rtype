@@ -33,6 +33,11 @@ class BackGround {
     BackGround() {}
 };
 
+class Monster {
+    public:
+    Monster() {}
+};
+
 class VectorHolder {
     public:
     VectorHolder(float _x, float _y): x(_x), y(_y) {}

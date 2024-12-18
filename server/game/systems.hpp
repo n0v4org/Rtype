@@ -29,8 +29,22 @@ void lifetime_system(zef::Engine& engine, ecs::sparse_array<Lifetime>& lts) {
 
 void handleHealth(zef::Engine& engine, ecs::sparse_array<Health>& hps) {
     for (auto &&[i, hp] : ecs::indexed_zipper(hps)) {
-        if (hp.hp <= 0)
+        if (hp.hp <= 0) {
+
+            try
+            {
+                engine.fetchEntityComponent<Monster>(i);
+
+                zef::comp::replicable& r = engine.fetchEntityComponent<zef::comp::replicable>(i);
+                for (auto&& [pl, rep] : ecs::zipper(engine.reg.get_components<Player>(), engine.reg.get_components<zef::comp::replicable>())) {
+                    engine.ServerSend<CommandKillMonster>(rep._id, KILLMONSTER, {r._id});
+                }
+            }
+            catch(const std::exception& e){}
             engine.reg.kill_entity(ecs::Entity(i));
+        }
+
+        
     }
 }
 
@@ -71,6 +85,7 @@ void syncPlayers(zef::Engine& engine, ecs::sparse_array<PlayerReplacer>& prs) {
         }
     }
 }
+
 
 
 #endif /* !SYSTEMS_HPP_ */

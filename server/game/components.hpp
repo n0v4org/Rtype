@@ -43,6 +43,12 @@ class Player {
 
 };
 
+class Monster {
+    public:
+    Monster(){}
+
+};
+
 class PlayerReplacer {
     public:
     PlayerReplacer(){}

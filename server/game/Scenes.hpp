@@ -26,6 +26,7 @@ public:
 
         //engine.instanciatePatron<BulletPatron>(0.0f, 0.0f);
         engine.addEntityComponent<PlayerReplacer>(engine.reg.spawn_entity());
+        engine.instanciatePatron<EnemyPatron>(150.0f, 150.0f, 45);
     }
 
     

@@ -91,6 +91,25 @@ void runClient(int sport, int cport, std::string ip) {
 
     });
 
+    engine.registerCommand(SPAWNMONSTER, [](zef::Engine& engine, input_t input) {
+        CommandSpawnMonster spm = network::game::Commands<CommandSpawnMonster>(input).getCommand();
+
+        engine.instanciatePatron<EnemyPatron>(spm.x, spm.y, spm.rep);
+
+    });
+
+    engine.registerCommand(KILLMONSTER, [](zef::Engine& engine, input_t input) {
+        CommandKillMonster km = network::game::Commands<CommandKillMonster>(input).getCommand();
+
+        for (auto&& [i, rep, m] : ecs::indexed_zipper(
+            engine.reg.get_components<zef::comp::replicable>(),
+            engine.reg.get_components<Monster>()
+        )) {
+            engine.reg.kill_entity(ecs::Entity(i));
+        }
+
+    });
+
     engine.ClientSend<CommandConnect>(CONNECT, {});
 
 
@@ -106,6 +125,7 @@ void runClient(int sport, int cport, std::string ip) {
     engine.registerComponent<BackGround>();
     engine.registerComponent<zef::comp::replicable>();
     engine.registerComponent<VectorHolder>();
+    engine.registerComponent<Monster>();
     
 
     //engine.addSystem<>(entitycountdisplay);

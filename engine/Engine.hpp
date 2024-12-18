@@ -248,6 +248,8 @@ namespace zef {
     std::unique_ptr<network::game::Client> _client;
     int seq = 0;
 
+    size_t replicableId = 34;
+
     asio::io_context _context;
     std::thread _network_thread;
 

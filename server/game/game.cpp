@@ -61,6 +61,9 @@ void runServer(int port) {
                 engine.ServerSend<CommandMoveAlly>(rep._id, MOVEALLY, {input.id, cmp.x, cmp.y});
             }
         }
+        for (auto &&[m, rep, pos] : ecs::zipper(engine.reg.get_components<Monster>(), engine.reg.get_components<zef::comp::replicable>(), engine.reg.get_components<zef::comp::position>())) {
+            engine.ServerSend<CommandSpawnMonster>(input.id, SPAWNMONSTER, {rep._id, pos.x, pos.y});
+        }
     });
 
     engine.registerCommand(SHOOTPLAYER, [](zef::Engine& engine, input_t input) {
@@ -105,6 +108,7 @@ void runServer(int port) {
     engine.registerComponent<VectorHolder>();
     engine.registerComponent<Player>();
     engine.registerComponent<PlayerReplacer>();
+    engine.registerComponent<Monster>();
     
 
     //engine.addSystem<>(entitycountdisplay);
