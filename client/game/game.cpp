@@ -107,6 +107,7 @@ void runClient(int sport, int cport, std::string ip) {
             engine.reg.get_components<zef::comp::replicable>(),
             engine.reg.get_components<Monster>()
         )) {
+            if (km.rep == rep._id)
             engine.reg.kill_entity(ecs::Entity(i));
         }
 
