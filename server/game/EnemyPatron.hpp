@@ -48,11 +48,12 @@ public:
         zef::comp::drawable dr;
         dr.addAnimation("ship", 5, 200);
         dr.playAnimationLoop("ship", 1);
+        dr.setScale(2.0, 2.0);
         engine.addEntityComponent<zef::comp::drawable>(self, dr);
 
         engine.addEntityComponent<zef::comp::event_listener>(self, createEnemyEventListener());
 
-        std::vector<zef::utils::hitbox> hb = {zef::utils::hitbox(0, 0, 70, 70)};
+        std::vector<zef::utils::hitbox> hb = {zef::utils::hitbox(0, 0, 70*2, 70*2)};
         engine.addEntityComponent<zef::comp::collidable>(self, hb);
     }
 };

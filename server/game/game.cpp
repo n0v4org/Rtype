@@ -42,6 +42,9 @@ void runServer(int port) {
                 engine.ServerSend<CommandSpawnAlly>(input.id, SPAWNALLY, {pos.x, pos.y, rep._id});
         }
 
+        for (auto &&[m, rep, pos] : ecs::zipper(engine.reg.get_components<Monster>(), engine.reg.get_components<zef::comp::replicable>(), engine.reg.get_components<zef::comp::position>())) {
+            engine.ServerSend<CommandSpawnMonster>(input.id, SPAWNMONSTER, {rep._id, pos.x, pos.y});
+        }
 
     });
 
@@ -60,9 +63,6 @@ void runServer(int port) {
             if (rep._id != input.id) {
                 engine.ServerSend<CommandMoveAlly>(rep._id, MOVEALLY, {input.id, cmp.x, cmp.y});
             }
-        }
-        for (auto &&[m, rep, pos] : ecs::zipper(engine.reg.get_components<Monster>(), engine.reg.get_components<zef::comp::replicable>(), engine.reg.get_components<zef::comp::position>())) {
-            engine.ServerSend<CommandSpawnMonster>(input.id, SPAWNMONSTER, {rep._id, pos.x, pos.y});
         }
     });
 

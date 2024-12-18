@@ -149,7 +149,7 @@ namespace zef {
 
     void initGraphLib(const std::string& assetFolder, const std::string& windowName) {
       GraphLib.reset(graph::entryPoint());
-      GraphLib->initialize(assetFolder);
+      GraphLib->initialize(assetFolder, "R-type");
     }
 
    
