@@ -112,6 +112,26 @@ void runClient(int sport, int cport, std::string ip) {
 
     });
 
+    engine.registerCommand(DEATH, [](zef::Engine& engine, input_t input) {
+        //Comm km = network::game::Commands<CommandKillMonster>(input).getCommand();
+
+        engine.loadScene("lobby");
+
+    });
+
+    engine.registerCommand(DEATHALLY, [](zef::Engine& engine, input_t input) {
+        CommandDeatAlly da = network::game::Commands<CommandDeatAlly>(input).getCommand();
+
+        for (auto&& [i, rep] : ecs::indexed_zipper(engine.reg.get_components<zef::comp::replicable>())) {
+            if (rep._id == da.rep) {
+                engine.reg.kill_entity(ecs::Entity(i));
+            }
+        }
+
+    });
+
+    
+
     engine.ClientSend<CommandConnect>(CONNECT, {});
 
 

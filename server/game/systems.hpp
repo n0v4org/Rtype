@@ -41,6 +41,17 @@ void handleHealth(zef::Engine& engine, ecs::sparse_array<Health>& hps) {
                 }
             }
             catch(const std::exception& e){}
+            try
+            {
+                engine.fetchEntityComponent<Player>(i);
+
+                zef::comp::replicable& r = engine.fetchEntityComponent<zef::comp::replicable>(i);
+                engine.ServerSend<CommandDeath>(r._id, DEATH, {});
+                for (auto&& [pl, rep] : ecs::zipper(engine.reg.get_components<Player>(), engine.reg.get_components<zef::comp::replicable>())) {
+                    engine.ServerSend<CommandDeatAlly>(rep._id, DEATHALLY, {r._id});
+                }
+            }
+            catch(const std::exception& e){}
             engine.reg.kill_entity(ecs::Entity(i));
         }
 
