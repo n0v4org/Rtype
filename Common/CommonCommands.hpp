@@ -71,6 +71,8 @@ struct CommandAskPosition {};
 struct CommandSendPosition {
     float x;
     float y;
+    float velx;
+    float vely;
 };
 
 #endif // COMMON_COMMONCOMMANDS_HPP_

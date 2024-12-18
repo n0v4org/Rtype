@@ -12,6 +12,8 @@
 
 #include "CommonCommands.hpp"
 
+#include <cmath>
+
 #include "modules/display/systems.hpp"
 #include "modules/movement/systems.hpp"
 #include "modules/network/systems.hpp"
@@ -82,10 +84,12 @@ void runServer(int port) {
 
     engine.registerCommand(SENDPOSITION, [](zef::Engine& engine, input_t input) {
         CommandSendPosition cmp = network::game::Commands<CommandSendPosition>(input).getCommand();
-        for (auto &&[pl, rep, pos] : ecs::zipper(engine.reg.get_components<Player>(), engine.reg.get_components<zef::comp::replicable>(), engine.reg.get_components<zef::comp::position>())) {
+        for (auto &&[pl, rep, pos, vec] : ecs::zipper(engine.reg.get_components<Player>(), engine.reg.get_components<zef::comp::replicable>(), engine.reg.get_components<zef::comp::position>(), engine.reg.get_components<VectorHolder>())) {
             if (rep._id == input.id) {
                 pos.x = cmp.x;
                 pos.y = cmp.y;
+                //vec.x = cmp.velx == 0 ? 0 : std::fabs(vec.x) / vec.x;
+                //vec.y = cmp.vely == 0 ? 0 : std::fabs(vec.y) / vec.y;
             }
         }
     });
