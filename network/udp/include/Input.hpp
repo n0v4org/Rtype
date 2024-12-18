@@ -12,6 +12,7 @@ struct input_t {
   uint8_t cmd;
   uint16_t payload_size;
   uint32_t seq;
+  int id;
   std::array<uint8_t, 1024> payload;
 };
 

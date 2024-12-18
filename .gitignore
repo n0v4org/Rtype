@@ -54,3 +54,6 @@ Testing
 megalinter-reports/
 
 
+engine/**/main.cpp
+
+engine/Assets

@@ -2,6 +2,7 @@
   "dependencies": [
     "gtest",
     "asio",
-    "nlohmann-json"
+    "nlohmann-json",
+    "sfml"
   ]
 }
