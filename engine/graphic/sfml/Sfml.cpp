@@ -116,11 +116,11 @@ namespace zef{
     _window.draw(sprite);
   }
 
-  sf::Color Sfml::colorBlindness(RGBA mask) {
+    sf::Color Sfml::colorBlindness(RGBA mask) {
     std::string cb = "ColorBlindness";
-    std::string D = "Deuteranopia";
-    std::string P = "Protanopia";
-    std::string T = "Tritanopia";
+    std::string D = "D";
+    std::string P = "P";
+    std::string T = "T";
     std::string colorBlind = _settings.find(cb)->second;
     RGBA colorBlindMask{1,1,1,1};
     if (colorBlind == "None") {
@@ -139,30 +139,68 @@ namespace zef{
       colorBlindMask = {0.2,0.2,0.2,1};
     }
 
-    sf::Color color(255 * mask.R * colorBlindMask.R, 255 * mask.G * colorBlindMask.G, 255 * mask.B * colorBlindMask.B, 255 * mask.A);
+    sf::Color color(255 * mask.R * colorBlindMask.R,
+                    255 * mask.G * colorBlindMask.G,
+                    255 * mask.B * colorBlindMask.B,
+                    255 * mask.A);
     return color;
+  }
+
+  void Sfml::drawShaders(sf::Sprite sprite) {
+    std::string cb= "ColorBlindness";
+    if (_settings.find(cb) != _settings.end()) {
+      _window.draw(sprite, &_shaders[_settings[cb]]);
+    } else {
+      _window.draw(sprite);
+    }
+  }
+
+  void Sfml::drawSprite(std::string animationName, std::size_t currentFrame, int posX, int posY, float scaleX, float scaleY, float rotation, RGBA mask) {
+    const zef::graph::Animation_t anim = _animations.at(animationName);
+
+    _sprites.at(anim.SpriteSheet).first.setTexture(_sprites.at(anim.SpriteSheet).second);
+    _sprites.at(anim.SpriteSheet).first.setTextureRect(sf::IntRect(anim.Size.first * currentFrame + anim.StartPos.first, anim.StartPos.second * anim.Size.second, anim.Size.first, anim.Size.second));
+    _sprites.at(anim.SpriteSheet).first.setColor(sf::Color(255 * mask.R, 255 * mask.G, 255 * mask.B, 255 * mask.A));
+//    sprite.setColor(colorBlindness(mask));
+    _sprites.at(anim.SpriteSheet).first.setRotation(rotation);
+
+    _sprites.at(anim.SpriteSheet).first.setOrigin(anim.Size.first / 2, anim.Size.second / 2);
+    _sprites.at(anim.SpriteSheet).first.setPosition(posX, posY);
+    _sprites.at(anim.SpriteSheet).first.setScale(scaleX, scaleY);
+
+    _window.setView(_views["Default"]);
+    drawShaders(_sprites.at(anim.SpriteSheet).first);
+//    if (_shaders.find("tritanopia") != _shaders.end()) {
+//      _shaders["tritanopia"].setUniform("texture", sf::Shader::CurrentTexture);
+//      _window.draw(sprite, &_shaders["tritanopia"]);
+//    } else {
+//      _window.draw(sprite);
+//    }
+
   }
 
   void Sfml::drawSpriteHUD(std::string animationName, std::size_t currentFrame, int posX, int posY, float scaleX, float scaleY, float rotation, RGBA mask) {
     const zef::graph::Animation_t anim = _animations.at(animationName);
-    sf::Sprite sprite = _sprites.at(anim.SpriteSheet).first;
-    sf::Texture texture = _sprites.at(anim.SpriteSheet).second;
-    sf::IntRect rect(anim.Size.first * currentFrame + anim.StartPos.first, anim.StartPos.second * anim.Size.second, anim.Size.first, anim.Size.second);
-//    sf::Color color(255 * mask.R, 255 * mask.G, 255 * mask.B, 255 * mask.A);
 
-    sprite.setTexture(texture);
-    sprite.setTextureRect(rect);
-//    sprite.setColor(color);
-    sprite.setColor(colorBlindness(mask));
-    sprite.setRotation(rotation);
+    _sprites.at(anim.SpriteSheet).first.setTexture(_sprites.at(anim.SpriteSheet).second);
+    _sprites.at(anim.SpriteSheet).first.setTextureRect(sf::IntRect(anim.Size.first * currentFrame + anim.StartPos.first, anim.StartPos.second * anim.Size.second, anim.Size.first, anim.Size.second));
+    _sprites.at(anim.SpriteSheet).first.setColor(sf::Color(255 * mask.R, 255 * mask.G, 255 * mask.B, 255 * mask.A));
+//    sprite.setColor(colorBlindness(mask));
+    _sprites.at(anim.SpriteSheet).first.setRotation(rotation);
 
-    sprite.getColor();
-    sprite.setOrigin(anim.Size.first / 2, anim.Size.second / 2);
-    sprite.setPosition(posX, posY);
-    sprite.setScale(scaleX, scaleY);
+    _sprites.at(anim.SpriteSheet).first.setOrigin(anim.Size.first / 2, anim.Size.second / 2);
+    _sprites.at(anim.SpriteSheet).first.setPosition(posX, posY);
+    _sprites.at(anim.SpriteSheet).first.setScale(scaleX, scaleY);
 
     _window.setView(_views["HUD"]);
-    _window.draw(sprite);
+	drawShaders(_sprites.at(anim.SpriteSheet).first);
+//    _window.draw(sprite);
+//    if (_shaders.find("tritanopia") != _shaders.end()) {
+//      _shaders["tritanopia"].setUniform("texture", sf::Shader::CurrentTexture);
+//      _window.draw(sprite, &_shaders["tritanopia"]);
+//    } else {
+//      _window.draw(sprite);
+//    }
   }
 
   void Sfml::drawText(std::string textString, std::string fontName,std::size_t fontSize, int posX, int posY, float scaleX, float scaleY, float rotation, RGBA mask) {

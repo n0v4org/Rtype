@@ -95,7 +95,7 @@ namespace zef{
                 virtual void storeAssetsPNG(std::string assetPath)=0;
                 virtual void storeAssetsWAV(std::string assetPath)=0;
                 virtual void storeAssetsTTF(std::string assetPath)=0;
-                virtual void storeAssetsVERT(std::string assetPath)=0;
+                virtual void storeAssetsSHAD(std::string assetPath)=0;
                 virtual void configAssetsAnimations(std::string animationConfigPath)=0;
                 virtual void configSettings(std::string settingsConfigPath)=0;
 
@@ -113,6 +113,8 @@ namespace zef{
 
                 virtual UserInput getEvent() = 0;
                 virtual void updateUserInputs(utils::UserInputs& ui) = 0;
+
+                virtual void updateSettings(std::string SettingName, std::string SettingValue) = 0;
 
     protected:
     private:

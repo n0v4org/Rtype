@@ -15,7 +15,7 @@
 namespace zef{
     namespace graph{
 
-        template<typename PNG, typename WAV, typename TTF, typename VERT>
+        template<typename PNG, typename WAV, typename TTF, typename SHAD>
         class ADisplayModule : public IDisplayModule{
             public:
                 ADisplayModule()=default;
@@ -82,7 +82,7 @@ namespace zef{
                             if (status) {
                                 break;
                             }
-                            storeAssetsVERT(i.path());
+                            storeAssetsSHAD(i.path());
                         }
                     }
                     if (std::filesystem::exists(assetFolderPath + "/config/Animations.txt")) {
@@ -143,7 +143,7 @@ namespace zef{
                 virtual void storeAssetsPNG(std::string assetPath)=0;
                 virtual void storeAssetsWAV(std::string assetPath)=0;
                 virtual void storeAssetsTTF(std::string assetPath)=0;
-                virtual void storeAssetsVERT(std::string assetPath)=0;
+                virtual void storeAssetsSHAD(std::string assetPath)=0;
 
                 virtual void drawSprite(std::string animationName, std::size_t currentFrame, int posX, int posY, float scaleX = 1, float scaleY = 1, float rotation = 0, RGBA mask = {1,1,1,1}) = 0;
                 virtual void drawText(std::string textString, std::string fontName, std::size_t fontSize, int posX, int posY, float scaleX = 1, float scaleY = 1, float rotation = 0, RGBA mask = {1,1,1,1}) = 0;
@@ -160,6 +160,10 @@ namespace zef{
                 virtual UserInput getEvent() = 0;
                 virtual void updateUserInputs(utils::UserInputs& ui) = 0;
 
+                void updateSettings(std::string SettingName, std::string SettingValue) override{
+                	_settings[SettingName] = SettingValue;
+                };
+
             protected:
                 std::map<std::string, Animation_t> _animations;
                 std::map<std::string, std::string> _settings;
@@ -167,7 +171,7 @@ namespace zef{
                 std::map<std::string, PNG> _sprites;
                 std::map<std::string, WAV> _sounds;
                 std::map<std::string, TTF> _fonts;
-                std::map<std::string, VERT> _shaders;
+                std::map<std::string, SHAD> _shaders;
             private:
 
 };

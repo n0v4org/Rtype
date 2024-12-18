@@ -14,6 +14,7 @@
 #include <utility>
 #include <vector>
 #include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Shader.hpp>
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/Audio.hpp>
@@ -38,7 +39,7 @@ namespace zef{
                 void storeAssetsPNG(std::string assetPath)override;
                 void storeAssetsWAV(std::string assetPath)override;
                 void storeAssetsTTF(std::string assetPath)override;
-                void storeAssetsVERT(std::string assetPath)override;
+                void storeAssetsSHAD(std::string assetPath)override;
 
                 void drawSprite(std::string animationName, std::size_t currentFrame, int posX, int posY, float scaleX = 1, float scaleY = 1, float rotation = 0, RGBA mask = {1,1,1,1}) override;
                 void drawText(std::string textString, std::string fontName, std::size_t fontSize, int posX, int posY, float scaleX = 1, float scaleY = 1, float rotation = 0, RGBA mask = {1,1,1,1}) override;
@@ -58,8 +59,9 @@ namespace zef{
             protected:
             private:
                 RGBA colorBlindMask;
-                sf::Color colorBlindness(RGBA mask);
 
+                sf::Color colorBlindness(RGBA mask);
+                void drawShaders(sf::Sprite sprite);
 
                 sf::RenderWindow _window;
                 std::pair<int,int> _windowSize= std::make_pair(1920,1080);
