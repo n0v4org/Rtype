@@ -28,6 +28,8 @@ void runClient(int sport, int cport, std::string ip) {
 
     engine.GraphLib->saveAnimation("ship", "image", 0, 0, 65, 66);
     engine.GraphLib->saveAnimation("bg", "bg2", 0, 0, 1000, 562);
+    engine.GraphLib->saveAnimation("player", "player2", 0, 1, 33*3, 17*3);
+    engine.GraphLib->saveAnimation("bullet", "bullet2", 0, 0, 32, 8);
 
     engine.initClient(sport, cport, ip);
 

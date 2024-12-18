@@ -45,6 +45,7 @@ public:
         zef::comp::drawable dr;
         dr.addAnimation("ship", 5, 200);
         dr.playAnimationLoop("ship", 1);
+        //dr.setScale(4, 4);
         engine.addEntityComponent<zef::comp::drawable>(self, dr);
 
         engine.addEntityComponent<zef::comp::event_listener>(self, createEnemyEventListener());

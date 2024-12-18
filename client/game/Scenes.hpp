@@ -20,6 +20,7 @@
 class LevelScene {
 public:
     static void loadScene(zef::Engine& engine) {
+        //engine.GraphLib->moveCamera(0, 0, 0.5);
         //engine.instanciatePatron<PlayerPatron>(0.0f, 150.0f);
         //ecs::Entity ally = engine.instanciatePatron<AllyPatron>(0.0f, -150.0f);
         //engine.instanciatePatron<EnemyPatron>(600.0f, -150.0f);
