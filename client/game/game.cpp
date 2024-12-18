@@ -85,8 +85,8 @@ void runClient(int sport, int cport, std::string ip) {
     engine.registerCommand(ASKPOSITION, [](zef::Engine& engine, input_t input) {
         CommandAskPosition sap = network::game::Commands<CommandAskPosition>(input).getCommand();
 
-        for (auto &&[pl, pos, vec] : ecs::zipper(engine.reg.get_components<Player>(), engine.reg.get_components<zef::comp::position>(), engine.reg.get_components<zef::comp::vector>())) {
-            engine.ClientSend<CommandSendPosition>(SENDPOSITION, {pos.x, pos.y, vec.x, vec.y});
+        for (auto &&[pl, pos] : ecs::zipper(engine.reg.get_components<Player>(), engine.reg.get_components<zef::comp::position>())) {
+            engine.ClientSend<CommandSendPosition>(SENDPOSITION, {pos.x, pos.y});
         }
 
     });
