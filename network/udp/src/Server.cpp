@@ -72,7 +72,7 @@ namespace network {
           [this](const std::error_code& ec, std::size_t bytes_transferred) {
             handle_send(ec, bytes_transferred);
           });
-          _sequence_id++;
+      _sequence_id++;
     }
 
     void Server::handle_send(const std::error_code& ec,
