@@ -30,7 +30,8 @@ namespace network {
       input_t popMessage();
       bool isQueueEmpty();
 
-      void send(const udp::endpoint& client, std::array<uint8_t, 1024> message);
+      void send(int, std::array<uint8_t, 1024>);
+      std::vector<int> getAllIds() const;
       ~Server();
 
     private:
@@ -45,6 +46,7 @@ namespace network {
       std::array<uint8_t, 1024> _recv_buffer_;
       std::deque<input_t> _command_queue;
       std::mutex _mutex;
+      std::vector<udp::endpoint> _clients;
       int _sequence_id;
       bool _debug;
     };
