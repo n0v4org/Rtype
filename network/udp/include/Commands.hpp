@@ -44,7 +44,8 @@ namespace network {
       }
       Commands() = default;
 
-      static std::array<uint8_t, 1024> toArray(const T& data, uint8_t cmd, uint32_t seq) {
+      static std::array<uint8_t, 1024> toArray(const T& data, uint8_t cmd,
+                                               uint32_t seq) {
         std::array<uint8_t, 1024> result = {0};
 
         constexpr size_t dataSize = sizeof(T);
