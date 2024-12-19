@@ -15,13 +15,15 @@
 #include <mutex>
 #include <asio.hpp>
 #include "Input.hpp"
+#include "IClient.hpp"
 
 using asio::ip::udp;
 
 namespace network {
   namespace game {
 
-    class Client {
+    class Client : public IClient
+    {
     public:
       Client(int server_port, int client_port, std::string ip,
              asio::io_context &service);

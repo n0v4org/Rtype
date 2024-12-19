@@ -14,6 +14,7 @@
 #include <deque>
 #include <mutex>
 #include <asio.hpp>
+#include "IServer.hpp"
 #include "Input.hpp"
 #include "Commands.hpp"
 
@@ -22,7 +23,8 @@ using asio::ip::udp;
 namespace network {
   namespace game {
 
-    class Server {
+    class Server : public IServer
+    {
     public:
       Server(asio::io_context& context, int port);
 
