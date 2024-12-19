@@ -85,7 +85,7 @@ namespace client {
                           .seq          = 2,
                           .payload      = {0}};
         struct test yh = {.a = 42, .b = "hello", .c = 89};
-        _client->send(network::game::Commands<struct test>::toArray(yh, test));
+        _client->send(network::game::Commands<struct test>::toArray(yh, 1, 23));
       }
       // t.join();
     } catch (const std::exception &e) {

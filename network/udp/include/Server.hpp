@@ -45,6 +45,7 @@ namespace network {
       std::array<uint8_t, 1024> _recv_buffer_;
       std::deque<input_t> _command_queue;
       std::mutex _mutex;
+      int _sequence_id;
       bool _debug;
     };
 

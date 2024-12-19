@@ -27,7 +27,6 @@ namespace network {
       udp::resolver::iterator iter = resolver.resolve(query);
       _server_endpoint             = *iter;
 
-      // Start receiving asynchronously
       startReceive();
     }
 
@@ -79,11 +78,6 @@ namespace network {
           std::lock_guard<std::mutex> lock(_mutex);
           _command_queue.push_back(receivedMessage);
         }
-
-        std::cout << "Received message: cmd="
-                  << static_cast<int>(receivedMessage.cmd)
-                  << ", seq=" << receivedMessage.seq << std::endl;
-
         startReceive();
       } else if (error) {
         std::cerr << "Receive error: " << error.message() << std::endl;
