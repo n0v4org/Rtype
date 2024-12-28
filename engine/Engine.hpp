@@ -53,7 +53,8 @@ namespace zef {
     void sendEvent(size_t entity, U... args) {
       Event evt;
       evt.entity = entity;
-      evt.tpl    = (T){args...};
+      T str = {args...};
+      evt.tpl    = str;
       evt.tid    = std::type_index(typeid(T));
       _events.push(evt);
     }
