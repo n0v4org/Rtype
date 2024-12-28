@@ -7,9 +7,9 @@ project(Rtype VERSION 1.0)
 #add_subdirectory(network/tcp)
 
 
-#add_subdirectory(network/tcp)
-#add_subdirectory(network/udp)
+add_subdirectory(network/tcp)
+add_subdirectory(network/udp)
 add_subdirectory(engine)
 add_subdirectory(engine/graphic/sfml)
-#add_subdirectory(server)
-#add_subdirectory(client)
+add_subdirectory(server)
+add_subdirectory(client)
