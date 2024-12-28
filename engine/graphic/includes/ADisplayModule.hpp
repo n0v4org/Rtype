@@ -40,7 +40,7 @@ namespace zef{
                             if (status) {
                                 break;
                             }
-                            storeAssetsPNG(i.path());
+                            storeAssetsPNG(i.path().string());
                         }
                     }
                     status = false;
@@ -54,7 +54,7 @@ namespace zef{
                             if (status) {
                                 break;
                             }
-                            storeAssetsTTF(i.path());
+                            storeAssetsTTF(i.path().string());
                         }
                     }
                     status = false;
@@ -68,7 +68,7 @@ namespace zef{
                             if (status) {
                                 break;
                             }
-                            storeAssetsWAV(i.path());
+                            storeAssetsWAV(i.path().string());
                         }
                     }
                     status = false;
@@ -82,7 +82,7 @@ namespace zef{
                             if (status) {
                                 break;
                             }
-                            storeAssetsSHAD(i.path());
+                            storeAssetsSHAD(i.path().string());
                         }
                     }
                     if (std::filesystem::exists(assetFolderPath + "/config/Animations.txt")) {

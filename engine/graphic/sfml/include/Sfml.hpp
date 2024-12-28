@@ -13,10 +13,10 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Shader.hpp>
 #include <SFML/System.hpp>
-#include <SFML/Window.hpp>
 #include <SFML/Audio.hpp>
 
 #include "ADisplayModule.hpp"

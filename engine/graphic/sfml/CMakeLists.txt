@@ -12,15 +12,24 @@ set(SRC
 add_library(sfml STATIC ${SRC})
 
 
-find_package(SFML 2.5 COMPONENTS system window graphics audio REQUIRED)
+find_package(SFML 2.5 COMPONENTS system window graphics audio REQUIRED CONFIG)
 
-target_include_directories(sfml PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include ${CMAKE_CURRENT_SOURCE_DIR}/../includes ${CMAKE_CURRENT_SOURCE_DIR}/../../)
+message(STATUS "ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ ${SFML_INCLUDE_DIRS}")
 
-#target_link_libraries(sfml PRIVATE 
-#    sfml-system
-#    sfml-window
-#    sfml-graphics
-#    sfml-audio
-#)
+target_include_directories(sfml PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include ${CMAKE_CURRENT_SOURCE_DIR}/../includes ${CMAKE_CURRENT_SOURCE_DIR}/../../
+
+)
+
+if(WIN32)
+    target_compile_definitions(sfml PRIVATE _WIN32_WINNT=0x0A00)
+endif()
+
+
+target_link_libraries(sfml PRIVATE 
+    sfml-system
+    sfml-window
+    sfml-graphics
+    sfml-audio
+)
 
 
