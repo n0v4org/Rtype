@@ -12,7 +12,7 @@ set(SRC
 add_library(sfml STATIC ${SRC})
 
 
-find_package(SFML COMPONENTS system window graphics audio CONFIG REQUIRED)
+find_package(SFML 2.5 COMPONENTS system window graphics audio REQUIRED)
 
 target_include_directories(sfml PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include ${CMAKE_CURRENT_SOURCE_DIR}/../includes ${CMAKE_CURRENT_SOURCE_DIR}/../../)
 
