@@ -49,7 +49,7 @@ include_directories(r-type_client PUBLIC
 
 
 target_link_libraries(r-type_client PRIVATE 
-    sfml
+    #sfml
     zefir
     asio
     sfml-system
