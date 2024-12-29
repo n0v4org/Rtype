@@ -13,7 +13,6 @@ namespace zef{
     namespace graph{
 
   void Sfml::initialize(std::string assetFolderPath, std::string windowName) {
-
     _window.create(sf::VideoMode(_windowSize.first, _windowSize.second), windowName.c_str());
     if (!_window.isOpen()) {
       throw WindowCreationException();
@@ -50,8 +49,7 @@ namespace zef{
     return _window.isOpen();
   }
 
-  Sfml::~Sfml() {
-  }
+  Sfml::~Sfml() {}
 
   void Sfml::storeAssetsPNG(std::string assetPath) {
     sf::Texture texture;
@@ -321,10 +319,10 @@ namespace zef{
     return userInput;
   }
 
-  IDisplayModule* entryPoint() {
-    return new Sfml;
-  }
 
 
  } // namespace graph
 } // namespace zef
+  extern "C" zef::graph::IDisplayModule* entryPoint() {
+    return new zef::graph::Sfml;
+  }

@@ -28,6 +28,7 @@
 #include "Events.hpp"
 #include "utils/inputsUtils.hpp"
 
+#include "libHolder/LinuxLibHolder.hpp"
 //#include "Scene.hpp"
 //#include "Patron.hpp"
 
@@ -149,13 +150,12 @@ namespace zef {
 
 
     void initGraphLib(const std::string& assetFolder, const std::string& windowName) {
-      GraphLib.reset(graph::entryPoint());
+      _grapLibHolder = std::make_unique<LinuxLibHolder<zef::graph::IDisplayModule>>("sfml");
+      GraphLib.reset(_grapLibHolder->getEntryPoint());
       GraphLib->initialize(assetFolder, "R-type");
     }
 
    
-
-
   void loadScene(const std::string& name) {
     _next_scene = name;
   }
@@ -265,6 +265,7 @@ namespace zef {
     utils::UserInputs _user_inputs;
     std::queue<Event> _events;
 
+    std::unique_ptr<ILibHolder<zef::graph::IDisplayModule>> _grapLibHolder;
 
 
     std::map<std::string, std::function<void(Engine&)>> _scenes;

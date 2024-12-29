@@ -4,9 +4,7 @@ set -e
 
 echo "go in build directory"
 
-rm -rf build
-mkdir build
-cd build/
+rm -rf build && mkdir build && cd build/
 
 cmake ../ -DCMAKE_PREFIX_PATH=~/vcpkg/installed/x64-linux && make
 

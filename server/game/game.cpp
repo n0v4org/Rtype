@@ -23,7 +23,9 @@ void runServer(int port) {
     zef::Engine engine;
     srand(time(NULL));
 
-    engine.initGraphLib("Assets", "");
+    engine.initGraphLib("../Assets", "");
+
+    engine.GraphLib->clear();
 
     engine.GraphLib->saveAnimation("ship", "image", 0, 0, 65, 66);
 

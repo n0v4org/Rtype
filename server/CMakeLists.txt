@@ -32,7 +32,7 @@ include_directories(r-type_server PUBLIC
 
 target_link_libraries(r-type_server PRIVATE 
     asio
-    sfml
+    #sfml
     zefir
     sfml-system
     sfml-window

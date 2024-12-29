@@ -9,6 +9,6 @@ set(SRC
     Sfml.cpp
 )
 
-add_library(sfml STATIC ${SRC})
+add_library(sfml SHARED ${SRC})
 
 target_include_directories(sfml PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include ${CMAKE_CURRENT_SOURCE_DIR}/../includes ${CMAKE_CURRENT_SOURCE_DIR}/../../)

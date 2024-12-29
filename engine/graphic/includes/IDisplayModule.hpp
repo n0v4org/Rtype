@@ -122,7 +122,6 @@ namespace zef{
 
 
 
-    IDisplayModule* entryPoint();
   } // namespace graph
 } // namespace zef
 
