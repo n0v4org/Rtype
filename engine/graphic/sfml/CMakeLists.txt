@@ -12,7 +12,7 @@ set(SRC
 add_library(sfml STATIC ${SRC})
 
 
-find_package(SFML 2.5 COMPONENTS system window graphics audio REQUIRED CONFIG)
+find_package(SFML 2.6.2 COMPONENTS system window graphics audio REQUIRED CONFIG)
 
 message(STATUS "ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ ${SFML_INCLUDE_DIRS}")
 

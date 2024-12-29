@@ -22,7 +22,9 @@ namespace zef
     {
         void draw_drawables(zef::Engine& engine, ecs::sparse_array<comp::drawable>& drawables, ecs::sparse_array<comp::position>& positions) {
             std::vector<int> layers;
+            std::cout << "lafjiejaz\n";
             for (auto&& [i, dr, pos]: ecs::indexed_zipper(drawables, positions)) {
+            std::cout << "lafjiejaQSDFDqsfQz\n";
                 layers.push_back(dr.layer);
             }
             std::sort(layers.begin(), layers.end());
@@ -31,7 +33,7 @@ namespace zef
                     if (dr.layer == l) {
                         std::string current_animation = (dr.animation != "" ? dr.animation : dr.loop_animation);
                         if (current_animation == "") continue;
-                        engine.GraphLib->drawSprite(current_animation, dr.current_frame, pos.x, pos.y, dr.scaleX, dr.scaleY, 0.0, zef::graph::RGBA(1, 1, 1, 1));
+                        engine.GraphLib->drawSprite(current_animation, dr.current_frame, pos.x, pos.y, dr.scaleX, dr.scaleY, 0.0, zef::graph::RGBA({1, 1, 1, 1}));
                     }
                 }
             }
