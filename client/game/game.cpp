@@ -33,7 +33,7 @@ void runClient(int sport, int cport, std::string ip) {
 
     engine.initClient(sport, cport, ip);
 
-    engine.registerCommand(SPAWNPLAYER, [](zef::Engine& engine, input_t input) {
+    /*engine.registerCommand(SPAWNPLAYER, [](zef::Engine& engine, input_t input) {
         network::game::Commands<CommandSpawnPlayer> csp = network::game::Commands<CommandSpawnPlayer>(input);
         engine.instanciatePatron<PlayerPatron>(0.0f, 0.0f, csp.getCommand().replicable);
     });
@@ -129,11 +129,11 @@ void runClient(int sport, int cport, std::string ip) {
             }
         }
 
-    });
+    });*/
 
     
 
-    engine.ClientSend<CommandConnect>(CONNECT, {});
+    //engine.ClientSend<CommandConnect>(CONNECT, {});
 
 
     engine.registerComponent<zef::comp::position>();

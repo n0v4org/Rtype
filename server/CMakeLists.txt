@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.26)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 project(RtypeServer VERSION 1.0)
@@ -20,6 +20,7 @@ set(TEST
 add_executable(r-type_server ${SRCS})
 
 find_package(asio REQUIRED CONFIG)
+find_package(SFML 2.6.2 COMPONENTS system window graphics audio REQUIRED CONFIG)
 
 include_directories(r-type_server PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/include
@@ -40,6 +41,10 @@ target_link_libraries(r-type_server PRIVATE
     sfml-audio
     game_network
 )
+
+if(WIN32) 
+    file(COPY "${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-windows/debug/bin/" DESTINATION "${CMAKE_BINARY_DIR}/server/Debug/")
+endif()
 
 #enable_testing()
 

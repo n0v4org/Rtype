@@ -20,6 +20,9 @@
 #include <random>
 
 void runServer(int port) {
+    std::cout << __cplusplus << std::endl;
+
+
     zef::Engine engine;
     srand(time(NULL));
 
@@ -115,32 +118,40 @@ void runServer(int port) {
     engine.registerComponent<Monster>();
     
 
-    //engine.addSystem<>(entitycountdisplay);
+    ////engine.addSystem<>(entitycountdisplay);
 
-    engine.addSystem<Lifetime>(lifetime_system);
-    engine.addSystem<>(zef::sys::handle_server);
+    //engine.addSystem<Lifetime>(lifetime_system);
+    //engine.addSystem<>(zef::sys::handle_server);
 
 
-    engine.addSystem<VectorHolder, zef::comp::vector>(convertHolderToVect);
-    engine.addSystem<zef::comp::vector>(zef::sys::normalize_velocity_vectors);
-    engine.addSystem<zef::comp::position, zef::comp::vector>(zef::sys::move);
-    engine.addSystem<PlayerReplacer>(syncPlayers);
+    //engine.addSystem<VectorHolder, zef::comp::vector>(convertHolderToVect);
+    //engine.addSystem<zef::comp::vector>(zef::sys::normalize_velocity_vectors);
+    //engine.addSystem<zef::comp::position, zef::comp::vector>(zef::sys::move);
+    //engine.addSystem<PlayerReplacer>(syncPlayers);
 
-    engine.addSystem<Player, zef::comp::replicable>(spawnEnemies);
+    //engine.addSystem<Player, zef::comp::replicable>(spawnEnemies);
 
-    engine.addSystem<zef::comp::collidable, zef::comp::position>(zef::sys::check_collidables);
-    engine.addSystem<zef::comp::event_listener>(zef::sys::resolveEvent);
+    //engine.addSystem<zef::comp::collidable, zef::comp::position>(zef::sys::check_collidables);
+    //engine.addSystem<zef::comp::event_listener>(zef::sys::resolveEvent);
 
-    engine.addSystem<Health>(handleHealth);
+    //engine.addSystem<Health>(handleHealth);
 
-    engine.addSystem<zef::comp::drawable>(zef::sys::update_animations);
+    //engine.addSystem<zef::comp::drawable>(zef::sys::update_animations);
     engine.addSystem<zef::comp::drawable, zef::comp::position>(zef::sys::draw_drawables);
 
+    ecs::Entity e = engine.reg.spawn_entity();
+
+    engine.addEntityComponent<zef::comp::position>(e, 0.0f, 0.0f);
     
+    zef::comp::drawable dr;
+    dr.addAnimation("ship", 1, 200);
+    dr.playAnimationLoop("ship", 1.0);
+    engine.addEntityComponent<zef::comp::drawable>(e, dr);
+
 
     engine.registerScene<LevelScene>("level");
     engine.registerScene<LobbyScene>("lobby");
-    engine.loadScene("level");
+    //engine.loadScene("level");
 
     engine.run();
 }

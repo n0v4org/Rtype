@@ -41,8 +41,11 @@ namespace ecs {
       _max     = max;
       _current = it_tuple;
       _idx     = 0;
+      std::cout << "callset100%\n";
       if (_max != 0 && !all_set(_seq)) {
+        std::cout << "incrall1" << std::endl;
         incr_all(_seq);
+        std::cout << "incrall2" << std::endl;
       }
     }
 
@@ -105,7 +108,13 @@ namespace ecs {
     // Check if every std::optional is set
     template <std::size_t... Is>
     bool all_set(std::index_sequence<Is...>) {
-      return (... && (*std::get<Is>(_current)).has_value());
+      //std::cout << "ahptncallset" << std::endl;
+      //std::cout << "C++ standard: " << __cplusplus << std::endl;
+      //(..., (std::cout << "Checking element " << Is << "\n"));
+      //(*std::get<1>(_current)).has_value();
+      bool ret = (... && (*std::get<Is>(_current)).has_value());
+      //std::cout << "ahptncallsetfdp\n";
+      return ret;
     }
 
     // Return a tuple of references to components
@@ -133,16 +142,21 @@ namespace ecs {
       : _begin(std::make_tuple(cs.begin()...))
       , _end(_compute_end(cs...))
       , _size(_compute_size(cs...)) {
+            std::cout << "construccc\n";
     }
 
     iterator begin() {
+      std::cout << "b1\n";
       if (_size == 0)
         return iterator(_end, _size);
+      std::cout << "b2\n";
       return iterator(_begin, _size);
     }
 
     iterator end() {
+      std::cout << "znddd\n";
       auto it = iterator(_end, _size);
+      std::cout << "znddd2\n";
       it._idx = _size;
       return it;
     }

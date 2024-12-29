@@ -175,10 +175,11 @@ namespace zef {
 
     void run() {
       clock = std::chrono::high_resolution_clock::now();
+      int i = 0;
       while (true) {
         elapsed = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now() - clock);
         clock = std::chrono::high_resolution_clock::now();
-        
+        std::cout << i++ << std::endl;
 
         
           if (GraphLib)
