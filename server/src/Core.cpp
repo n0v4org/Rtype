@@ -53,7 +53,6 @@ namespace rtype {
       }
     } catch (const std::exception& e) {
       std::cerr << e.what() << '\n';
-      t.join();
       _network->get_udp_server()->close_connection();
       return;
     }

@@ -30,15 +30,6 @@ namespace network {
       startReceive();
     }
 
-    void Client::send(std::array<uint8_t, 1024> buff) {
-      try {
-        _socket.send_to(asio::buffer(buff), _server_endpoint);
-        _sequence_id++;
-      } catch (const std::exception &e) {
-        std::cerr << "Send error: " << e.what() << std::endl;
-      }
-    }
-
     bool Client::isQueueEmpty() {
       std::lock_guard<std::mutex> lock(_mutex);
       return _command_queue.empty();

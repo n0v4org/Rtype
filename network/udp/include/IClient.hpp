@@ -16,7 +16,6 @@ class IClient {
       virtual void close_connection() = 0;
       virtual input_t popMessage() = 0;
       virtual bool isQueueEmpty() = 0;
-      virtual void send(std::array<uint8_t, 1024> buff) = 0;
       virtual void startReceive() = 0;
 
     protected:

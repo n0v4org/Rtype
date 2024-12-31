@@ -14,6 +14,7 @@
 #include <thread>
 #include <mutex>
 #include <asio.hpp>
+#include "Commands.hpp"
 #include "Input.hpp"
 #include "IClient.hpp"
 
@@ -30,7 +31,16 @@ namespace network {
       void close_connection();
       input_t popMessage();
       bool isQueueEmpty();
-      void send(std::array<uint8_t, 1024> buff);
+      template<typename T>
+      void send(T payload, int cmd) {
+        try {
+          std::array<uint8_t, 1024> buff = Commands<T>::toArray(payload, cmd, _sequence_id);
+          _socket.send_to(asio::buffer(buff), _server_endpoint);
+          _sequence_id++;
+        } catch (const std::exception &e) {
+          std::cerr << "Send error: " << e.what() << std::endl;
+        }
+      }
       void startReceive();
       ~Client();
 

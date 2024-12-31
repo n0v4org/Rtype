@@ -11,7 +11,7 @@
 #include <memory>
 #include <string>
 #include <asio.hpp>
-#include "IClient.hpp"
+#include "Client.hpp"
 
 namespace network {
   namespace game {
@@ -20,12 +20,12 @@ namespace network {
 class Network_client {
     public:
         Network_client(int, int, std::string);
-        std::shared_ptr<IClient> get_udp_client() const;
+        std::shared_ptr<Client> get_udp_client() const;
         ~Network_client();
 
     protected:
     private:
-        std::shared_ptr<IClient> _client_udp;
+        std::shared_ptr<Client> _client_udp;
       asio::io_context _io_service;
 };
 

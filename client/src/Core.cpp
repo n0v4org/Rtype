@@ -50,14 +50,9 @@ namespace client {
           _params->get_ip());
       std::string line;
       while (std::getline(std::cin, line)) {
-        input_t test   = {.cmd          = 1,
-                          .payload_size = sizeof(struct test),
-                          .seq          = 2,
-                          .payload      = {0}};
         struct test yh = {.a = 42, .b = "hello", .c = 89};
-        _net.get_udp_client()->send(network::game::Commands<struct test>::toArray(yh, 1, 23));
+        _net.get_udp_client()->send <struct test> (yh, 1);
       }
-      // t.join();
     } catch (const std::exception &e) {
       if (strcmp(e.what(), EXCEPTION) != 0)
         std::cerr << e.what() << '\n';
