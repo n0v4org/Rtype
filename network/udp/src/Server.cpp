@@ -101,9 +101,5 @@ namespace network {
     return ids;
   }
 
-    Server::~Server() {
-      close_connection();
-    }
-
   }  // namespace game
 }  // namespace network

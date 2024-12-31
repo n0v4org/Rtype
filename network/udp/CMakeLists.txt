@@ -8,6 +8,8 @@ project(RtypeNetwork VERSION 1.0)
 set(SRCS
     src/Server.cpp
     src/Client.cpp
+    src/Network_server.cpp
+    src/Network_client.cpp
 )
 
 add_library(game_network STATIC ${SRCS})

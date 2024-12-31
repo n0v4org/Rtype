@@ -18,6 +18,7 @@ class IServer {
         virtual void close_connection() = 0;
         virtual input_t popMessage() = 0;
         virtual bool isQueueEmpty() = 0;
+        virtual ~IServer() = default;
     
     private:
         virtual void start_receive() = 0;

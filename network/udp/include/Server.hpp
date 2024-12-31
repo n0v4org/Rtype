@@ -34,7 +34,6 @@ namespace network {
 
       void send(int, std::array<uint8_t, 1024>);
       std::vector<int> getAllIds() const;
-      ~Server();
 
     private:
       void start_receive();

@@ -28,7 +28,6 @@ namespace client {
     std::unique_ptr<Arguments> _params;
     std::unique_ptr<network::game::Client> _client;
     std::shared_ptr<network::lobby::Client> _tcp_client;
-    asio::io_context _io_service;
   };
 
 }  // namespace client

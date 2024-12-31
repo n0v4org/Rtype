@@ -11,6 +11,7 @@
 #include <thread>
 #include <vector>
 #include <asio.hpp>
+#include "Network_server.hpp"
 #include "Arguments.hpp"
 #include "Server.hpp"
 #include "Lobby.hpp"
@@ -26,7 +27,7 @@ namespace rtype {
   protected:
   private:
     std::unique_ptr<Arguments> _args;
-    std::unique_ptr<network::game::Server> _server;
+    std::unique_ptr<network::game::Network_server> _network;
     std::unique_ptr<network::lobby::Server> _lobby;
     asio::io_context _io_service;
     std::vector<std::thread> _games;
