@@ -30,7 +30,6 @@
 
 #include "LinuxLibHolder.hpp"
 
-#include <boost/type_index.hpp>
 //#include "Scene.hpp"
 //#include "Patron.hpp"
 
