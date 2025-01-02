@@ -19,6 +19,15 @@ target_include_directories(sfml PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include ${CMA
 
 )
 
+if(APPLE)
+    target_link_libraries(sfml PRIVATE 
+        "-framework CoreAudio"
+        "-framework AudioToolbox"
+        "-framework CoreServices"
+        "-framework CoreFoundation"
+        "-framework IOKit"
+    )
+endif()
 
 if(WIN32)
     target_compile_definitions(sfml PRIVATE _WIN32_WINNT=0x0A00)
