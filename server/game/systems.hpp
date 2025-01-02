@@ -61,11 +61,13 @@ void handleHealth(zef::Engine& engine, ecs::sparse_array<Health>& hps) {
 }
 
 void spawnEnemies(zef::Engine& engine, ecs::sparse_array<Player>& players, ecs::sparse_array<zef::comp::replicable>& replicables) {
+    
+    unsigned int seed = time(NULL);
     if (engine._enemyCooldown > 7 * 1000 * 1000) {
         
-        for (int i = 0; i < rand_r() % 5; ++i) {
-            float y = (rand_r() % 800) - 400;
-            float x = 900 + rand_r() % 200;
+        for (int i = 0; i < rand_r(&seed) % 5; ++i) {
+            float y = (rand_r(&seed) % 800) - 400;
+            float x = 900 + rand_r(&seed) % 200;
             engine.instanciatePatron<EnemyPatron>(x, y, engine.replicableId);
             std::cout << "rep: " << engine.replicableId << std::endl;
             for (auto &&[player, rep] : ecs::zipper(players, replicables)) {
