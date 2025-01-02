@@ -50,6 +50,7 @@ vcpkg_installed
 Testing
 
 .vscode/
+.vs/
 
 megalinter-reports/
 
