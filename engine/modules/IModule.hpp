@@ -10,16 +10,17 @@
 
 #include "Engine.hpp"
 
-namespace zef
-{
-    class IModule {
-        public:
-            IModule() {}
-            virtual ~IModule() {}
+namespace zef {
+  class IModule {
+  public:
+    IModule() {
+    }
+    virtual ~IModule() {
+    }
 
-        virtual void registerComponents(Engine& engine) = 0;
-        virtual void registerSystems(Engine& engine) = 0;
-    };
-} // namespace zef
+    virtual void registerComponents(Engine& engine) = 0;
+    virtual void registerSystems(Engine& engine)    = 0;
+  };
+}  // namespace zef
 
 #endif /* !IMODULE_HPP_ */

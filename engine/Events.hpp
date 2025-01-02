@@ -17,7 +17,7 @@
 
 namespace zef {
   class Engine;
-  
+
   class Event {
   public:
     size_t entity;
@@ -31,15 +31,15 @@ namespace zef {
     }
   };
 
-  namespace comp
-  {
+  namespace comp {
     struct event_listener {
     public:
+      event_listener() {
+      }
 
-      event_listener() {}
-
-      template <typename ...T>
-      static event_listener construct(std::function<void(Engine&, size_t, T)> ...funcs) {
+      template <typename... T>
+      static event_listener construct(
+          std::function<void(Engine&, size_t, T)>... funcs) {
         event_listener new_event_handler;
         ((new_event_handler.setEvent<T>(funcs)), ...);
         return new_event_handler;
@@ -47,17 +47,18 @@ namespace zef {
 
       template <typename T>
       void setEvent(std::function<void(Engine&, size_t, T)> f) {
-        _functions[std::type_index(typeid(T))] = [f](Engine& engine, size_t self,
-                                                    Event event) {
+        _functions[std::type_index(typeid(T))] = [f](Engine& engine,
+                                                     size_t self, Event event) {
           T str = event.to_struct<T>(f);
           f(engine, self, str);
         };
       }
 
-      std::map<std::type_index, std::function<void(Engine&, size_t, Event event)>>
+      std::map<std::type_index,
+               std::function<void(Engine&, size_t, Event event)>>
           _functions;
     };
-  } // namespace comp
+  }  // namespace comp
 }  // namespace zef
 
 #endif  // ENGINE_EVENTS_HPP_

@@ -11,14 +11,14 @@
 #include <cstdio>
 
 namespace zef {
-    namespace evt {
-        struct collision {
-            size_t other;
-        };
-        struct startCollision {
-            size_t other;
-        };
-    } // namespace evt
-} // namespace zef
+  namespace evt {
+    struct collision {
+      size_t other;
+    };
+    struct startCollision {
+      size_t other;
+    };
+  }  // namespace evt
+}  // namespace zef
 
-#endif // ENGINE_MODULES_COLLISION_EVENTS_HPP_
+#endif  // ENGINE_MODULES_COLLISION_EVENTS_HPP_
