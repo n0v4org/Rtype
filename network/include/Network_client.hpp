@@ -14,22 +14,18 @@
 #include "Client.hpp"
 
 namespace network {
-  namespace game {
-
 
 class Network_client {
     public:
         Network_client(int, int, std::string);
-        std::shared_ptr<Client> get_udp_client() const;
+        std::shared_ptr<game::Client> get_udp_client() const;
         ~Network_client();
 
     protected:
     private:
-        std::shared_ptr<Client> _client_udp;
+        std::shared_ptr<game::Client> _client_udp;
       asio::io_context _io_service;
 };
-
-  }  // namespace game
 }  // namespace Network_server
 
 #endif /* !NETWORK_CLIENT_HPP_ */

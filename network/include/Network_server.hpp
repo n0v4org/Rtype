@@ -13,21 +13,19 @@
 #include "Server.hpp"
 
 namespace network {
-  namespace game {
 
 class Network_server {
     public:
         Network_server(int);
-        std::shared_ptr<Server> get_udp_server() const;
+        std::shared_ptr<game::Server> get_udp_server() const;
         ~Network_server();
 
     protected:
     private:
-      std::shared_ptr<Server> _server_udp;
+      std::shared_ptr<game::Server> _server_udp;
       asio::io_context _io_service;
       std::thread t;
 };
-  }  // namespace game
 }  // namespace Network_server
 
 #endif /* !Network_server_HPP_ */
