@@ -18,9 +18,8 @@
 #include <iostream>
 #include <asio.hpp>
 
-
-#include  "udp/include/Server.hpp"
-#include  "udp/include/Client.hpp"
+#include "udp/include/Server.hpp"
+#include "udp/include/Client.hpp"
 
 #include "graphic/includes/IDisplayModule.hpp"
 #include "graphic/includes/ADisplayModule.hpp"
@@ -31,46 +30,47 @@
 
 #include "LinuxLibHolder.hpp"
 
-//#include "Scene.hpp"
-//#include "Patron.hpp"
-
+// #include "Scene.hpp"
+// #include "Patron.hpp"
 
 namespace zef {
 
-  namespace sys
-  {
-    void resolveEvent(Engine& engine, ecs::sparse_array<comp::event_listener>& evtls);
-  } // namespace sys
+  namespace sys {
+    void resolveEvent(Engine& engine,
+                      ecs::sparse_array<comp::event_listener>& evtls);
+  }  // namespace sys
 
   class Engine {
   public:
-
     Engine() {
       clock = std::chrono::high_resolution_clock::now();
     }
     ecs::registry reg;
 
-    friend void sys::resolveEvent(Engine& engine, ecs::sparse_array<comp::event_listener>& evtls);
+    friend void sys::resolveEvent(
+        Engine& engine, ecs::sparse_array<comp::event_listener>& evtls);
 
     template <typename T, typename... U>
     void sendEvent(size_t entity, U... args) {
       Event evt;
       evt.entity = entity;
-      T str = {args...};
+      T str      = {args...};
       evt.tpl    = str;
       evt.tid    = std::type_index(typeid(T));
       _events.push(evt);
     }
 
-
     void resolveEvent() {
       while (!_events.empty()) {
         Event evt = _events.front();
-        if (reg.get_components<comp::event_listener>().size() > evt.entity && reg.get_entity_component<comp::event_listener>(
+        if (reg.get_components<comp::event_listener>().size() > evt.entity &&
+            reg.get_entity_component<comp::event_listener>(
                 evt.entity)) {  // handle error when the entity dont handle the
                                 // event
-          if (reg.get_entity_component<comp::event_listener>(evt.entity)->_functions.find(evt.tid)
-          != reg.get_entity_component<comp::event_listener>(evt.entity)->_functions.end())
+          if (reg.get_entity_component<comp::event_listener>(evt.entity)
+                  ->_functions.find(evt.tid) !=
+              reg.get_entity_component<comp::event_listener>(evt.entity)
+                  ->_functions.end())
             reg.get_entity_component<comp::event_listener>(evt.entity)
                 ->_functions[evt.tid](*this, evt.entity, evt);
         }
@@ -89,7 +89,7 @@ namespace zef {
     template <typename Component>
     void registerComponent() {
       reg.register_component<Component>();
-      //reg.get_components<Component>().emplace_component(std::nullopt);
+      // reg.get_components<Component>().emplace_component(std::nullopt);
     }
 
     template <typename Component>
@@ -102,8 +102,8 @@ namespace zef {
       reg.add_component<Component>(e, c);
     }
 
-    template <typename Component, typename ...T>
-    void addEntityComponent(ecs::Entity const& e, T ...args) {
+    template <typename Component, typename... T>
+    void addEntityComponent(ecs::Entity const& e, T... args) {
       reg.emplace_component<Component>(e, args...);
     }
 
@@ -112,13 +112,12 @@ namespace zef {
       reg.remove_component<Component>(e);
     }
 
-
     template <class... Components, typename Function>
-    void addSystem(Function &&f) {
+    void addSystem(Function&& f) {
       reg.add_system<Components...>(f);
     }
 
-    template <typename Patron, typename ...T>
+    template <typename Patron, typename... T>
     ecs::Entity instanciatePatron(T... args) {
       ecs::Entity new_entity = reg.spawn_entity();
       Patron::instanciate(*this, new_entity, args...);
@@ -132,10 +131,7 @@ namespace zef {
 
     template <typename Scene>
     void registerScene() {
-      
     }
-
-
 
     void updateUserInputs() {
       _user_inputs.keyboard._released.clear();
@@ -149,82 +145,73 @@ namespace zef {
       return _user_inputs;
     }
 
-
-
-    void initGraphLib(const std::string& assetFolder, const std::string& windowName) {
-      _grapLibHolder = std::make_unique<LinuxLibHolder<zef::graph::IDisplayModule>>("sfml");
+    void initGraphLib(const std::string& assetFolder,
+                      const std::string& windowName) {
+      _grapLibHolder =
+          std::make_unique<LinuxLibHolder<zef::graph::IDisplayModule>>("sfml");
       GraphLib.reset(_grapLibHolder->getEntryPoint());
       GraphLib->initialize(assetFolder, "R-type");
-      
     }
 
-   
-  void loadScene(const std::string& name) {
-    _next_scene = name;
-  }
+    void loadScene(const std::string& name) {
+      _next_scene = name;
+    }
 
-  template <typename T>
-  void _loadScene() {
-    
-    T::loadScene(*this);
-  } 
+    template <typename T>
+    void _loadScene() {
+      T::loadScene(*this);
+    }
 
-  template <typename T>
-  void registerScene(const std::string& name ) {
-    _scenes[name] = [](Engine& engine) {
-      engine._loadScene<T>();
-    };
-  } 
+    template <typename T>
+    void registerScene(const std::string& name) {
+      _scenes[name] = [](Engine& engine) { engine._loadScene<T>(); };
+    }
 
     void run() {
       clock = std::chrono::high_resolution_clock::now();
       int i = 0;
       while (true) {
-        elapsed = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now() - clock);
+        elapsed = std::chrono::duration_cast<std::chrono::microseconds>(
+            std::chrono::high_resolution_clock::now() - clock);
         clock = std::chrono::high_resolution_clock::now();
         std::cout << i++ << std::endl;
 
-        
-          if (GraphLib)
-            GraphLib->clear();
+        if (GraphLib)
+          GraphLib->clear();
 
-          reg.run_systems(*this);
+        reg.run_systems(*this);
 
-          if (GraphLib)
-            GraphLib->refresh();
+        if (GraphLib)
+          GraphLib->refresh();
 
-          if (_next_scene != "") {
-            for (int i = 0; i < reg.getMaxId() ; i++) {
-              reg.kill_entity(ecs::Entity(i));
-            }
-            _scenes[_next_scene](*this);
-            _next_scene = "";
+        if (_next_scene != "") {
+          for (int i = 0; i < reg.getMaxId(); i++) {
+            reg.kill_entity(ecs::Entity(i));
           }
-
+          _scenes[_next_scene](*this);
+          _next_scene = "";
+        }
       }
     }
 
     void initServer(int port) {
-      //network::game::Server s(ctx, 5456);
-      _server = std::make_unique<network::game::Server>(_context, port);
-      _network_thread = std::thread([this]() {
-        this->_context.run();
-      });
+      // network::game::Server s(ctx, 5456);
+      _server         = std::make_unique<network::game::Server>(_context, port);
+      _network_thread = std::thread([this]() { this->_context.run(); });
     }
 
     void initClient(int sport, int cport, std::string ip) {
-      _client = std::make_unique<network::game::Client>(sport, cport, ip, _context);
-      _network_thread = std::thread([this]() {
-        this->_context.run();
-      });
+      _client =
+          std::make_unique<network::game::Client>(sport, cport, ip, _context);
+      _network_thread = std::thread([this]() { this->_context.run(); });
     }
 
     template <typename cmd>
     void ClientSend(int cmd_id, cmd c) {
       input_t intt;
-      intt.cmd = cmd_id;
+      intt.cmd          = cmd_id;
       intt.payload_size = sizeof(cmd);
-      intt.seq = seq;
+      intt.seq          = seq;
       seq++;
       _client->send(network::game::Commands<cmd>::toArray(c, intt));
     }
@@ -232,16 +219,15 @@ namespace zef {
     template <typename cmd>
     void ServerSend(int id, int cmd_id, cmd c) {
       input_t intt;
-      intt.cmd = cmd_id;
+      intt.cmd          = cmd_id;
       intt.payload_size = sizeof(cmd);
-      intt.seq = seq;
+      intt.seq          = seq;
       seq++;
       _server->send(id, network::game::Commands<cmd>::toArray(c, intt));
     }
 
     template <typename cmd>
     void ServerSendToAll(int cmd_id, cmd c) {
-
     }
 
     void registerCommand(int cmd, std::function<void(Engine&, input_t)> fn) {
@@ -259,7 +245,8 @@ namespace zef {
     std::thread _network_thread;
 
     std::unique_ptr<zef::graph::IDisplayModule> GraphLib;
-    std::chrono::high_resolution_clock::time_point clock;// = std::chrono::high_resolution_clock::now();
+    std::chrono::high_resolution_clock::time_point
+        clock;  // = std::chrono::high_resolution_clock::now();
     std::chrono::microseconds elapsed;
     size_t _enemyCooldown = 0;
 
@@ -271,18 +258,13 @@ namespace zef {
 
     std::unique_ptr<ILibHolder<zef::graph::IDisplayModule>> _grapLibHolder;
 
-
     std::map<std::string, std::function<void(Engine&)>> _scenes;
     std::string _next_scene = "";
-
-
   };
 
-
-
-  namespace sys
-  {
-    void resolveEvent(Engine& engine, ecs::sparse_array<comp::event_listener>& evtls);
+  namespace sys {
+    void resolveEvent(Engine& engine,
+                      ecs::sparse_array<comp::event_listener>& evtls);
   }
 }  // namespace zef
 

@@ -15,35 +15,36 @@
 #include "ILibHolder.hpp"
 
 namespace zef {
-    template <typename T>
-    class LinuxLibHolder : public ILibHolder<T> {
-        public:
-            explicit LinuxLibHolder(const std::string &filename) {
-                _handle = dlopen(("./lib" + filename + ".so").c_str(), RTLD_LAZY);
-                if (!_handle) {
-                    throw std::runtime_error("Error while opening lib: " + filename + ": " + std::string(dlerror()));
-                }
-            }
-            ~LinuxLibHolder() {
-                dlclose(_handle);
-            }
+  template <typename T>
+  class LinuxLibHolder : public ILibHolder<T> {
+  public:
+    explicit LinuxLibHolder(const std::string &filename) {
+      _handle = dlopen(("./lib" + filename + ".so").c_str(), RTLD_LAZY);
+      if (!_handle) {
+        throw std::runtime_error("Error while opening lib: " + filename + ": " +
+                                 std::string(dlerror()));
+      }
+    }
+    ~LinuxLibHolder() {
+      dlclose(_handle);
+    }
 
-            T* getEntryPoint() {
-                void *sym = dlsym(_handle, "entryPoint");
-                
-                const char *error = dlerror();
-                if (error) {
-                    dlclose(_handle);
-                    throw std::runtime_error("Error while getting entryPoint: ");
-                }
+    T *getEntryPoint() {
+      void *sym = dlsym(_handle, "entryPoint");
 
-                auto fun = reinterpret_cast<T*(*)()>(sym);
-                return fun();
-            }
+      const char *error = dlerror();
+      if (error) {
+        dlclose(_handle);
+        throw std::runtime_error("Error while getting entryPoint: ");
+      }
 
-        private:
-            void *_handle;
-    };
-}; // namespace zef
+      auto fun = reinterpret_cast<T *(*)()>(sym);
+      return fun();
+    }
+
+  private:
+    void *_handle;
+  };
+};  // namespace zef
 
 #endif /* !LINUXLIBHOLDER_HPP_ */

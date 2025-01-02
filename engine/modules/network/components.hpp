@@ -10,24 +10,17 @@
 
 #include "../../Engine.hpp"
 
-namespace zef
-{
-    namespace comp
-    {
-        class replicable {
-            public:
-            explicit replicable(size_t id) {
-                _id = id;
-            }
-            size_t _id;
-        };
+namespace zef {
+  namespace comp {
+    class replicable {
+    public:
+      explicit replicable(size_t id) {
+        _id = id;
+      }
+      size_t _id;
+    };
 
+  }  // namespace comp
+}  // namespace zef
 
-        
-
-    } // namespace comp
-} // namespace zef
-
-
-
-#endif // ENGINE_MODULES_NETWORK_COMPONENTS_HPP_
+#endif  // ENGINE_MODULES_NETWORK_COMPONENTS_HPP_

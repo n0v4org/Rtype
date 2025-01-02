@@ -13,12 +13,12 @@
 #include <string>
 
 namespace zef {
-    template<typename T>
-    class ILibHolder {
-        public:
-            virtual ~ILibHolder() = default;
-            virtual T* getEntryPoint() = 0;
-    };
-} // namespace zef
+  template <typename T>
+  class ILibHolder {
+  public:
+    virtual ~ILibHolder()      = default;
+    virtual T* getEntryPoint() = 0;
+  };
+}  // namespace zef
 
 #endif /* !ENGINE_LIBHOLDER_ILIBHOLDER_HPP_ */

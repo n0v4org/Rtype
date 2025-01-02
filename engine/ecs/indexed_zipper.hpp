@@ -43,7 +43,6 @@ namespace ecs {
       _idx     = 0;
       if (_max != 0 && !all_set(_seq)) {
         incr_all(_seq);
-        
       }
     }
 
@@ -106,12 +105,12 @@ namespace ecs {
     // Check if every std::optional is set
     template <std::size_t... Is>
     bool all_set(std::index_sequence<Is...>) {
-      //std::cout << "ahptncallset" << std::endl;
-      //std::cout << "C++ standard: " << __cplusplus << std::endl;
+      // std::cout << "ahptncallset" << std::endl;
+      // std::cout << "C++ standard: " << __cplusplus << std::endl;
       //(..., (std::cout << "Checking element " << Is << "\n"));
       //(*std::get<1>(_current)).has_value();
       bool ret = (... && (*std::get<Is>(_current)).has_value());
-      //std::cout << "ahptncallsetfdp\n";
+      // std::cout << "ahptncallsetfdp\n";
       return ret;
     }
 

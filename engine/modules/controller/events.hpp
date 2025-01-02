@@ -9,17 +9,15 @@
 #define ENGINE_MODULES_CONTROLLER_EVENTS_HPP_
 
 namespace zef {
-    namespace evt {
+  namespace evt {
 
-        struct hover {};
-        struct LeftclickPress {};
-        struct LeftclickRelease {};
-        struct RightclickPress {};
-        struct RightclickRelease {};
+    struct hover {};
+    struct LeftclickPress {};
+    struct LeftclickRelease {};
+    struct RightclickPress {};
+    struct RightclickRelease {};
 
-    } // namespace evt
-} // namespace zef
+  }  // namespace evt
+}  // namespace zef
 
-
-#endif // ENGINE_MODULES_CONTROLLER_EVENTS_HPP_
-
+#endif  // ENGINE_MODULES_CONTROLLER_EVENTS_HPP_

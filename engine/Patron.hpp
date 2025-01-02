@@ -8,19 +8,13 @@
 #ifndef ENGINE_PATRON_HPP_
 #define ENGINE_PATRON_HPP_
 
-
 #include <map>
 #include <functional>
 
-namespace zef
-{
-    class Patron {
-        public:
+namespace zef {
+  class Patron {
+  public:
+  };
+}  // namespace zef
 
-
-
-    };
-} // namespace zef
-
-#endif // ENGINE_PATRON_HPP_
-
+#endif  // ENGINE_PATRON_HPP_

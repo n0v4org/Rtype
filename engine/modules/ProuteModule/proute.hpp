@@ -12,30 +12,26 @@
 #include "IModule.hpp"
 
 class proute {
-    public:
+public:
+  proute(int p, float o, double d) : puissance(p), odeur(o), degat(d) {
+    std::cout << "nouveau pet !" << std::endl;
+  }
 
-        proute(int p, float o, double d) : puissance(p), odeur(o), degat(d) {
-            std::cout << "nouveau pet !" << std::endl;
-        }
-
-        int puissance;
-        float odeur;
-        double degat;
+  int puissance;
+  float odeur;
+  double degat;
 };
 
-class PouteModule: public zef::IModule {
-    public:
-        PouteModule() {}
-        void registerComponents(zef::Engine& engine) {
-            engine.registerComponent<proute>();
-        }
-        void registerSystems(zef::Engine& engine) {
-            engine.registerComponent<proute>();
-        }
+class PouteModule : public zef::IModule {
+public:
+  PouteModule() {
+  }
+  void registerComponents(zef::Engine& engine) {
+    engine.registerComponent<proute>();
+  }
+  void registerSystems(zef::Engine& engine) {
+    engine.registerComponent<proute>();
+  }
 };
-
-
 
 #endif /* !PROUTE_HPP_ */
-
- 
