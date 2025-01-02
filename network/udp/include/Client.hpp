@@ -57,7 +57,6 @@ namespace network {
       void handleReceive(const asio::error_code &error,
                          std::size_t bytes_transferred);
     };
-
   }  // namespace game
 }  // namespace network
 

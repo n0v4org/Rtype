@@ -15,9 +15,10 @@ namespace network {
   namespace game {
 
     Server::Server(asio::io_context& context, int port)
-      : _socket(context, udp::endpoint(udp::v4(), port)) {
+      : _socket(context, udp::endpoint(udp::v4(), port)), _sequence_id(0) {
       start_receive();
     }
+  
 
     void Server::start_receive() {
       _socket.async_receive_from(
@@ -42,6 +43,15 @@ namespace network {
       return message;
     }
 
+    // bool Server::is_registered() {
+    //   for (auto &i: _clients) {
+    //       if (i == _remote_endpoint_) {
+    //         return true;
+    //       }
+    //     }
+    //     return false;
+    // }
+
     void Server::dispatch_client(const std::error_code& ec,
                                  std::size_t bytes_transferred) {
       if (ec) {
@@ -56,7 +66,7 @@ namespace network {
         }
         auto f = std::find(_clients.begin(), _clients.end(), _remote_endpoint_);
         if (f == _clients.end())
-          throw std::runtime_error("client doesnot exist");
+          throw std::runtime_error("client does not exist");
         input_t message = unpack(bytes_transferred, _recv_buffer_);
 
         {
@@ -71,16 +81,6 @@ namespace network {
       start_receive();
     }
 
-    void Server::send(int idx,
-                      std::array<uint8_t, 1024> message) {
-      _socket.async_send_to(
-          asio::buffer(message), _clients[idx],
-          [this](const std::error_code& ec, std::size_t bytes_transferred) {
-            handle_send(ec, bytes_transferred);
-          });
-      _sequence_id++;
-    }
-
     void Server::handle_send(const std::error_code& ec,
                              std::size_t bytes_transferred) {
       if (ec) {
@@ -93,13 +93,15 @@ namespace network {
     }
 
 
-  std::vector<int> Server::getAllIds() const {
-    std::vector<int> ids;
-    for (size_t i = 0; i < _clients.size(); ++i) {
-      ids.push_back(i);
+    std::vector<int> Server::getAllIds() {
+      std::vector<int> ret;
+      int t = 0;
+      for (auto &i : _clients) {
+        ret.push_back(t);
+        t++;
+      }
+      return ret;
     }
-    return ids;
-  }
 
   }  // namespace game
 }  // namespace network

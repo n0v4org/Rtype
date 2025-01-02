@@ -10,7 +10,7 @@
 #include <thread>
 #include <memory>
 #include <asio.hpp>
-#include "IServer.hpp"
+#include "Server.hpp"
 
 namespace network {
   namespace game {
@@ -18,12 +18,12 @@ namespace network {
 class Network_server {
     public:
         Network_server(int);
-        std::shared_ptr<IServer> get_udp_server() const;
+        std::shared_ptr<Server> get_udp_server() const;
         ~Network_server();
 
     protected:
     private:
-      std::shared_ptr<IServer> _server_udp;
+      std::shared_ptr<Server> _server_udp;
       asio::io_context _io_service;
       std::thread t;
 };

@@ -32,8 +32,17 @@ namespace network {
       input_t popMessage();
       bool isQueueEmpty();
 
-      void send(int, std::array<uint8_t, 1024>);
-      std::vector<int> getAllIds() const;
+      template<typename T>
+      void send(int idx, int cmd, T payload) {
+          std::array<uint8_t, 1024> message = Commands<T>::toArray(payload, cmd, _sequence_id);;
+          _socket.async_send_to(
+          asio::buffer(message), _clients[idx],
+          [this](const std::error_code& ec, std::size_t bytes_transferred) {
+            handle_send(ec, bytes_transferred);
+          });
+          _sequence_id++;
+      }
+      std::vector<int> getAllIds();
 
     private:
       void start_receive();

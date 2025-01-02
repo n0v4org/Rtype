@@ -14,7 +14,6 @@
 
 class IServer {
     public:
-        virtual void send(int idx, std::array<uint8_t, 1024> buff) = 0;
         virtual void close_connection() = 0;
         virtual input_t popMessage() = 0;
         virtual bool isQueueEmpty() = 0;

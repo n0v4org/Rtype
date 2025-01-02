@@ -18,7 +18,7 @@ Network_server::Network_server(int port)
   t = std::thread([this]() { _io_service.run(); });
 }
 
-std::shared_ptr<IServer> Network_server::get_udp_server() const {
+std::shared_ptr<Server> Network_server::get_udp_server() const {
     return _server_udp;
 }
 
