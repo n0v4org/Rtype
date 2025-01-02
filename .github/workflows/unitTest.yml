@@ -47,6 +47,5 @@ jobs:
 
       - name: Run tests
         run: |
-          cd build
-          ./server/r-type_server_tests
-          ./client/r-type_client_tests
+          ./bin/r-type_server_tests
+          ./bin/r-type_client_tests
