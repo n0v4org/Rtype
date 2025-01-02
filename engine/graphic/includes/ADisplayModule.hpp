@@ -117,7 +117,7 @@ namespace zef{
                     }
                     file.close();
                 };
-                virtual void configSettings(std::string settingsConfigPath) override{
+                void configSettings(std::string settingsConfigPath) override{
                   std::ifstream file(settingsConfigPath);
                   std::string line;
 

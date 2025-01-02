@@ -5,9 +5,10 @@
 ** game
 */
 #include <vector>
-#include <asio.hpp>
 #include <cmath>
 #include <iostream>
+#include <random>
+#include <asio.hpp>
 
 #include "Engine.hpp"
 #include "Scenes.hpp"
@@ -21,7 +22,6 @@
 #include "modules/network/systems.hpp"
 
 #include "modules/IModule.hpp"
-#include <random>
 
 void runServer(int port) {
     std::cout << __cplusplus << std::endl;

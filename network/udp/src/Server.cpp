@@ -7,8 +7,8 @@
 
 #include <iostream>
 #include <cstdint>
-#include <asio.hpp>
 #include <vector>
+#include <asio.hpp>
 #include "Server.hpp"
 #include "Commands.hpp"
 

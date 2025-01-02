@@ -36,7 +36,7 @@ namespace zef {
     struct event_listener {
     public:
 
-      event_listener() {};
+      event_listener() {}
 
       template <typename ...T>
       static event_listener construct(std::function<void(Engine&, size_t, T)> ...funcs) {
