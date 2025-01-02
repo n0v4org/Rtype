@@ -14,7 +14,13 @@ add_library(zefir STATIC ${SRC})
 
 find_package(asio REQUIRED CONFIG)
 
-target_include_directories(zefir PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/ ${CMAKE_CURRENT_SOURCE_DIR}/../network/)
+target_include_directories(zefir PUBLIC 
+    ${CMAKE_CURRENT_SOURCE_DIR}/
+    ${CMAKE_CURRENT_SOURCE_DIR}/../network/
+    ${CMAKE_CURRENT_SOURCE_DIR}/libHolder
+    ${CMAKE_CURRENT_SOURCE_DIR}/modules
+    
+)
 
 
     

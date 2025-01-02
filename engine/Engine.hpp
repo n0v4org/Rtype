@@ -28,7 +28,9 @@
 #include "Events.hpp"
 #include "utils/inputsUtils.hpp"
 
-#include "libHolder/LinuxLibHolder.hpp"
+#include "LinuxLibHolder.hpp"
+
+#include <boost/type_index.hpp>
 //#include "Scene.hpp"
 //#include "Patron.hpp"
 
@@ -153,6 +155,7 @@ namespace zef {
       _grapLibHolder = std::make_unique<LinuxLibHolder<zef::graph::IDisplayModule>>("sfml");
       GraphLib.reset(_grapLibHolder->getEntryPoint());
       GraphLib->initialize(assetFolder, "R-type");
+      
     }
 
    

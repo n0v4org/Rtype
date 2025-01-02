@@ -16,6 +16,8 @@
 #include <optional>
 #include <utility>
 #include <vector>
+#include <boost/type_index.hpp>
+
 
 #include "entitie.hpp"
 #include "zipper_iterator.hpp"
@@ -152,6 +154,16 @@ namespace ecs {
 
     size_t getMaxId() {
       return _maxId;
+    }
+
+    void disp() {
+
+      //for(auto &&[k, v] : _components_arrays) {
+      //  std::type_index typeIndex = k;
+      //  auto boostTypeIndex = boost::typeindex::type_id_runtime(typeIndex);
+      //  std::cout << "Nom lisible : " << boostTypeIndex.pretty_name() << std::endl;
+      //  //std::cout << typeIndex.name() << std::endl;
+      //}
     }
 
   private:

@@ -17,6 +17,8 @@
 #include "modules/display/systems.hpp"
 #include "modules/movement/systems.hpp"
 #include "modules/network/systems.hpp"
+
+#include "modules/IModule.hpp"
 #include <random>
 
 void runServer(int port) {
@@ -118,6 +120,13 @@ void runServer(int port) {
     engine.registerComponent<Monster>();
     
 
+    zef::LinuxLibHolder<zef::IModule>  md("moduleproute");
+
+    zef::IModule* ttt = md.getEntryPoint();
+
+    ttt->registerComponents(engine);
+
+    engine.reg.disp();
     ////engine.addSystem<>(entitycountdisplay);
 
     //engine.addSystem<Lifetime>(lifetime_system);
