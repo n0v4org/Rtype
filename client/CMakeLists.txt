@@ -24,12 +24,13 @@ find_package(SFML 2.6.2 COMPONENTS system window graphics audio  REQUIRED CONFIG
 
 
 include_directories(r-type_client PUBLIC
-    ${CMAKE_CURRENT_SOURCE_DIR}/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/game
-    ${CMAKE_CURRENT_SOURCE_DIR}/../engine
-    ${CMAKE_CURRENT_SOURCE_DIR}/../engine/ecs
-    ${CMAKE_CURRENT_SOURCE_DIR}/../Common
+${CMAKE_CURRENT_SOURCE_DIR}/include
+${CMAKE_CURRENT_SOURCE_DIR}/game
+${CMAKE_CURRENT_SOURCE_DIR}/../engine
+${CMAKE_CURRENT_SOURCE_DIR}/../engine/ecs
+${CMAKE_CURRENT_SOURCE_DIR}/../Common
 )
+set_target_properties(r-type_client PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../bin)
 #find_package(boost_asio REQUIRED CONFIG)
 
 

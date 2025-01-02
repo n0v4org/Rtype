@@ -53,6 +53,7 @@ Testing
 
 megalinter-reports/
 
+bin
 
 engine/**/main.cpp
 

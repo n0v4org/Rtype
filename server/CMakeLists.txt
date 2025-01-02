@@ -42,6 +42,9 @@ target_link_libraries(r-type_server PRIVATE
     game_network
 )
 
+set_target_properties(r-type_server PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../bin)
+
+
 if(WIN32) 
     file(COPY "${CMAKE_SOURCE_DIR}/vcpkg_installed/x64-windows/debug/bin/" DESTINATION "${CMAKE_BINARY_DIR}/server/Debug/")
 endif()
