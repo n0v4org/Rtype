@@ -10,6 +10,7 @@
 
 #include <dlfcn.h>
 #include <stdexcept>
+#include <string>
 
 #include "ILibHolder.hpp"
 
@@ -17,7 +18,7 @@ namespace zef {
     template <typename T>
     class LinuxLibHolder : public ILibHolder<T> {
         public:
-            LinuxLibHolder(const std::string &filename) {
+            explicit LinuxLibHolder(const std::string &filename) {
                 _handle = dlopen(("./lib" + filename + ".so").c_str(), RTLD_LAZY);
                 if (!_handle) {
                     throw std::runtime_error("Error while opening lib: " + filename + ": " + std::string(dlerror()));

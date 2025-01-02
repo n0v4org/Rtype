@@ -11,6 +11,7 @@
 #include <vector>
 #include <algorithm>
 #include <string>
+#include <iostream>
 
 #include "../../Engine.hpp"
 #include "components.hpp"

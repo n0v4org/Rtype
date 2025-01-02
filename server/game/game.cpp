@@ -4,7 +4,10 @@
 ** File description:
 ** game
 */
-#include "asio.hpp"
+#include <vector>
+#include <asio.hpp>
+#include <cmath>
+#include <iostream>
 
 #include "Engine.hpp"
 #include "Scenes.hpp"
@@ -12,7 +15,6 @@
 
 #include "CommonCommands.hpp"
 
-#include <cmath>
 
 #include "modules/display/systems.hpp"
 #include "modules/movement/systems.hpp"

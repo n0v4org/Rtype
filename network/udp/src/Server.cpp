@@ -8,6 +8,7 @@
 #include <iostream>
 #include <cstdint>
 #include <asio.hpp>
+#include <vector>
 #include "Server.hpp"
 #include "Commands.hpp"
 

@@ -8,9 +8,12 @@
 #ifndef SYSTEMS_HPP_
 #define SYSTEMS_HPP_
 
+#include <iostream>
 
 #include "components.hpp"
 #include "Engine.hpp"
+
+
 
 
 void entitycountdisplay(zef::Engine& engine) {

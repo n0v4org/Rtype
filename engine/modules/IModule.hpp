@@ -14,8 +14,8 @@ namespace zef
 {
     class IModule {
         public:
-            IModule() {};
-            virtual ~IModule() {};
+            IModule() {}
+            virtual ~IModule() {}
 
         virtual void registerComponents(Engine& engine) = 0;
         virtual void registerSystems(Engine& engine) = 0;

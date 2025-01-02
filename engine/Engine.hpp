@@ -16,6 +16,7 @@
 #include <functional>
 
 #include <asio.hpp>
+#include <iostream>
 
 
 #include  "udp/include/Server.hpp"

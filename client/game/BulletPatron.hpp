@@ -8,6 +8,8 @@
 #ifndef BULLETPATRON_HPP_
 #define BULLETPATRON_HPP_
 
+#include <vector>
+
 #include "Engine.hpp"
 
 #include "components.hpp"

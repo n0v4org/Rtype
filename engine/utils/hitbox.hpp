@@ -9,6 +9,7 @@
 #define ENGINE_MODULES_COLLISION_UTILS
 
 #include <cmath>
+#include <algorithm>
 
 namespace zef {
     namespace utils {
@@ -62,6 +63,6 @@ namespace zef {
             type _type;
     };
     } // namespace utils
-}
+}// namespace zef
 
 #endif // ENGINE_MODULES_COLLISION_UTILS

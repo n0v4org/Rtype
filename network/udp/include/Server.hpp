@@ -14,6 +14,7 @@
 #include <deque>
 #include <mutex>
 #include <asio.hpp>
+#include <vector>
 #include "Input.hpp"
 #include "Commands.hpp"
 

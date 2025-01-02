@@ -8,6 +8,8 @@
 #ifndef ENEMYPATRON_HPP_
 #define ENEMYPATRON_HPP_
 
+#include <vector>
+
 #include "Engine.hpp"
 
 #include "components.hpp"

@@ -9,6 +9,7 @@
 #define ENGINE_GRAPHIC_INCLUDES_ADISPLAYMODULE_HPP_
 
 #include <string>
+#include <iostream>
 #include <map>
 #include "./IDisplayModule.hpp"
 

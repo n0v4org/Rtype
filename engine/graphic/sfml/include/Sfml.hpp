@@ -10,6 +10,7 @@
 
 #include <cstddef>
 #include <memory>
+#include <map>
 #include <string>
 #include <utility>
 #include <vector>

@@ -8,6 +8,8 @@
 #ifndef ALLYPATRON
 #define ALLYPATRON
 
+#include <vector>
+
 #include "Engine.hpp"
 
 #include "components.hpp"

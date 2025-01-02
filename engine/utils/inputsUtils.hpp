@@ -9,6 +9,7 @@
 #define ENGINE_INPUTS_UTILS_HPP
 
 #include <vector>
+#include <map>
 
 namespace zef
 {
