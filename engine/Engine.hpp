@@ -176,7 +176,7 @@ namespace zef {
         elapsed = std::chrono::duration_cast<std::chrono::microseconds>(
             std::chrono::high_resolution_clock::now() - clock);
         clock = std::chrono::high_resolution_clock::now();
-        std::cout << i++ << std::endl;
+        //std::cout << i++ << std::endl;
 
         if (GraphLib)
           GraphLib->clear();
@@ -237,9 +237,14 @@ namespace zef {
     }
 
     void loadModule(const std::string& name) {
-      _runtime_modules.push_back(std::make_unique<LibHolder<IModule>>("module" + name));
-      _runtime_modules.at(_runtime_modules.size() - 1)->getEntryPoint()->registerComponents(*this);
-      _runtime_modules.at(_runtime_modules.size() - 1)->getEntryPoint()->registerSystems(*this);
+      _runtime_lib_holder.push_back(std::make_unique<LibHolder<IModule>>("module" + name));
+      _runtime_modules[name] = std::unique_ptr<IModule>(_runtime_lib_holder.at(_runtime_lib_holder.size() - 1)->getEntryPoint());
+      
+       
+      _runtime_modules[name]->registerComponents(*this);
+      _runtime_modules[name]->registerSystems(*this);
+      _runtime_modules[name]->emplaceComponent(*this, 0, "6proute", {3, 4.0f, 2.0});
+
     }
 
     void loadModules() {
@@ -281,7 +286,8 @@ namespace zef {
     std::map<std::string, std::function<void(Engine&)>> _scenes;
     std::string _next_scene = "";
 
-    std::vector<std::unique_ptr<zef::ILibHolder<zef::IModule>>> _runtime_modules;
+    std::vector<std::unique_ptr<zef::ILibHolder<zef::IModule>>> _runtime_lib_holder;
+    std::map<std::string, std::unique_ptr<zef::IModule>> _runtime_modules;
   };
 
   namespace sys {

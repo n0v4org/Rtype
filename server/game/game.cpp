@@ -122,7 +122,11 @@ void runServer(int port) {
     engine.registerComponent<Monster>();
     
     //engine.loadModule("proute");
+
+    engine.reg.spawn_entity();
     engine.loadModules();
+
+    
 
     engine.reg.disp();
     ////engine.addSystem<>(entitycountdisplay);

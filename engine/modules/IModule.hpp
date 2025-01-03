@@ -8,6 +8,9 @@
 #ifndef IMODULE_HPP_
 #define IMODULE_HPP_
 
+#include <any>
+#include <vector>
+
 
 namespace zef {
     class Engine;
@@ -20,6 +23,7 @@ namespace zef {
 
     virtual void registerComponents(Engine& engine) = 0;
     virtual void registerSystems(Engine& engine)    = 0;
+    virtual void emplaceComponent(Engine& engine, size_t e, const std::string& name, std::vector<std::any> args) = 0;
   };
 }  // namespace zef
 

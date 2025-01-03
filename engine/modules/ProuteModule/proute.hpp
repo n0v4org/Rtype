@@ -9,7 +9,7 @@
 #define PROUTE_HPP_
 
 #include <iostream>
-#include "IModule.hpp"
+#include "AModule.hpp"
 #include "Engine.hpp"
 
 class proute {
@@ -23,15 +23,19 @@ public:
   double degat;
 };
 
-class PouteModule : public zef::IModule {
+class PouteModule : public zef::AModule<zef::Component<proute, int, float, double>>> {
 public:
   PouteModule() {
   }
-  void registerComponents(zef::Engine& engine) {
-    engine.registerComponent<proute>();
-  }
+  //void registerComponents(zef::Engine& engine) {
+  //  engine.registerComponent<proute>();
+  //}
   void registerSystems(zef::Engine& engine) {
     engine.registerComponent<proute>();
+  }
+
+  void emplaceComponent(zef::Engine& engine, size_t e) {
+
   }
 };
 
