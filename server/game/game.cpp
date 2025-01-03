@@ -148,7 +148,7 @@ void runServer(int port) {
 
     //engine.addSystem<Health>(handleHealth);
 
-    //engine.addSystem<zef::comp::drawable>(zef::sys::update_animations);
+    engine.addSystem<zef::comp::drawable>(zef::sys::update_animations);
     engine.addSystem<zef::comp::drawable, zef::comp::position>(zef::sys::draw_drawables);
 
     ecs::Entity e = engine.reg.spawn_entity();

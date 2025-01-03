@@ -9,6 +9,7 @@
 #define SYSTEMS_HPP_
 
 #include <iostream>
+#include <stdlib.h>
 
 #include "components.hpp"
 #include "Engine.hpp"

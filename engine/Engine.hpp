@@ -244,9 +244,10 @@ namespace zef {
 
     void loadModules() {
       for (const auto& entry : std::filesystem::directory_iterator("./")) {
-        if (entry.path().filename().string().rfind("module", 0) == 0) {
-          
-        }
+        std::string mdname = entry.path().filename().string();
+        if (mdname.rfind("module", 0) == 0) {
+          std::cout << mdname.substr(6) << std::endl;
+        } 
       }
     }
 
