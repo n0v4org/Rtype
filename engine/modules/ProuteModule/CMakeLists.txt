@@ -32,3 +32,7 @@ add_custom_command(
     TARGET moduleproute POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:moduleproute> ${CMAKE_CURRENT_SOURCE_DIR}/../../../bin
 )
+
+target_link_libraries(moduleproute PRIVATE
+    asio
+)
