@@ -8,9 +8,9 @@
 #ifndef IMODULE_HPP_
 #define IMODULE_HPP_
 
-#include "Engine.hpp"
 
 namespace zef {
+    class Engine;
   class IModule {
   public:
     IModule() {

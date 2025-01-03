@@ -16,16 +16,16 @@
 
 namespace zef {
   template <typename T>
-  class LinuxLibHolder : public ILibHolder<T> {
+  class LibHolder : public ILibHolder<T> {
   public:
-    explicit LinuxLibHolder(const std::string &filename) {
+    explicit LibHolder(const std::string &filename) {
       _handle = dlopen(("./lib" + filename + ".so").c_str(), RTLD_LAZY);
       if (!_handle) {
         throw std::runtime_error("Error while opening lib: " + filename + ": " +
                                  std::string(dlerror()));
       }
     }
-    ~LinuxLibHolder() {
+    ~LibHolder() {
       dlclose(_handle);
     }
 

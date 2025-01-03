@@ -23,6 +23,7 @@
 zef::comp::event_listener createBulletEventListener() {
   zef::comp::event_listener evtl;
 
+
   evtl.setEvent<zef::evt::startCollision>(
       [](zef::Engine& engine, size_t self, zef::evt::startCollision col) {
         engine.sendEvent<GetHittedByBullet>(col.other, self, 10);

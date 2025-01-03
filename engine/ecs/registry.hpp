@@ -156,13 +156,13 @@ namespace ecs {
     }
 
     void disp() {
-      // for(auto &&[k, v] : _components_arrays) {
-      //   std::type_index typeIndex = k;
-      //   auto boostTypeIndex = boost::typeindex::type_id_runtime(typeIndex);
-      //   std::cout << "Nom lisible : " << boostTypeIndex.pretty_name() <<
-      //   std::endl;
-      //   //std::cout << typeIndex.name() << std::endl;
-      // }
+       for(auto &&[k, v] : _components_arrays) {
+         //std::type_index typeIndex = k;
+         //auto boostTypeIndex = boost::typeindex::type_id_runtime(typeIndex);
+         std::cout << "Nom lisible : " << k.name() <<
+         std::endl;
+         //std::cout << typeIndex.name() << std::endl;
+       }
     }
 
   private:

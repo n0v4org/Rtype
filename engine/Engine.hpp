@@ -14,6 +14,8 @@
 #include <thread>
 #include <string>
 #include <functional>
+#include <vector>
+#include <filesystem>
 
 #include <iostream>
 #include <asio.hpp>
@@ -28,13 +30,13 @@
 #include "Events.hpp"
 #include "utils/inputsUtils.hpp"
 
-#include "LinuxLibHolder.hpp"
+#include "IModule.hpp"
+#include "LibHolder.hpp"
 
 // #include "Scene.hpp"
 // #include "Patron.hpp"
 
 namespace zef {
-
   namespace sys {
     void resolveEvent(Engine& engine,
                       ecs::sparse_array<comp::event_listener>& evtls);
@@ -148,7 +150,7 @@ namespace zef {
     void initGraphLib(const std::string& assetFolder,
                       const std::string& windowName) {
       _grapLibHolder =
-          std::make_unique<LinuxLibHolder<zef::graph::IDisplayModule>>("sfml");
+          std::make_unique<LibHolder<zef::graph::IDisplayModule>>("sfml");
       GraphLib.reset(_grapLibHolder->getEntryPoint());
       GraphLib->initialize(assetFolder, "R-type");
     }
@@ -234,6 +236,20 @@ namespace zef {
       _cmd_map[cmd] = fn;
     }
 
+    void loadModule(const std::string& name) {
+      _runtime_modules.push_back(std::make_unique<LibHolder<IModule>>("module" + name));
+      _runtime_modules.at(_runtime_modules.size() - 1)->getEntryPoint()->registerComponents(*this);
+      _runtime_modules.at(_runtime_modules.size() - 1)->getEntryPoint()->registerSystems(*this);
+    }
+
+    void loadModules() {
+      for (const auto& entry : std::filesystem::directory_iterator("./")) {
+        if (entry.path().filename().string().rfind("module", 0) == 0) {
+          
+        }
+      }
+    }
+
     std::map<int, std::function<void(Engine&, input_t)>> _cmd_map;
     std::unique_ptr<network::game::Server> _server;
     std::unique_ptr<network::game::Client> _client;
@@ -260,6 +276,8 @@ namespace zef {
 
     std::map<std::string, std::function<void(Engine&)>> _scenes;
     std::string _next_scene = "";
+
+    std::vector<std::unique_ptr<zef::ILibHolder<zef::IModule>>> _runtime_modules;
   };
 
   namespace sys {

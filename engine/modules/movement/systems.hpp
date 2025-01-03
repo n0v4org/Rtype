@@ -25,6 +25,7 @@ namespace zef {
         pos.x += vec.x;
         pos.y += vec.y;
       }
+      
     }
     void check_collidables(Engine &engine,
                            ecs::sparse_array<comp::collidable> &collidables,

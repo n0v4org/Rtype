@@ -18,9 +18,16 @@ target_include_directories(zefir PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/
     ${CMAKE_CURRENT_SOURCE_DIR}/../network/
     ${CMAKE_CURRENT_SOURCE_DIR}/libHolder
-    ${CMAKE_CURRENT_SOURCE_DIR}/modules
+    ${CMAKE_CURRENT_SOURCE_DIR}/modules/
+    )
 
-)
+    
+if(WIN32)
+    target_include_directories(zefir PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/libHolder/win)
+else()
+    target_include_directories(zefir PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/libHolder/linux)
+endif()
+
 
 
     
