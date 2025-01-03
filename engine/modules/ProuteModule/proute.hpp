@@ -23,7 +23,7 @@ public:
   double degat;
 };
 
-class PouteModule : public zef::AModule<zef::Component<proute, int, float, double>>> {
+class PouteModule : public zef::AModule<proute> {
 public:
   PouteModule() {
   }
