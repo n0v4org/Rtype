@@ -23,9 +23,7 @@ namespace zef {
                         ecs::sparse_array<comp::drawable>& drawables,
                         ecs::sparse_array<comp::position>& positions) {
       std::vector<int> layers;
-      std::cout << "lafjiejaz\n";
       for (auto&& [i, dr, pos] : ecs::indexed_zipper(drawables, positions)) {
-        std::cout << "lafjiejaQSDFDqsfQz\n";
         layers.push_back(dr.layer);
       }
       std::sort(layers.begin(), layers.end());

@@ -9,7 +9,7 @@ set(SRC
     proute.cpp
 )
 
-
+find_package(asio REQUIRED CONFIG)
 add_library(moduleproute SHARED ${SRC})
 
 target_include_directories(moduleproute PUBLIC 

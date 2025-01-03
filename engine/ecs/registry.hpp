@@ -165,6 +165,16 @@ namespace ecs {
        }
     }
 
+    template<typename ...T>
+    void register_with_str(size_t e, const std::string& name, T ...args) {
+      for(auto &&[k, v] : _components_arrays) {
+        if (k.name() == name) {
+          
+        }
+      }
+    }
+
+
   private:
     size_t _entityCount = 0;
     std::unordered_map<std::type_index, std::any> _components_arrays;

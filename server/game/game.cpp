@@ -121,14 +121,9 @@ void runServer(int port) {
     engine.registerComponent<PlayerReplacer>();
     engine.registerComponent<Monster>();
     
-    engine.loadModule("proute");
+    //engine.loadModule("proute");
     engine.loadModules();
-    //zef::LibHolder<zef::IModule> md("moduleproute");
-//
-    //zef::IModule* ttt = md.getEntryPoint();
-//
-    //ttt->registerComponents(engine);
-//
+
     engine.reg.disp();
     ////engine.addSystem<>(entitycountdisplay);
 
@@ -153,13 +148,7 @@ void runServer(int port) {
 
     ecs::Entity e = engine.reg.spawn_entity();
 
-    engine.addEntityComponent<zef::comp::position>(e, 0.0f, 0.0f);
     
-    zef::comp::drawable dr;
-    dr.addAnimation("ship", 1, 200);
-    dr.playAnimationLoop("ship", 1.0);
-    engine.addEntityComponent<zef::comp::drawable>(e, dr);
-
 
     engine.registerScene<LevelScene>("level");
     engine.registerScene<LobbyScene>("lobby");
