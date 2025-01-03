@@ -10,6 +10,7 @@
 
 #include <stdexcept>
 #include <string>
+#include <windows.h>
 
 #include "ILibHolder.hpp"
 
@@ -18,18 +19,23 @@ namespace zef {
   class LibHolder : public ILibHolder<T> {
   public:
     explicit LibHolder(const std::string &filename) {
-      
+      _handle = LoadLibrary(("./lib" + filename + ".dll").c_str())
+
+      if (!_handle) {
+          throw std::runtime_error("Error while opening lib: " + filename);
+      }
     }
     ~LibHolder() {
-      //dlclose(_handle);
+      FreeLibrary(_handle);
     }
 
     T *getEntryPoint() {
-      return nullptr;
+        auto fun = reinterpret_cast<T*(*)()>(GetProcAddress(_handle, "entryPoint"));
+        return fun();
     }
 
   private:
-    void *_handle;
+    HINSTANCE _handle;
   };
 };  // namespace zef
 
