@@ -152,7 +152,7 @@ void runServer(int port) {
 
     ecs::Entity e = engine.reg.spawn_entity();
 
-    
+    engine.addEntityComponent(e, "proute", 3, 4.1f, 4.222);
 
     engine.registerScene<LevelScene>("level");
     engine.registerScene<LobbyScene>("lobby");

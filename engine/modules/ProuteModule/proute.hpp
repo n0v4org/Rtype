@@ -23,20 +23,6 @@ public:
   double degat;
 };
 
-class PouteModule : public zef::AModule<proute> {
-public:
-  PouteModule() {
-  }
-  //void registerComponents(zef::Engine& engine) {
-  //  engine.registerComponent<proute>();
-  //}
-  void registerSystems(zef::Engine& engine) {
-    engine.registerComponent<proute>();
-  }
 
-  void emplaceComponent(zef::Engine& engine, size_t e) {
-
-  }
-};
 
 #endif /* !PROUTE_HPP_ */

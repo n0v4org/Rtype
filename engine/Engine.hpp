@@ -109,6 +109,13 @@ namespace zef {
       reg.emplace_component<Component>(e, args...);
     }
 
+    template <typename... T>
+    void addEntityComponent(ecs::Entity const& e, const std::string& name, T... args) {
+      for (auto &&[n, rtc] : _runtime_modules) {
+        rtc->emplaceComponent(*this, e, name, {args...});
+      }
+    }
+
     template <typename Component>
     void removeEntityComponent(ecs::Entity const& e) {
       reg.remove_component<Component>(e);
@@ -243,7 +250,7 @@ namespace zef {
        
       _runtime_modules[name]->registerComponents(*this);
       _runtime_modules[name]->registerSystems(*this);
-      _runtime_modules[name]->emplaceComponent(*this, 0, "6proute", {3, 4.0f, 2.0});
+      //_runtime_modules[name]->emplaceComponent(*this, 0, "proute", {3, 4.23f, 2.566});
 
     }
 
