@@ -247,10 +247,8 @@ namespace zef {
       _runtime_lib_holder.push_back(std::make_unique<LibHolder<IModule>>("module" + name));
       _runtime_modules[name] = std::unique_ptr<IModule>(_runtime_lib_holder.at(_runtime_lib_holder.size() - 1)->getEntryPoint());
       
-       
       _runtime_modules[name]->registerComponents(*this);
       _runtime_modules[name]->registerSystems(*this);
-      //_runtime_modules[name]->emplaceComponent(*this, 0, "proute", {3, 4.23f, 2.566});
 
     }
 

@@ -142,7 +142,7 @@ void runServer(int port) {
 
     //engine.addSystem<Player, zef::comp::replicable>(spawnEnemies);
 
-    //engine.addSystem<zef::comp::collidable, zef::comp::position>(zef::sys::check_collidables);
+    engine.addSystem<zef::comp::collidable, zef::comp::position>(zef::sys::check_collidables);
     //engine.addSystem<zef::comp::event_listener>(zef::sys::resolveEvent);
 
     //engine.addSystem<Health>(handleHealth);

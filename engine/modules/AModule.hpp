@@ -20,6 +20,7 @@ namespace zef {
   class Component {
     public:
       static std::string getType() {
+        std::cout << "Pretty Name: " << boost::typeindex::type_id<Comp>().pretty_name() << std::endl;
         return boost::typeindex::type_id<Comp>().pretty_name();
       }
 
@@ -50,23 +51,19 @@ namespace zef {
   template <typename ...Components>
   class AModule : public IModule {
   public:
-    AModule() {
-    }
-    virtual ~AModule() {
-    }
+    AModule() = default;
+    virtual ~AModule() = default;
 
     void registerComponents(Engine& engine) {
       ((Components::selfRegister(engine)), ...);
     }
-
     
-    void registerSystems(Engine& engine) {};
+    virtual void registerSystems(Engine& engine) = 0;
 
     void emplaceComponent(Engine& engine, size_t e, const std::string& name, std::vector<std::any> args)  {
         (([&](){
           if (name == Components::getType()) {
             Components::construct(engine, e, args);
-            //engine.addEntityComponent<Components>(ecs::Entity(e), 5, 3.0f,3.0);
           }
         }()), ...);
     }
