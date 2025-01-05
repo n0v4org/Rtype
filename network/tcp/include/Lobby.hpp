@@ -39,7 +39,7 @@ namespace network {
     private:
       void start_accept();
       int generateRandomPort();
-      void handle_accept(Connection::pointer, const std::error_code &);
+      void handle_accept(tcp_link::Connection::pointer, const std::error_code &);
 
       asio::io_context &io_context_;
       tcp::acceptor acceptor_;

@@ -33,7 +33,7 @@ namespace rtype {
 
   Core::Core(char* argv[], int argc) {
     _args   = std::make_unique<Arguments>(argc, argv);
-    _network = std::make_unique<network::Network_server>(_args->get_game_port());
+    _network = std::make_unique<network::Network_server>(_args->get_game_port(), _args->get_lobby_port());
   }
 
   void Core::run() {

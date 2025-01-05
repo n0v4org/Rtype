@@ -8,6 +8,8 @@ project(RtypeNetwork VERSION 1.0)
 set(SRCS
     udp/src/Server.cpp
     udp/src/Client.cpp
+    tcp/src/Server.cpp
+    tcp/src/Client.cpp
     src/Network_server.cpp
     src/Network_client.cpp
 )

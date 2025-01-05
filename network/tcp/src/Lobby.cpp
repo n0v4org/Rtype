@@ -1,4 +1,4 @@
-/*
+  /*
 ** EPITECH PROJECT, 2024
 ** Rtype
 ** File description:

@@ -11,9 +11,10 @@
 
 namespace network {
 
-Network_server::Network_server(int port)
+Network_server::Network_server(int port, int lobby_port)
 {
   _server_udp = std::make_shared<game::Server>(_io_service, port);
+  _server_tcp = std::make_shared<tcp_link::Server>(_io_service, lobby_port);
   t = std::thread([this]() { _io_service.run(); });
 }
 

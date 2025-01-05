@@ -19,7 +19,7 @@ using asio::ip::tcp;
 static const char CMD_NOT_FOUND[] = "500 cmd not found";
 
 namespace network {
-  namespace lobby {
+  namespace tcp_link {
     class Connection : public std::enable_shared_from_this<Connection> {
     public:
       typedef std::shared_ptr<Connection> pointer;
@@ -74,10 +74,9 @@ namespace network {
           std::string cmd = input.substr(0, cmd_len);
           ltrim(cmd);
           rtrim(cmd);
-          auto _factoryCmd = FactoryCmd::getInstance().createCmd(cmd);
-          _factoryCmd->exec_cmd(input.substr(cmd_len, input.length() - cmd_len),
-                                socket());
-          write(_factoryCmd->get_resp());
+          std::cout << cmd << std::endl;
+         // push in queue here
+          read();
         } catch (const std::invalid_argument& e) {
           write(CMD_NOT_FOUND);
         }
@@ -100,7 +99,7 @@ namespace network {
       std::string message_;
       char _data[1024];
     };
-  }  // namespace lobby
+  }  // namespace tcp_link
 }  // namespace network
 
 #endif  // NETWORK_TCP_INCLUDE_CONNECTION_HPP_

@@ -10,19 +10,21 @@
 #include <thread>
 #include <memory>
 #include <asio.hpp>
-#include "Server.hpp"
+#include "../udp/include/Server.hpp"
+#include "../tcp/include/Server.hpp"
 
 namespace network {
 
 class Network_server {
     public:
-        Network_server(int);
+        Network_server(int, int);
         std::shared_ptr<game::Server> get_udp_server() const;
         ~Network_server();
 
     protected:
     private:
       std::shared_ptr<game::Server> _server_udp;
+      std::shared_ptr<tcp_link::Server> _server_tcp;
       asio::io_context _io_service;
       std::thread t;
 };
