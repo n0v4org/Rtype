@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CI/CD Pipeline - R-Type Project</title>
+</head>
+<body>
+    <header>
+        <h1>CI/CD Pipeline Documentation</h1>
+        <p>Explanation of the CI/CD pipeline setup, including compilation, testing, mirroring, linting, and project ruleset.</p>
+    </header>
+
+    <main>
+        <section id="cicd-actions">
+            <h2>CI/CD Actions</h2>
+
+            <h3>1. Compilation on Windows (MSVC)</h3>
+            <p>The CI pipeline includes an <strong>action for compilation on Windows</strong> using <strong>MSVC</strong> (Microsoft Visual C++).</p>
+            <pre><code>jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Set up vcpkg
+        run: |
+          git clone https://github.com/microsoft/vcpkg.git
+          cd vcpkg && bootstrap-vcpkg.bat
+      - name: Compile Project
+        run: |
+          cmake -S . -B build -G "Visual Studio 16 2019"
+          cmake --build build --config Release</code></pre>
+
+            <h3>2. Compilation and Testing on Ubuntu (GTest)</h3>
+            <p>On Ubuntu, the pipeline compiles the project and runs <strong>unit tests</strong> written with <strong>Google Test</strong>.</p>
+            <pre><code>jobs:
+  build-ubuntu:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Install dependencies
+        run: |
+          sudo apt update && sudo apt install cmake g++-11
+          git clone https://github.com/microsoft/vcpkg.git
+          cd vcpkg && ./bootstrap-vcpkg.sh
+      - name: Compile and Run Tests
+        run: |
+          cmake -S . -B build
+          cmake --build build
+          cd build && ctest</code></pre>
+
+            <h3>3. Mirroring to Epitech Repository</h3>
+            <p>To comply with Epitech requirements, an <strong>action mirrors</strong> the repository to the Epitech GitLab server.</p>
+            <pre><code>jobs:
+  mirror-to-epitech:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Push to Epitech Repository
+        run: |
+          git remote add epitech https://git.epitech.eu/username/rtype.git
+          git push epitech main --force</code></pre>
+
+            <h3>4. Code Linting and Formatting</h3>
+            <p>The pipeline ensures <strong>code consistency</strong> using <strong>cpplint</strong> and <strong>Clang-Format</strong> (Google style guide). If formatting errors are detected, a commit with corrected code is pushed automatically.</p>
+            <pre><code>jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Run cpplint
+        run: |
+          pip install cpplint
+          cpplint --recursive .
+      - name: Apply Clang-Format
+        run: |
+          clang-format -i $(find . -name "*.cpp" -o -name "*.hpp")
+          git config user.name "CI Bot"
+          git config user.email "ci@bot.com"
+          git commit -am "CI: Applied clang-format corrections" || echo "No changes to commit"
+          git push</code></pre>
+        </section>
+
+        <section id="branch-ruleset">
+            <h2>Branch Ruleset</h2>
+            <p>To ensure code quality and prevent unapproved changes, the following ruleset is enforced:</p>
+            <ul>
+                <li><strong>No Direct Pushes to Main:</strong> All changes must be submitted through a <strong>Pull Request (PR)</strong>.</li>
+                <li><strong>Approval Requirements:</strong> A minimum of <strong>two approvals</strong> is required to merge a Pull Request.</li>
+                <li><strong>CI/CD Validation:</strong> All CI/CD actions (compilation, testing, linting) must pass successfully before merging.</li>
+                <li><strong>Automatic Checks:</strong> Code linting and formatting ensure that all committed code adheres to the <strong>Google C++ Style Guide</strong>.</li>
+            </ul>
+        </section>
+
+        <section id="conclusion">
+            <h2>Conclusion</h2>
+            <p>The <strong>CI/CD pipeline</strong> automates the build, test, and deployment process, ensuring code quality, consistency, and compliance with project standards. With actions for <strong>compilation</strong>, <strong>testing</strong>, <strong>mirroring</strong>, and <strong>linting</strong>, the pipeline minimizes manual intervention and streamlines the development workflow.</p>
+            <ul>
+              <li><a href="engine.html">Engine Overview</a>: Learn about the engine architecture.</li>
+              <li><a href="graphical.html">Graphical Module</a>: Details about the graphical implementation.</li>
+              <li><a href="protocol.html">Protocol Reference</a>: Learn about the communication protocols.</li>
+              <li><a href="server.html">Server Details</a>: Information about the server implementation.</li>
+              <li><a href="assets.html">Contribution Guide</a>: Guidelines for contributing to the project.</li>
+              <li><a href="getting-start.html">Contribution Guide</a>: Guidelines for contributing to the project.</li>
+          </ul>
+        </section>
+    </main>
+</body>
+</html>

@@ -89,15 +89,32 @@ All third-party dependencies must be bundled with the project or fetched during 
 
 ### 📑 Documentation
 
-- 📚 Comprehensive documentation is included in the `docs` folder.
-- **Developer Documentation**:
-  - 🗂️ Architectural diagrams.
-  - 🛠️ Subsystem overviews.
-  - 📖 Tutorials and “How-To” guides.
-- **Protocol Documentation**:
-  - 📡 Details the binary protocol used for client-server communication.
-
 For a complete reference, see [the documentation hosted online](https://epitech-f1becc07.mintlify.app/introduction).
+
+#### 📂 Offline Documentation
+
+If you do not have an internet connection, you can find an offline version of the documentation in the docs folder of the repository.
+
+To access it:
+
+1. Navigate to the `docs` directory in the project root.
+2. Open the `getting-start.html` file in your browser.
+
+The offline documentation includes:
+
+- Getting Started Guide
+
+- Engine Overview
+
+- Graphical Module
+
+- Protocol Reference
+
+- Server Details
+
+- Contribution Guide
+
+This ensures you can still refer to key project details even without an internet connection. 📖
 
 ---
 

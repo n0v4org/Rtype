@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Engine Overview - R-Type Project</title>
+</head>
+<body>
+    <header>
+        <h1>Engine Overview</h1>
+        <p>Detailed documentation about the engine architecture.</p>
+    </header>
+
+    <main>
+        <section id="introduction">
+            <h2>Introduction</h2>
+            <p>The engine powering the R-Type project is built for performance and scalability. It consists of two key parts:</p>
+            <ol>
+                <li><strong>Entity Component System (ECS)</strong>: A modern design pattern for performance-critical applications.</li>
+                <li><strong>Event Queue System</strong>: A custom event queue implementation for handling game events efficiently.</li>
+            </ol>
+        </section>
+
+        <section id="ecs-documentation">
+            <h2>Entity Component System (ECS)</h2>
+
+            <h3>What is an ECS?</h3>
+            <p>An <strong>Entity Component System (ECS)</strong> promotes a <em>composition-over-inheritance</em> approach by decoupling <strong>data (components)</strong> and <strong>behavior (systems)</strong>.</p>
+            <ul>
+                <li><strong>Entity:</strong> A unique identifier representing an object.</li>
+                <li><strong>Component:</strong> Data describing properties or state of an entity.</li>
+                <li><strong>System:</strong> Logic acting on entities with specific components.</li>
+            </ul>
+
+            <h3>Architecture</h3>
+
+            <h4>Entities</h4>
+            <pre><code>EntityID player = ecs.spawn_entity();</code></pre>
+
+            <h4>Components</h4>
+            <pre><code>struct Position {
+    float x, y;
+};
+
+struct Velocity {
+    float dx, dy;
+};</code></pre>
+
+            <h4>Systems</h4>
+            <pre><code>void move(Engine &engine, ecs::sparse_arraycomp::position &positions,
+          ecs::sparse_arraycomp::vector &vectors) {
+    for (auto &&[pos, vec] : ecs::zipper(positions, vectors)) {
+        pos.x += vec.x;
+        pos.y += vec.y;
+    }
+}</code></pre>
+        </section>
+
+        <section id="event-queue-system">
+            <h2>Event Queue System</h2>
+
+            <h3>Key Features</h3>
+            <ul>
+                <li><strong>Event Queue:</strong> A FIFO structure to process events sequentially.</li>
+                <li><strong>Event Dispatching:</strong> Events are pushed into the queue and consumed by systems.</li>
+                <li><strong>Decoupling:</strong> Clean separation between systems and event handling logic.</li>
+            </ul>
+
+            <h3>Example</h3>
+
+            <h4>Sending an Event</h4>
+            <pre><code>engine.sendEvent&lt;evt::collision&gt;(i, j);</code></pre>
+
+            <h4>Handling an Event</h4>
+            <pre><code>void resolveEvent(Engine& engine, ecs::sparse_array&lt;comp::event_listener&gt;& evtls) {
+    while (!engine._events.empty()) {
+        Event evt = engine._events.front();
+        if (engine.reg.get_components&lt;comp::event_listener&gt;().size() > evt.entity &&
+            engine.reg.get_entity_component&lt;comp::event_listener&gt;(evt.entity)) {
+            if (engine.reg.get_entity_component&lt;comp::event_listener&gt;(evt.entity)
+                -&gt;_functions.find(evt.tid) != engine.reg.get_entity_component&lt;comp::event_listener&gt;(evt.entity)-&gt;_functions.end()) {
+                engine.reg.get_entity_component&lt;comp::event_listener&gt;(evt.entity)
+                    -&gt;_functions[evt.tid](engine, evt.entity, evt);
+            }
+        }
+        engine._events.pop();
+    }
+}</code></pre>
+        </section>
+
+        <section id="conclusion">
+            <h2>Conclusion</h2>
+            <p>The combination of the <strong>Entity Component System</strong> and <strong>Event Queue System</strong> provides a flexible and scalable architecture suitable for modern game development. By decoupling data, logic, and events, the R-Type engine ensures maintainability and performance.</p>
+            <ul>
+                <li><a href="getting-start.html">Engine Overview</a>: Learn about the engine architecture.</li>
+                <li><a href="graphical.html">Graphical Module</a>: Details about the graphical implementation.</li>
+                <li><a href="protocol.html">Protocol Reference</a>: Learn about the communication protocols.</li>
+                <li><a href="server.html">Server Details</a>: Information about the server implementation.</li>
+                <li><a href="assets.html">Contribution Guide</a>: Guidelines for contributing to the project.</li>
+                <li><a href="cicd.html">Contribution Guide</a>: Guidelines for contributing to the project.</li>
+            </ul>
+        </section>
+    </main>
+</body>
+</html>
