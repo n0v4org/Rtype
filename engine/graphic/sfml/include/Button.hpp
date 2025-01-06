@@ -1,3 +1,10 @@
+/*
+** EPITECH PROJECT, 2025
+** r-type
+** File description:
+** Button
+*/
+
 #ifndef BUTTON_HPP
 #define BUTTON_HPP
 
