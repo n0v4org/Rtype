@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protocols - R-Type Project</title>
+</head>
+<body>
+    <header>
+        <h1>Network Protocols</h1>
+        <p>Documentation for TCP and UDP protocols in the R-Type project.</p>
+    </header>
+
+    <main>
+        <section id="tcp-protocol">
+            <h2>TCP Protocol</h2>
+
+            <h3>Notations</h3>
+            <ul>
+                <li><strong>-></strong>: Request command from <strong>client</strong> to <strong>server</strong>.</li>
+                <li><strong><-</strong>: Reply from <strong>server</strong> to <strong>client</strong>.</li>
+            </ul>
+
+            <h3>Connection Establishment</h3>
+            <pre><code>&lt;- 220</code></pre>
+
+            <h3>Commands and Responses</h3>
+
+            <h4>1. JOIN Lobby</h4>
+            <p>Request to join a specific lobby.</p>
+            <pre><code>JOIN&lt;SP&gt;${Lobby_id}&lt;CLRF&gt; -&gt;</code></pre>
+            <p>Responses:</p>
+            <ul>
+                <li><code>200</code>: Lobby join successful.</li>
+                <li><code>404</code>: Lobby not found.</li>
+                <li><code>403</code>: Maximum number of players reached.</li>
+                <li><code>402</code>: Player already in a lobby.</li>
+                <li><code>400</code>: Invalid arguments.</li>
+            </ul>
+
+            <h4>2. GET_ALL_LOBBY</h4>
+            <p>Request to retrieve the list of all available lobbies.</p>
+            <pre><code>GET_ALL_LOBBY&lt;CLRF&gt; -&gt;</code></pre>
+            <p>Responses:</p>
+            <ul>
+                <li><code>lobby_id_list</code>: List of available lobbies.</li>
+                <li><code>400</code>: Invalid arguments.</li>
+            </ul>
+
+            <h4>3. QUIT Lobby</h4>
+            <p>Request to leave a specific lobby.</p>
+            <pre><code>QUIT&lt;SP&gt;${Lobby_id}&lt;CLRF&gt; -&gt;</code></pre>
+            <p>Responses:</p>
+            <ul>
+                <li><code>200</code>: Lobby quit successful.</li>
+                <li><code>404</code>: Client is not in a lobby.</li>
+                <li><code>400</code>: Invalid arguments.</li>
+            </ul>
+
+            <h4>4. GET_LOBBY Information</h4>
+            <p>Request details of a specific lobby, such as the list of users.</p>
+            <pre><code>GET_LOBBY&lt;SP&gt;${Lobby_id}&lt;CLRF&gt; -&gt;</code></pre>
+            <p>Responses:</p>
+            <ul>
+                <li><code>200</code>: List of lobby users' IDs.</li>
+                <li><code>404</code>: Lobby ID does not exist.</li>
+                <li><code>400</code>: Invalid arguments.</li>
+            </ul>
+
+            <h4>5. LAUNCH_GAME</h4>
+            <p>Request to launch the game in the current lobby.</p>
+            <pre><code>LAUNCH_GAME&lt;CLRF&gt; -&gt;</code></pre>
+            <p>Responses:</p>
+            <ul>
+                <li><code>200</code>: Game is launching.</li>
+                <li><code>401</code>: Client is not in a lobby.</li>
+                <li><code>400</code>: Invalid arguments.</li>
+            </ul>
+        </section>
+
+        <section id="udp-protocol">
+            <h2>UDP Protocol</h2>
+
+            <h3>Header Format</h3>
+            <p>The UDP packet header is 7 bytes long and structured as follows:</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Field</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>cmd</code></td>
+                        <td><code>uint8_t</code></td>
+                        <td>Command type</td>
+                    </tr>
+                    <tr>
+                        <td><code>payload_size</code></td>
+                        <td><code>uint16_t</code></td>
+                        <td>Size of the payload</td>
+                    </tr>
+                    <tr>
+                        <td><code>sequence_id</code></td>
+                        <td><code>uint32_t</code></td>
+                        <td>Sequence ID of the packet</td>
+                    </tr>
+                    <tr>
+                        <td><code>payload</code></td>
+                        <td>Variable</td>
+                        <td>Content of the payload</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Commands</h3>
+
+            <h4>1. CONNECT</h4>
+            <p>Connects the player to the server.</p>
+
+            <h4>2. MOVEPLAYER</h4>
+            <p>Moves the player.</p>
+            <ul>
+                <li><code>float x</code>: X-coordinate of movement.</li>
+                <li><code>float y</code>: Y-coordinate of movement.</li>
+            </ul>
+
+            <h4>3. SHOOTPLAYER</h4>
+            <p>Player shoots.</p>
+
+            <h4>4. SENDPOSITION</h4>
+            <p>Sends the player's position to the server.</p>
+            <ul>
+                <li><code>float x</code>: X-coordinate.</li>
+                <li><code>float y</code>: Y-coordinate.</li>
+            </ul>
+
+            <h4>5. SPAWNPLAYER</h4>
+            <p>Spawns a new player.</p>
+            <ul>
+                <li><code>size_t replicable</code>: Replication flag.</li>
+            </ul>
+        </section>
+
+        <section id="summary">
+            <h2>Summary Table</h2>
+
+            <h3>TCP Commands</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Command</th>
+                        <th>Description</th>
+                        <th>Response Codes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>JOIN&lt;SP&gt;${Lobby_id}&lt;CLRF&gt;</code></td>
+                        <td>Join a specific lobby</td>
+                        <td><code>200, 404, 403, 402, 400</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>GET_ALL_LOBBY&lt;CLRF&gt;</code></td>
+                        <td>Retrieve all available lobbies</td>
+                        <td><code>lobby_id_list, 400</code></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>UDP Commands</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Command</th>
+                        <th>Description</th>
+                        <th>Parameters</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>CONNECT</code></td>
+                        <td>Connects the player</td>
+                        <td>None</td>
+                    </tr>
+                    <tr>
+                        <td><code>MOVEPLAYER</code></td>
+                        <td>Moves the player</td>
+                        <td><code>float x, float y</code></td>
+                    </tr>
+                </tbody>
+            </table>
+            <ul>
+                <li><a href="engine.html">Engine Overview</a>: Learn about the engine architecture.</li>
+                <li><a href="graphical.html">Graphical Module</a>: Details about the graphical implementation.</li>
+                <li><a href="getting-start.html">Protocol Reference</a>: Learn about the communication protocols.</li>
+                <li><a href="server.html">Server Details</a>: Information about the server implementation.</li>
+                <li><a href="assets.html">Contribution Guide</a>: Guidelines for contributing to the project.</li>
+                <li><a href="cicd.html">Contribution Guide</a>: Guidelines for contributing to the project.</li>
+            </ul>
+        </section>
+    </main>
+</body>
+</html>
