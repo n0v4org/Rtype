@@ -39,7 +39,7 @@ namespace zef {
     public:
       static std::string getType() {
         std::cout << "Pretty Name: " << demangle(typeid(Comp).name()) << std::endl;
-        return boost::typeindex::type_id<Comp>().pretty_name();
+        return demangle(typeid(Comp).name());
       }
 
 
@@ -54,7 +54,6 @@ namespace zef {
     private:
       template<std::size_t... Indexes>
       static void _construct(Engine& engine, size_t e, std::vector<std::any> args, std::index_sequence<Indexes...>) {
-        
         try
         {
           engine.addEntityComponent<Comp>(ecs::Entity(e), std::any_cast<T>(args[Indexes])...);
