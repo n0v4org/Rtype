@@ -9,6 +9,10 @@
 #define AMODULE_HPP_
 
 #include <typeindex>
+#include <memory>
+#include <iostream>
+#include <string>
+#include <vector>
 #include "IModule.hpp"
 #include "Engine.hpp"
 

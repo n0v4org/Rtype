@@ -25,7 +25,7 @@
 
   class pipi {
   public:
-    pipi(int d) : degat(d) {
+    explicit pipi(int d) : degat(d) {
       std::cout << "nouveau pipi !" << std::endl;
     }
 

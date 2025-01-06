@@ -8,9 +8,9 @@
 #ifndef WINDOWSLIBHOLDER_HPP_
 #define WINDOWSLIBHOLDER_HPP_
 
+#include <windows.h>
 #include <stdexcept>
 #include <string>
-#include <windows.h>
 
 #include "ILibHolder.hpp"
 
