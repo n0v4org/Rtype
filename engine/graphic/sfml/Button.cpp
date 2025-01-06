@@ -16,8 +16,7 @@ namespace zef {
                        const sf::Vector2f& size,
                        sf::Color textColor,
                        sf::Color bgColor,
-                       unsigned int charSize)
-        {
+                       unsigned int charSize) {
             _shape.setPosition(position);
             _shape.setSize(size);
             _shape.setFillColor(bgColor);
@@ -33,34 +32,30 @@ namespace zef {
             _text.setPosition(textPosX, textPosY);
         }
 
-        void Button::draw(sf::RenderTarget& target)
-        {
+        void Button::draw(sf::RenderTarget& target) {
+            target.draw(_shape);
+            target.draw(_text);
         }
 
-        bool Button::isClicked(const sf::Vector2i& mousePos) const
-        {
+
+        bool Button::isClicked(const sf::Vector2i& mousePos) const {
             return false;
         }
 
-        void Button::setBackgroundColor(const sf::Color& color)
-        {
+        void Button::setBackgroundColor(const sf::Color& color) {
         }
 
-        void Button::setTextColor(const sf::Color& color)
-        {
+        void Button::setTextColor(const sf::Color& color) {
         }
 
-        void Button::setPosition(const sf::Vector2f& position)
-        {
+        void Button::setPosition(const sf::Vector2f& position) {
         }
 
-        sf::Vector2f Button::getPosition() const
-        {
+        sf::Vector2f Button::getPosition() const {
             return {};
         }
 
-        sf::Vector2f Button::getSize() const
-        {
+        sf::Vector2f Button::getSize() const {
             return {};
         }
 
