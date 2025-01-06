@@ -158,13 +158,13 @@ namespace zef {
           for (auto &&[n, ags] : p._components) {
             std::vector<std::any> pargs;
             for (auto &&ag : ags) {
-              if (ag.is_number_float())
+              if (ag.is_number_float()) {
                 pargs.push_back(ag.get<float>());
-              else if (ag.is_number())
+              } else if (ag.is_number()) {
                 pargs.push_back(ag.get<int>());
-              else if (ag.is_string())
+              } else if (ag.is_string()) {
                 pargs.push_back(ag.get<std::string>());
-              else if (ag.is_object()) {
+              } else if (ag.is_object()) {
                 std::string in = ag["input"];
                 std::cout << in << std::endl;
                 std::string type = p._inputs.at(in);
@@ -175,7 +175,6 @@ namespace zef {
                   pargs.push_back(val);
                 if (type == "str")
                   pargs.push_back(val);
-
               }
             }
             addEntityComponent(new_entity, n, pargs);
