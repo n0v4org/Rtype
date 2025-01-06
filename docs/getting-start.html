@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Getting Started - R-Type Project</title>
+</head>
+<body>
+    <header>
+        <h1>Getting Started</h1>
+        <p>Set up and run the R-Type project offline.</p>
+    </header>
+
+    <main>
+        <section id="introduction">
+            <h2>Welcome</h2>
+            <p>Welcome to the <strong>R-Type Project</strong> offline documentation! This guide will help you set up the project on your local machine and run it successfully. Follow the steps below to get started.</p>
+        </section>
+
+        <section id="prerequisites">
+            <h2>Prerequisites</h2>
+            <p>Before you begin, make sure your environment meets the following requirements:</p>
+            <ul>
+                <li><strong>C++ Compiler</strong> (G++ or Clang)</li>
+                <li><strong>CMake</strong> (minimum version 3.15)</li>
+                <li><strong>Git</strong> for cloning the repository</li>
+                <li><strong>SFML</strong> library (version 2.5.1 or higher)</li>
+                <li><strong>vcpkg</strong> for dependency management</li>
+            </ul>
+            <p>For detailed installation steps, follow the instructions in the repository's <code>docs/setup-guide.html</code> file.</p>
+        </section>
+
+        <section id="installation">
+            <h2>Installation</h2>
+            <p>Follow these steps to set up and build the project:</p>
+
+            <h3>1. Clone the repository:</h3>
+            <pre><code>git clone https://github.com/n0v4org/Rtype.git
+cd Rtype</code></pre>
+
+            <h3>2. Set up dependencies with vcpkg:</h3>
+            <pre><code>git clone https://github.com/microsoft/vcpkg.git
+cd vcpkg
+./bootstrap-vcpkg.sh
+./vcpkg integrate install</code></pre>
+            <p>Return to the R-Type repository root and install the required libraries.</p>
+
+            <h3>3. Build the project:</h3>
+            <pre><code>./utils/build.sh</code></pre>
+        </section>
+
+        <section id="running-the-game">
+            <h2>Running the Game</h2>
+
+            <h3>1. Run the Server</h3>
+            <p>The server binary is named <code>r-type_server</code>. Use the following options:</p>
+            <pre><code>./build/r-type_server -h        # Show help mode
+./build/r-type_server -v        # Verbose mode
+./build/r-type_server -gp 50000 # Run game server on port 50000 (default)
+./build/r-type_server -lp 50002 # Run lobby server on port 50002 (default)</code></pre>
+
+            <h3>2. Run the Client</h3>
+            <p>The client binary is named <code>r-type_client</code>. Use the following options:</p>
+            <pre><code>./build/r-type_client -h                   # Show help mode
+./build/r-type_client -ip &lt;server_ip&gt;      # Specify server IP
+./build/r-type_client -sp 50000            # Specify server port (default 50000)
+./build/r-type_client -cp 50001            # Specify client port (default 50001)
+./build/r-type_client -lsp 50003           # Specify lobby server port (default 50003)
+./build/r-type_client -lcp 50004           # Specify lobby client port (default 50004)</code></pre>
+        </section>
+
+        <section id="project-structure">
+            <h2>Project Structure</h2>
+            <p>Here is an overview of the project structure:</p>
+            <pre><code>r-type/
+├── client/            # Source code for the client
+├── server/            # Source code for the server
+├── engine/            # Core game engine logic (game loop, physics, rendering)
+├── network/           # Network communication logic (sockets, protocols)
+├── docs/              # Documentation files
+├── assets/            # Game assets (sprites, sounds, etc.)
+├── build/             # Compiled binaries and build files
+└── CMakeLists.txt     # Build configuration file</code></pre>
+        </section>
+
+        <section id="troubleshooting">
+            <h2>Troubleshooting</h2>
+
+            <h3>CMake version error:</h3>
+            <pre><code>cmake --version</code></pre>
+            <p>Ensure CMake is version 3.15 or higher. Update it if necessary.</p>
+
+            <h3>vcpkg or SFML not found:</h3>
+            <pre><code>./vcpkg integrate install
+./vcpkg install sfml</code></pre>
+            <p>Make sure vcpkg is integrated and the SFML library is installed.</p>
+
+            <h3>Compilation issues:</h3>
+            <pre><code>g++ --version</code></pre>
+            <p>Ensure your compiler supports C++17 or higher.</p>
+        </section>
+
+        <section id="next-steps">
+            <h2>Next Steps</h2>
+            <p>Now that your project is up and running, explore the following sections available in the <code>docs/</code> folder:</p>
+            <ul>
+                <li><a href="engine.html">Engine Overview</a>: Learn about the engine architecture.</li>
+                <li><a href="graphical.html">Graphical Module</a>: Details about the graphical implementation.</li>
+                <li><a href="protocol.html">Protocol Reference</a>: Learn about the communication protocols.</li>
+                <li><a href="server.html">Server Details</a>: Information about the server implementation.</li>
+                <li><a href="assets.html">Contribution Guide</a>: Guidelines for contributing to the project.</li>
+                <li><a href="cicd.html">Contribution Guide</a>: Guidelines for contributing to the project.</li>
+            </ul>
+            <p>Enjoy building and improving the R-Type Project! 🚀</p>
+        </section>
+    </main>
+</body>
+</html>
