@@ -18,6 +18,19 @@ namespace zef {
                        sf::Color bgColor,
                        unsigned int charSize)
         {
+            _shape.setPosition(position);
+            _shape.setSize(size);
+            _shape.setFillColor(bgColor);
+
+            _text.setString(text);
+            _text.setFont(font);
+            _text.setCharacterSize(charSize);
+            _text.setFillColor(textColor);
+
+            sf::FloatRect textBounds = _text.getLocalBounds();
+            float textPosX = position.x + (size.x / 2.f) - (textBounds.width / 2.f);
+            float textPosY = position.y + (size.y / 2.f) - (textBounds.height / 1.4f);
+            _text.setPosition(textPosX, textPosY);
         }
 
         void Button::draw(sf::RenderTarget& target)
