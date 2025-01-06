@@ -10,7 +10,7 @@
 
 #include <string>
 #include <map>
-#include "./IDisplayModule.hpp"
+#include "IDisplayModule.hpp"
 
 namespace zef{
     namespace graph{
@@ -139,7 +139,6 @@ namespace zef{
                   file.close();
                 };
 
-
                 virtual void storeAssetsPNG(std::string assetPath)=0;
                 virtual void storeAssetsWAV(std::string assetPath)=0;
                 virtual void storeAssetsTTF(std::string assetPath)=0;
@@ -159,7 +158,6 @@ namespace zef{
 
                 virtual UserInput getEvent() = 0;
                 virtual void updateUserInputs(utils::UserInputs& ui) = 0;
-
                 void updateSettings(std::string SettingName, std::string SettingValue) override{
                 	_settings[SettingName] = SettingValue;
                 };
