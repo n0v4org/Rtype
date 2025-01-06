@@ -50,6 +50,11 @@ namespace rtype {
           std::cout << test.getCommand().a << " " << test.getCommand().b << " "
                     << test.getCommand().c << std::endl;
         }
+        if (!_network->get_tcp_server()->isQueueEmpty()) {
+          input_t data = _network->get_tcp_server()->popMessage();
+          std::cout << "cmd : " << data.tcp_cmd << " payload: " << data.tcp_payload << " " << data.id << std::endl;
+          _network->get_tcp_server()->send(data.id, "caca");
+        }
       }
     } catch (const std::exception& e) {
       std::cerr << e.what() << '\n';

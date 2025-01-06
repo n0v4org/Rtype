@@ -11,8 +11,11 @@
 #include <iostream>
 #include <memory>
 #include <string>
+#include <vector>
 #include <asio.hpp>
 #include "Connection.hpp"
+#include "queue.hpp"
+#include "Input.hpp"
 
 using asio::ip::tcp;
 
@@ -21,35 +24,20 @@ namespace network {
 
 class Server {
 public:
+  input_t popMessage();
+  bool isQueueEmpty();
   Server(asio::io_context&, int);
+  void send(int idx, std::string cmd);
+  void assign_id(int id);
 
 private:
-  void start_accept()
-  {
-    Connection::pointer new_connection =
-      Connection::create(io_context_);
-
-    acceptor_.async_accept(new_connection->socket(),
-        std::bind(&Server::handle_accept, this, new_connection,
-          asio::placeholders::error));
-  }
-
+  void start_accept();
   void handle_accept(Connection::pointer new_connection,
-      const std::error_code& error)
-  {
-    if (!error)
-    {
-      new_connection->start();
-    }
-    std::cout << "Connection " << std::endl;
-
-    start_accept();
-  }
-
+      const std::error_code& error);
   asio::io_context& io_context_;
   tcp::acceptor acceptor_;
+  std::vector<Connection::pointer> _clients;
 };
-
     } // namespace tcp_link
 } //namespace network
 

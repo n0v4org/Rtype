@@ -34,7 +34,7 @@ namespace network {
 
       template<typename T>
       void send(int idx, int cmd, T payload) {
-          std::array<uint8_t, 1024> message = Commands<T>::toArray(payload, cmd, _sequence_id);;
+          std::array<uint8_t, 1024> message = Commands<T>::toArray(payload, cmd, _sequence_id);
           _socket.async_send_to(
           asio::buffer(message), _clients[idx],
           [this](const std::error_code& ec, std::size_t bytes_transferred) {

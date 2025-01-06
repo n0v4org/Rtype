@@ -19,6 +19,7 @@ class Network_server {
     public:
         Network_server(int, int);
         std::shared_ptr<game::Server> get_udp_server() const;
+        std::shared_ptr<tcp_link::Server> get_tcp_server() const;
         ~Network_server();
 
     protected:

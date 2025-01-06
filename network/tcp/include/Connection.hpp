@@ -10,8 +10,12 @@
 
 #include <string>
 #include <memory>
+#include <mutex>
+#include <deque>
 #include <iostream>
 #include <asio.hpp>
+#include "Input.hpp"
+#include "queue.hpp"
 #include "Commands/FactoryCmd.hpp"
 
 using asio::ip::tcp;
@@ -20,6 +24,7 @@ static const char CMD_NOT_FOUND[] = "500 cmd not found";
 
 namespace network {
   namespace tcp_link {
+
     class Connection : public std::enable_shared_from_this<Connection> {
     public:
       typedef std::shared_ptr<Connection> pointer;
@@ -44,6 +49,10 @@ namespace network {
         write("200");
       }
 
+      void assign_id(int id) {
+        _id = id;
+      }
+
     private:
       explicit Connection(asio::io_context& io_context) : socket_(io_context) {
       }
@@ -61,10 +70,16 @@ namespace network {
         read();
       }
 
-      void handle_read(const std::error_code& /*error*/,
+      void handle_read(const std::error_code& ec/*error*/,
                        size_t bytes_transferred) {
         try {
           std::string input(_data, bytes_transferred);
+          if (ec) {
+            std::cerr << "Error reading from socket: " << ec.message()
+                      << std::endl;
+            return;
+          }
+          }
           int cmd_len = 0;
           if (input.find(" ") != std::string::npos)
             cmd_len = input.find(" ");
@@ -72,14 +87,29 @@ namespace network {
             cmd_len = input.length();
 
           std::string cmd = input.substr(0, cmd_len);
-          ltrim(cmd);
-          rtrim(cmd);
-          std::cout << cmd << std::endl;
-         // push in queue here
+          std::string payload =  input.substr(cmd_len);
+          trim(cmd);
+          trim(payload);
+
+          input_t message = {
+            .protocol_type = TCP_CMD,
+            .tcp_cmd = cmd,
+            .tcp_payload = payload,
+            .id = _id,
+          };
+          {
+          std::lock_guard<std::mutex> lock(_mutex);
+          tcp_command_queue.push_back(message);
+        }
           read();
         } catch (const std::invalid_argument& e) {
           write(CMD_NOT_FOUND);
         }
+      }
+
+      inline void trim(std::string& s) {
+        ltrim(s);
+        rtrim(s);
       }
 
       inline void ltrim(std::string& s) {
@@ -98,6 +128,7 @@ namespace network {
       asio::ip::tcp::socket socket_;
       std::string message_;
       char _data[1024];
+      int _id;
     };
   }  // namespace tcp_link
 }  // namespace network

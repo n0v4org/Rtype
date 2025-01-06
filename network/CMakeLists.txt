@@ -10,6 +10,7 @@ set(SRCS
     udp/src/Client.cpp
     tcp/src/Server.cpp
     tcp/src/Client.cpp
+    tcp/src/queue.cpp
     src/Network_server.cpp
     src/Network_client.cpp
 )

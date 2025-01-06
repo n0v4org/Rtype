@@ -30,6 +30,7 @@ namespace network {
       std::copy(_recv_buffer_.begin() + 7,
                 _recv_buffer_.begin() + 7 + input.payload_size,
                 input.payload.begin());
+      input.protocol_type = UDP_CMD;
       return input;
     }
 

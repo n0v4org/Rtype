@@ -22,6 +22,10 @@ std::shared_ptr<game::Server> Network_server::get_udp_server() const {
     return _server_udp;
 }
 
+std::shared_ptr<tcp_link::Server> Network_server::get_tcp_server() const {
+    return _server_tcp;
+}
+
 Network_server::~Network_server()
 {
 }
