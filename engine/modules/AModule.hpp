@@ -9,7 +9,6 @@
 #define AMODULE_HPP_
 
 #include <typeindex>
-#include <boost/type_index.hpp>
 #include "IModule.hpp"
 #include "Engine.hpp"
 
