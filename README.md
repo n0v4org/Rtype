@@ -98,7 +98,7 @@ If you do not have an internet connection, you can find an offline version of th
 To access it:
 
 1. Navigate to the `docs` directory in the project root.
-2. Open the `index.html` file in your browser.
+2. Open the `getting-start.html` file in your browser.
 
 The offline documentation includes:
 
