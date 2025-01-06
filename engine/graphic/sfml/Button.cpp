@@ -55,14 +55,22 @@ namespace zef {
         }
 
         void Button::setPosition(const sf::Vector2f& position) {
+            _shape.setPosition(position);
+            
+            sf::FloatRect bounds = _shape.getGlobalBounds();
+            sf::FloatRect textBounds = _text.getLocalBounds();
+
+            float textPosX = bounds.left + (bounds.width / 2.f) - (textBounds.width / 2.f);
+            float textPosY = bounds.top  + (bounds.height / 2.f) - (textBounds.height / 1.4f);
+            _text.setPosition(textPosX, textPosY);
         }
 
         sf::Vector2f Button::getPosition() const {
-            return {};
+            return _shape.getPosition();
         }
 
         sf::Vector2f Button::getSize() const {
-            return {};
+            return _shape.getSize();
         }
 
     } // namespace graph
