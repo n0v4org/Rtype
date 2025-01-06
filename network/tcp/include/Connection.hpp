@@ -16,7 +16,6 @@
 #include <asio.hpp>
 #include "Input.hpp"
 #include "queue.hpp"
-#include "Commands/FactoryCmd.hpp"
 
 using asio::ip::tcp;
 

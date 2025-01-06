@@ -11,10 +11,8 @@
 #include <memory>
 #include <asio.hpp>
 #include "Arguments.hpp"
-#include "Lobby.hpp"
 #include "Client.hpp"
 #include "Network_client.hpp"
-#include "networking/TcpClient.hpp"
 
 namespace client {
 

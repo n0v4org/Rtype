@@ -12,7 +12,6 @@
 #include <thread>
 #include "Arguments.hpp"
 #include "Network_client.hpp"
-#include "Lobby.hpp"
 #include "Core.hpp"
 #include "Commands.hpp"
 #include "macro.hpp"
