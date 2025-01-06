@@ -20,7 +20,7 @@ namespace zef{
             public:
                 ADisplayModule()=default;
                 virtual ~ADisplayModule()=default;
-                virtual void initialize(std::string assetFolderPath, std::string windowName) = 0;
+                virtual void initialize(std::string assetFolderPath, std::string windowName, std::pair<int,int> windowSize = {1920,1080}) = 0;
                 virtual void stop() = 0;
                 virtual void clear() = 0;
                 virtual void refresh() = 0;

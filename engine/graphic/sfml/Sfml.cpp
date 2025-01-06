@@ -12,15 +12,16 @@
 namespace zef{
     namespace graph{
 
-  void Sfml::initialize(std::string assetFolderPath, std::string windowName) {
+  void Sfml::initialize(std::string assetFolderPath, std::string windowName, std::pair<int,int> windowSize) {
 
+    _windowSize = windowSize;
     _window.create(sf::VideoMode(_windowSize.first, _windowSize.second), windowName.c_str());
     if (!_window.isOpen()) {
       throw WindowCreationException();
     }
     _window.setFramerateLimit(60);
-    sf::View view({0, 0}, {1920, 1080});
-    sf::View HUD({0, 0}, {1920, 1080});
+    sf::View view({0, 0}, {float(_windowSize.first), float(_windowSize.second)});
+    sf::View HUD({0, 0}, {float(_windowSize.first), float(_windowSize.second)});
 //    view.setCenter(0, 0);
 //    HUD.setCenter(0,0);
 	_views["Default"] = view;
@@ -235,12 +236,10 @@ namespace zef{
     _sounds.find(soundName)->second.first.setVolume(volume);
     std::cout << soundName << std::endl;
     _sounds.find(soundName)->second.first.play();
-
   }
 
   void Sfml::saveAnimation(std::string animationName, std::string spriteSheetName, std::size_t startTileX, std::size_t startTileY, std::size_t tileSizeX, std::size_t tileSizeY) {
       Animation_t animation{spriteSheetName, {startTileX, startTileY}, {tileSizeX, tileSizeY}};
-
       _animations[animationName.c_str()] = animation;
   }
 
