@@ -12,10 +12,8 @@
 #include <vector>
 #include <string>
 
-
-
 namespace zef {
-    class Engine;
+  class Engine;
   class IModule {
   public:
     IModule() {
@@ -23,9 +21,11 @@ namespace zef {
     virtual ~IModule() {
     }
 
-    virtual void registerComponents(Engine& engine) = 0;
-    virtual void registerSystems(Engine& engine)    = 0;
-    virtual void emplaceComponent(Engine& engine, size_t e, const std::string& name, std::vector<std::any> args) = 0;
+    virtual void registerComponents(Engine& engine)           = 0;
+    virtual void registerSystems(Engine& engine)              = 0;
+    virtual void emplaceComponent(Engine& engine, size_t e,
+                                  const std::string& name,
+                                  std::vector<std::any> args) = 0;
   };
 }  // namespace zef
 

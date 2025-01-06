@@ -7,12 +7,10 @@
 
 #include "proute.hpp"
 
+extern "C" zef::IModule* entryPoint() {
+  return new ProuteModule;
 
-  extern "C" zef::IModule* entryPoint() {
-
-    return new ProuteModule;
-
-    /*return new zef::AModule<
-        zef::Component<proute, int, float, double>
-      >;*/
-  }
+  /*return new zef::AModule<
+      zef::Component<proute, int, float, double>
+    >;*/
+}

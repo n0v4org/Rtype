@@ -16,32 +16,24 @@
 
 #include <nlohmann/json.hpp>
 
-
-
-
-
 namespace zef {
-
-  
 
   class Patron {
   public:
     Patron() = default;
 
-    void setName(const std::string& name) {
+    void setName(const std::string &name) {
       _name = name;
     }
 
     std::string _name;
     std::map<std::string, nlohmann::json> _components;
     std::map<std::string, std::string> _inputs;
-
   };
 
   class PatronParser {
   public:
-
-    static Patron parse(const std::string& filename) {
+    static Patron parse(const std::string &filename) {
       Patron ret;
       nlohmann::json j;
       std::ifstream ifs(filename);
@@ -59,8 +51,6 @@ namespace zef {
 
       return ret;
     }
-
-
   };
 }  // namespace zef
 

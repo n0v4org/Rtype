@@ -21,8 +21,8 @@ namespace zef {
     explicit LibHolder(const std::string &filename) {
       _handle = LoadLibrary(("./lib" + filename + ".dll").c_str())
 
-      if (!_handle) {
-          throw std::runtime_error("Error while opening lib: " + filename);
+          if (!_handle) {
+        throw std::runtime_error("Error while opening lib: " + filename);
       }
     }
     ~LibHolder() {
@@ -30,8 +30,9 @@ namespace zef {
     }
 
     T *getEntryPoint() {
-        auto fun = reinterpret_cast<T*(*)()>(GetProcAddress(_handle, "entryPoint"));
-        return fun();
+      auto fun =
+          reinterpret_cast<T *(*)()>(GetProcAddress(_handle, "entryPoint"));
+      return fun();
     }
 
   private:

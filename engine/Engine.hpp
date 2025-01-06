@@ -111,13 +111,15 @@ namespace zef {
     }
 
     template <typename... T>
-    void addEntityComponent(ecs::Entity const& e, const std::string& name, T... args) {
-      for (auto &&[n, rtc] : _runtime_modules) {
+    void addEntityComponent(ecs::Entity const& e, const std::string& name,
+                            T... args) {
+      for (auto&& [n, rtc] : _runtime_modules) {
         rtc->emplaceComponent(*this, e, name, {args...});
       }
     }
-    void addEntityComponent(ecs::Entity const& e, const std::string& name, std::vector<std::any> args) {
-      for (auto &&[n, rtc] : _runtime_modules) {
+    void addEntityComponent(ecs::Entity const& e, const std::string& name,
+                            std::vector<std::any> args) {
+      for (auto&& [n, rtc] : _runtime_modules) {
         rtc->emplaceComponent(*this, e, name, args);
       }
     }
@@ -143,21 +145,21 @@ namespace zef {
       return instanciatePatron(name, {args...});
     }
 
-    ecs::Entity instanciatePatron(const std::string& name, std::vector<std::any> args) {
+    ecs::Entity instanciatePatron(const std::string& name,
+                                  std::vector<std::any> args) {
       ecs::Entity new_entity = reg.spawn_entity();
       for (auto&& p : _patrons) {
         if (p._name == name) {
-
           std::map<std::string, std::any> ipt;
           int incr = 0;
-          for (auto &&[n, t] : p._inputs) {
+          for (auto&& [n, t] : p._inputs) {
             ipt[n] = args[incr++];
           }
-          
-          std::cout << "instanciating :" << name  << std::endl;
-          for (auto &&[n, ags] : p._components) {
+
+          std::cout << "instanciating :" << name << std::endl;
+          for (auto&& [n, ags] : p._components) {
             std::vector<std::any> pargs;
-            for (auto &&ag : ags) {
+            for (auto&& ag : ags) {
               if (ag.is_number_float()) {
                 pargs.push_back(ag.get<float>());
               } else if (ag.is_number()) {
@@ -168,7 +170,7 @@ namespace zef {
                 std::string in = ag["input"];
                 std::cout << in << std::endl;
                 std::string type = p._inputs.at(in);
-                std::any val = ipt.at(in);
+                std::any val     = ipt.at(in);
                 if (type == "int")
                   pargs.push_back(val);
                 if (type == "float")
@@ -178,7 +180,6 @@ namespace zef {
               }
             }
             addEntityComponent(new_entity, n, pargs);
-
           }
         }
       }
@@ -239,7 +240,7 @@ namespace zef {
         elapsed = std::chrono::duration_cast<std::chrono::microseconds>(
             std::chrono::high_resolution_clock::now() - clock);
         clock = std::chrono::high_resolution_clock::now();
-        //std::cout << i++ << std::endl;
+        // std::cout << i++ << std::endl;
 
         if (GraphLib)
           GraphLib->clear();
@@ -300,23 +301,25 @@ namespace zef {
     }
 
     void loadModule(const std::string& name) {
-      _runtime_lib_holder.push_back(std::make_unique<LibHolder<IModule>>("module" + name));
-      _runtime_modules[name] = std::unique_ptr<IModule>(_runtime_lib_holder.at(_runtime_lib_holder.size() - 1)->getEntryPoint());
-      
+      _runtime_lib_holder.push_back(
+          std::make_unique<LibHolder<IModule>>("module" + name));
+      _runtime_modules[name] = std::unique_ptr<IModule>(
+          _runtime_lib_holder.at(_runtime_lib_holder.size() - 1)
+              ->getEntryPoint());
+
       _runtime_modules[name]->registerComponents(*this);
       _runtime_modules[name]->registerSystems(*this);
-
     }
 
     void loadModules() {
       for (const auto& entry : std::filesystem::directory_iterator("./")) {
         std::string mdname = entry.path().filename().string();
         if (mdname.rfind("libmodule", 0) == 0) {
-          std::string str = mdname.substr(9);
-          auto f = str.find_last_of('.');
+          std::string str  = mdname.substr(9);
+          auto f           = str.find_last_of('.');
           std::string name = str.substr(0, f);
           loadModule(name);
-        } 
+        }
       }
     }
 
@@ -347,9 +350,9 @@ namespace zef {
     std::map<std::string, std::function<void(Engine&)>> _scenes;
     std::string _next_scene = "";
 
-    std::vector<std::unique_ptr<zef::ILibHolder<zef::IModule>>> _runtime_lib_holder;
+    std::vector<std::unique_ptr<zef::ILibHolder<zef::IModule>>>
+        _runtime_lib_holder;
     std::map<std::string, std::unique_ptr<zef::IModule>> _runtime_modules;
-
 
     std::vector<Patron> _patrons;
   };

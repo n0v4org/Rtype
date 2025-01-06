@@ -12,43 +12,43 @@
 #include "AModule.hpp"
 #include "Engine.hpp"
 
-  class proute {
-  public:
-    proute(int p, float o, float d) : puissance(p), odeur(o), degat(d) {
-      std::cout << "nouveau pet !" << std::endl;
-    }
+class proute {
+public:
+  proute(int p, float o, float d) : puissance(p), odeur(o), degat(d) {
+    std::cout << "nouveau pet !" << std::endl;
+  }
 
-    int puissance;
-    float odeur;
-    float degat;
-  };
+  int puissance;
+  float odeur;
+  float degat;
+};
 
-  class pipi {
-  public:
-    explicit pipi(int d) : degat(d) {
-      std::cout << "nouveau pipi !" << std::endl;
-    }
+class pipi {
+public:
+  explicit pipi(int d) : degat(d) {
+    std::cout << "nouveau pipi !" << std::endl;
+  }
 
-    int degat;
-  };
+  int degat;
+};
 
+class ProuteModule
+  : public zef::AModule<zef::Component<proute, int, float, float>,
+                        zef::Component<pipi, int> > {
+public:
+  ProuteModule() : AModule() {
+  }
+  ~ProuteModule() = default;
 
-  class ProuteModule : public zef::AModule<
-      zef::Component<proute, int, float, float>,
-      zef::Component<pipi, int>
-    > {
-      public:
-        ProuteModule() : AModule() {}
-        ~ProuteModule() = default;
-
-        void registerSystems(zef::Engine &engine) {
-          engine.addSystem<proute>([](zef::Engine &engine, ecs::sparse_array<proute> &proutes){
-            for (auto &&[i, p] : ecs::indexed_zipper(proutes)) {
-              std::cout << "Puissance: " << p.puissance << ", Odeur: " << p.odeur << ", Damage: " << p.degat << std::endl;
-            }
-          });
-        }
-  };
-
+  void registerSystems(zef::Engine &engine) {
+    engine.addSystem<proute>(
+        [](zef::Engine &engine, ecs::sparse_array<proute> &proutes) {
+          for (auto &&[i, p] : ecs::indexed_zipper(proutes)) {
+            std::cout << "Puissance: " << p.puissance << ", Odeur: " << p.odeur
+                      << ", Damage: " << p.degat << std::endl;
+          }
+        });
+  }
+};
 
 #endif /* !PROUTE_HPP_ */
