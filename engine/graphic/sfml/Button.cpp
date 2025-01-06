@@ -39,7 +39,11 @@ namespace zef {
 
 
         bool Button::isClicked(const sf::Vector2i& mousePos) const {
-            return false;
+            sf::Vector2f mouseFloatPos(
+                static_cast<float>(mousePos.x),
+                static_cast<float>(mousePos.y)
+            );
+            return _shape.getGlobalBounds().contains(mouseFloatPos);
         }
 
         void Button::setBackgroundColor(const sf::Color& color) {
