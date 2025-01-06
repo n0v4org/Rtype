@@ -14,6 +14,7 @@
 #include <string>
 #include <map>
 #include <vector>
+#include <cmath>
 #include <filesystem>
 #include <fstream>
 #include <sstream>
@@ -54,6 +55,33 @@ namespace zef{
           std::pair<std::size_t,std::size_t> StartPos;
           std::pair<std::size_t,std::size_t> Size;
         } Animation_t;
+
+        typedef struct Particle{
+          int posX;
+          int posY;
+          int velocity;
+          float direction;
+          int lifeTime;
+        } Particle_t;
+
+        typedef struct ParticleEmmiter{
+          std::string spriteSheet;
+          int posX;
+          int posY;
+
+          int density;
+          int velocity;
+          int lifeTime;
+
+          float scaleX;
+          float scaleY;
+          float rotation;
+          RGBA_t mask;
+          std::vector<std::string> objectShaders;
+          bool addActive;
+
+          std::vector<Particle_t> particles;
+        } ParticleEmmiter_t;
 
         typedef struct DrawableSprite{
             std::string AnimationName;
@@ -108,8 +136,20 @@ namespace zef{
 
                 virtual void saveAnimation(std::string animationName, std::string spriteSheetName, std::size_t startTileX, std::size_t startTileY, std::size_t tileSizeX, std::size_t tileSizeY) = 0;
 
-                virtual void setCamera(int x, int y, int z)=0;
-                virtual void moveCamera(int x, int y, float z)=0;
+                virtual void setActiveShaders(std::vector<std::string> shaderList = {"None"}) = 0;
+                virtual std::vector<std::string> getActiveShaders() = 0;
+
+                virtual void addParticleEmmiter(
+                    std::string emmiterName, std::string particleSprite,
+                    int posX, int posY,
+                    int density = 10, int velocity = 4, int lifetime = 1000,
+                    float scaleX = 1, float scaleY = 1,
+                    float rotation = 0, RGBA mask = {1,1,1,1},
+                    std::vector<std::string> objectShaders = {"None"}, bool addActive = true)=0;
+                virtual void removeParticleEmmiter(std::string emmiterName) = 0;
+
+                virtual void setCamera(int x, int y, int z) = 0;
+                virtual void moveCamera(int x, int y, float z) = 0;
 
                 virtual UserInput getEvent() = 0;
                 virtual void updateUserInputs(utils::UserInputs& ui) = 0;

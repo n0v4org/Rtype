@@ -61,7 +61,7 @@ namespace zef{
                 RGBA colorBlindMask;
 
                 sf::Color colorBlindness(RGBA mask);
-                void drawShaders(sf::Sprite sprite);
+                void drawParticleEmmiters();
 
                 sf::RenderWindow _window;
                 std::pair<int,int> _windowSize= std::make_pair(1920,1080);

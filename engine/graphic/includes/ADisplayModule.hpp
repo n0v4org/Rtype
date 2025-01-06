@@ -170,6 +170,10 @@ namespace zef{
                 std::map<std::string, WAV> _sounds;
                 std::map<std::string, TTF> _fonts;
                 std::map<std::string, SHAD> _shaders;
+
+                std::map<std::string, Animation_t> _animations;
+                std::map<std::string, std::string> _settings;
+                std::map<std::string, ParticleEmmiter_t> _particleEmmiters;
             private:
 
 };

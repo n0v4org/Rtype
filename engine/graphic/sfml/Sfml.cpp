@@ -32,11 +32,44 @@ namespace zef{
   }
 
   void Sfml::refresh() {
-    _window.setView(_views["Default"]);
-//    _window.draw(_views["Default"]);
-    _window.setView(_views["HUD"]);
-//    _window.draw(_views["HUD"]);
+    drawParticleEmmiters();
     _window.display();
+  }
+
+  void Sfml::drawParticleEmmiters() {
+    for (auto particleEmmiter : _particleEmmiters) {
+      for (int i =0; i < particleEmmiter.second.density; i++) {
+
+        _particleEmmiters[particleEmmiter.first].particles[i].posX += _particleEmmiters[particleEmmiter.first].particles[i].velocity * cos(_particleEmmiters[particleEmmiter.first].particles[i].direction);
+        _particleEmmiters[particleEmmiter.first].particles[i].posY += _particleEmmiters[particleEmmiter.first].particles[i].velocity * sin(_particleEmmiters[particleEmmiter.first].particles[i].direction);
+        _sprites[particleEmmiter.second.spriteSheet].first.setColor(sf::Color::Blue);
+
+        _particleEmmiters[particleEmmiter.first].particles[i].lifeTime -= rand()%10;
+
+        if (_particleEmmiters[particleEmmiter.first].particles[i].lifeTime <= 0){
+          _particleEmmiters[particleEmmiter.first].particles[i].posX = 0;
+          _particleEmmiters[particleEmmiter.first].particles[i].posY = 0;
+          _particleEmmiters[particleEmmiter.first].particles[i].lifeTime = _particleEmmiters[particleEmmiter.first].lifeTime;
+
+        }
+
+
+        drawSprite(
+            _particleEmmiters[particleEmmiter.first].spriteSheet,
+            0,
+            _particleEmmiters[particleEmmiter.first].posX + _particleEmmiters[particleEmmiter.first].particles[i].posX,
+            _particleEmmiters[particleEmmiter.first].posY + _particleEmmiters[particleEmmiter.first].particles[i].posY,
+            _particleEmmiters[particleEmmiter.first].scaleX,
+            _particleEmmiters[particleEmmiter.first].scaleY,
+            _particleEmmiters[particleEmmiter.first].rotation,
+            _particleEmmiters[particleEmmiter.first].mask,
+            _particleEmmiters[particleEmmiter.first].objectShaders,
+            _particleEmmiters[particleEmmiter.first].addActive
+        );
+//        _sprites[particleEmmiter.second.spriteSheet].first.setPosition(_particleEmmiters[particleEmmiter.first].posX + _particleEmmiters[particleEmmiter.first].particles[i].posX, _particleEmmiters[particleEmmiter.first].posY + _particleEmmiters[particleEmmiter.first].particles[i].posY);
+//        _window.draw(_sprites[particleEmmiter.second.spriteSheet].first);
+      }
+    }
   }
 
   void Sfml::clear() {
