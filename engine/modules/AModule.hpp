@@ -13,6 +13,25 @@
 #include "IModule.hpp"
 #include "Engine.hpp"
 
+#ifdef __GNUG__
+#include <cxxabi.h>
+#include <memory>
+
+std::string demangle(const char* mangled_name) {
+    int status = 0;
+    std::unique_ptr<char, void(*)(void*)> demangled(
+        abi::__cxa_demangle(mangled_name, nullptr, nullptr, &status),
+        std::free
+    );
+    return (status == 0) ? demangled.get() : mangled_name;
+}
+#else
+
+std::string demangle(const char* name) {
+    return name;
+}
+#endif
+
 namespace zef {
   
 
@@ -20,7 +39,7 @@ namespace zef {
   class Component {
     public:
       static std::string getType() {
-        std::cout << "Pretty Name: " << boost::typeindex::type_id<Comp>().pretty_name() << std::endl;
+        std::cout << "Pretty Name: " << demangle(typeid(Comp).name()) << std::endl;
         return boost::typeindex::type_id<Comp>().pretty_name();
       }
 
