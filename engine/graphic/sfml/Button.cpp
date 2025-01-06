@@ -47,9 +47,11 @@ namespace zef {
         }
 
         void Button::setBackgroundColor(const sf::Color& color) {
+            _shape.setFillColor(color);
         }
 
         void Button::setTextColor(const sf::Color& color) {
+            _text.setFillColor(color);
         }
 
         void Button::setPosition(const sf::Vector2f& position) {
