@@ -14,18 +14,28 @@
 
   class proute {
   public:
-    proute(int p, float o, double d) : puissance(p), odeur(o), degat(d) {
+    proute(int p, float o, float d) : puissance(p), odeur(o), degat(d) {
       std::cout << "nouveau pet !" << std::endl;
     }
 
     int puissance;
     float odeur;
-    double degat;
+    float degat;
+  };
+
+  class pipi {
+  public:
+    pipi(int d) : degat(d) {
+      std::cout << "nouveau pipi !" << std::endl;
+    }
+
+    int degat;
   };
 
 
   class ProuteModule : public zef::AModule<
-      zef::Component<proute, int, float, double>
+      zef::Component<proute, int, float, float>,
+      zef::Component<pipi, int>
     > {
       public:
         ProuteModule() : AModule() {}

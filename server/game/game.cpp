@@ -32,12 +32,10 @@ void runServer(int port) {
 
     engine.initGraphLib("../Assets", "");
 
-    engine.GraphLib->clear();
-
     engine.GraphLib->saveAnimation("ship", "image", 0, 0, 65, 66);
 
     engine.initServer(port);
-
+/*
     engine.registerCommand(CONNECT, [](zef::Engine& engine, input_t input) {
         engine.ServerSend<CommandSpawnPlayer>(input.id, SPAWNPLAYER, {static_cast<size_t>(input.id)}); 
         engine.instanciatePatron<PlayerPatron>(0.0f, 0.0f, input.id);
@@ -106,7 +104,7 @@ void runServer(int port) {
         }
     });
 
-    
+    */
     engine.registerComponent<zef::comp::position>();
     engine.registerComponent<zef::comp::vector>();
     engine.registerComponent<zef::comp::drawable>();
@@ -150,9 +148,9 @@ void runServer(int port) {
     engine.addSystem<zef::comp::drawable>(zef::sys::update_animations);
     engine.addSystem<zef::comp::drawable, zef::comp::position>(zef::sys::draw_drawables);
 
-    ecs::Entity e = engine.reg.spawn_entity();
+    engine.loadPatron("../Assets/config/patronPlayer.json");
+    engine.instanciatePatron("Player", 3, 4.5f, 56.90f);
 
-    engine.addEntityComponent(e, "proute", 3, 4.1f, 4.222);
 
     engine.registerScene<LevelScene>("level");
     engine.registerScene<LobbyScene>("lobby");

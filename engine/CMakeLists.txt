@@ -13,6 +13,7 @@ set(SRC
 add_library(zefir STATIC ${SRC})
 
 find_package(asio REQUIRED CONFIG)
+find_package(nlohmann_json REQUIRED)
 
 target_include_directories(zefir PUBLIC 
     ${CMAKE_CURRENT_SOURCE_DIR}/

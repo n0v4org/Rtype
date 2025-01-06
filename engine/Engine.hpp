@@ -32,6 +32,7 @@
 
 #include "IModule.hpp"
 #include "LibHolder.hpp"
+#include "Patron.hpp"
 
 // #include "Scene.hpp"
 // #include "Patron.hpp"
@@ -115,6 +116,11 @@ namespace zef {
         rtc->emplaceComponent(*this, e, name, {args...});
       }
     }
+    void addEntityComponent(ecs::Entity const& e, const std::string& name, std::vector<std::any> args) {
+      for (auto &&[n, rtc] : _runtime_modules) {
+        rtc->emplaceComponent(*this, e, name, args);
+      }
+    }
 
     template <typename Component>
     void removeEntityComponent(ecs::Entity const& e) {
@@ -131,6 +137,57 @@ namespace zef {
       ecs::Entity new_entity = reg.spawn_entity();
       Patron::instanciate(*this, new_entity, args...);
       return new_entity;
+    }
+    template <typename... T>
+    ecs::Entity instanciatePatron(const std::string& name, T... args) {
+      return instanciatePatron(name, {args...});
+    }
+
+    ecs::Entity instanciatePatron(const std::string& name, std::vector<std::any> args) {
+      ecs::Entity new_entity = reg.spawn_entity();
+      for (auto&& p : _patrons) {
+        if (p._name == name) {
+
+          std::map<std::string, std::any> ipt;
+          int incr = 0;
+          for (auto &&[n, t] : p._inputs) {
+            ipt[n] = args[incr++];
+          }
+          
+          std::cout << "instanciating :" << name  << std::endl;
+          for (auto &&[n, ags] : p._components) {
+            std::vector<std::any> pargs;
+            for (auto &&ag : ags) {
+              if (ag.is_number_float())
+                pargs.push_back(ag.get<float>());
+              else if (ag.is_number())
+                pargs.push_back(ag.get<int>());
+              else if (ag.is_string())
+                pargs.push_back(ag.get<std::string>());
+              else if (ag.is_object()) {
+                std::string in = ag["input"];
+                std::cout << in << std::endl;
+                std::string type = p._inputs.at(in);
+                std::any val = ipt.at(in);
+                if (type == "int")
+                  pargs.push_back(val);
+                if (type == "float")
+                  pargs.push_back(val);
+                if (type == "str")
+                  pargs.push_back(val);
+
+              }
+            }
+            addEntityComponent(new_entity, n, pargs);
+
+          }
+        }
+      }
+      return new_entity;
+    }
+
+    void loadPatron(const std::string& fname) {
+      _patrons.push_back(PatronParser::parse(fname));
     }
 
     template <typename Scene>
@@ -293,6 +350,9 @@ namespace zef {
 
     std::vector<std::unique_ptr<zef::ILibHolder<zef::IModule>>> _runtime_lib_holder;
     std::map<std::string, std::unique_ptr<zef::IModule>> _runtime_modules;
+
+
+    std::vector<Patron> _patrons;
   };
 
   namespace sys {
