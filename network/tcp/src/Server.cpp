@@ -31,6 +31,7 @@ Server::Server(asio::io_context& io_context, int port)
   {
     if (!error)
     {
+      std::cout << "New connection" << std::endl;
       _clients.push_back(new_connection);
       new_connection->start();
       new_connection->assign_id(_clients.size() - 1);

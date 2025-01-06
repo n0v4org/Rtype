@@ -79,10 +79,10 @@ namespace network {
                       << std::endl;
             return;
           }
-          int cmd_len = 0;
+         int cmd_len = 0;
           if (input.find(" ") != std::string::npos)
             cmd_len = input.find(" ");
-          else
+          else 
             cmd_len = input.length();
 
           std::string cmd = input.substr(0, cmd_len);

@@ -28,7 +28,6 @@ public:
   bool isQueueEmpty();
   Server(asio::io_context&, int);
   void send(int idx, std::string cmd);
-  void assign_id(int id);
 
 private:
   void start_accept();

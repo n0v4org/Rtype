@@ -27,8 +27,7 @@ namespace client {
   protected:
   private:
     std::unique_ptr<Arguments> _params;
-    std::unique_ptr<network::Network_client> _client_udp;
-    std::shared_ptr<network::lobby::Client> _tcp_client;
+    std::unique_ptr<network::Network_client> _network;
   };
 
 }  // namespace client

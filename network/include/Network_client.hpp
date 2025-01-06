@@ -10,21 +10,28 @@
 
 #include <memory>
 #include <string>
+#include <thread>
 #include <asio.hpp>
 #include "Client.hpp"
+#include "../tcp/include/Client.hpp"
 
 namespace network {
 
 class Network_client {
     public:
-        Network_client(int, int, std::string);
+        Network_client(int, int, int, std::string);
         std::shared_ptr<game::Client> get_udp_client() const;
+        std::shared_ptr<tcp_link::Client> get_tcp_client() const;
+        input_t popMessage();
+        bool isQueueEmpty();
         ~Network_client();
 
     protected:
     private:
         std::shared_ptr<game::Client> _client_udp;
+        std::shared_ptr<tcp_link::Client> _client_tcp;
       asio::io_context _io_service;
+      std::thread t;
 };
 }  // namespace Network_server
 
