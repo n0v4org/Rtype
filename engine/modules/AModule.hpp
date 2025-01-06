@@ -9,16 +9,15 @@
 #define AMODULE_HPP_
 
 #include <typeindex>
-#include <memory>
 #include <iostream>
 #include <string>
+#include <memory>
 #include <vector>
 #include "IModule.hpp"
 #include "Engine.hpp"
 
 #ifdef __GNUG__
 #include <cxxabi.h>
-#include <memory>
 
 std::string demangle(const char* mangled_name) {
     int status = 0;
