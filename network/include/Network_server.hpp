@@ -20,6 +20,8 @@ class Network_server {
         Network_server(int, int);
         std::shared_ptr<game::Server> get_udp_server() const;
         std::shared_ptr<tcp_link::Server> get_tcp_server() const;
+        input_t popMessage();
+        bool isQueueEmpty();
         ~Network_server();
 
     protected:

@@ -79,7 +79,6 @@ namespace network {
                       << std::endl;
             return;
           }
-          }
           int cmd_len = 0;
           if (input.find(" ") != std::string::npos)
             cmd_len = input.find(" ");

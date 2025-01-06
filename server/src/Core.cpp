@@ -44,16 +44,18 @@ namespace rtype {
         return;
       }
       while (1) {
-        if (!_network->get_udp_server()->isQueueEmpty()) {
-          network::game::Commands<struct test> test =
-              network::game::Commands<struct test>(_network->get_udp_server()->popMessage());
-          std::cout << test.getCommand().a << " " << test.getCommand().b << " "
+        if (!_network->isQueueEmpty()) {
+          input_t data = _network->popMessage();
+
+          if (data.protocol_type == TCP_CMD) {
+            std::cout << "cmd : " << data.tcp_cmd << " payload: " << data.tcp_payload << " " << data.id << std::endl;
+            _network->get_tcp_server()->send(data.id, "caca");
+          } else {
+              network::game::Commands<struct test> test =
+              network::game::Commands<struct test>(data);
+              std::cout << test.getCommand().a << " " << test.getCommand().b << " "
                     << test.getCommand().c << std::endl;
-        }
-        if (!_network->get_tcp_server()->isQueueEmpty()) {
-          input_t data = _network->get_tcp_server()->popMessage();
-          std::cout << "cmd : " << data.tcp_cmd << " payload: " << data.tcp_payload << " " << data.id << std::endl;
-          _network->get_tcp_server()->send(data.id, "caca");
+          }
         }
       }
     } catch (const std::exception& e) {

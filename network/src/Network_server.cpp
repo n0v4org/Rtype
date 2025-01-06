@@ -26,6 +26,20 @@ std::shared_ptr<tcp_link::Server> Network_server::get_tcp_server() const {
     return _server_tcp;
 }
 
+input_t Network_server::popMessage() {
+  if (!_server_udp->isQueueEmpty()) {
+    return _server_udp->popMessage();
+  }
+  if (!_server_tcp->isQueueEmpty()) {
+    return _server_tcp->popMessage();
+  }
+  return {};
+}
+
+bool Network_server::isQueueEmpty() {
+  return _server_udp->isQueueEmpty() && _server_tcp->isQueueEmpty();
+}
+
 Network_server::~Network_server()
 {
 }
