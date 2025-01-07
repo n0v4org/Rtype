@@ -69,7 +69,7 @@ namespace network {
         read();
       }
 
-      void handle_read(const std::error_code& ec/*error*/,
+      void handle_read(const std::error_code& ec /*error*/,
                        size_t bytes_transferred) {
         try {
           std::string input(_data, bytes_transferred);
@@ -78,32 +78,32 @@ namespace network {
                       << std::endl;
             return;
           }
-         int cmd_len = 0;
+          int cmd_len = 0;
           if (input.find(" ") != std::string::npos)
             cmd_len = input.find(" ");
-          else 
+          else
             cmd_len = input.length();
 
-          std::string cmd = input.substr(0, cmd_len);
-          std::string payload =  input.substr(cmd_len);
+          std::string cmd     = input.substr(0, cmd_len);
+          std::string payload = input.substr(cmd_len);
           trim(cmd);
           trim(payload);
 
           input_t message = {
-            .cmd = 0,
-            .payload_size = 0,
-            .seq = 0,
-            .id = _id,
-            .payload = {},
+              .cmd          = 0,
+              .payload_size = 0,
+              .seq          = 0,
+              .id           = _id,
+              .payload      = {},
 
-            .tcp_cmd = cmd,
-            .tcp_payload = payload,
-            .protocol_type = TCP_CMD,
+              .tcp_cmd       = cmd,
+              .tcp_payload   = payload,
+              .protocol_type = TCP_CMD,
           };
           {
-          std::lock_guard<std::mutex> lock(_mutex);
-          tcp_command_queue.push_back(message);
-        }
+            std::lock_guard<std::mutex> lock(_mutex);
+            tcp_command_queue.push_back(message);
+          }
           read();
         } catch (const std::invalid_argument& e) {
           write(CMD_NOT_FOUND);

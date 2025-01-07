@@ -35,7 +35,7 @@ void runServer(int port) {
 
   engine.GraphLib->saveAnimation("ship", "image", 0, 0, 65, 66);
 
-  //engine.initServer(port);
+  // engine.initServer(port);
   /*
       engine.registerCommand(CONNECT, [](zef::Engine& engine, input_t input) {
           engine.ServerSend<CommandSpawnPlayer>(input.id, SPAWNPLAYER,
