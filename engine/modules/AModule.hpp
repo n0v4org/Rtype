@@ -13,6 +13,8 @@
 #include <string>
 #include <memory>
 #include <vector>
+#include <functional>
+
 #include "IModule.hpp"
 #include "Engine.hpp"
 
@@ -75,8 +77,17 @@ namespace zef {
       ((Components::selfRegister(engine)), ...);
     }
 
-    
+
     virtual void registerSystems(Engine& engine) = 0;
+
+
+    template<typename ...Args, typename Function>
+    void addSystem(Function &&f) {
+      _systems.push_back([f](Engine &engine) {
+        engine.addSystem<Args...>(f);
+      });
+    }
+
 
     void emplaceComponent(Engine& engine, size_t e, const std::string& name,
                           std::vector<std::any> args) {
@@ -88,7 +99,7 @@ namespace zef {
        ...);
     }
 
-    int u;
+    std::vector<std::function<void(Engine&)>> _systems;
   };
 }  // namespace zef
 

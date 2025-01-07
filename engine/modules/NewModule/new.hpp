@@ -20,7 +20,7 @@ public:
 
   int in;
   float fl;
-  double dou;
+  float dou;
 };
 
 class comp2 {
@@ -34,7 +34,7 @@ public:
 
 class NewModule
   : public zef::AModule<
-    zef::Component<comp1, int, float, double>,
+    zef::Component<comp1, int, float, float>,
     zef::Component<comp2, int>
   > {
 public:

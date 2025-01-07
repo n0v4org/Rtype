@@ -161,7 +161,7 @@ void runServer(int port) {
       zef::sys::draw_drawables);
 
   engine.loadPatron("../Assets/config/patronPlayer.json");
-  engine.instanciatePatron("Player", 3, 4.5f, 56.90);
+  engine.instanciatePatron("Player", 3, 4.5f, 56.90f);
 
   engine.registerScene<LevelScene>("level");
   engine.registerScene<LobbyScene>("lobby");
