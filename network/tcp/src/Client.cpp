@@ -33,9 +33,8 @@ namespace network {
       return message;
     }
 
-Client::~Client()
-{
-    close();
-}
-    } // namespace tcp_link
-} //namespace network
+    Client::~Client() {
+      close();
+    }
+  }  // namespace tcp_link
+}  // namespace network
