@@ -11,16 +11,16 @@
         },
         {
             "name" : "z",
-            "type": "float"
+            "type": "double"
         }
     ],
     "components" : [
         {
-            "name": "proute",
+            "name": "comp1",
             "args": [{"input": "x"}, {"input": "y"}, {"input": "z"}]
         },
         {
-            "name": "pipi",
+            "name": "comp2",
             "args": [2]
         }
     ]

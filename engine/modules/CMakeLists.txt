@@ -8,4 +8,4 @@ project(Rtype VERSION 1.0)
 #add_subdirectory(network/tcp)
 
 
-add_subdirectory(ProuteModule)
+add_subdirectory(NewModule)

@@ -133,7 +133,6 @@ void runServer(int port) {
   engine.registerComponent<PlayerReplacer>();
   engine.registerComponent<Monster>();
 
-  // engine.loadModule("proute");
 
   engine.reg.spawn_entity();
   engine.loadModules();
@@ -162,7 +161,7 @@ void runServer(int port) {
       zef::sys::draw_drawables);
 
   engine.loadPatron("../Assets/config/patronPlayer.json");
-  engine.instanciatePatron("Player", 3, 4.5f, 56.90f);
+  engine.instanciatePatron("Player", 3, 4.5f, 56.90);
 
   engine.registerScene<LevelScene>("level");
   engine.registerScene<LobbyScene>("lobby");
