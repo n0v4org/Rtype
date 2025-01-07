@@ -54,7 +54,7 @@ namespace rtype {
               network::game::Commands<struct test> test =
               network::game::Commands<struct test>(data);
               std::cout << test.getCommand().a << " " << test.getCommand().b << " "
-                    << test.getCommand().c << std::endl;
+                    << test.getCommand().c << " id is :" << data.id << std::endl;
           }
         }
       }

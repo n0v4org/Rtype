@@ -8,6 +8,8 @@
 #include <iostream>
 #include <cstdint>
 #include <asio.hpp>
+#include <algorithm>
+#include <vector>
 #include "Server.hpp"
 #include "Commands.hpp"
 
@@ -68,7 +70,8 @@ namespace network {
         if (f == _clients.end())
           throw std::runtime_error("client does not exist");
         input_t message = unpack(bytes_transferred, _recv_buffer_);
-
+        auto it = find(_clients.begin(), _clients.end(), _remote_endpoint_);
+        message.id = it - _clients.begin();
         {
           std::lock_guard<std::mutex> lock(_mutex);
           _command_queue.push_back(message);
