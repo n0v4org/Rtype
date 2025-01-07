@@ -5,6 +5,8 @@
 **
 */
 
+#include <iostream>
+
 #include "new.hpp"
 
 
