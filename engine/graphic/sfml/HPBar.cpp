@@ -1,4 +1,12 @@
+/*
+** EPITECH PROJECT, 2025
+** r-type
+** File description:
+** HPBar
+*/
+
 #include "HPBar.hpp"
+#include <algorithm>
 
 namespace zef {
     namespace graph {
@@ -8,6 +16,17 @@ namespace zef {
                      float initialValue,
                      const sf::Color& backgroundColor,
                      const sf::Color& foregroundColor) {
+                        _background.setPosition(position);
+                        _background.setSize(size);
+                        _background.setFillColor(backgroundColor);
+
+                        _foreground.setPosition(position);
+                        _foreground.setSize(size);
+                        _foreground.setFillColor(foregroundColor);
+                    
+                        _value = std::clamp(_value, 0.f, 100.f);
+
+                        updateForeground();
         }
 
         void HPBar::setValue(float newValue) {
@@ -23,6 +42,11 @@ namespace zef {
         }
 
         void HPBar::updateForeground() {
+            sf::Vector2f bgSize = _background.getSize();
+            float width = bgSize.x * (_value / 100.f);
+            float height = bgSize.y;
+
+            _foreground.setSize({width, height});
         }
     } // namespace graph
 } // namespace zef
