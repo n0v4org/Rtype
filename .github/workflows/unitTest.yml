@@ -25,7 +25,8 @@ jobs:
       - name: Install system dependencies
         run: |
           sudo apt update
-          sudo apt install -y g++ cmake curl zip unzip
+          sudo apt install -y g++ cmake curl zip unzip ninja-build \
+          libx11-dev libxrandr-dev libxcursor-dev libxi-dev libudev-dev libgl1-mesa-dev
 
       - name: Set up vcpkg
         run: |
@@ -46,6 +47,5 @@ jobs:
 
       - name: Run tests
         run: |
-          cd build
-          ./server/r-type_server_tests
-          ./client/r-type_client_tests
+          ./bin/r-type_server_tests
+          ./bin/r-type_client_tests

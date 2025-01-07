@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <cstdint>
+#include <vector>
 #include <asio.hpp>
 #include <algorithm>
 #include <vector>
@@ -45,14 +46,14 @@ namespace network {
       return message;
     }
 
-    // bool Server::is_registered() {
-    //   for (auto &i: _clients) {
-    //       if (i == _remote_endpoint_) {
-    //         return true;
-    //       }
-    //     }
-    //     return false;
-    // }
+    bool Server::is_registered() {
+      for (auto& i : _clients) {
+        if (i == _remote_endpoint_) {
+          return true;
+        }
+      }
+      return false;
+    }
 
     void Server::dispatch_client(const std::error_code& ec,
                                  std::size_t bytes_transferred) {
@@ -95,11 +96,10 @@ namespace network {
       _socket.close();
     }
 
-
     std::vector<int> Server::getAllIds() {
       std::vector<int> ret;
       int t = 0;
-      for (auto &i : _clients) {
+      for (auto& i : _clients) {
         ret.push_back(t);
         t++;
       }

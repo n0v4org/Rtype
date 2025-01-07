@@ -71,8 +71,8 @@ The project emphasizes advanced software engineering practices, including modula
 
 The project uses the following libraries:
 
-- 🛠️ **Boost.Asio** or equivalent for networking (server).
-- 🎨 **SFML/SDL** for rendering, input, and audio (client).
+- 🛠️ **Asio** or equivalent for networking (server).
+- 🎨 **SFML** for rendering, input, and audio (client).
 - ⚙️ Optional: **CMake FetchContent** or a package manager like **Conan** or **Vcpkg** to manage dependencies.
 
 All third-party dependencies must be bundled with the project or fetched during the build process.
@@ -82,22 +82,39 @@ All third-party dependencies must be bundled with the project or fetched during 
 ### 💻 Platform Support
 
 - 🖥️ **Windows**: Compiled with MSVC.
-- 🐧 **Linux**: Compiled with GCC.
-- 🌐 Cross-compilation supported with CMake and Docker.
+- 🐧 **Linux**: Compiled with G++.
+- 🌐 Cross-compilation supported with CMake.
 
 ---
 
 ### 📑 Documentation
 
-- 📚 Comprehensive documentation is included in the `docs` folder.
-- **Developer Documentation**:
-  - 🗂️ Architectural diagrams.
-  - 🛠️ Subsystem overviews.
-  - 📖 Tutorials and “How-To” guides.
-- **Protocol Documentation**:
-  - 📡 Details the binary protocol used for client-server communication.
+For a complete reference, see [the documentation hosted online](https://epitech-f1becc07.mintlify.app/introduction).
 
-For a complete reference, see the documentation hosted online (or provide the path/link if applicable).
+#### 📂 Offline Documentation
+
+If you do not have an internet connection, you can find an offline version of the documentation in the docs folder of the repository.
+
+To access it:
+
+1. Navigate to the `docs` directory in the project root.
+2. Open the `getting-start.html` file in your browser.
+
+The offline documentation includes:
+
+- Getting Started Guide
+
+- Engine Overview
+
+- Graphical Module
+
+- Protocol Reference
+
+- Server Details
+
+- Contribution Guide
+
+This ensures you can still refer to key project details even without an internet connection. 📖
 
 ---
 

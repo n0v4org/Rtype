@@ -13,8 +13,8 @@
 #include "Arguments.hpp"
 #include "Network_client.hpp"
 #include "Core.hpp"
-#include "Commands.hpp"
 #include "macro.hpp"
+#include "game.hpp"
 
 static const char USAGE[406] = R"(
 usage:

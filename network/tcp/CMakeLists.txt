@@ -1,6 +1,6 @@
-cmake_minimum_required(VERSION 3.30)
+cmake_minimum_required(VERSION 3.26)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 project(RtypeNetwork VERSION 1.0)
@@ -18,7 +18,7 @@ add_library( STATIC ${SRCS})
 
 find_package(asio REQUIRED CONFIG)
 
-find_package(nlohmann_json 3.2.0 REQUIRED)
+find_package(nlohmann_json REQUIRED)
 
 target_link_libraries( PRIVATE asio nlohmann_json::nlohmann_json)
 

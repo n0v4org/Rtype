@@ -13,6 +13,7 @@
 #include <thread>
 #include <deque>
 #include <mutex>
+#include <vector>
 #include <asio.hpp>
 #include "IServer.hpp"
 #include "Input.hpp"
@@ -42,6 +43,7 @@ namespace network {
           });
           _sequence_id++;
       }
+
       std::vector<int> getAllIds();
 
     private:
@@ -55,8 +57,9 @@ namespace network {
       udp::endpoint _remote_endpoint_;
       std::array<uint8_t, 1024> _recv_buffer_;
       std::deque<input_t> _command_queue;
-      std::mutex _mutex;
       std::vector<udp::endpoint> _clients;
+      bool is_registered();
+      std::mutex _mutex;
       int _sequence_id;
       bool _debug;
     };

@@ -50,7 +50,12 @@ vcpkg_installed
 Testing
 
 .vscode/
+.vs/
 
 megalinter-reports/
 
+bin
 
+engine/**/main.cpp
+
+engine/Assets
