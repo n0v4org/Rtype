@@ -77,17 +77,12 @@ namespace zef {
       ((Components::selfRegister(engine)), ...);
     }
 
-
     virtual void registerSystems(Engine& engine) = 0;
 
-
-    template<typename ...Args, typename Function>
-    void addSystem(Function &&f) {
-      _systems.push_back([f](Engine &engine) {
-        engine.addSystem<Args...>(f);
-      });
+    template <typename... Args, typename Function>
+    void addSystem(Function&& f) {
+      _systems.push_back([f](Engine& engine) { engine.addSystem<Args...>(f); });
     }
-
 
     void emplaceComponent(Engine& engine, size_t e, const std::string& name,
                           std::vector<std::any> args) {

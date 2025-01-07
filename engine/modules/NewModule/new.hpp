@@ -33,11 +33,8 @@ public:
   int degat;
 };
 
-class NewModule
-  : public zef::AModule<
-    zef::Component<comp1, int, float, float>,
-    zef::Component<comp2, int>
-  > {
+class NewModule : public zef::AModule<zef::Component<comp1, int, float, float>,
+                                      zef::Component<comp2, int> > {
 public:
   NewModule() : AModule() {
   }
