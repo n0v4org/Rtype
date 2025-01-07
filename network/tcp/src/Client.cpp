@@ -5,6 +5,8 @@
 ** Client
 */
 
+#include <string>
+
 #include "../include/Client.hpp"
 
 namespace network {

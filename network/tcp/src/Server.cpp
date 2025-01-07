@@ -5,6 +5,9 @@
 ** Server
 */
 
+#include <iostream>
+#include <string>
+
 #include "../include/Server.hpp"
 
 namespace network {

@@ -8,9 +8,9 @@
 #include <iostream>
 #include <cstdint>
 #include <vector>
-#include <asio.hpp>
 #include <algorithm>
 #include <vector>
+#include <asio.hpp>
 #include "Server.hpp"
 #include "Commands.hpp"
 

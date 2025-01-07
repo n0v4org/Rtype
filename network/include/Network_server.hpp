@@ -31,6 +31,6 @@ class Network_server {
       asio::io_context _io_service;
       std::thread t;
 };
-}  // namespace Network_server
+}  // namespace network
 
 #endif /* !Network_server_HPP_ */

@@ -48,4 +48,4 @@ Network_client::~Network_client()
 {
 }
 
-}  // namespace Network_server
+}  // namespace network
