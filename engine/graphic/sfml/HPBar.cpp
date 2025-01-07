@@ -35,6 +35,8 @@ namespace zef {
         }
 
         void HPBar::draw(sf::RenderTarget& target) {
+            target.draw(_background);
+            target.draw(_foreground);
         }
 
         void HPBar::setPosition(const sf::Vector2f& position) {
