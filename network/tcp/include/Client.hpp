@@ -61,12 +61,18 @@ class Client {
                 std::string payload =  input.substr(cmd_len);
                 trim(cmd);
                 trim(payload);
-
                 input_t message = {
-                  .protocol_type = TCP_CMD,
-                  .tcp_cmd = cmd,
-                  .tcp_payload = payload,
+                    .cmd = 0,
+                    .payload_size = 0,
+                    .seq = 0,
+                    .id = 0,
+                    .payload = {},
+
+                    .tcp_cmd = cmd,
+                    .tcp_payload = payload,
+                    .protocol_type = TCP_CMD,
                 };
+                
                      {
                       std::lock_guard<std::mutex> lock(_mutex);
                       _command_queue.push_back(message);

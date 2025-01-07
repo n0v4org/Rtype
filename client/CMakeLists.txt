@@ -50,8 +50,7 @@ add_executable(r-type_client_tests ${TEST} ${SRCS})
 
 target_link_libraries(r-type_client_tests PRIVATE
     GTest::gtest GTest::gtest_main
-    lobby_network
-    game_network
+    rtype_network
     zefir
     asio
     sfml-system

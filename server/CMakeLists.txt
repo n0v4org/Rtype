@@ -44,7 +44,7 @@ target_link_libraries(r-type_server PRIVATE
     sfml-window
     sfml-graphics
     sfml-audio
-    game_network
+    rtype_network
 )
 
 enable_testing()
@@ -60,7 +60,7 @@ target_link_libraries(r-type_server_tests PRIVATE
     sfml-window
     sfml-graphics
     sfml-audio
-    game_network
+    rtype_network
 )
 target_include_directories(r-type_server_tests PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/include

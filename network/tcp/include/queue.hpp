@@ -7,6 +7,7 @@
 
 #include <deque>
 #include <mutex>
+#include <array>
 #include "Input.hpp"
 
 

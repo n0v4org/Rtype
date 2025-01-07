@@ -260,41 +260,41 @@ namespace zef {
       }
     }
 
-    void initServer(int port) {
-      // network::game::Server s(ctx, 5456);
-      _server         = std::make_unique<network::game::Server>(_context, port);
-      _network_thread = std::thread([this]() { this->_context.run(); });
-    }
+    //void initServer(int port) {
+    //  // network::game::Server s(ctx, 5456);
+    //  _server         = std::make_unique<network::game::Server>(_context, port);
+    //  _network_thread = std::thread([this]() { this->_context.run(); });
+    //}
+//
+    //void initClient(int sport, int cport, std::string ip) {
+    //  _client =
+    //      std::make_unique<network::game::Client>(sport, cport, ip, _context);
+    //  _network_thread = std::thread([this]() { this->_context.run(); });
+    //}
 
-    void initClient(int sport, int cport, std::string ip) {
-      _client =
-          std::make_unique<network::game::Client>(sport, cport, ip, _context);
-      _network_thread = std::thread([this]() { this->_context.run(); });
-    }
+    //template <typename cmd>
+    //void ClientSend(int cmd_id, cmd c) {
+    //  input_t intt;
+    //  intt.cmd          = cmd_id;
+    //  intt.payload_size = sizeof(cmd);
+    //  intt.seq          = seq;
+    //  seq++;
+    //  _client->send(network::game::Commands<cmd>::toArray(c, intt));
+    //}
 
-    template <typename cmd>
-    void ClientSend(int cmd_id, cmd c) {
-      input_t intt;
-      intt.cmd          = cmd_id;
-      intt.payload_size = sizeof(cmd);
-      intt.seq          = seq;
-      seq++;
-      _client->send(network::game::Commands<cmd>::toArray(c, intt));
-    }
+    //template <typename cmd>
+    //void ServerSend(int id, int cmd_id, cmd c) {
+    //  input_t intt;
+    //  intt.cmd          = cmd_id;
+    //  intt.payload_size = sizeof(cmd);
+    //  intt.seq          = seq;
+    //  seq++;
+    //  _server->send(id, network::game::Commands<cmd>::toArray(c, intt));
+    //}
 
-    template <typename cmd>
-    void ServerSend(int id, int cmd_id, cmd c) {
-      input_t intt;
-      intt.cmd          = cmd_id;
-      intt.payload_size = sizeof(cmd);
-      intt.seq          = seq;
-      seq++;
-      _server->send(id, network::game::Commands<cmd>::toArray(c, intt));
-    }
-
-    template <typename cmd>
-    void ServerSendToAll(int cmd_id, cmd c) {
-    }
+    //template <typename cmd>
+    //void ServerSendToAll(int cmd_id, cmd c) {
+    //}
 
     void registerCommand(int cmd, std::function<void(Engine&, input_t)> fn) {
       _cmd_map[cmd] = fn;
@@ -324,8 +324,8 @@ namespace zef {
     }
 
     std::map<int, std::function<void(Engine&, input_t)>> _cmd_map;
-    std::unique_ptr<network::game::Server> _server;
-    std::unique_ptr<network::game::Client> _client;
+    //std::unique_ptr<network::game::Server> _server;
+    //std::unique_ptr<network::game::Client> _client;
     int seq = 0;
 
     size_t replicableId = 34;

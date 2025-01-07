@@ -90,10 +90,15 @@ namespace network {
           trim(payload);
 
           input_t message = {
-            .protocol_type = TCP_CMD,
+            .cmd = 0,
+            .payload_size = 0,
+            .seq = 0,
+            .id = _id,
+            .payload = {},
+
             .tcp_cmd = cmd,
             .tcp_payload = payload,
-            .id = _id,
+            .protocol_type = TCP_CMD,
           };
           {
           std::lock_guard<std::mutex> lock(_mutex);
