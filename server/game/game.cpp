@@ -25,7 +25,10 @@
 void runServer(int port) {
   std::cout << __cplusplus << std::endl;
 
+  std::cout << "wtfff\n";
+
   zef::Engine engine;
+  std::cout << "wtf\n";
   srand(time(NULL));
 
   engine.initGraphLib("../Assets", "");

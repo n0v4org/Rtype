@@ -20,8 +20,8 @@
 #include <iostream>
 #include <asio.hpp>
 
-#include "udp/include/Server.hpp"
-#include "udp/include/Client.hpp"
+#include "include/Network_client.hpp"
+#include "include/Network_server.hpp"
 
 #include "graphic/includes/IDisplayModule.hpp"
 #include "graphic/includes/ADisplayModule.hpp"
@@ -260,37 +260,24 @@ namespace zef {
       }
     }
 
-    //void initServer(int port) {
-    //  // network::game::Server s(ctx, 5456);
-    //  _server         = std::make_unique<network::game::Server>(_context, port);
-    //  _network_thread = std::thread([this]() { this->_context.run(); });
-    //}
+    void initServer(int udpport, int tcpport) {
+      _server         = std::make_unique<network::Network_server>(udpport, tcpport);
+    }
 //
-    //void initClient(int sport, int cport, std::string ip) {
-    //  _client =
-    //      std::make_unique<network::game::Client>(sport, cport, ip, _context);
-    //  _network_thread = std::thread([this]() { this->_context.run(); });
-    //}
+    void initClient(int tcpport, int clientport, int udpport, std::string ip) {
+      _client =
+          std::make_unique<network::Network_client>(udpport, clientport, tcpport, ip);
+    }
 
-    //template <typename cmd>
-    //void ClientSend(int cmd_id, cmd c) {
-    //  input_t intt;
-    //  intt.cmd          = cmd_id;
-    //  intt.payload_size = sizeof(cmd);
-    //  intt.seq          = seq;
-    //  seq++;
-    //  _client->send(network::game::Commands<cmd>::toArray(c, intt));
-    //}
+    template <typename payload>
+    void ClientSendUdp(int cmd_id, payload c) {
+      _client->get_udp_client()->send(c, cmd_id)     ; 
+    }
 
-    //template <typename cmd>
-    //void ServerSend(int id, int cmd_id, cmd c) {
-    //  input_t intt;
-    //  intt.cmd          = cmd_id;
-    //  intt.payload_size = sizeof(cmd);
-    //  intt.seq          = seq;
-    //  seq++;
-    //  _server->send(id, network::game::Commands<cmd>::toArray(c, intt));
-    //}
+    template <typename payload>
+    void ServerSendUdp(int id, int cmd_id, payload c) {
+      _server->get_udp_server()->send(id, cmd_id, c);
+    }
 
     //template <typename cmd>
     //void ServerSendToAll(int cmd_id, cmd c) {
@@ -324,14 +311,14 @@ namespace zef {
     }
 
     std::map<int, std::function<void(Engine&, input_t)>> _cmd_map;
-    //std::unique_ptr<network::game::Server> _server;
-    //std::unique_ptr<network::game::Client> _client;
+    std::unique_ptr<network::Network_server> _server;
+    std::unique_ptr<network::Network_client> _client;
     int seq = 0;
 
     size_t replicableId = 34;
 
-    asio::io_context _context;
-    std::thread _network_thread;
+
+    
 
     std::unique_ptr<zef::graph::IDisplayModule> GraphLib;
     std::chrono::high_resolution_clock::time_point
