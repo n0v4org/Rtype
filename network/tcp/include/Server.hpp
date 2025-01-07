@@ -20,24 +20,24 @@
 using asio::ip::tcp;
 
 namespace network {
-    namespace tcp_link {
+  namespace tcp_link {
 
-class Server {
-public:
-  input_t popMessage();
-  bool isQueueEmpty();
-  Server(asio::io_context&, int);
-  void send(int idx, std::string cmd);
+    class Server {
+    public:
+      input_t popMessage();
+      bool isQueueEmpty();
+      Server(asio::io_context&, int);
+      void send(int idx, std::string cmd);
 
-private:
-  void start_accept();
-  void handle_accept(Connection::pointer new_connection,
-      const std::error_code& error);
-  asio::io_context& io_context_;
-  tcp::acceptor acceptor_;
-  std::vector<Connection::pointer> _clients;
-};
-    } // namespace tcp_link
-} //namespace network
+    private:
+      void start_accept();
+      void handle_accept(Connection::pointer new_connection,
+                         const std::error_code& error);
+      asio::io_context& io_context_;
+      tcp::acceptor acceptor_;
+      std::vector<Connection::pointer> _clients;
+    };
+  }  // namespace tcp_link
+}  // namespace network
 
 #endif /* !SERVER_HPP_ */

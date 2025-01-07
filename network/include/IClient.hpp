@@ -12,14 +12,14 @@
 #include "Input.hpp"
 
 class IClient {
-    public:
-      virtual void close_connection() = 0;
-      virtual input_t popMessage() = 0;
-      virtual bool isQueueEmpty() = 0;
-      virtual void startReceive() = 0;
+public:
+  virtual void close_connection() = 0;
+  virtual input_t popMessage()    = 0;
+  virtual bool isQueueEmpty()     = 0;
+  virtual void startReceive()     = 0;
 
-    protected:
-    private:
+protected:
+private:
 };
 
-#endif // NETWORK_UDP_INCLUDE_ICLIENT_HPP_
+#endif  // NETWORK_UDP_INCLUDE_ICLIENT_HPP_

@@ -32,7 +32,6 @@ struct test {
 namespace rtype {
 
   Core::Core(char* argv[], int argc) {
-    
   }
 
   void Core::run() {
@@ -43,16 +42,15 @@ namespace rtype {
         return;
       }
       runServer(14000);
-      
+
     } catch (const std::exception& e) {
       std::cerr << e.what() << '\n';
-      
+
       return;
     }
   }
 
   Core::~Core() {
-    
   }
 
 }  // namespace rtype
