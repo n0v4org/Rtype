@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2025
 ** RTYPE
 ** File description:
-** 
+**
 */
 
 #include "new.hpp"

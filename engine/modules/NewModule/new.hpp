@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2025
 ** RTYPE
 ** File description:
-** 
+**
 */
 
 #ifndef NEW_HPP_
@@ -38,7 +38,8 @@ class NewModule
     zef::Component<comp2, int>
   > {
 public:
-  NewModule() : AModule() {}
+  NewModule() : AModule() {
+  }
   ~NewModule() = default;
 
   void registerSystems(zef::Engine &engine) {
