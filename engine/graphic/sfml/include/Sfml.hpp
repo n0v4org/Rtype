@@ -19,7 +19,7 @@
 #include <SFML/Window.hpp>
 #include <SFML/Audio.hpp>
 
-#include "ADisplayModule.hpp"
+#include "../../includes/ADisplayModule.hpp"
 
 namespace zef{
     namespace graph{
@@ -45,6 +45,7 @@ namespace zef{
                 void drawText(std::string textString, std::string fontName, std::size_t fontSize, int posX, int posY, float scaleX = 1, float scaleY = 1, float rotation = 0, RGBA mask = {1,1,1,1}) override;
                 void drawSpriteHUD(std::string animationName, std::size_t currentFrame, int posX, int posY, float scaleX = 1, float scaleY = 1, float rotation = 0, RGBA mask = {1,1,1,1}, std::vector<std::string> objectShaders={"None"}, bool addActive=true) override;
                 void drawTextHUD(std::string textString, std::string fontName, std::size_t fontSize, int posX, int posY, float scaleX = 1, float scaleY = 1, float rotation = 0, RGBA mask = {1,1,1,1}) override;
+                void drawButton(zef::graph::Button& button) override;
 
                 void playSound(std::string soundName, int volume = 50)override;
 

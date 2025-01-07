@@ -7,7 +7,7 @@
 
 #include <iostream>
 #include <string>
-#include "Sfml.hpp"
+#include "./include/Sfml.hpp"
 
 namespace zef{
     namespace graph{
@@ -262,6 +262,11 @@ namespace zef{
 
     _window.setView(_views["HUD"]);
     _window.draw(text);
+  }
+
+  void Sfml::drawButton(zef::graph::Button& button) {
+    _window.setView(_views["Default"]);
+    button.draw(_window);
   }
 
   void Sfml::playSound(std::string soundName, int volume){

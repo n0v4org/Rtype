@@ -21,6 +21,7 @@
 #include <iostream>
 
 #include "../../utils/inputsUtils.hpp"
+#include "../sfml/include/Button.hpp"
 
 namespace zef{
     namespace graph{
@@ -131,6 +132,7 @@ namespace zef{
                 virtual void drawText(std::string textString, std::string fontName, std::size_t fontSize, int posX, int posY, float scaleX = 1, float scaleY = 1, float rotation = 0, RGBA mask = {1,1,1,1}) = 0;
                 virtual void drawSpriteHUD(std::string animationName, std::size_t currentFrame, int posX, int posY, float scaleX = 1, float scaleY = 1, float rotation = 0, RGBA mask = {1,1,1,1}, std::vector<std::string> objectShaders={"None"}, bool addActive=true) = 0;
                 virtual void drawTextHUD(std::string textString, std::string fontName, std::size_t fontSize, int posX, int posY, float scaleX = 1, float scaleY = 1, float rotation = 0, RGBA mask = {1,1,1,1}) = 0;
+                virtual void drawButton(zef::graph::Button& button) = 0;
 
                 virtual void playSound(std::string soundName, int volume = 50) = 0;
 
