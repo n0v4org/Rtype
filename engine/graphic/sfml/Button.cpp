@@ -5,7 +5,7 @@
 ** Button
 */
 
-#include "Button.hpp"
+#include "./include/Button.hpp"
 
 namespace zef {
     namespace graph {
