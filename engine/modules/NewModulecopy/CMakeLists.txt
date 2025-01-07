@@ -16,7 +16,10 @@ target_include_directories(modulenew2 PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/
     ${CMAKE_CURRENT_SOURCE_DIR}/../
     ${CMAKE_CURRENT_SOURCE_DIR}/../../
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../../network/include
     ${CMAKE_CURRENT_SOURCE_DIR}/../../../network/
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../../network/udp/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../../network/tcp/include
     ${CMAKE_CURRENT_SOURCE_DIR}/../../libHolder
     ${CMAKE_CURRENT_SOURCE_DIR}/../../modules
     )

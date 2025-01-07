@@ -32,7 +32,8 @@ struct test {
 namespace rtype {
 
   Core::Core(char* argv[], int argc) {
-    
+    _args   = std::make_unique<Arguments>(argc, argv);
+    _network = std::make_unique<network::Network_server>(_args->get_game_port(), _args->get_lobby_port());
   }
 
   void Core::run() {
@@ -42,17 +43,30 @@ namespace rtype {
         std::cout << USAGE << std::endl;
         return;
       }
-      runServer(14000);
-      
+      while (1) {
+        if (!_network->isQueueEmpty()) {
+          input_t data = _network->popMessage();
+
+          if (data.protocol_type == TCP_CMD) {
+            std::cout << "cmd : " << data.tcp_cmd << " payload: " << data.tcp_payload << " " << data.id << std::endl;
+            _network->get_tcp_server()->send(data.id, "caca");
+          } else {
+              network::game::Commands<struct test> test =
+              network::game::Commands<struct test>(data);
+              std::cout << test.getCommand().a << " " << test.getCommand().b << " "
+                    << test.getCommand().c << " id is :" << data.id << std::endl;
+          }
+        }
+      }
     } catch (const std::exception& e) {
       std::cerr << e.what() << '\n';
-      
+      _network->get_udp_server()->close_connection();
       return;
     }
   }
 
   Core::~Core() {
-    
+    _network->get_udp_server()->close_connection();
   }
 
 }  // namespace rtype

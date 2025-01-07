@@ -18,6 +18,7 @@ find_package(nlohmann_json REQUIRED)
 target_include_directories(zefir PUBLIC 
     ${CMAKE_CURRENT_SOURCE_DIR}/
     ${CMAKE_CURRENT_SOURCE_DIR}/../network/
+    ${CMAKE_CURRENT_SOURCE_DIR}/../network/include
     ${CMAKE_CURRENT_SOURCE_DIR}/libHolder
     ${CMAKE_CURRENT_SOURCE_DIR}/modules/
 )
