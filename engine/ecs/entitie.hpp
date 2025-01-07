@@ -24,6 +24,7 @@ namespace ecs {
 
     explicit Entity(size_t val) : _value(val) {
     }
+
   private:
     size_t _value;
   };

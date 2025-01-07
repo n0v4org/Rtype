@@ -1,0 +1,27 @@
+{
+    "name": "Player",
+    "inputs" : [
+        {
+            "name" : "x",
+            "type": "int"
+        },
+        {
+            "name" : "y",
+            "type": "float"
+        },
+        {
+            "name" : "z",
+            "type": "float"
+        }
+    ],
+    "components" : [
+        {
+            "name": "comp1",
+            "args": [{"input": "x"}, {"input": "y"}, {"input": "z"}]
+        },
+        {
+            "name": "comp2",
+            "args": [2]
+        }
+    ]
+}

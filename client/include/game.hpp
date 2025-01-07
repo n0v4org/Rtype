@@ -8,6 +8,8 @@
 #ifndef GAME_HPP_
 #define GAME_HPP_
 
+#include <string>
+
 void runClient(int sport, int cport, std::string ip);
 
 #endif /* !GAME_HPP_ */

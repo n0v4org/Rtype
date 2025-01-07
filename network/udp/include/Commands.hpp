@@ -21,7 +21,7 @@ namespace network {
       input.cmd          = _recv_buffer_[0];
       input.payload_size = (_recv_buffer_[1] << 8) | _recv_buffer_[2];
       input.seq          = 0;
-      input.id = id;
+      input.id           = id;
       for (int i = 0; i < 4; i++) {
         input.seq = (input.seq << 8) | _recv_buffer_[3 + i];
       }

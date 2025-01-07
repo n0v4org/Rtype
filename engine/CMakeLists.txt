@@ -13,8 +13,22 @@ set(SRC
 add_library(zefir STATIC ${SRC})
 
 find_package(asio REQUIRED CONFIG)
+find_package(nlohmann_json REQUIRED)
 
-target_include_directories(zefir PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/ ${CMAKE_CURRENT_SOURCE_DIR}/../network/)
+target_include_directories(zefir PUBLIC 
+    ${CMAKE_CURRENT_SOURCE_DIR}/
+    ${CMAKE_CURRENT_SOURCE_DIR}/../network/
+    ${CMAKE_CURRENT_SOURCE_DIR}/libHolder
+    ${CMAKE_CURRENT_SOURCE_DIR}/modules/
+)
+
+    
+if(WIN32)
+    target_include_directories(zefir PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/libHolder/win)
+else()
+    target_include_directories(zefir PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/libHolder/linux)
+endif()
+
 
 
     

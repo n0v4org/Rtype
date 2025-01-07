@@ -13,6 +13,7 @@
 #include <thread>
 #include <deque>
 #include <mutex>
+#include <vector>
 #include <asio.hpp>
 #include "Input.hpp"
 #include "Commands.hpp"
