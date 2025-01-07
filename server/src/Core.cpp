@@ -10,7 +10,8 @@
 #include <thread>
 #include <memory>
 
-#include "../include/Core.hpp"
+#include "Network_server.hpp"
+#include "Core.hpp"
 #include "macro.hpp"
 #include "game.hpp"
 
@@ -31,11 +32,7 @@ struct test {
 namespace rtype {
 
   Core::Core(char* argv[], int argc) {
-    _args = std::make_unique<Arguments>(argc, argv);
-    // _server = std::make_unique<net::Server>(_args->get_game_port(),
-    //                                         _args->get_debug(), _io_service);
-    // _lobby = std::make_unique<network::lobby::Server>(
-    //     _args->get_lobby_port(), _args->get_debug(), _io_service);
+    
   }
 
   void Core::run() {
@@ -45,18 +42,17 @@ namespace rtype {
         std::cout << USAGE << std::endl;
         return;
       }
-
-      runServer(_args->get_game_port());
+      runServer(14000);
+      
     } catch (const std::exception& e) {
       std::cerr << e.what() << '\n';
-      // t.join();
-      //_server->close_connection();
+      
       return;
     }
   }
 
   Core::~Core() {
-    //  _server->close_connection();
+    
   }
 
 }  // namespace rtype

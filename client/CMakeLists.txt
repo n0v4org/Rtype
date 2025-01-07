@@ -19,6 +19,8 @@ set(TEST
 add_executable(r-type_client ${SRCS}  src/main.cpp)
 
 find_package(asio REQUIRED CONFIG)
+
+target_link_libraries(r-type_client PRIVATE asio rtype_network)
 find_package(SFML 2.6.2 COMPONENTS system window graphics audio  REQUIRED CONFIG)
 find_package(GTest CONFIG REQUIRED)
 
@@ -48,8 +50,7 @@ add_executable(r-type_client_tests ${TEST} ${SRCS})
 
 target_link_libraries(r-type_client_tests PRIVATE
     GTest::gtest GTest::gtest_main
-    lobby_network
-    game_network
+    rtype_network
     zefir
     asio
     sfml-system

@@ -19,6 +19,11 @@ set(TEST
 add_executable(r-type_server ${SRCS} src/main.cpp)
 
 find_package(asio REQUIRED CONFIG)
+
+target_link_libraries(r-type_server PRIVATE asio  rtype_network)
+
+target_include_directories(r-type_server PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+
 find_package(SFML 2.6.2 COMPONENTS system window graphics audio REQUIRED CONFIG)
 find_package(GTest CONFIG REQUIRED)
 
@@ -39,7 +44,7 @@ target_link_libraries(r-type_server PRIVATE
     sfml-window
     sfml-graphics
     sfml-audio
-    game_network
+    rtype_network
 )
 
 enable_testing()
@@ -55,7 +60,7 @@ target_link_libraries(r-type_server_tests PRIVATE
     sfml-window
     sfml-graphics
     sfml-audio
-    game_network
+    rtype_network
 )
 target_include_directories(r-type_server_tests PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/include

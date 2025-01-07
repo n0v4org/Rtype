@@ -11,6 +11,8 @@
 #include <memory>
 #include <asio.hpp>
 #include "Arguments.hpp"
+#include "Client.hpp"
+#include "Network_client.hpp"
 
 namespace client {
 
@@ -23,6 +25,7 @@ namespace client {
   protected:
   private:
     std::unique_ptr<Arguments> _params;
+    std::unique_ptr<network::Network_client> _network;
   };
 
 }  // namespace client

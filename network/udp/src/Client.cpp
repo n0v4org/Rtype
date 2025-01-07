@@ -29,17 +29,7 @@ namespace network {
       std::cout << "Connecting to: " << _server_endpoint.address().to_string()
                 << ":" << _server_endpoint.port() << " " << ip << std::endl;
 
-      // Start receiving asynchronously
       startReceive();
-    }
-
-    void Client::send(std::array<uint8_t, 1024> buff) {
-      try {
-        _socket.send_to(asio::buffer(buff), _server_endpoint);
-        _sequence_id++;
-      } catch (const std::exception &e) {
-        std::cerr << "Send error: " << e.what() << std::endl;
-      }
     }
 
     bool Client::isQueueEmpty() {
@@ -76,16 +66,11 @@ namespace network {
     void Client::handleReceive(const asio::error_code &error,
                                std::size_t bytes_transferred) {
       if (!error && bytes_transferred > 0) {
-        input_t receivedMessage = unpack(bytes_transferred, _recvBuffer, 0);
+        input_t receivedMessage = unpack(bytes_transferred, _recvBuffer);
         {
           std::lock_guard<std::mutex> lock(_mutex);
           _command_queue.push_back(receivedMessage);
         }
-
-        std::cout << "Received message: cmd="
-                  << static_cast<int>(receivedMessage.cmd)
-                  << ", seq=" << receivedMessage.seq << std::endl;
-
         startReceive();
       } else if (error) {
         std::cerr << "Receive error: " << error.message() << std::endl;

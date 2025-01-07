@@ -15,6 +15,7 @@
 #include <mutex>
 #include <vector>
 #include <asio.hpp>
+#include "IServer.hpp"
 #include "Input.hpp"
 #include "Commands.hpp"
 
@@ -23,7 +24,8 @@ using asio::ip::udp;
 namespace network {
   namespace game {
 
-    class Server {
+    class Server : public IServer
+    {
     public:
       Server(asio::io_context& context, int port);
 
@@ -31,8 +33,16 @@ namespace network {
       input_t popMessage();
       bool isQueueEmpty();
 
-      void send(int, std::array<uint8_t, 1024> message);
-      ~Server();
+      template<typename T>
+      void send(int idx, int cmd, T payload) {
+          std::array<uint8_t, 1024> message = Commands<T>::toArray(payload, cmd, _sequence_id);
+          _socket.async_send_to(
+          asio::buffer(message), _clients[idx],
+          [this](const std::error_code& ec, std::size_t bytes_transferred) {
+            handle_send(ec, bytes_transferred);
+          });
+          _sequence_id++;
+      }
 
       std::vector<int> getAllIds();
 
@@ -50,6 +60,7 @@ namespace network {
       std::vector<udp::endpoint> _clients;
       bool is_registered();
       std::mutex _mutex;
+      int _sequence_id;
       bool _debug;
     };
 
