@@ -264,9 +264,21 @@ namespace zef{
     _window.draw(text);
   }
 
-  void Sfml::drawHPBar(zef::graph::HPBar& bar) {
+  void Sfml::drawHPBar(float posX, float posY, 
+                     float width, float height,
+                     float value,
+                     sf::Color backgroundColor,
+                     sf::Color foregroundColor) {
       _window.setView(_views["Default"]);
-      bar.draw(_window);
+      _hpBar.draw(
+          _window,
+          _rectangle,
+          posX, posY,
+          width, height,
+          value,
+          backgroundColor,
+          foregroundColor
+      );
   }
 
   void Sfml::playSound(std::string soundName, int volume){

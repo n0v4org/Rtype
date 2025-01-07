@@ -45,7 +45,7 @@ namespace zef{
                 void drawText(std::string textString, std::string fontName, std::size_t fontSize, int posX, int posY, float scaleX = 1, float scaleY = 1, float rotation = 0, RGBA mask = {1,1,1,1}) override;
                 void drawSpriteHUD(std::string animationName, std::size_t currentFrame, int posX, int posY, float scaleX = 1, float scaleY = 1, float rotation = 0, RGBA mask = {1,1,1,1}, std::vector<std::string> objectShaders={"None"}, bool addActive=true) override;
                 void drawTextHUD(std::string textString, std::string fontName, std::size_t fontSize, int posX, int posY, float scaleX = 1, float scaleY = 1, float rotation = 0, RGBA mask = {1,1,1,1}) override;
-                void drawHPBar(zef::graph::HPBar& bar) override;
+                void drawHPBar(float posX, float posY, float width, float height, float value, sf::Color backgroundColor,sf::Color foregroundColor) override;
 
                 void playSound(std::string soundName, int volume = 50)override;
 
@@ -67,6 +67,7 @@ namespace zef{
                 void drawParticleEmmiters();
 
                 sf::RenderWindow _window;
+                HPBar _hpBar;
                 std::pair<int,int> _windowSize= std::make_pair(1920,1080);
                 std::map<std::string, sf::View> _views;
         };
