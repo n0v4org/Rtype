@@ -130,8 +130,8 @@ namespace zef {
     }
 
     template <class... Components, typename Function>
-    void addSystem(Function&& f) {
-      reg.add_system<Components...>(f);
+    void addSystem(const std::string &moduleName, Function&& f) {
+      reg.add_system<Components...>(moduleName, f);
     }
 
     template <typename Patron, typename... T>
@@ -308,6 +308,7 @@ namespace zef {
               ->getEntryPoint());
 
       _runtime_modules[name]->registerComponents(*this);
+      
       _runtime_modules[name]->registerSystems(*this);
     }
 

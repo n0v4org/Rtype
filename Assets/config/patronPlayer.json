@@ -20,8 +20,8 @@
             "args": [{"input": "x"}, {"input": "y"}, {"input": "z"}]
         },
         {
-            "name": "comp2",
-            "args": [2]
+            "name": "comppp1",
+            "args": [{"input": "x"}, {"input": "y"}, {"input": "z"}]
         }
     ]
 }

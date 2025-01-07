@@ -9,3 +9,4 @@ project(Rtype VERSION 1.0)
 
 
 add_subdirectory(NewModule)
+add_subdirectory(NewModulecopy)

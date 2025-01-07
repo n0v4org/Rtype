@@ -149,15 +149,23 @@ void runServer(int port) {
 
   // engine.addSystem<Player, zef::comp::replicable>(spawnEnemies);
 
-  engine.addSystem<zef::comp::collidable, zef::comp::position>(
+  engine.addSystem<zef::comp::collidable, zef::comp::position>("zefir",
       zef::sys::check_collidables);
   // engine.addSystem<zef::comp::event_listener>(zef::sys::resolveEvent);
 
   // engine.addSystem<Health>(handleHealth);
 
-  engine.addSystem<zef::comp::drawable>(zef::sys::update_animations);
+  engine.addSystem<zef::comp::drawable>("zefir", zef::sys::update_animations);
   engine.addSystem<zef::comp::drawable, zef::comp::position>(
-      zef::sys::draw_drawables);
+      "zefir", zef::sys::draw_drawables);
+
+    engine.addSystem<zef::comp::position>("zefir", [](zef::Engine &engine, ecs::sparse_array<zef::comp::position> &pos){
+        for (auto &&[p] : ecs::zipper(pos)) {
+            std::cout << "x: " << p.x << " y: " << p.y << std::endl;
+        }
+    });
+
+    engine.addEntityComponent<zef::comp::position>(engine.reg.spawn_entity(), 2.0f, 9.0f);
 
   engine.loadPatron("../Assets/config/patronPlayer.json");
   engine.instanciatePatron("Player", 3, 4.5f, 56.90f);
