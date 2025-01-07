@@ -35,6 +35,6 @@ input_t Client::popMessage() {
 Client::~Client()
 {
     close();
-};
+}
     } // namespace tcp_link
 } //namespace network
