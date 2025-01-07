@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2025
 ** RTYPE
 ** File description:
-** 
+**
 */
 
 #ifndef NEW_HPP_
@@ -32,13 +32,11 @@ public:
   int degat;
 };
 
-class NewModule
-  : public zef::AModule<
-    zef::Component<comp1, int, float, double>,
-    zef::Component<comp2, int>
-  > {
+class NewModule : public zef::AModule<zef::Component<comp1, int, float, double>,
+                                      zef::Component<comp2, int> > {
 public:
-  NewModule() : AModule() {}
+  NewModule() : AModule() {
+  }
   ~NewModule() = default;
 
   void registerSystems(zef::Engine &engine) {

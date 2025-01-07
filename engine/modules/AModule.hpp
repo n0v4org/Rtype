@@ -68,14 +68,13 @@ namespace zef {
   template <typename... Components>
   class AModule : public IModule {
   public:
-    AModule()          = default;
+    AModule()  = default;
     ~AModule() = default;
 
     void registerComponents(Engine& engine) {
       ((Components::selfRegister(engine)), ...);
     }
 
-    
     virtual void registerSystems(Engine& engine) = 0;
 
     void emplaceComponent(Engine& engine, size_t e, const std::string& name,

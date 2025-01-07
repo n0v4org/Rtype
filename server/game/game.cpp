@@ -133,7 +133,6 @@ void runServer(int port) {
   engine.registerComponent<PlayerReplacer>();
   engine.registerComponent<Monster>();
 
-
   engine.reg.spawn_entity();
   engine.loadModules();
 

@@ -309,8 +309,6 @@ namespace zef {
 
       _runtime_modules[name]->registerComponents(*this);
       _runtime_modules[name]->registerSystems(*this);
-      
-      
     }
 
     void loadModules() {
