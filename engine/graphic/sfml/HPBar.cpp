@@ -30,15 +30,22 @@ namespace zef {
         }
 
         void HPBar::setValue(float newValue) {
+            _value = std::clamp(newValue, 0.f, 100.f);
+            updateForeground();
         }
 
         void HPBar::draw(sf::RenderTarget& target) {
         }
 
         void HPBar::setPosition(const sf::Vector2f& position) {
+            _background.setPosition(position);
+            _foreground.setPosition(position);
+            updateForeground();
         }
 
         void HPBar::setSize(const sf::Vector2f& size) {
+            _background.setSize(size);
+            updateForeground();
         }
 
         void HPBar::updateForeground() {
