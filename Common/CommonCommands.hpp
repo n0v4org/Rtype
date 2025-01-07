@@ -25,7 +25,14 @@ enum Commands {
     SETALLYPOS,
     ASKPOSITION,
     SPAWNMONSTER,
-    KILLMONSTER
+    KILLMONSTER,
+    DEATH,
+    DEATHALLY
+};
+
+struct CommandDeath{};
+struct CommandDeatAlly{
+    size_t rep;
 };
 
 struct CommandSpawnMonster {

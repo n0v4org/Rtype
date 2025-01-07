@@ -17,9 +17,11 @@
 #include "modules/display/systems.hpp"
 #include "modules/movement/systems.hpp"
 #include "modules/network/systems.hpp"
+#include <random>
 
 void runServer(int port) {
     zef::Engine engine;
+    srand(time(NULL));
 
     engine.initGraphLib("Assets", "");
 
@@ -42,6 +44,9 @@ void runServer(int port) {
                 engine.ServerSend<CommandSpawnAlly>(input.id, SPAWNALLY, {pos.x, pos.y, rep._id});
         }
 
+        for (auto &&[m, rep, pos] : ecs::zipper(engine.reg.get_components<Monster>(), engine.reg.get_components<zef::comp::replicable>(), engine.reg.get_components<zef::comp::position>())) {
+            engine.ServerSend<CommandSpawnMonster>(input.id, SPAWNMONSTER, {rep._id, pos.x, pos.y});
+        }
 
     });
 
@@ -60,9 +65,6 @@ void runServer(int port) {
             if (rep._id != input.id) {
                 engine.ServerSend<CommandMoveAlly>(rep._id, MOVEALLY, {input.id, cmp.x, cmp.y});
             }
-        }
-        for (auto &&[m, rep, pos] : ecs::zipper(engine.reg.get_components<Monster>(), engine.reg.get_components<zef::comp::replicable>(), engine.reg.get_components<zef::comp::position>())) {
-            engine.ServerSend<CommandSpawnMonster>(input.id, SPAWNMONSTER, {rep._id, pos.x, pos.y});
         }
     });
 
@@ -121,6 +123,9 @@ void runServer(int port) {
     engine.addSystem<zef::comp::vector>(zef::sys::normalize_velocity_vectors);
     engine.addSystem<zef::comp::position, zef::comp::vector>(zef::sys::move);
     engine.addSystem<PlayerReplacer>(syncPlayers);
+
+    engine.addSystem<Player, zef::comp::replicable>(spawnEnemies);
+
     engine.addSystem<zef::comp::collidable, zef::comp::position>(zef::sys::check_collidables);
     engine.addSystem<zef::comp::event_listener>(zef::sys::resolveEvent);
 

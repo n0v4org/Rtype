@@ -30,7 +30,7 @@ namespace zef{
                 ~Sfml();
                 Sfml() {}
 
-                void initialize(std::string assetFolderPath, std::string windowName)override;
+                void initialize(std::string assetFolderPath, std::string windowName, std::pair<int,int> windowSize = {1920,1080})override;
                 void stop() override;
                 void clear() override;
                 void refresh() override;
@@ -41,9 +41,9 @@ namespace zef{
                 void storeAssetsTTF(std::string assetPath)override;
                 void storeAssetsSHAD(std::string assetPath)override;
 
-                void drawSprite(std::string animationName, std::size_t currentFrame, int posX, int posY, float scaleX = 1, float scaleY = 1, float rotation = 0, RGBA mask = {1,1,1,1}) override;
+                void drawSprite(std::string animationName, std::size_t currentFrame, int posX, int posY, float scaleX = 1, float scaleY = 1, float rotation = 0, RGBA mask = {1,1,1,1}, std::vector<std::string> objectShaders={"None"}, bool addActive=true) override;
                 void drawText(std::string textString, std::string fontName, std::size_t fontSize, int posX, int posY, float scaleX = 1, float scaleY = 1, float rotation = 0, RGBA mask = {1,1,1,1}) override;
-                void drawSpriteHUD(std::string animationName, std::size_t currentFrame, int posX, int posY, float scaleX = 1, float scaleY = 1, float rotation = 0, RGBA mask = {1,1,1,1}) override;
+                void drawSpriteHUD(std::string animationName, std::size_t currentFrame, int posX, int posY, float scaleX = 1, float scaleY = 1, float rotation = 0, RGBA mask = {1,1,1,1}, std::vector<std::string> objectShaders={"None"}, bool addActive=true) override;
                 void drawTextHUD(std::string textString, std::string fontName, std::size_t fontSize, int posX, int posY, float scaleX = 1, float scaleY = 1, float rotation = 0, RGBA mask = {1,1,1,1}) override;
 
                 void playSound(std::string soundName, int volume = 50)override;
@@ -60,8 +60,10 @@ namespace zef{
             private:
                 RGBA colorBlindMask;
 
+                void drawShaders(sf::Sprite sprite, const std::vector<std::string>& objectShaders, bool addActive);
+                void applyShaders(sf::Sprite& sprite, const std::vector<std::string>& shaderNames);
                 sf::Color colorBlindness(RGBA mask);
-                void drawShaders(sf::Sprite sprite);
+                void drawParticleEmmiters();
 
                 sf::RenderWindow _window;
                 std::pair<int,int> _windowSize= std::make_pair(1920,1080);

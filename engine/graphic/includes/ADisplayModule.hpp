@@ -10,7 +10,7 @@
 
 #include <string>
 #include <map>
-#include "./IDisplayModule.hpp"
+#include "IDisplayModule.hpp"
 
 namespace zef{
     namespace graph{
@@ -20,7 +20,7 @@ namespace zef{
             public:
                 ADisplayModule()=default;
                 virtual ~ADisplayModule()=default;
-                virtual void initialize(std::string assetFolderPath, std::string windowName) = 0;
+                virtual void initialize(std::string assetFolderPath, std::string windowName, std::pair<int,int> windowSize = {1920,1080}) = 0;
                 virtual void stop() = 0;
                 virtual void clear() = 0;
                 virtual void refresh() = 0;
@@ -139,39 +139,63 @@ namespace zef{
                   file.close();
                 };
 
-
                 virtual void storeAssetsPNG(std::string assetPath)=0;
                 virtual void storeAssetsWAV(std::string assetPath)=0;
                 virtual void storeAssetsTTF(std::string assetPath)=0;
                 virtual void storeAssetsSHAD(std::string assetPath)=0;
 
-                virtual void drawSprite(std::string animationName, std::size_t currentFrame, int posX, int posY, float scaleX = 1, float scaleY = 1, float rotation = 0, RGBA mask = {1,1,1,1}) = 0;
+                virtual void drawSprite(std::string animationName, std::size_t currentFrame, int posX, int posY, float scaleX = 1, float scaleY = 1, float rotation = 0, RGBA mask = {1,1,1,1}, std::vector<std::string> objectShaders={"None"}, bool addActive=true) = 0;
                 virtual void drawText(std::string textString, std::string fontName, std::size_t fontSize, int posX, int posY, float scaleX = 1, float scaleY = 1, float rotation = 0, RGBA mask = {1,1,1,1}) = 0;
-                virtual void drawSpriteHUD(std::string animationName, std::size_t currentFrame, int posX, int posY, float scaleX = 1, float scaleY = 1, float rotation = 0, RGBA mask = {1,1,1,1}) = 0;
+                virtual void drawSpriteHUD(std::string animationName, std::size_t currentFrame, int posX, int posY, float scaleX = 1, float scaleY = 1, float rotation = 0, RGBA mask = {1,1,1,1}, std::vector<std::string> objectShaders={"None"}, bool addActive=true) = 0;
                 virtual void drawTextHUD(std::string textString, std::string fontName, std::size_t fontSize, int posX, int posY, float scaleX = 1, float scaleY = 1, float rotation = 0, RGBA mask = {1,1,1,1}) = 0;
 
                 virtual void playSound(std::string soundName, int volume = 50) = 0;
 
                 virtual void saveAnimation(std::string animationName, std::string spriteSheetName, std::size_t startTileX, std::size_t startTileY, std::size_t tileSizeX, std::size_t tileSizeY) = 0;
 
+                virtual void setActiveShaders(std::vector<std::string> shaderList = {"None"}){
+                    _activeShaders = shaderList;
+                };
+                virtual std::vector<std::string> getActiveShaders(){
+                    return _activeShaders;
+                };
+
+                virtual void addParticleEmmiter(
+                    std::string emmiterName, std::string particleSprite,
+                    int posX, int posY,
+                    int density = 10, int velocity = 4, int lifetime = 1000,
+                    float scaleX = 1, float scaleY = 1,
+                    float rotation = 0, RGBA mask = {1,1,1,1},
+                    std::vector<std::string> objectShaders = {"None"}, bool addActive = true){
+
+                  _particleEmmiters[emmiterName] = {particleSprite, posX, posY, density, velocity, lifetime, scaleX, scaleY, rotation, mask, objectShaders, addActive};
+                  for (int i = 0; i < density; i++) {
+                    _particleEmmiters[emmiterName].particles.push_back({0,0,velocity,float((rand()%90 - 45)*(M_PI/180)),lifetime});
+                  }
+                };
+                virtual void removeParticleEmmiter(std::string emmiterName) override {
+                  _particleEmmiters.erase(emmiterName);
+                };
+
                 virtual void setCamera(int x, int y, int z)=0;
                 virtual void moveCamera(int x, int y, float z)=0;
 
                 virtual UserInput getEvent() = 0;
                 virtual void updateUserInputs(utils::UserInputs& ui) = 0;
-
                 void updateSettings(std::string SettingName, std::string SettingValue) override{
                 	_settings[SettingName] = SettingValue;
                 };
 
             protected:
-                std::map<std::string, Animation_t> _animations;
-                std::map<std::string, std::string> _settings;
-
+                std::vector<std::string> _activeShaders;
                 std::map<std::string, PNG> _sprites;
                 std::map<std::string, WAV> _sounds;
                 std::map<std::string, TTF> _fonts;
                 std::map<std::string, SHAD> _shaders;
+
+                std::map<std::string, Animation_t> _animations;
+                std::map<std::string, std::string> _settings;
+                std::map<std::string, ParticleEmmiter_t> _particleEmmiters;
             private:
 
 };

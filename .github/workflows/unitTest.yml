@@ -25,7 +25,8 @@ jobs:
       - name: Install system dependencies
         run: |
           sudo apt update
-          sudo apt install -y g++ cmake curl zip unzip
+          sudo apt install -y g++ cmake curl zip unzip ninja-build \
+          libx11-dev libxrandr-dev libxcursor-dev libxi-dev libudev-dev libgl1-mesa-dev
 
       - name: Set up vcpkg
         run: |
