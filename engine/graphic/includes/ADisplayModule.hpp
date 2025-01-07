@@ -15,7 +15,7 @@
 namespace zef{
     namespace graph{
 
-        template<typename PNG, typename WAV, typename TTF, typename SHAD>
+        template<typename PNG, typename WAV, typename TTF, typename SHAD, typename RECTANGLE>
         class ADisplayModule : public IDisplayModule{
             public:
                 ADisplayModule()=default;
@@ -148,7 +148,7 @@ namespace zef{
                 virtual void drawText(std::string textString, std::string fontName, std::size_t fontSize, int posX, int posY, float scaleX = 1, float scaleY = 1, float rotation = 0, RGBA mask = {1,1,1,1}) = 0;
                 virtual void drawSpriteHUD(std::string animationName, std::size_t currentFrame, int posX, int posY, float scaleX = 1, float scaleY = 1, float rotation = 0, RGBA mask = {1,1,1,1}, std::vector<std::string> objectShaders={"None"}, bool addActive=true) = 0;
                 virtual void drawTextHUD(std::string textString, std::string fontName, std::size_t fontSize, int posX, int posY, float scaleX = 1, float scaleY = 1, float rotation = 0, RGBA mask = {1,1,1,1}) = 0;
-                virtual void drawButton(zef::graph::Button& button) = 0;
+                virtual void drawHPBar(zef::graph::HPBar& bar) = 0;
 
                 virtual void playSound(std::string soundName, int volume = 50) = 0;
 
@@ -197,6 +197,8 @@ namespace zef{
                 std::map<std::string, Animation_t> _animations;
                 std::map<std::string, std::string> _settings;
                 std::map<std::string, ParticleEmmiter_t> _particleEmmiters;
+
+                RECTANGLE _rectangle;
             private:
 
 };

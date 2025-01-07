@@ -264,9 +264,9 @@ namespace zef{
     _window.draw(text);
   }
 
-  void Sfml::drawButton(zef::graph::Button& button) {
-    _window.setView(_views["Default"]);
-    button.draw(_window);
+  void Sfml::drawHPBar(zef::graph::HPBar& bar) {
+      _window.setView(_views["Default"]);
+      bar.draw(_window);
   }
 
   void Sfml::playSound(std::string soundName, int volume){
