@@ -65,6 +65,7 @@ namespace zef {
 
 
         void execute(std::string name, zef::Engine& engine, size_t e, std::any tpl) {
+          if (_map.find(name) != _map.end())
           _map[name](engine, e, tpl);
         }
 
