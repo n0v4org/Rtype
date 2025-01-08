@@ -33,6 +33,6 @@ endif()
 
     
 target_link_libraries(zefir PRIVATE 
-    game_network
+    rtype_network
     asio
 )

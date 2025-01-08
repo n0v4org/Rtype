@@ -25,14 +25,17 @@
 void runServer(int port) {
   std::cout << __cplusplus << std::endl;
 
+  std::cout << "wtfff\n";
+
   zef::Engine engine;
+  std::cout << "wtf\n";
   srand(time(NULL));
 
   engine.initGraphLib("../Assets", "");
 
   engine.GraphLib->saveAnimation("ship", "image", 0, 0, 65, 66);
 
-  engine.initServer(port);
+  // engine.initServer(port);
   /*
       engine.registerCommand(CONNECT, [](zef::Engine& engine, input_t input) {
           engine.ServerSend<CommandSpawnPlayer>(input.id, SPAWNPLAYER,
