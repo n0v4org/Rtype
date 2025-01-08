@@ -35,19 +35,6 @@ namespace rtype {
   }
 
   void Core::run() {
-    try {
-      _args->parse();
-      if (_args->get_help()) {
-        std::cout << USAGE << std::endl;
-        return;
-      }
-      runServer(14000);
-
-    } catch (const std::exception& e) {
-      std::cerr << e.what() << '\n';
-
-      return;
-    }
   }
 
   Core::~Core() {

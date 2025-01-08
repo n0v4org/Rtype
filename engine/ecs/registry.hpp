@@ -9,6 +9,7 @@
 #define ENGINE_ECS_REGISTRY_HPP_
 
 #include <unordered_map>
+#include <map>
 #include <typeindex>
 #include <any>
 #include <queue>
@@ -18,6 +19,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <thread>
 // #include <boost/type_index.hpp>
 
 #include "entitie.hpp"
@@ -117,35 +119,23 @@ namespace ecs {
     }
 
     template <class... Components, typename Function>
-    void add_system(Function &&f) {
-      this->_systems.push_back(
+    void add_system(const std::string &moduleName, Function &&f) {
+      _systems[moduleName].push_back(
           [f = std::forward<Function>(f)](zef::Engine &e, ecs::registry &r) {
             f(e, r.get_components<Components>()...);
           });
     }
 
-    template <class... Components, typename Function>
-    void new_add_system(Function &&f) {
-      _systems.push_back(
-          [f = std::forward<Function>(f)](zef::Engine &e, registry &r) {
-            for (auto a : zipper(r.get_components<Components>()...)) {
-              f(e, std::get<Components &>(a)...);
-            }
-          });
-    }
-
-    // template <class... Components, typename Function>
-    // void add_system(Function const &f) {
-    //   _systems.push_back([](registry &r, Function const &f) {
-    //     for (auto a : zipper(r.get_components<Components>()...)) {
-    //       f(std::get<Components &>(a)...);
-    //     }
-    //   });
-    // }
-
     void run_systems(zef::Engine &engine) {
-      for (auto &system : _systems) {
-        system(engine, *this);
+      for (auto &[module, systems] : _systems) {
+        _moduleThreads[module] =
+            std::thread([&systems, &engine, &reg = *this]() {
+              for (auto &sys : systems) sys(engine, reg);
+            });
+      }
+
+      for (auto &[name, th] : _moduleThreads) {
+        th.join();
       }
     }
 
@@ -181,7 +171,13 @@ namespace ecs {
                        std::function<void(registry &, entity_t const &)>>
         _deleteFunctions;
     size_t _maxId = 0;
-    std::vector<std::function<void(zef::Engine &, registry &)>> _systems;
+
+    std::map<std::string,
+             std::vector<std::function<void(zef::Engine &, registry &)>>>
+        _systems;
+    std::map<std::string, std::thread> _moduleThreads;
+
+    // std::vector<std::function<void(zef::Engine &, registry &)>> _systems;
     std::queue<size_t> _unusedids;
   };
 }  // namespace ecs

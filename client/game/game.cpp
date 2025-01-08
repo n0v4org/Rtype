@@ -159,23 +159,27 @@ void runClient(int sport, int cport, std::string ip) {
 
   // engine.addSystem<>(entitycountdisplay);
 
-  engine.addSystem<>(zef::sys::handle_client);
-  engine.addSystem<>(zef::sys::update_user_inputs);
-  engine.addSystem<BackGround, zef::comp::position>(handleBackgroundScroll);
-  engine.addSystem<Lifetime>(lifetime_system);
-  engine.addSystem<VectorHolder, zef::comp::vector>(convertHolderToVect);
-  engine.addSystem<zef::comp::vector, Player>(resetPlayerMovement);
-  engine.addSystem<zef::comp::controllable>(zef::sys::system_constrollables);
-  engine.addSystem<zef::comp::event_listener>(zef::sys::resolveEvent);
-  engine.addSystem<zef::comp::vector>(zef::sys::normalize_velocity_vectors);
-  engine.addSystem<zef::comp::position, zef::comp::vector>(zef::sys::move);
+  engine.addSystem<>("zefir", zef::sys::update_user_inputs);
+  engine.addSystem<BackGround, zef::comp::position>("zefir",
+                                                    handleBackgroundScroll);
+  engine.addSystem<Lifetime>("zefir", lifetime_system);
+  engine.addSystem<VectorHolder, zef::comp::vector>("zefir",
+                                                    convertHolderToVect);
+  engine.addSystem<zef::comp::vector, Player>("zefir", resetPlayerMovement);
+  engine.addSystem<zef::comp::controllable>("zefir",
+                                            zef::sys::system_constrollables);
+  engine.addSystem<zef::comp::event_listener>("zefir", zef::sys::resolveEvent);
+  engine.addSystem<zef::comp::vector>("zefir",
+                                      zef::sys::normalize_velocity_vectors);
+  engine.addSystem<zef::comp::position, zef::comp::vector>("zefir",
+                                                           zef::sys::move);
   engine.addSystem<zef::comp::collidable, zef::comp::position>(
-      zef::sys::check_collidables);
-  engine.addSystem<zef::comp::event_listener>(zef::sys::resolveEvent);
+      "zefir", zef::sys::check_collidables);
+  engine.addSystem<zef::comp::event_listener>("zefir", zef::sys::resolveEvent);
 
-  engine.addSystem<zef::comp::drawable>(zef::sys::update_animations);
+  engine.addSystem<zef::comp::drawable>("zefir", zef::sys::update_animations);
   engine.addSystem<zef::comp::drawable, zef::comp::position>(
-      zef::sys::draw_drawables);
+      "zefir", zef::sys::draw_drawables);
 
   engine.registerScene<LevelScene>("level");
   engine.registerScene<LobbyScene>("lobby");

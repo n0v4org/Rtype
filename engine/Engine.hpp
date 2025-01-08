@@ -130,8 +130,8 @@ namespace zef {
     }
 
     template <class... Components, typename Function>
-    void addSystem(Function&& f) {
-      reg.add_system<Components...>(f);
+    void addSystem(const std::string& moduleName, Function&& f) {
+      reg.add_system<Components...>(moduleName, f);
     }
 
     template <typename Patron, typename... T>
@@ -274,14 +274,18 @@ namespace zef {
       _client->get_udp_client()->send(c, cmd_id);
     }
 
+    void ClientSendTcp(int cmd_id, const std::string& c) {
+      _client->get_tcp_client()->send(c);
+    }
+
     template <typename payload>
     void ServerSendUdp(int id, int cmd_id, payload c) {
       _server->get_udp_server()->send(id, cmd_id, c);
     }
 
-    // template <typename cmd>
-    // void ServerSendToAll(int cmd_id, cmd c) {
-    // }
+    void ServerSendTcp(int id, int cmd_id, std::string c) {
+      _server->get_tcp_server()->send(id, c);
+    }
 
     void registerCommand(int cmd, std::function<void(Engine&, input_t)> fn) {
       _cmd_map[cmd] = fn;
@@ -295,6 +299,7 @@ namespace zef {
               ->getEntryPoint());
 
       _runtime_modules[name]->registerComponents(*this);
+
       _runtime_modules[name]->registerSystems(*this);
     }
 

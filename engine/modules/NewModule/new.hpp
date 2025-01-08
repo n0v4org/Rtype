@@ -9,6 +9,7 @@
 #define NEW_HPP_
 
 #include <iostream>
+#include <map>
 
 #include "AModule.hpp"
 #include "Engine.hpp"
@@ -34,6 +35,7 @@ public:
 };
 
 class NewModule : public zef::AModule<zef::Component<comp1, int, float, float>,
+
                                       zef::Component<comp2, int> > {
 public:
   NewModule() : AModule() {
@@ -42,10 +44,18 @@ public:
 
   void registerSystems(zef::Engine &engine) {
     engine.addSystem<comp1>(
-        [](zef::Engine &engine, ecs::sparse_array<comp1> &comps) {
+        "newModule", [](zef::Engine &engine, ecs::sparse_array<comp1> &comps) {
           for (auto &&[i, c] : ecs::indexed_zipper(comps)) {
             std::cout << "Int: " << c.in << ", Float: " << c.fl
                       << ", Double: " << c.dou << std::endl;
+          }
+        });
+
+    engine.addSystem<comp1>(
+        "newModule", [](zef::Engine &engine, ecs::sparse_array<comp1> &comps) {
+          for (auto &&[i, c] : ecs::indexed_zipper(comps)) {
+            std::cout << "AAInt: " << c.in << ", AAFloat: " << c.fl
+                      << ", AADouble: " << c.dou << std::endl;
           }
         });
   }
