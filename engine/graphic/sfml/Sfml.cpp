@@ -40,21 +40,22 @@ namespace zef {
   }
 
   void Sfml::drawParticleEmmiters() {
+    unsigned int seed = 4;
     for (auto particleEmmiter : _particleEmmiters) {
       for (int i =0; i < particleEmmiter.second.density; i++) {
         if (_particleEmmiters[particleEmmiter.first].particles[i].startupTime <= 0) {
-          _particleEmmiters[particleEmmiter.first].particles[i].lifeTime -= rand()%10;
+          _particleEmmiters[particleEmmiter.first].particles[i].lifeTime -= rand_r(&seed)%10;
         } else {
-          _particleEmmiters[particleEmmiter.first].particles[i].startupTime -= rand()%10;
+          _particleEmmiters[particleEmmiter.first].particles[i].startupTime -= rand_r(&seed)%10;
         }
 
         if (_particleEmmiters[particleEmmiter.first].particles[i].lifeTime <= 0){
           _particleEmmiters[particleEmmiter.first].particles[i].posX = 0;
           _particleEmmiters[particleEmmiter.first].particles[i].posY = 0;
           _particleEmmiters[particleEmmiter.first].particles[i].lifeTime = _particleEmmiters[particleEmmiter.first].lifeTime;
-          _particleEmmiters[particleEmmiter.first].particles[i].direction = static_cast<float>((rand() % _particleEmmiters[particleEmmiter.first].rotationRange + _particleEmmiters[particleEmmiter.first].rotationStart)*(M_PI/180.0));
-          _particleEmmiters[particleEmmiter.first].particles[i].velocity = _particleEmmiters[particleEmmiter.first].velocity - (rand() % _particleEmmiters[particleEmmiter.first].velocity /4);
-          _particleEmmiters[particleEmmiter.first].particles[i].startupTime = _particleEmmiters[particleEmmiter.first].particles[i].lifeTime - (rand() % _particleEmmiters[particleEmmiter.first].particles[i].lifeTime);
+          _particleEmmiters[particleEmmiter.first].particles[i].direction = static_cast<float>((rand_r(&seed) % _particleEmmiters[particleEmmiter.first].rotationRange + _particleEmmiters[particleEmmiter.first].rotationStart)*(M_PI/180.0));
+          _particleEmmiters[particleEmmiter.first].particles[i].velocity = _particleEmmiters[particleEmmiter.first].velocity - (rand_r(&seed) % _particleEmmiters[particleEmmiter.first].velocity /4);
+          _particleEmmiters[particleEmmiter.first].particles[i].startupTime = _particleEmmiters[particleEmmiter.first].particles[i].lifeTime - (rand_r(&seed) % _particleEmmiters[particleEmmiter.first].particles[i].lifeTime);
         }
 
 
