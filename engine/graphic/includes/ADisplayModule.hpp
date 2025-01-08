@@ -186,7 +186,7 @@ namespace zef {
                   unsigned int seed = 4;
                   _particleEmmiters[emmiterName] = {particleSprite, posX, posY, density, velocity, lifetime, scaleX, scaleY, rotationStart, rotationRange, mask, objectShaders, addActive};
                   for (int i = 0; i < density; i++) {
-                    _particleEmmiters[emmiterName].particles.push_back({0,0,velocity - (rand_r(&seed) % velocity / 4),static_cast<float>((rand_r(&seed)%rotationRange + rotationStart)*(M_PI/180)),lifetime,lifetime - (rand() % lifetime /4)});
+                    _particleEmmiters[emmiterName].particles.push_back({0,0,velocity - (rand_r(&seed) % velocity / 4),static_cast<float>((rand_r(&seed)%rotationRange + rotationStart)*(M_PI/180)),lifetime,lifetime - (rand_r(&seed) % lifetime /4)});
                   }
                 }
                 void removeParticleEmmiter(std::string emmiterName) override {
