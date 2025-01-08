@@ -15,6 +15,7 @@
 #include <map>
 #include <vector>
 #include <cmath>
+#include <cstring>
 #include <filesystem>
 #include <fstream>
 #include <sstream>

@@ -60,10 +60,11 @@ namespace zef{
             private:
                 RGBA colorBlindMask;
 
-                void drawShaders(sf::Sprite sprite, const std::vector<std::string>& objectShaders, bool addActive);
-                void applyShaders(sf::Sprite& sprite, const std::vector<std::string>& shaderNames);
+                void drawShaders(sf::Sprite sprite, std::vector<std::string>& objectShaders, bool addActive);
+                void applyShaders(sf::Sprite& sprite, std::vector<std::string>& shaderNames);
                 sf::Color colorBlindness(RGBA mask);
                 void drawParticleEmmiters();
+				std::vector<std::string> splitstring(const std::string& str, const char& ch);
 
                 sf::RenderWindow _window;
                 std::pair<int,int> _windowSize= std::make_pair(1920,1080);
