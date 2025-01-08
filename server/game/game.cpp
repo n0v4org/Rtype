@@ -32,6 +32,7 @@ void runServer(int port) {
   srand(time(NULL));
 
   engine.initGraphLib("../Assets", "");
+  engine.initServer(14000, 5001);
 
   engine.GraphLib->saveAnimation("ship", "image", 0, 0, 65, 66);
 

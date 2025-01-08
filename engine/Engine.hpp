@@ -273,10 +273,19 @@ namespace zef {
     void ClientSendUdp(int cmd_id, payload c) {
       _client->get_udp_client()->send(c, cmd_id)     ; 
     }
+    
+    void ClientSendTcp(int cmd_id, const std::string& c) {
+      _client->get_tcp_client()->send(c); 
+    }
 
     template <typename payload>
     void ServerSendUdp(int id, int cmd_id, payload c) {
       _server->get_udp_server()->send(id, cmd_id, c);
+    }
+
+ 
+    void ServerSendTcp(int id, int cmd_id, std::string c) {
+      _server->get_tcp_server()->send(id, c);
     }
 
     //template <typename cmd>

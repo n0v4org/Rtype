@@ -89,6 +89,12 @@ namespace zef {
        ...);
     }
 
+
+    template<typename M>
+    M& getMember(std::string name) {
+      
+    };
+
   };
 }  // namespace zef
 
