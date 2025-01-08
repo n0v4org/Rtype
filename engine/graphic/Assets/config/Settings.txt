@@ -2,4 +2,4 @@
 #Settingname SettingValue
 
 #ColorBlind setting, either None,Deuteranopia,Protanopia,Tritanopia or GreyScale. (N/D/P/T/G)
-ColorBlindness      Tritanopia
+ColorBlindness      None

@@ -15,6 +15,7 @@
 #include <map>
 #include <vector>
 #include <cmath>
+#include <cstring>
 #include <filesystem>
 #include <fstream>
 #include <sstream>
@@ -63,6 +64,7 @@ namespace zef{
           int velocity;
           float direction;
           int lifeTime;
+          int startupTime;
         } Particle_t;
 
         typedef struct ParticleEmmiter{
@@ -76,7 +78,8 @@ namespace zef{
 
           float scaleX;
           float scaleY;
-          float rotation;
+          int rotationStart;
+          int rotationRange;
           RGBA_t mask;
           std::vector<std::string> objectShaders;
           bool addActive;
@@ -146,7 +149,8 @@ namespace zef{
                     int posX, int posY,
                     int density = 10, int velocity = 4, int lifetime = 1000,
                     float scaleX = 1, float scaleY = 1,
-                    float rotation = 0, RGBA mask = {1,1,1,1},
+                    int rotationStart = 0, int rotationRange = 360,
+                    RGBA mask = {1,1,1,1},
                     std::vector<std::string> objectShaders = {"None"}, bool addActive = true)=0;
                 virtual void removeParticleEmmiter(std::string emmiterName) = 0;
 

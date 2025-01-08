@@ -39,33 +39,39 @@ namespace zef{
   void Sfml::drawParticleEmmiters() {
     for (auto particleEmmiter : _particleEmmiters) {
       for (int i =0; i < particleEmmiter.second.density; i++) {
-
-        _particleEmmiters[particleEmmiter.first].particles[i].posX += _particleEmmiters[particleEmmiter.first].particles[i].velocity * cos(_particleEmmiters[particleEmmiter.first].particles[i].direction);
-        _particleEmmiters[particleEmmiter.first].particles[i].posY += _particleEmmiters[particleEmmiter.first].particles[i].velocity * sin(_particleEmmiters[particleEmmiter.first].particles[i].direction);
-        _sprites[particleEmmiter.second.spriteSheet].first.setColor(sf::Color::Blue);
-
-        _particleEmmiters[particleEmmiter.first].particles[i].lifeTime -= rand()%10;
+        if (_particleEmmiters[particleEmmiter.first].particles[i].startupTime <= 0) {
+          _particleEmmiters[particleEmmiter.first].particles[i].lifeTime -= rand()%10;
+        } else {
+          _particleEmmiters[particleEmmiter.first].particles[i].startupTime -= rand()%10;
+        }
 
         if (_particleEmmiters[particleEmmiter.first].particles[i].lifeTime <= 0){
           _particleEmmiters[particleEmmiter.first].particles[i].posX = 0;
           _particleEmmiters[particleEmmiter.first].particles[i].posY = 0;
           _particleEmmiters[particleEmmiter.first].particles[i].lifeTime = _particleEmmiters[particleEmmiter.first].lifeTime;
-
+          _particleEmmiters[particleEmmiter.first].particles[i].direction = float((rand() % _particleEmmiters[particleEmmiter.first].rotationRange + _particleEmmiters[particleEmmiter.first].rotationStart)*(M_PI/180.0));
+          _particleEmmiters[particleEmmiter.first].particles[i].velocity = _particleEmmiters[particleEmmiter.first].velocity - (rand() % _particleEmmiters[particleEmmiter.first].velocity /4);
+          _particleEmmiters[particleEmmiter.first].particles[i].startupTime = _particleEmmiters[particleEmmiter.first].particles[i].lifeTime - (rand() % _particleEmmiters[particleEmmiter.first].particles[i].lifeTime);
         }
 
 
-        drawSprite(
+        if (_particleEmmiters[particleEmmiter.first].particles[i].startupTime <= 0) {
+          _particleEmmiters[particleEmmiter.first].particles[i].posX += _particleEmmiters[particleEmmiter.first].particles[i].velocity * cos(_particleEmmiters[particleEmmiter.first].particles[i].direction);
+          _particleEmmiters[particleEmmiter.first].particles[i].posY += _particleEmmiters[particleEmmiter.first].particles[i].velocity * sin(_particleEmmiters[particleEmmiter.first].particles[i].direction);
+
+          drawSprite(
             _particleEmmiters[particleEmmiter.first].spriteSheet,
             0,
             _particleEmmiters[particleEmmiter.first].posX + _particleEmmiters[particleEmmiter.first].particles[i].posX,
             _particleEmmiters[particleEmmiter.first].posY + _particleEmmiters[particleEmmiter.first].particles[i].posY,
             _particleEmmiters[particleEmmiter.first].scaleX,
             _particleEmmiters[particleEmmiter.first].scaleY,
-            _particleEmmiters[particleEmmiter.first].rotation,
-            _particleEmmiters[particleEmmiter.first].mask,
+            _particleEmmiters[particleEmmiter.first].particles[i].direction,
+            {_particleEmmiters[particleEmmiter.first].mask.R,_particleEmmiters[particleEmmiter.first].mask.G,_particleEmmiters[particleEmmiter.first].mask.B,_particleEmmiters[particleEmmiter.first].mask.A *(float(_particleEmmiters[particleEmmiter.first].particles[i].lifeTime)/float(_particleEmmiters[particleEmmiter.first].lifeTime))},
             _particleEmmiters[particleEmmiter.first].objectShaders,
             _particleEmmiters[particleEmmiter.first].addActive
         );
+        }
 //        _sprites[particleEmmiter.second.spriteSheet].first.setPosition(_particleEmmiters[particleEmmiter.first].posX + _particleEmmiters[particleEmmiter.first].particles[i].posX, _particleEmmiters[particleEmmiter.first].posY + _particleEmmiters[particleEmmiter.first].particles[i].posY);
 //        _window.draw(_sprites[particleEmmiter.second.spriteSheet].first);
       }
@@ -145,7 +151,7 @@ namespace zef{
     std::cout<<"Loading shader: "<<assetName<<std::endl;
   }
 
-  void Sfml::drawShaders(sf::Sprite sprite, const std::vector<std::string>& objectShaders, bool addActive) {
+  void Sfml::drawShaders(sf::Sprite sprite, std::vector<std::string>& objectShaders, bool addActive) {
     std::vector<std::string> shaders = {_settings.find(std::string("ColorBlindness"))->second};
     for(auto& shader : objectShaders){
       shaders.push_back(shader);
@@ -162,17 +168,33 @@ namespace zef{
     applyShaders(sprite, shaders);
   }
 
-  void Sfml::applyShaders(sf::Sprite& sprite, const std::vector<std::string>& shaderNames) {
+  /**/
+  std::vector<std::string> Sfml::splitstring(const std::string& str, const char& ch) {
+    std::string next;
+    std::vector<std::string> res;
+
+    for (std::string::const_iterator it = str.begin(); it != str.end(); it++) {
+        if (*it == ch) {
+            if (!next.empty()) {
+                res.push_back(next);
+                next.clear();
+            }
+        } else {
+            next += *it;
+        }
+    }
+    if (!next.empty())
+         res.push_back(next);
+    return res;
+  }
+  /**/
+
+  void Sfml::applyShaders(sf::Sprite& sprite, std::vector<std::string>& shaderNames) {
     sf::RenderTexture renderTexture1;
     sf::RenderTexture renderTexture2;
     if (!renderTexture1.create(_windowSize.first, _windowSize.second) ||
         !renderTexture2.create(_windowSize.first, _windowSize.second)) {
       throw ("Failed to create render textures.");
-    }
-    for (const auto& shaderName : shaderNames) {
-      if (_shaders.find(shaderName) == _shaders.end()) {
-        throw ("Shader not found: " + shaderName);
-      }
     }
 
     sf::RenderTexture* front = &renderTexture1;
@@ -181,12 +203,32 @@ namespace zef{
     sprite.setPosition(sprite.getPosition().x + _windowSize.first/2, sprite.getPosition().y + _windowSize.second/2);
 
     front->clear(sf::Color::Transparent);
-    front->draw(sprite, &_shaders[shaderNames[0]]);
+
+    std::vector<std::string> shaderParts = splitstring(shaderNames[0], '|');
+    if (_shaders.find(shaderParts[0]) == _shaders.end()) {
+        throw ("Shader not found: " + shaderParts[0]);
+    }
+
+    for (int i = 1; i < shaderParts.size() -1 ; i+= 2) {
+      _shaders[shaderParts[0]].setParameter(shaderParts[i].c_str(), std::stof(shaderParts[i+1]));
+    }
+   	front->draw(sprite, &_shaders[shaderParts[0].c_str()/*"Pixelate"*/]);
     front->display();
 
     for (std::size_t i = 1; i < shaderNames.size(); ++i) {
+
+	  shaderParts = splitstring(shaderNames[i], '|');
+      if (_shaders.find(shaderParts[0]) == _shaders.end()) {
+        throw ("Shader not found: " + shaderNames[i]);
+      }
+
+	  for (int j = 1; j < shaderParts.size() -1 ; j+= 2) {
+    	_shaders[shaderParts[0]].setParameter(shaderParts[j].c_str(), std::stof(shaderParts[j+1]));
+      }
+
       back->clear(sf::Color::Transparent);
-      back->draw(sf::Sprite(front->getTexture()), &_shaders[shaderNames[i]]);
+
+      back->draw(sf::Sprite(front->getTexture()), &_shaders[shaderParts[0].c_str()]);
       back->display();
       std::swap(front, back);
     }
@@ -213,6 +255,7 @@ namespace zef{
     _sprites.at(anim.SpriteSheet).first.setScale(scaleX, scaleY);
 
     _window.setView(_views["Default"]);
+//    _window.draw(_sprites.at(anim.SpriteSheet).first);
     drawShaders(_sprites.at(anim.SpriteSheet).first, objectShaders, addActive);
   }
 
@@ -229,6 +272,7 @@ namespace zef{
     _sprites.at(anim.SpriteSheet).first.setScale(scaleX, scaleY);
 
     _window.setView(_views["HUD"]);
+//    _window.draw(_sprites.at(anim.SpriteSheet).first);
     drawShaders(_sprites.at(anim.SpriteSheet).first, objectShaders, addActive);
   }
 

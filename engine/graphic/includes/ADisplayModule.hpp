@@ -166,12 +166,13 @@ namespace zef{
                     int posX, int posY,
                     int density = 10, int velocity = 4, int lifetime = 1000,
                     float scaleX = 1, float scaleY = 1,
-                    float rotation = 0, RGBA mask = {1,1,1,1},
+                    int rotationStart = 0, int rotationRange = 360,
+                    RGBA mask = {1,1,1,1},
                     std::vector<std::string> objectShaders = {"None"}, bool addActive = true){
 
-                  _particleEmmiters[emmiterName] = {particleSprite, posX, posY, density, velocity, lifetime, scaleX, scaleY, rotation, mask, objectShaders, addActive};
+                  _particleEmmiters[emmiterName] = {particleSprite, posX, posY, density, velocity, lifetime, scaleX, scaleY, rotationStart, rotationRange, mask, objectShaders, addActive};
                   for (int i = 0; i < density; i++) {
-                    _particleEmmiters[emmiterName].particles.push_back({0,0,velocity,float((rand()%90 - 45)*(M_PI/180)),lifetime});
+                    _particleEmmiters[emmiterName].particles.push_back({0,0,velocity - (rand() % velocity / 4),float((rand()%rotationRange + rotationStart)*(M_PI/180)),lifetime,lifetime - (rand() % lifetime /4)});
                   }
                 };
                 virtual void removeParticleEmmiter(std::string emmiterName) override {
