@@ -32,7 +32,6 @@ struct test {
 namespace rtype {
 
   Core::Core(char* argv[], int argc) {
-
   }
 
   void Core::run() {
@@ -48,7 +47,6 @@ namespace rtype {
   }
 
   Core::~Core() {
-
   }
 
 }  // namespace rtype

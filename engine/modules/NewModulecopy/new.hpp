@@ -24,26 +24,23 @@ public:
   float dou;
 };
 
-
-
-class NewModuleCopy : public zef::AModule<zef::Component<comppp1, int, float, float>> {
+class NewModuleCopy
+  : public zef::AModule<zef::Component<comppp1, int, float, float>> {
 public:
   NewModuleCopy() : AModule() {
   }
   ~NewModuleCopy() = default;
 
   void registerSystems(zef::Engine &engine) {
-
-    engine.addSystem<comppp1>("newModuleCopy", [](zef::Engine &engine, ecs::sparse_array<comppp1> &comps) {
-      for (auto &&[i, c] : ecs::indexed_zipper(comps)) {
-        std::cout << "Intttt: " << c.in << ", Floatttttttt: " << c.fl
+    engine.addSystem<comppp1>(
+        "newModuleCopy",
+        [](zef::Engine &engine, ecs::sparse_array<comppp1> &comps) {
+          for (auto &&[i, c] : ecs::indexed_zipper(comps)) {
+            std::cout << "Intttt: " << c.in << ", Floatttttttt: " << c.fl
                       << ", Doubleeeeeeee: " << c.dou << std::endl;
-      }
-    });
+          }
+        });
   }
-
-
-  
 };
 
 #endif /* !NEW_HPP_ */

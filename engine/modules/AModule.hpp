@@ -37,8 +37,6 @@ std::string demangle(const char* name) {
 
 namespace zef {
 
-  
-
   template <typename Comp, typename... T>
   class Component {
   public:
@@ -92,14 +90,11 @@ namespace zef {
        ...);
     }
 
-
-    template<typename M>
+    template <typename M>
     M& getMember(const std::string& name, const std::string& mname) {
-      
     }
 
     std::map<std::string, std::any> members;
-
   };
 }  // namespace zef
 
