@@ -38,7 +38,8 @@ void handleHealth(zef::Engine& engine, ecs::sparse_array<Health>& hps) {
         for (auto&& [pl, rep] :
              ecs::zipper(engine.reg.get_components<Player>(),
                          engine.reg.get_components<zef::comp::replicable>())) {
-          //engine.ServerSend<CommandKillMonster>(rep._id, KILLMONSTER, {r._id});
+          // engine.ServerSend<CommandKillMonster>(rep._id, KILLMONSTER,
+          // {r._id});
         }
       } catch (const std::exception& e) {
       }
@@ -47,11 +48,11 @@ void handleHealth(zef::Engine& engine, ecs::sparse_array<Health>& hps) {
 
         zef::comp::replicable& r =
             engine.fetchEntityComponent<zef::comp::replicable>(i);
-        //engine.ServerSend<CommandDeath>(r._id, DEATH, {});
+        // engine.ServerSend<CommandDeath>(r._id, DEATH, {});
         for (auto&& [pl, rep] :
              ecs::zipper(engine.reg.get_components<Player>(),
                          engine.reg.get_components<zef::comp::replicable>())) {
-          //engine.ServerSend<CommandDeatAlly>(rep._id, DEATHALLY, {r._id});
+          // engine.ServerSend<CommandDeatAlly>(rep._id, DEATHALLY, {r._id});
         }
       } catch (const std::exception& e) {
       }
@@ -70,8 +71,8 @@ void spawnEnemies(zef::Engine& engine, ecs::sparse_array<Player>& players,
       engine.instanciatePatron<EnemyPatron>(x, y, engine.replicableId);
       std::cout << "rep: " << engine.replicableId << std::endl;
       for (auto&& [player, rep] : ecs::zipper(players, replicables)) {
-        //engine.ServerSend<CommandSpawnMonster>(rep._id, SPAWNMONSTER,
-                                               //{engine.replicableId, x, y});
+        // engine.ServerSend<CommandSpawnMonster>(rep._id, SPAWNMONSTER,
+        //{engine.replicableId, x, y});
       }
       engine.replicableId++;
     }
@@ -98,15 +99,15 @@ void syncPlayers(zef::Engine& engine, ecs::sparse_array<PlayerReplacer>& prs) {
            ecs::zipper(engine.reg.get_components<Player>(),
                        engine.reg.get_components<zef::comp::replicable>(),
                        engine.reg.get_components<zef::comp::position>())) {
-        //engine.ServerSend<CommandAskPosition>(rep._id, ASKPOSITION, {});
+        // engine.ServerSend<CommandAskPosition>(rep._id, ASKPOSITION, {});
 
         for (auto&& [pl2, rep2, pos2] :
              ecs::zipper(engine.reg.get_components<Player>(),
                          engine.reg.get_components<zef::comp::replicable>(),
                          engine.reg.get_components<zef::comp::position>())) {
           if (rep._id != rep2._id) {
-            //engine.ServerSend<CommandSetAllyPos>(rep._id, SETALLYPOS,
-                                                 //{rep2._id, pos2.x, pos2.y});
+            // engine.ServerSend<CommandSetAllyPos>(rep._id, SETALLYPOS,
+            //{rep2._id, pos2.x, pos2.y});
           }
         }
       }

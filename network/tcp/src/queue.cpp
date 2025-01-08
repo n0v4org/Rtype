@@ -5,6 +5,8 @@
 ** queue
 */
 
+#include <deque>
+
 #include "queue.hpp"
 
 std::mutex _mutex;

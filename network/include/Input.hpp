@@ -26,5 +26,4 @@ struct input_t {
   int protocol_type;
 };
 
-
 #endif  // NETWORK_UDP_INCLUDE_INPUT_HPP_

@@ -15,22 +15,22 @@
 
 namespace network {
 
-class Network_server {
-    public:
-        Network_server(int, int);
-        std::shared_ptr<game::Server> get_udp_server() const;
-        std::shared_ptr<tcp_link::Server> get_tcp_server() const;
-        input_t popMessage();
-        bool isQueueEmpty();
-        ~Network_server();
+  class Network_server {
+  public:
+    Network_server(int, int);
+    std::shared_ptr<game::Server> get_udp_server() const;
+    std::shared_ptr<tcp_link::Server> get_tcp_server() const;
+    input_t popMessage();
+    bool isQueueEmpty();
+    ~Network_server();
 
-    protected:
-    private:
-      std::shared_ptr<game::Server> _server_udp;
-      std::shared_ptr<tcp_link::Server> _server_tcp;
-      asio::io_context _io_service;
-      std::thread t;
-};
-}  // namespace Network_server
+  protected:
+  private:
+    std::shared_ptr<game::Server> _server_udp;
+    std::shared_ptr<tcp_link::Server> _server_tcp;
+    asio::io_context _io_service;
+    std::thread t;
+  };
+}  // namespace network
 
 #endif /* !Network_server_HPP_ */

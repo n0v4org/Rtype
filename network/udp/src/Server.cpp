@@ -8,9 +8,8 @@
 #include <iostream>
 #include <cstdint>
 #include <vector>
-#include <asio.hpp>
 #include <algorithm>
-#include <vector>
+#include <asio.hpp>
 #include "Server.hpp"
 #include "Commands.hpp"
 
@@ -21,7 +20,6 @@ namespace network {
       : _socket(context, udp::endpoint(udp::v4(), port)), _sequence_id(0) {
       start_receive();
     }
-  
 
     void Server::start_receive() {
       _socket.async_receive_from(
@@ -64,14 +62,15 @@ namespace network {
       }
 
       try {
-        if (std::find(_clients.begin(), _clients.end(), _remote_endpoint_) == _clients.end()) {
+        if (std::find(_clients.begin(), _clients.end(), _remote_endpoint_) ==
+            _clients.end()) {
           _clients.push_back(_remote_endpoint_);
         }
         auto f = std::find(_clients.begin(), _clients.end(), _remote_endpoint_);
         if (f == _clients.end())
           throw std::runtime_error("client does not exist");
         input_t message = unpack(bytes_transferred, _recv_buffer_);
-        auto it = find(_clients.begin(), _clients.end(), _remote_endpoint_);
+        auto it    = find(_clients.begin(), _clients.end(), _remote_endpoint_);
         message.id = it - _clients.begin();
         {
           std::lock_guard<std::mutex> lock(_mutex);

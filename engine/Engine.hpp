@@ -261,17 +261,17 @@ namespace zef {
     }
 
     void initServer(int udpport, int tcpport) {
-      _server         = std::make_unique<network::Network_server>(udpport, tcpport);
+      _server = std::make_unique<network::Network_server>(udpport, tcpport);
     }
-//
+    //
     void initClient(int tcpport, int clientport, int udpport, std::string ip) {
-      _client =
-          std::make_unique<network::Network_client>(udpport, clientport, tcpport, ip);
+      _client = std::make_unique<network::Network_client>(udpport, clientport,
+                                                          tcpport, ip);
     }
 
     template <typename payload>
     void ClientSendUdp(int cmd_id, payload c) {
-      _client->get_udp_client()->send(c, cmd_id)     ; 
+      _client->get_udp_client()->send(c, cmd_id);
     }
     
     void ClientSendTcp(int cmd_id, const std::string& c) {
@@ -288,9 +288,7 @@ namespace zef {
       _server->get_tcp_server()->send(id, c);
     }
 
-    //template <typename cmd>
-    //void ServerSendToAll(int cmd_id, cmd c) {
-    //}
+
 
     void registerCommand(int cmd, std::function<void(Engine&, input_t)> fn) {
       _cmd_map[cmd] = fn;
@@ -326,9 +324,6 @@ namespace zef {
     int seq = 0;
 
     size_t replicableId = 34;
-
-
-    
 
     std::unique_ptr<zef::graph::IDisplayModule> GraphLib;
     std::chrono::high_resolution_clock::time_point
