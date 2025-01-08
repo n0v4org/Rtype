@@ -15,7 +15,10 @@
 #include <functional>
 #include <optional>
 #include <utility>
+#include <iostream>
+#include <string>
 #include <vector>
+// #include <boost/type_index.hpp>
 
 #include "entitie.hpp"
 #include "zipper_iterator.hpp"
@@ -23,11 +26,9 @@
 #include "indexed_zipper.hpp"
 #include "sparse_array.hpp"
 
-
-namespace zef
-{
+namespace zef {
   class Engine;
-} // namespace zef
+}  // namespace zef
 
 namespace ecs {
   class registry {
@@ -117,30 +118,32 @@ namespace ecs {
 
     template <class... Components, typename Function>
     void add_system(Function &&f) {
-        this->_systems.push_back([f = std::forward<Function>(f)](zef::Engine& e, ecs::registry &r) {
+      this->_systems.push_back(
+          [f = std::forward<Function>(f)](zef::Engine &e, ecs::registry &r) {
             f(e, r.get_components<Components>()...);
-        });
+          });
     }
 
     template <class... Components, typename Function>
     void new_add_system(Function &&f) {
-      _systems.push_back([f = std::forward<Function>(f)](zef::Engine& e, registry &r) {
-        for (auto a : zipper(r.get_components<Components>()...)) {
-          f(e, std::get<Components &>(a)...);
-        }
-      });
+      _systems.push_back(
+          [f = std::forward<Function>(f)](zef::Engine &e, registry &r) {
+            for (auto a : zipper(r.get_components<Components>()...)) {
+              f(e, std::get<Components &>(a)...);
+            }
+          });
     }
 
-    //template <class... Components, typename Function>
-    //void add_system(Function const &f) {
-    //  _systems.push_back([](registry &r, Function const &f) {
-    //    for (auto a : zipper(r.get_components<Components>()...)) {
-    //      f(std::get<Components &>(a)...);
-    //    }
-    //  });
-    //}
+    // template <class... Components, typename Function>
+    // void add_system(Function const &f) {
+    //   _systems.push_back([](registry &r, Function const &f) {
+    //     for (auto a : zipper(r.get_components<Components>()...)) {
+    //       f(std::get<Components &>(a)...);
+    //     }
+    //   });
+    // }
 
-    void run_systems(zef::Engine& engine) {
+    void run_systems(zef::Engine &engine) {
       for (auto &system : _systems) {
         system(engine, *this);
       }
@@ -154,14 +157,31 @@ namespace ecs {
       return _maxId;
     }
 
+    void disp() {
+      for (auto &&[k, v] : _components_arrays) {
+        // std::type_index typeIndex = k;
+        // auto boostTypeIndex = boost::typeindex::type_id_runtime(typeIndex);
+        std::cout << "Nom lisible : " << k.name() << std::endl;
+        // std::cout << typeIndex.name() << std::endl;
+      }
+    }
+
+    template <typename... T>
+    void register_with_str(size_t e, const std::string &name, T... args) {
+      for (auto &&[k, v] : _components_arrays) {
+        if (k.name() == name) {
+        }
+      }
+    }
+
   private:
     size_t _entityCount = 0;
     std::unordered_map<std::type_index, std::any> _components_arrays;
     std::unordered_map<std::type_index,
                        std::function<void(registry &, entity_t const &)>>
         _deleteFunctions;
-    size_t _maxId       = 0;
-    std::vector<std::function<void(zef::Engine&, registry &)>> _systems;
+    size_t _maxId = 0;
+    std::vector<std::function<void(zef::Engine &, registry &)>> _systems;
     std::queue<size_t> _unusedids;
   };
 }  // namespace ecs

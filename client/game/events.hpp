@@ -9,17 +9,15 @@
 #define GEVENTS_HPP_
 
 struct GetHittedByBullet {
-    size_t bullet;
-    int damage;
+  size_t bullet;
+  int damage;
 };
 struct DestroyBullet {};
 
-
 struct SetPlayerVectorEvent {
-    float x;
-    float y;
+  float x;
+  float y;
 };
 struct ShootPlayerEvent {};
-
 
 #endif /* !EVENTS_HPP_ */

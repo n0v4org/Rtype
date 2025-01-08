@@ -14,7 +14,6 @@
 #include "macro.hpp"
 #include "game.hpp"
 
-
 static const char USAGE[231] = R"(
 usage:
         -h: run server in help mode
@@ -47,18 +46,16 @@ namespace rtype {
         return;
       }
 
-
       runServer(_args->get_game_port());
     } catch (const std::exception& e) {
       std::cerr << e.what() << '\n';
-      //t.join();
+      // t.join();
       //_server->close_connection();
       return;
     }
   }
 
   Core::~Core() {
-
     //  _server->close_connection();
   }
 

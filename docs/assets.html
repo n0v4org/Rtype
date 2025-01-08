@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assets Documentation - R-Type Project</title>
+</head>
+<body>
+    <header>
+        <h1>Assets Documentation</h1>
+        <p>Organization and management of assets in the R-Type project.</p>
+    </header>
+
+    <main>
+        <section id="asset-organization">
+            <h2>Asset Organization</h2>
+            <h3>Folder Structure</h3>
+            <p>All assets are stored in the root <code>assets/</code> folder, and they are divided into subdirectories to separate different types of assets:</p>
+            <pre><code>assets/
+├── sprites/        # Sprite images (PNG)
+├── sounds/         # Sound effects (WAV)
+├── fonts/          # Font files (TTF)
+├── shaders/        # Shader files (VERT)
+├── animations/     # Animation configuration files
+└── others/         # Miscellaneous assets</code></pre>
+            <h4>Explanation:</h4>
+            <ul>
+                <li><strong><code>sprites/</code></strong>: Contains all images used as game sprites.</li>
+                <li><strong><code>sounds/</code></strong>: Includes sound effects such as explosions, background music, and UI sounds.</li>
+                <li><strong><code>fonts/</code></strong>: Stores font files required for rendering text.</li>
+                <li><strong><code>shaders/</code></strong>: Contains vertex and fragment shader files for advanced rendering effects.</li>
+                <li><strong><code>animations/</code></strong>: Configuration files that define animation frames, sprite sheets, and timings.</li>
+                <li><strong><code>others/</code></strong>: Any other assets not covered by the above categories.</li>
+            </ul>
+        </section>
+
+        <section id="asset-loading">
+            <h2>Asset Loading and Management</h2>
+            <h3>How Assets Are Loaded</h3>
+            <p>Assets are loaded at runtime by the graphical module through the <code>IDisplayModule</code> interface:</p>
+            <ul>
+                <li><strong>Sprites (PNG):</strong>
+                    <pre><code>displayModule->storeAssetsPNG("assets/sprites/player.png");</code></pre>
+                </li>
+                <li><strong>Sound Effects (WAV):</strong>
+                    <pre><code>displayModule->storeAssetsWAV("assets/sounds/explosion.wav");</code></pre>
+                </li>
+                <li><strong>Fonts (TTF):</strong>
+                    <pre><code>displayModule->storeAssetsTTF("assets/fonts/arial.ttf");</code></pre>
+                </li>
+                <li><strong>Animations:</strong>
+                    <pre><code>displayModule->configAssetsAnimations("assets/animations/player_animation.cfg");</code></pre>
+                </li>
+            </ul>
+        </section>
+
+        <section id="best-practices">
+            <h2>Best Practices for Asset Management</h2>
+            <ol>
+                <li><strong>Organize Assets</strong>: Keep assets logically structured within subfolders to improve maintainability.</li>
+                <li><strong>Optimize File Sizes</strong>: Use compressed images (PNG) and sound files (WAV) to reduce loading times.</li>
+                <li><strong>Avoid Redundancy</strong>: Remove unused assets to minimize project size.</li>
+                <li><strong>Consistent Naming</strong>: Use a clear and consistent naming convention for assets, such as:
+                    <pre><code>player_idle.png
+player_run.png
+explosion.wav
+arial.ttf</code></pre>
+                </li>
+                <li><strong>Centralize Configuration</strong>: Store animation configurations in dedicated files to simplify updates.</li>
+            </ol>
+        </section>
+
+        <section id="conclusion">
+            <h2>Conclusion</h2>
+            <p>The <code>assets/</code> folder is the centralized location for managing all game-related assets. With clear organization and runtime loading through the <code>IDisplayModule</code> interface, the R-Type project ensures an efficient and scalable approach to asset management.</p>
+            <ul>
+                <li><a href="engine.html">Engine Overview</a>: Learn about the engine architecture.</li>
+                <li><a href="graphical.html">Graphical Module</a>: Details about the graphical implementation.</li>
+                <li><a href="protocol.html">Protocol Reference</a>: Learn about the communication protocols.</li>
+                <li><a href="server.html">Server Details</a>: Information about the server implementation.</li>
+                <li><a href="getting-start.html">Contribution Guide</a>: Guidelines for contributing to the project.</li>
+                <li><a href="cicd.html">Contribution Guide</a>: Guidelines for contributing to the project.</li>
+            </ul>
+        </section>
+    </main>
+</body>
+</html>

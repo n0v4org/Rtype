@@ -11,18 +11,11 @@
 #include <iostream>
 #include <string>
 
-namespace zef
-{
-    class Scene {
-        public:
-            std::string Name;
-    };    
-} // namespace zef
+namespace zef {
+  class Scene {
+  public:
+    std::string Name;
+  };
+}  // namespace zef
 
-
-
-
-
-
-#endif // ENGINE_SCENE_HPP_
-
+#endif  // ENGINE_SCENE_HPP_

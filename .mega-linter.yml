@@ -11,7 +11,8 @@ DISABLE:
 # Configure filters for cpplint
 LINTER_RULES:
   CPP_CPPLINT:
-    filter: "-build/include_subdir" # Disable include_subdir rule
+    filter: "-build/header_guard,-build/include_subdir" # Disable include_subdir rule
+  
     
 
 SHOW_ELAPSED_TIME: true

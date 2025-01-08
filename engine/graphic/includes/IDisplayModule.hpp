@@ -23,35 +23,35 @@
 
 #include "../../utils/inputsUtils.hpp"
 
-namespace zef{
-    namespace graph{
+namespace zef {
+  namespace graph {
 
-        typedef struct UserInput{
-            bool Pressed_Z=false;
-            bool Pressed_Q=false;
-            bool Pressed_S=false;
-            bool Pressed_D=false;
+    typedef struct UserInput {
+      bool Pressed_Z = false;
+      bool Pressed_Q = false;
+      bool Pressed_S = false;
+      bool Pressed_D = false;
 
-            bool Pressed_I=false;
-            bool Pressed_J=false;
-            bool Pressed_K=false;
-            bool Pressed_L=false;
+      bool Pressed_I = false;
+      bool Pressed_J = false;
+      bool Pressed_K = false;
+      bool Pressed_L = false;
 
-            bool Pressed_P=false;
-            bool Pressed_M=false;
+      bool Pressed_P = false;
+      bool Pressed_M = false;
 
-            bool Close=false;
-        } UserInput;
+      bool Close = false;
+    } UserInput;
 
-        typedef struct RGBA{
-            float R;
-            float G;
-            float B;
-            float A;
-        } RGBA_t;
+    typedef struct RGBA {
+      float R;
+      float G;
+      float B;
+      float A;
+    } RGBA_t;
 
-        typedef struct Animation{
-            std::string SpriteSheet;
+    typedef struct Animation {
+      std::string SpriteSheet;
 
           std::pair<std::size_t,std::size_t> StartPos;
           std::pair<std::size_t,std::size_t> Size;
@@ -86,32 +86,32 @@ namespace zef{
           std::vector<Particle_t> particles;
         } ParticleEmmiter_t;
 
-        typedef struct DrawableSprite{
-            std::string AnimationName;
-            std::size_t CurrentFrame;
+    typedef struct DrawableSprite {
+      std::string AnimationName;
+      std::size_t CurrentFrame;
 
-            int PosX;
-            int PosY;
+      int PosX;
+      int PosY;
 
-            float ScaleX;
-            float ScaleY;
-            float Rotation;
-            RGBA_t mask;
-        } DrawableSprite_t;
+      float ScaleX;
+      float ScaleY;
+      float Rotation;
+      RGBA_t mask;
+    } DrawableSprite_t;
 
-        typedef struct DrawableText{
-            std::string Text;
-            std::string FontName;
-            std::size_t FontSize;
+    typedef struct DrawableText {
+      std::string Text;
+      std::string FontName;
+      std::size_t FontSize;
 
-            int PosX;
-            int PosY;
+      int PosX;
+      int PosY;
 
-            float ScaleX;
-            float ScaleY;
-            float Rotation;
-            float Opacity;
-        } DrawableText_t;
+      float ScaleX;
+      float ScaleY;
+      float Rotation;
+      float Opacity;
+    } DrawableText_t;
 
         class IDisplayModule{
             public:
@@ -138,7 +138,11 @@ namespace zef{
 
                 virtual void playSound(std::string soundName, int volume = 50) = 0;
 
-                virtual void saveAnimation(std::string animationName, std::string spriteSheetName, std::size_t startTileX, std::size_t startTileY, std::size_t tileSizeX, std::size_t tileSizeY) = 0;
+      virtual void saveAnimation(std::string animationName,
+                                 std::string spriteSheetName,
+                                 std::size_t startTileX, std::size_t startTileY,
+                                 std::size_t tileSizeX,
+                                 std::size_t tileSizeY) = 0;
 
                 virtual void setActiveShaders(std::vector<std::string> shaderList = {"None"}) = 0;
                 virtual std::vector<std::string> getActiveShaders() = 0;
@@ -162,12 +166,9 @@ namespace zef{
 
     protected:
     private:
-  };
+    };
 
+  }  // namespace graph
+}  // namespace zef
 
-
-    IDisplayModule* entryPoint();
-  } // namespace graph
-} // namespace zef
-
-#endif //ENGINE_GRAPHIC_INCLUDES_IDISPLAYMODULE_HPP_
+#endif  // ENGINE_GRAPHIC_INCLUDES_IDISPLAYMODULE_HPP_

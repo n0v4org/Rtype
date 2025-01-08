@@ -10,8 +10,8 @@
 #include "Sfml.hpp"
 #include "HPBar.hpp"
 
-namespace zef{
-    namespace graph{
+namespace zef {
+  namespace graph {
 
   void Sfml::initialize(std::string assetFolderPath, std::string windowName, std::pair<int,int> windowSize) {
 
@@ -97,59 +97,63 @@ namespace zef{
   void Sfml::storeAssetsPNG(std::string assetPath) {
     sf::Texture texture;
     sf::Sprite sprite;
-    std::string assetName = assetPath.substr(assetPath.find_last_of("/\\") + 1);
-    assetName = assetName.substr(0, assetName.size()-4);
-    if(!texture.loadFromFile(assetPath.c_str())){
+      std::string assetName =
+          assetPath.substr(assetPath.find_last_of("/\\") + 1);
+      assetName = assetName.substr(0, assetName.size() - 4);
+      if (!texture.loadFromFile(assetPath.c_str())) {
       throw AssetLoadException();
     }
-    std::cout<<"Loading texture: "<<assetName<<std::endl;
-    _sprites[assetName.c_str()] = {sprite,texture};
+      std::cout << "Loading texture: " << assetName << std::endl;
+      _sprites[assetName.c_str()] = {sprite, texture};
   }
 
   void Sfml::storeAssetsWAV(std::string assetPath) {
     sf::SoundBuffer soundbuffer;
     sf::Sound sound;
-    std::string assetName = assetPath.substr(assetPath.find_last_of("/\\") + 1);
-    assetName = assetName.substr(0, assetName.size()-4);
+      std::string assetName =
+          assetPath.substr(assetPath.find_last_of("/\\") + 1);
+      assetName = assetName.substr(0, assetName.size() - 4);
 
-    if(!soundbuffer.loadFromFile(assetPath.c_str())){
+      if (!soundbuffer.loadFromFile(assetPath.c_str())) {
       throw AssetLoadException();
     }
     sound.setBuffer(soundbuffer);
     sound.setVolume(50);
 
-    _sounds[assetName.c_str()] = {sound,soundbuffer};
+      _sounds[assetName.c_str()] = {sound, soundbuffer};
   }
 
   void Sfml::storeAssetsTTF(std::string assetPath) {
     sf::Font font;
-    std::string assetName = assetPath.substr(assetPath.find_last_of("/\\") + 1);
-    assetName = assetName.substr(0, assetName.size()-4);
+      std::string assetName =
+          assetPath.substr(assetPath.find_last_of("/\\") + 1);
+      assetName = assetName.substr(0, assetName.size() - 4);
 
-    if(!font.loadFromFile(assetPath.c_str())){
+      if (!font.loadFromFile(assetPath.c_str())) {
       throw AssetLoadException();
     }
-    std::cout<<"Loading fonts: "<<assetName<<std::endl;
+      std::cout << "Loading fonts: " << assetName << std::endl;
     _fonts[assetName.c_str()] = font;
   }
 
-  void Sfml::storeAssetsSHAD(std::string assetPath){
-    std::string loadName = assetPath.substr(0, assetPath.size()-4);
-    std::string assetName = assetPath.substr(assetPath.find_last_of("/\\") + 1);
-    assetName = assetName.substr(0, assetName.size()-5);
+    void Sfml::storeAssetsSHAD(std::string assetPath) {
+      std::string loadName = assetPath.substr(0, assetPath.size() - 4);
+      std::string assetName =
+          assetPath.substr(assetPath.find_last_of("/\\") + 1);
+      assetName    = assetName.substr(0, assetName.size() - 5);
     auto& shader = _shaders[assetName];
-    loadName = loadName + "vert";
+      loadName     = loadName + "vert";
 
-    if(!shader.loadFromFile(loadName.c_str(), sf::Shader::Vertex)){
+      if (!shader.loadFromFile(loadName.c_str(), sf::Shader::Vertex)) {
       throw AssetLoadException();
     }
-    loadName = loadName.substr(0, loadName.size()-4);
+      loadName = loadName.substr(0, loadName.size() - 4);
     loadName = loadName + "frag";
-    if(!shader.loadFromFile(loadName.c_str(), sf::Shader::Fragment)){
+      if (!shader.loadFromFile(loadName.c_str(), sf::Shader::Fragment)) {
       throw AssetLoadException();
     }
 
-    std::cout<<"Loading shader: "<<assetName<<std::endl;
+      std::cout << "Loading shader: " << assetName << std::endl;
   }
 
   void Sfml::drawShaders(sf::Sprite sprite, std::vector<std::string>& objectShaders, bool addActive) {
@@ -251,7 +255,8 @@ namespace zef{
     _sprites.at(anim.SpriteSheet).first.setColor(sf::Color(255 * mask.R, 255 * mask.G, 255 * mask.B, 255 * mask.A));
     _sprites.at(anim.SpriteSheet).first.setRotation(rotation);
 
-    _sprites.at(anim.SpriteSheet).first.setOrigin(anim.Size.first / 2, anim.Size.second / 2);
+      _sprites.at(anim.SpriteSheet)
+          .first.setOrigin(anim.Size.first / 2, anim.Size.second / 2);
     _sprites.at(anim.SpriteSheet).first.setPosition(posX, posY);
     _sprites.at(anim.SpriteSheet).first.setScale(scaleX, scaleY);
 
@@ -268,7 +273,8 @@ namespace zef{
     _sprites.at(anim.SpriteSheet).first.setColor(sf::Color(255 * mask.R, 255 * mask.G, 255 * mask.B, 255 * mask.A));
     _sprites.at(anim.SpriteSheet).first.setRotation(rotation);
 
-    _sprites.at(anim.SpriteSheet).first.setOrigin(anim.Size.first / 2, anim.Size.second / 2);
+      _sprites.at(anim.SpriteSheet)
+          .first.setOrigin(anim.Size.first / 2, anim.Size.second / 2);
     _sprites.at(anim.SpriteSheet).first.setPosition(posX, posY);
     _sprites.at(anim.SpriteSheet).first.setScale(scaleX, scaleY);
 
@@ -277,13 +283,16 @@ namespace zef{
     drawShaders(_sprites.at(anim.SpriteSheet).first, objectShaders, addActive);
   }
 
-  void Sfml::drawText(std::string textString, std::string fontName,std::size_t fontSize, int posX, int posY, float scaleX, float scaleY, float rotation, RGBA mask) {
+    void Sfml::drawText(std::string textString, std::string fontName,
+                        std::size_t fontSize, int posX, int posY, float scaleX,
+                        float scaleY, float rotation, RGBA mask) {
     sf::Font font = _fonts.find(fontName)->second;
     sf::Text text(textString, font, fontSize);
     sf::Color color(255 * mask.R, 255 * mask.G, 255 * mask.B, 255 * mask.A);
 
     sf::FloatRect textRect = text.getLocalBounds();
-    text.setOrigin(textRect.left + textRect.width / 2, textRect.top + textRect.height / 2);
+      text.setOrigin(textRect.left + textRect.width / 2,
+                     textRect.top + textRect.height / 2);
     text.setPosition(posX, posY);
     text.setScale(scaleX, scaleY);
     text.setFillColor(color);
@@ -293,13 +302,17 @@ namespace zef{
     _window.draw(text);
   }
 
-  void Sfml::drawTextHUD(std::string textString, std::string fontName,std::size_t fontSize, int posX, int posY, float scaleX, float scaleY, float rotation, RGBA mask) {
+    void Sfml::drawTextHUD(std::string textString, std::string fontName,
+                           std::size_t fontSize, int posX, int posY,
+                           float scaleX, float scaleY, float rotation,
+                           RGBA mask) {
     sf::Font font = _fonts.find(fontName)->second;
     sf::Text text(textString, font, fontSize);
     sf::Color color(255 * mask.R, 255 * mask.G, 255 * mask.B, 255 * mask.A);
 
     sf::FloatRect textRect = text.getLocalBounds();
-    text.setOrigin(textRect.left + textRect.width / 2, textRect.top + textRect.height / 2);
+      text.setOrigin(textRect.left + textRect.width / 2,
+                     textRect.top + textRect.height / 2);
     text.setPosition(posX, posY);
     text.setScale(scaleX, scaleY);
     text.setFillColor(color);
@@ -338,50 +351,57 @@ namespace zef{
       _animations[animationName.c_str()] = animation;
   }
 
-  void Sfml::moveCamera(int X, int Y, float Z){
+    void Sfml::moveCamera(int X, int Y, float Z) {
     if (!_window.getView().getViewport().width) {
         sf::View defaultView = _window.getDefaultView();
-        _views["Default"] = defaultView;
+        _views["Default"]    = defaultView;
     }
 
-    _views["Default"].setCenter(_views["Default"].getCenter().x + X,_views["Default"].getCenter().y + Y);
+      _views["Default"].setCenter(_views["Default"].getCenter().x + X,
+                                  _views["Default"].getCenter().y + Y);
     _views["Default"].zoom(Z);
     _window.setView(_views["Default"]);
   }
 
-  void Sfml::setCamera(int X, int Y, int Z){
+    void Sfml::setCamera(int X, int Y, int Z) {
     if (!_window.getView().getViewport().width) {
         sf::View defaultView = _window.getDefaultView();
-        _views["Default"] = defaultView;
+        _views["Default"]    = defaultView;
     }
 
-    _views["Default"].move(X,Y);
+      _views["Default"].move(X, Y);
     _views["Default"].zoom(1.0f + Z / 100.0f);
     _window.setView(_views["Default"]);
-
   }
 
-  void Sfml::updateUserInputs(utils::UserInputs &ui) {
+    void Sfml::updateUserInputs(utils::UserInputs& ui) {
     sf::Event evt;
-    while (_window.pollEvent(evt))
-    {
+      while (_window.pollEvent(evt)) {
       if (evt.type == evt.KeyPressed) {
-        if (ui.keyboard._key_map[static_cast<utils::Keys>(evt.key.code)] == false)
-          ui.keyboard._pressed.push_back(static_cast<utils::Keys>(evt.key.code));
+          if (ui.keyboard._key_map[static_cast<utils::Keys>(evt.key.code)] ==
+              false)
+            ui.keyboard._pressed.push_back(
+                static_cast<utils::Keys>(evt.key.code));
         ui.keyboard._key_map[static_cast<utils::Keys>(evt.key.code)] = true;
       }
       if (evt.type == evt.KeyReleased) {
         ui.keyboard._key_map[static_cast<utils::Keys>(evt.key.code)] = false;
-        ui.keyboard._released.push_back(static_cast<utils::Keys>(evt.key.code));
+          ui.keyboard._released.push_back(
+              static_cast<utils::Keys>(evt.key.code));
       }
       if (evt.type == evt.MouseButtonPressed) {
-        if (ui.mouse._mb_map[static_cast<utils::MouseButtons>(evt.mouseButton.button)] == false)
-          ui.mouse._pressed.push_back(static_cast<utils::MouseButtons>(evt.mouseButton.button));
-        ui.mouse._mb_map[static_cast<utils::MouseButtons>(evt.mouseButton.button)] = true;
+          if (ui.mouse._mb_map[static_cast<utils::MouseButtons>(
+                  evt.mouseButton.button)] == false)
+            ui.mouse._pressed.push_back(
+                static_cast<utils::MouseButtons>(evt.mouseButton.button));
+          ui.mouse._mb_map[static_cast<utils::MouseButtons>(
+              evt.mouseButton.button)] = true;
       }
       if (evt.type == evt.MouseButtonReleased) {
-        ui.mouse._mb_map[static_cast<utils::MouseButtons>(evt.mouseButton.button)] = false;
-        ui.mouse._released.push_back(static_cast<utils::MouseButtons>(evt.mouseButton.button));
+          ui.mouse._mb_map[static_cast<utils::MouseButtons>(
+              evt.mouseButton.button)] = false;
+          ui.mouse._released.push_back(
+              static_cast<utils::MouseButtons>(evt.mouseButton.button));
       }
 
       sf::Vector2i mousePosWindow = sf::Mouse::getPosition(_window);
@@ -392,7 +412,7 @@ namespace zef{
     }
   }
 
-  UserInput Sfml::getEvent(){
+    UserInput Sfml::getEvent() {
     UserInput userInput;
 
     sf::Event event;
@@ -400,25 +420,43 @@ namespace zef{
         if (event.type == sf::Event::Closed)
           userInput.Close = true;
 		if (event.type == sf::Event::KeyPressed) {
-      		if (event.text.unicode == 3 ) { userInput.Pressed_D = true;}
-      		if (event.text.unicode == 8 ) { userInput.Pressed_I = true;}
-      		if (event.text.unicode == 9 ) { userInput.Pressed_J = true;}
-      		if (event.text.unicode == 10) { userInput.Pressed_K = true;}
-      		if (event.text.unicode == 11) { userInput.Pressed_L = true;}
-      		if (event.text.unicode == 12) { userInput.Pressed_M = true;}
-      		if (event.text.unicode == 15) { userInput.Pressed_P = true;}
-      		if (event.text.unicode == 16) { userInput.Pressed_Q = true;}
-      		if (event.text.unicode == 18) { userInput.Pressed_S = true;}
-      		if (event.text.unicode == 25) { userInput.Pressed_Z = true;}
+          if (event.text.unicode == 3) {
+            userInput.Pressed_D = true;
+          }
+          if (event.text.unicode == 8) {
+            userInput.Pressed_I = true;
+          }
+          if (event.text.unicode == 9) {
+            userInput.Pressed_J = true;
+          }
+          if (event.text.unicode == 10) {
+            userInput.Pressed_K = true;
+          }
+          if (event.text.unicode == 11) {
+            userInput.Pressed_L = true;
+          }
+          if (event.text.unicode == 12) {
+            userInput.Pressed_M = true;
+          }
+          if (event.text.unicode == 15) {
+            userInput.Pressed_P = true;
+          }
+          if (event.text.unicode == 16) {
+            userInput.Pressed_Q = true;
+          }
+          if (event.text.unicode == 18) {
+            userInput.Pressed_S = true;
+          }
+          if (event.text.unicode == 25) {
+            userInput.Pressed_Z = true;
+          }
 		}
     }
     return userInput;
   }
 
-  IDisplayModule* entryPoint() {
-    return new Sfml;
+  }  // namespace graph
+}  // namespace zef
+extern "C" zef::graph::IDisplayModule* entryPoint() {
+  return new zef::graph::Sfml;
   }
-
-
- } // namespace graph
-} // namespace zef
