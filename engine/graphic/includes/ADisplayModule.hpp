@@ -18,16 +18,20 @@
 namespace zef {
   namespace graph {
 
-        template<typename PNG, typename WAV, typename TTF, typename SHAD, typename RECTANGLE>
-        class ADisplayModule : public IDisplayModule{
-            public:
-                ADisplayModule()=default;
-                virtual ~ADisplayModule()=default;
-                virtual void initialize(std::string assetFolderPath, std::string windowName, std::pair<int,int> windowSize = {1920,1080}) = 0;
-                virtual void stop() = 0;
-                virtual void clear() = 0;
-                virtual void refresh() = 0;
-                virtual bool isOpen() = 0;
+    template <typename PNG, typename WAV, typename TTF, typename SHAD,
+              typename RECTANGLE>
+    class ADisplayModule : public IDisplayModule {
+    public:
+      ADisplayModule()          = default;
+      virtual ~ADisplayModule() = default;
+      virtual void initialize(std::string assetFolderPath,
+                              std::string windowName,
+                              std::pair<int, int> windowSize = {1920,
+                                                                1080}) = 0;
+      virtual void stop()                                              = 0;
+      virtual void clear()                                             = 0;
+      virtual void refresh()                                           = 0;
+      virtual bool isOpen()                                            = 0;
 
       void loadAssets(std::string assetFolderPath) override {
         std::string pathname;
@@ -150,16 +154,35 @@ namespace zef {
         file.close();
       };
 
-                virtual void storeAssetsPNG(std::string assetPath)=0;
-                virtual void storeAssetsWAV(std::string assetPath)=0;
-                virtual void storeAssetsTTF(std::string assetPath)=0;
-                virtual void storeAssetsSHAD(std::string assetPath)=0;
+      virtual void storeAssetsPNG(std::string assetPath)  = 0;
+      virtual void storeAssetsWAV(std::string assetPath)  = 0;
+      virtual void storeAssetsTTF(std::string assetPath)  = 0;
+      virtual void storeAssetsSHAD(std::string assetPath) = 0;
 
-                virtual void drawSprite(std::string animationName, std::size_t currentFrame, int posX, int posY, float scaleX = 1, float scaleY = 1, float rotation = 0, RGBA mask = {1,1,1,1}, std::vector<std::string> objectShaders={"None"}, bool addActive=true) = 0;
-                virtual void drawText(std::string textString, std::string fontName, std::size_t fontSize, int posX, int posY, float scaleX = 1, float scaleY = 1, float rotation = 0, RGBA mask = {1,1,1,1}) = 0;
-                virtual void drawSpriteHUD(std::string animationName, std::size_t currentFrame, int posX, int posY, float scaleX = 1, float scaleY = 1, float rotation = 0, RGBA mask = {1,1,1,1}, std::vector<std::string> objectShaders={"None"}, bool addActive=true) = 0;
-                virtual void drawTextHUD(std::string textString, std::string fontName, std::size_t fontSize, int posX, int posY, float scaleX = 1, float scaleY = 1, float rotation = 0, RGBA mask = {1,1,1,1}) = 0;
-                virtual void drawHPBar(float posX, float posY, float width, float height, float value, RGBA backgroundColor,RGBA foregroundColor) = 0;
+      virtual void drawSprite(std::string animationName,
+                              std::size_t currentFrame, int posX, int posY,
+                              float scaleX = 1, float scaleY = 1,
+                              float rotation = 0, RGBA mask = {1, 1, 1, 1},
+                              std::vector<std::string> objectShaders = {"None"},
+                              bool addActive = true)                      = 0;
+      virtual void drawText(std::string textString, std::string fontName,
+                            std::size_t fontSize, int posX, int posY,
+                            float scaleX = 1, float scaleY = 1,
+                            float rotation = 0, RGBA mask = {1, 1, 1, 1}) = 0;
+      virtual void drawSpriteHUD(
+          std::string animationName, std::size_t currentFrame, int posX,
+          int posY, float scaleX = 1, float scaleY = 1, float rotation = 0,
+          RGBA mask                              = {1, 1, 1, 1},
+          std::vector<std::string> objectShaders = {"None"},
+          bool addActive                         = true)                         = 0;
+      virtual void drawTextHUD(std::string textString, std::string fontName,
+                               std::size_t fontSize, int posX, int posY,
+                               float scaleX = 1, float scaleY = 1,
+                               float rotation = 0,
+                               RGBA mask      = {1, 1, 1, 1}) = 0;
+      virtual void drawHPBar(float posX, float posY, float width, float height,
+                             float value, RGBA backgroundColor,
+                             RGBA foregroundColor)       = 0;
 
       virtual void saveAnimation(std::string animationName,
                                  std::string spriteSheetName,
@@ -167,56 +190,66 @@ namespace zef {
                                  std::size_t tileSizeX,
                                  std::size_t tileSizeY) = 0;
 
+      virtual void setActiveShaders(std::vector<std::string> shaderList = {
+                                        "None"}) {
+        _activeShaders = shaderList;
+      }
+      virtual std::vector<std::string> getActiveShaders() {
+        return _activeShaders;
+      }
 
-                virtual void setActiveShaders(std::vector<std::string> shaderList = {"None"}){
-                    _activeShaders = shaderList;
-                }
-                virtual std::vector<std::string> getActiveShaders(){
-                    return _activeShaders;
-                }
+      virtual void addParticleEmmiter(
+          std::string emmiterName, std::string particleSprite, int posX,
+          int posY, int density = 10, int velocity = 4, int lifetime = 1000,
+          float scaleX = 1, float scaleY = 1, int rotationStart = 0,
+          int rotationRange = 360, RGBA mask = {1, 1, 1, 1},
+          std::vector<std::string> objectShaders = {"None"},
+          bool addActive                         = true) {
+        unsigned int seed              = 4;
+        _particleEmmiters[emmiterName] = {
+            particleSprite, posX,          posY,   density,
+            velocity,       lifetime,      scaleX, scaleY,
+            rotationStart,  rotationRange, mask,   objectShaders,
+            addActive};
+        for (int i = 0; i < density; i++) {
+          _particleEmmiters[emmiterName].particles.push_back(
+              {0, 0, velocity - (rand_r(&seed) % velocity / 4),
+               static_cast<float>(
+                   (rand_r(&seed) % rotationRange + rotationStart) *
+                   (M_PI / 180)),
+               lifetime, lifetime - (rand_r(&seed) % lifetime / 4)});
+        }
+      }
+      void removeParticleEmmiter(std::string emmiterName) override {
+        _particleEmmiters.erase(emmiterName);
+      }
 
-                virtual void addParticleEmmiter(
-                    std::string emmiterName, std::string particleSprite,
-                    int posX, int posY,
-                    int density = 10, int velocity = 4, int lifetime = 1000,
-                    float scaleX = 1, float scaleY = 1,
-                    int rotationStart = 0, int rotationRange = 360,
-                    RGBA mask = {1,1,1,1},
-                    std::vector<std::string> objectShaders = {"None"}, bool addActive = true){
-                  unsigned int seed = 4;
-                  _particleEmmiters[emmiterName] = {particleSprite, posX, posY, density, velocity, lifetime, scaleX, scaleY, rotationStart, rotationRange, mask, objectShaders, addActive};
-                  for (int i = 0; i < density; i++) {
-                    _particleEmmiters[emmiterName].particles.push_back({0,0,velocity - (rand_r(&seed) % velocity / 4),static_cast<float>((rand_r(&seed)%rotationRange + rotationStart)*(M_PI/180)),lifetime,lifetime - (rand_r(&seed) % lifetime /4)});
-                  }
-                }
-                void removeParticleEmmiter(std::string emmiterName) override {
-                  _particleEmmiters.erase(emmiterName);
-                }
+      virtual void setCamera(int x, int y, int z)    = 0;
+      virtual void moveCamera(int x, int y, float z) = 0;
 
-                virtual void setCamera(int x, int y, int z)=0;
-                virtual void moveCamera(int x, int y, float z)=0;
+      virtual UserInput getEvent()                         = 0;
+      virtual void updateUserInputs(utils::UserInputs &ui) = 0;
+      void updateSettings(std::string SettingName,
+                          std::string SettingValue) override {
+        _settings[SettingName] = SettingValue;
+      };
 
-                virtual UserInput getEvent() = 0;
-                virtual void updateUserInputs(utils::UserInputs& ui) = 0;
-                void updateSettings(std::string SettingName, std::string SettingValue) override{
-                	_settings[SettingName] = SettingValue;
-                };
+    protected:
+      std::vector<std::string> _activeShaders;
+      std::map<std::string, PNG> _sprites;
+      std::map<std::string, WAV> _sounds;
+      std::map<std::string, TTF> _fonts;
+      std::map<std::string, SHAD> _shaders;
 
-            protected:
-                std::vector<std::string> _activeShaders;
-                std::map<std::string, PNG> _sprites;
-                std::map<std::string, WAV> _sounds;
-                std::map<std::string, TTF> _fonts;
-                std::map<std::string, SHAD> _shaders;
+      std::map<std::string, Animation_t> _animations;
+      std::map<std::string, std::string> _settings;
+      std::map<std::string, ParticleEmmiter_t> _particleEmmiters;
 
-                std::map<std::string, Animation_t> _animations;
-                std::map<std::string, std::string> _settings;
-                std::map<std::string, ParticleEmmiter_t> _particleEmmiters;
+      RECTANGLE _rectangle;
 
-                RECTANGLE _rectangle;
-            private:
-        };
-    } // namespace graph
-} // namespace zef
+    private:
+    };
+  }  // namespace graph
+}  // namespace zef
 
 #endif  // ENGINE_GRAPHIC_INCLUDES_ADISPLAYMODULE_HPP_
