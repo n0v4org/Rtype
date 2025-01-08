@@ -7,6 +7,8 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
+#include <utility>
 #include "Sfml.hpp"
 #include "HPBar.hpp"
 
@@ -21,8 +23,8 @@ namespace zef {
       throw WindowCreationException();
     }
     _window.setFramerateLimit(60);
-    sf::View view({0, 0}, {float(_windowSize.first), float(_windowSize.second)});
-    sf::View HUD({0, 0}, {float(_windowSize.first), float(_windowSize.second)});
+    sf::View view({0, 0}, {static_cast<float>(_windowSize.first), static_cast<float>(_windowSize.second)});
+    sf::View HUD({0, 0}, {static_cast<float>(_windowSize.first), static_cast<float>(_windowSize.second)});
 //    view.setCenter(0, 0);
 //    HUD.setCenter(0,0);
 	_views["Default"] = view;
@@ -50,7 +52,7 @@ namespace zef {
           _particleEmmiters[particleEmmiter.first].particles[i].posX = 0;
           _particleEmmiters[particleEmmiter.first].particles[i].posY = 0;
           _particleEmmiters[particleEmmiter.first].particles[i].lifeTime = _particleEmmiters[particleEmmiter.first].lifeTime;
-          _particleEmmiters[particleEmmiter.first].particles[i].direction = float((rand() % _particleEmmiters[particleEmmiter.first].rotationRange + _particleEmmiters[particleEmmiter.first].rotationStart)*(M_PI/180.0));
+          _particleEmmiters[particleEmmiter.first].particles[i].direction = static_cast<float>((rand() % _particleEmmiters[particleEmmiter.first].rotationRange + _particleEmmiters[particleEmmiter.first].rotationStart)*(M_PI/180.0));
           _particleEmmiters[particleEmmiter.first].particles[i].velocity = _particleEmmiters[particleEmmiter.first].velocity - (rand() % _particleEmmiters[particleEmmiter.first].velocity /4);
           _particleEmmiters[particleEmmiter.first].particles[i].startupTime = _particleEmmiters[particleEmmiter.first].particles[i].lifeTime - (rand() % _particleEmmiters[particleEmmiter.first].particles[i].lifeTime);
         }
@@ -68,7 +70,7 @@ namespace zef {
             _particleEmmiters[particleEmmiter.first].scaleX,
             _particleEmmiters[particleEmmiter.first].scaleY,
             _particleEmmiters[particleEmmiter.first].particles[i].direction,
-            {_particleEmmiters[particleEmmiter.first].mask.R,_particleEmmiters[particleEmmiter.first].mask.G,_particleEmmiters[particleEmmiter.first].mask.B,_particleEmmiters[particleEmmiter.first].mask.A *(float(_particleEmmiters[particleEmmiter.first].particles[i].lifeTime)/float(_particleEmmiters[particleEmmiter.first].lifeTime))},
+            {_particleEmmiters[particleEmmiter.first].mask.R,_particleEmmiters[particleEmmiter.first].mask.G,_particleEmmiters[particleEmmiter.first].mask.B,_particleEmmiters[particleEmmiter.first].mask.A *(static_cast<float>(_particleEmmiters[particleEmmiter.first].particles[i].lifeTime)/static_cast<float>(_particleEmmiters[particleEmmiter.first].lifeTime))},
             _particleEmmiters[particleEmmiter.first].objectShaders,
             _particleEmmiters[particleEmmiter.first].addActive
         );

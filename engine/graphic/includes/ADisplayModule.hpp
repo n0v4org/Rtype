@@ -11,6 +11,8 @@
 #include <string>
 #include <iostream>
 #include <map>
+#include <utility>
+#include <vector>
 #include "IDisplayModule.hpp"
 
 namespace zef {
@@ -184,10 +186,10 @@ namespace zef {
 
                   _particleEmmiters[emmiterName] = {particleSprite, posX, posY, density, velocity, lifetime, scaleX, scaleY, rotationStart, rotationRange, mask, objectShaders, addActive};
                   for (int i = 0; i < density; i++) {
-                    _particleEmmiters[emmiterName].particles.push_back({0,0,velocity - (rand() % velocity / 4),float((rand()%rotationRange + rotationStart)*(M_PI/180)),lifetime,lifetime - (rand() % lifetime /4)});
+                    _particleEmmiters[emmiterName].particles.push_back({0,0,velocity - (rand() % velocity / 4),static_cast<float>((rand()%rotationRange + rotationStart)*(M_PI/180)),lifetime,lifetime - (rand() % lifetime /4)});
                   }
                 }
-                virtual void removeParticleEmmiter(std::string emmiterName) override {
+                void removeParticleEmmiter(std::string emmiterName) override {
                   _particleEmmiters.erase(emmiterName);
                 }
 
