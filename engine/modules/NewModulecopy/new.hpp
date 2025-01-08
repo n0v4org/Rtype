@@ -24,6 +24,8 @@ public:
   float dou;
 };
 
+
+
 class NewModuleCopy : public zef::AModule<zef::Component<comppp1, int, float, float>> {
 public:
   NewModuleCopy() : AModule() {
@@ -38,6 +40,11 @@ public:
                       << ", Doubleeeeeeee: " << c.dou << std::endl;
       }
     });
+  }
+
+
+  std::map<std::string, std::any> members = {
+    {"in", &comppp1::dou}
   };
 };
 
