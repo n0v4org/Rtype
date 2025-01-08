@@ -35,7 +35,6 @@ namespace rtype {
   }
 
   void Core::run() {
-    
   }
 
   Core::~Core() {
