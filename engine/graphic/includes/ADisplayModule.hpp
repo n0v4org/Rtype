@@ -165,15 +165,13 @@ namespace zef {
                                  std::size_t tileSizeX,
                                  std::size_t tileSizeY) = 0;
 
-      virtual void setCamera(int x, int y, int z)    = 0;
-      virtual void moveCamera(int x, int y, float z) = 0;
 
                 virtual void setActiveShaders(std::vector<std::string> shaderList = {"None"}){
                     _activeShaders = shaderList;
-                };
+                }
                 virtual std::vector<std::string> getActiveShaders(){
                     return _activeShaders;
-                };
+                }
 
                 virtual void addParticleEmmiter(
                     std::string emmiterName, std::string particleSprite,
@@ -188,10 +186,10 @@ namespace zef {
                   for (int i = 0; i < density; i++) {
                     _particleEmmiters[emmiterName].particles.push_back({0,0,velocity - (rand() % velocity / 4),float((rand()%rotationRange + rotationStart)*(M_PI/180)),lifetime,lifetime - (rand() % lifetime /4)});
                   }
-                };
+                }
                 virtual void removeParticleEmmiter(std::string emmiterName) override {
                   _particleEmmiters.erase(emmiterName);
-                };
+                }
 
                 virtual void setCamera(int x, int y, int z)=0;
                 virtual void moveCamera(int x, int y, float z)=0;
