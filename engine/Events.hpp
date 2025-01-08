@@ -12,6 +12,7 @@
 #include <map>
 #include <any>
 #include <typeindex>
+#include <string>
 #include <functional>
 #include "./ecs/sparse_array.hpp"
 

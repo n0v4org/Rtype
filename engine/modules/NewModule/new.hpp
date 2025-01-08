@@ -10,6 +10,8 @@
 
 #include <iostream>
 #include <map>
+#include <any>
+
 
 #include "AModule.hpp"
 #include "Engine.hpp"
@@ -58,6 +60,11 @@ public:
                       << ", AADouble: " << c.dou << std::endl;
           }
         });
+
+      
+      std::map<std::string, std::any> members = {
+        {"in", &comp1::in}
+      };
   }
 };
 

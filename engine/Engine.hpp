@@ -13,6 +13,7 @@
 #include <queue>
 #include <thread>
 #include <string>
+#include <tuple>
 #include <functional>
 #include <vector>
 #include <filesystem>
