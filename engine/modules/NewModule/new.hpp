@@ -13,7 +13,6 @@
 #include <map>
 #include <any>
 
-
 #include "AModule.hpp"
 #include "Engine.hpp"
 
@@ -62,10 +61,7 @@ public:
           }
         });
 
-      
-      std::map<std::string, std::any> members = {
-        {"in", &comp1::in}
-      };
+    std::map<std::string, std::any> members = {{"in", &comp1::in}};
   }
 };
 

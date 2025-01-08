@@ -39,39 +39,41 @@ namespace zef {
     std::any tpl;
     std::string name;
 
-    //template <typename T>
-    //T to_struct(std::function<void(Engine&, size_t, T)> f) {
-    //  return std::any_cast<T>(tpl);
-    //}
+    // template <typename T>
+    // T to_struct(std::function<void(Engine&, size_t, T)> f) {
+    //   return std::any_cast<T>(tpl);
+    // }
   };
 
   namespace comp {
 
     struct new_event_listener {
-      public:
-        new_event_listener() {}
+    public:
+      new_event_listener() {
+      }
 
-        template <typename ...U, typename Functor>
-        void setEvent(std::string name, Functor&& f) {
-          _setEvent<U...>(name, f, std::index_sequence_for<U...>{});
-        }
+      template <typename... U, typename Functor>
+      void setEvent(std::string name, Functor&& f) {
+        _setEvent<U...>(name, f, std::index_sequence_for<U...>{});
+      }
 
-        template <typename ...U, typename Functor, std::size_t... Indices>
-        void _setEvent(std::string name, Functor&& f, std::index_sequence<Indices...>) {
-          _map[name] = [&] (zef::Engine& engine, size_t e, std::any tpl) {
-            auto tmpt = std::any_cast<std::tuple<U...>>(tpl);
-            f(engine, e, std::get<Indices>(tmpt)...);
-          };
-        }
+      template <typename... U, typename Functor, std::size_t... Indices>
+      void _setEvent(std::string name, Functor&& f,
+                     std::index_sequence<Indices...>) {
+        _map[name] = [&](zef::Engine& engine, size_t e, std::any tpl) {
+          auto tmpt = std::any_cast<std::tuple<U...>>(tpl);
+          f(engine, e, std::get<Indices>(tmpt)...);
+        };
+      }
 
-
-        void execute(std::string name, zef::Engine& engine, size_t e, std::any tpl) {
-          if (_map.find(name) != _map.end())
+      void execute(std::string name, zef::Engine& engine, size_t e,
+                   std::any tpl) {
+        if (_map.find(name) != _map.end())
           _map[name](engine, e, tpl);
-        }
+      }
 
-
-        std::map<std::string, std::function<void(zef::Engine&, size_t, std::any)>> _map;
+      std::map<std::string, std::function<void(zef::Engine&, size_t, std::any)>>
+          _map;
     };
 
     struct event_listener {

@@ -44,7 +44,7 @@ namespace zef {
                       ecs::sparse_array<comp::event_listener>& evtls);
 
     void nresolveEvent(Engine& engine,
-                      ecs::sparse_array<comp::new_event_listener>& evtls);
+                       ecs::sparse_array<comp::new_event_listener>& evtls);
   }  // namespace sys
 
   class Engine {
@@ -57,7 +57,7 @@ namespace zef {
     friend void sys::resolveEvent(
         Engine& engine, ecs::sparse_array<comp::event_listener>& evtls);
     friend void sys::nresolveEvent(
-      Engine& engine, ecs::sparse_array<comp::new_event_listener>& evtls);
+        Engine& engine, ecs::sparse_array<comp::new_event_listener>& evtls);
 
     template <typename T, typename... U>
     void sendEvent(size_t entity, U... args) {
@@ -72,10 +72,10 @@ namespace zef {
     template <typename... U>
     void nsendEvent(std::string name, size_t entity, U... args) {
       newEvent evt;
-      evt.name = name;
+      evt.name   = name;
       evt.entity = entity;
-      evt.tpl = std::tuple<U...>(args...);
-      
+      evt.tpl    = std::tuple<U...>(args...);
+
       _nevents.push(evt);
     }
 

@@ -138,13 +138,13 @@ void runServer(int port) {
   engine.registerComponent<Monster>();
   engine.registerComponent<zef::comp::new_event_listener>();
 
-  //engine.reg.spawn_entity();
-  //engine.loadModules();
+  // engine.reg.spawn_entity();
+  // engine.loadModules();
 
   engine.reg.disp();
   ////engine.addSystem<>(entitycountdisplay);
 
-   engine.addSystem<Lifetime>("zefir", lifetime_system);
+  engine.addSystem<Lifetime>("zefir", lifetime_system);
   // engine.addSystem<>(zef::sys::handle_server);
 
   // engine.addSystem<VectorHolder, zef::comp::vector>(convertHolderToVect);
@@ -152,44 +152,44 @@ void runServer(int port) {
   // engine.addSystem<zef::comp::position, zef::comp::vector>(zef::sys::move);
   // engine.addSystem<PlayerReplacer>(syncPlayers);
 
-    engine.addSystem<zef::comp::new_event_listener>("zefir", zef::sys::nresolveEvent);
+  engine.addSystem<zef::comp::new_event_listener>("zefir",
+                                                  zef::sys::nresolveEvent);
 
-  //engine.addSystem<zef::comp::collidable, zef::comp::position>(
-  //    "zefir", zef::sys::check_collidables);
+  // engine.addSystem<zef::comp::collidable, zef::comp::position>(
+  //     "zefir", zef::sys::check_collidables);
   //// engine.addSystem<zef::comp::event_listener>(zef::sys::resolveEvent);
-//
+  //
   //// engine.addSystem<Health>(handleHealth);
-//
-  //engine.addSystem<zef::comp::drawable>("zefir", zef::sys::update_animations);
-  //engine.addSystem<zef::comp::drawable, zef::comp::position>(
+  //
+  // engine.addSystem<zef::comp::drawable>("zefir",
+  // zef::sys::update_animations); engine.addSystem<zef::comp::drawable,
+  // zef::comp::position>(
   //    "zefir", zef::sys::draw_drawables);
-//
-  //engine.addSystem<zef::comp::position>(
+  //
+  // engine.addSystem<zef::comp::position>(
   //    "zefir",
   //    [](zef::Engine &engine, ecs::sparse_array<zef::comp::position> &pos) {
   //      for (auto &&[p] : ecs::zipper(pos)) {
   //        std::cout << "x: " << p.x << " y: " << p.y << std::endl;
   //      }
   //    });
-//
-  //engine.addEntityComponent<zef::comp::position>(engine.reg.spawn_entity(),
+  //
+  // engine.addEntityComponent<zef::comp::position>(engine.reg.spawn_entity(),
   //                                               2.0f, 9.0f);
 
   engine.loadPatron("../Assets/config/patronPlayer.json");
-  //engine.instanciatePatron("Player", 3, 4.5f, 56.90f);
+  // engine.instanciatePatron("Player", 3, 4.5f, 56.90f);
 
   ecs::Entity e = engine.reg.spawn_entity();
 
   zef::comp::new_event_listener test;
 
-    
-  test.setEvent<int, int>("shoot", [](zef::Engine& engine, size_t self, int a, int b) {
-    std::cout << "salam" << a << b << std::endl;
-  });
-
+  test.setEvent<int, int>("shoot",
+                          [](zef::Engine& engine, size_t self, int a, int b) {
+                            std::cout << "salam" << a << b << std::endl;
+                          });
 
   engine.addEntityComponent<zef::comp::new_event_listener>(e, test);
-
 
   engine.nsendEvent("shoot", e, 4, 5);
 

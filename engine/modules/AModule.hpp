@@ -93,10 +93,7 @@ namespace zef {
 
     template <typename M>
     M& getMember(const std::string& name, const std::string& mname) {
-
     }
-
-    
   };
 }  // namespace zef
 
