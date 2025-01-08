@@ -22,7 +22,6 @@
 #include <iostream>
 
 #include "../../utils/inputsUtils.hpp"
-#include "../sfml/include/HPBar.hpp"
 
 namespace zef{
     namespace graph{
@@ -135,7 +134,7 @@ namespace zef{
                 virtual void drawText(std::string textString, std::string fontName, std::size_t fontSize, int posX, int posY, float scaleX = 1, float scaleY = 1, float rotation = 0, RGBA mask = {1,1,1,1}) = 0;
                 virtual void drawSpriteHUD(std::string animationName, std::size_t currentFrame, int posX, int posY, float scaleX = 1, float scaleY = 1, float rotation = 0, RGBA mask = {1,1,1,1}, std::vector<std::string> objectShaders={"None"}, bool addActive=true) = 0;
                 virtual void drawTextHUD(std::string textString, std::string fontName, std::size_t fontSize, int posX, int posY, float scaleX = 1, float scaleY = 1, float rotation = 0, RGBA mask = {1,1,1,1}) = 0;
-                virtual void drawHPBar(float posX, float posY, float width, float height, float value, sf::Color backgroundColor,sf::Color foregroundColor) = 0;
+                virtual void drawHPBar(float posX, float posY, float width, float height, float value, RGBA backgroundColor,RGBA foregroundColor) = 0;
 
                 virtual void playSound(std::string soundName, int volume = 50) = 0;
 

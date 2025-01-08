@@ -7,7 +7,8 @@
 
 #include <iostream>
 #include <string>
-#include "./include/Sfml.hpp"
+#include "Sfml.hpp"
+#include "HPBar.hpp"
 
 namespace zef{
     namespace graph{
@@ -311,8 +312,8 @@ namespace zef{
   void Sfml::drawHPBar(float posX, float posY, 
                      float width, float height,
                      float value,
-                     sf::Color backgroundColor,
-                     sf::Color foregroundColor) {
+                     RGBA backgroundColor,
+                     RGBA foregroundColor) {
       _window.setView(_views["Default"]);
       _hpBar.draw(
           _window,
@@ -320,8 +321,8 @@ namespace zef{
           posX, posY,
           width, height,
           value,
-          backgroundColor,
-          foregroundColor
+          sf::Color(backgroundColor.R,backgroundColor.G,backgroundColor.B,backgroundColor.A),
+          sf::Color(foregroundColor.R,foregroundColor.G,foregroundColor.B,foregroundColor.A)
       );
   }
 

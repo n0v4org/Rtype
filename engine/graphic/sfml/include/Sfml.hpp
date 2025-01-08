@@ -19,7 +19,8 @@
 #include <SFML/Window.hpp>
 #include <SFML/Audio.hpp>
 
-#include "../../includes/ADisplayModule.hpp"
+#include "HPBar.hpp"
+#include "ADisplayModule.hpp"
 
 namespace zef{
     namespace graph{
@@ -45,7 +46,7 @@ namespace zef{
                 void drawText(std::string textString, std::string fontName, std::size_t fontSize, int posX, int posY, float scaleX = 1, float scaleY = 1, float rotation = 0, RGBA mask = {1,1,1,1}) override;
                 void drawSpriteHUD(std::string animationName, std::size_t currentFrame, int posX, int posY, float scaleX = 1, float scaleY = 1, float rotation = 0, RGBA mask = {1,1,1,1}, std::vector<std::string> objectShaders={"None"}, bool addActive=true) override;
                 void drawTextHUD(std::string textString, std::string fontName, std::size_t fontSize, int posX, int posY, float scaleX = 1, float scaleY = 1, float rotation = 0, RGBA mask = {1,1,1,1}) override;
-                void drawHPBar(float posX, float posY, float width, float height, float value, sf::Color backgroundColor,sf::Color foregroundColor) override;
+                void drawHPBar(float posX, float posY, float width, float height, float value, RGBA backgroundColor,RGBA foregroundColor) override;
 
                 void playSound(std::string soundName, int volume = 50)override;
 

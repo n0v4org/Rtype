@@ -5,7 +5,7 @@
 ** HPBar
 */
 
-#include "./include/HPBar.hpp"
+#include "HPBar.hpp"
 #include <algorithm>
 
 namespace zef {

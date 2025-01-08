@@ -7,7 +7,7 @@ project(rtype_sfml VERSION 1.0)
 
 set(SRC
     Sfml.cpp
-    Button.cpp
+    HPBar.cpp
 )
 
 add_library(sfml STATIC ${SRC})
