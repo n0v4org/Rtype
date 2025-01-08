@@ -14,6 +14,7 @@
 #include <memory>
 #include <vector>
 #include <functional>
+#include <map>
 
 #include "IModule.hpp"
 #include "Engine.hpp"

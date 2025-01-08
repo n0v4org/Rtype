@@ -9,7 +9,7 @@
 #define NEW_HPP_
 
 #include <iostream>
-
+#include <map>
 #include "AModule.hpp"
 #include "Engine.hpp"
 
@@ -43,9 +43,7 @@ public:
   }
 
 
-  std::map<std::string, std::any> members = {
-    {"in", &comppp1::dou}
-  };
+  
 };
 
 #endif /* !NEW_HPP_ */
