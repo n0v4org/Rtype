@@ -10,7 +10,6 @@
 #include <array>
 #include "Input.hpp"
 
-
 extern std::mutex _mutex;
 
 extern std::deque<input_t> tcp_command_queue;

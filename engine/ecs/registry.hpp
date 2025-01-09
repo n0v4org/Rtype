@@ -37,7 +37,7 @@ namespace ecs {
   public:
     using entity_t = Entity;
 
-    registry() = default;
+    registry()  = default;
     ~registry() = default;
 
     template <class Component>
@@ -120,22 +120,20 @@ namespace ecs {
 
     template <class... Components, typename Function>
     void add_system(const std::string &moduleName, Function &&f) {
-
-      _systems[moduleName].push_back([f = std::forward<Function>(f)](zef::Engine &e, ecs::registry &r) {
+      _systems[moduleName].push_back(
+          [f = std::forward<Function>(f)](zef::Engine &e, ecs::registry &r) {
             f(e, r.get_components<Components>()...);
           });
-      
     }
 
     void run_systems(zef::Engine &engine) {
       for (auto &[module, systems] : _systems) {
-        _moduleThreads[module] = std::thread([&systems, &engine, &reg = *this](){
-          for (auto &sys : systems)
-            sys(engine, reg);
-        });
-
+        _moduleThreads[module] =
+            std::thread([&systems, &engine, &reg = *this]() {
+              for (auto &sys : systems) sys(engine, reg);
+            });
       }
-      
+
       for (auto &[name, th] : _moduleThreads) {
         th.join();
       }
@@ -174,11 +172,12 @@ namespace ecs {
         _deleteFunctions;
     size_t _maxId = 0;
 
-    std::map<std::string, std::vector<std::function<void(zef::Engine &, registry &)>>> _systems;
+    std::map<std::string,
+             std::vector<std::function<void(zef::Engine &, registry &)>>>
+        _systems;
     std::map<std::string, std::thread> _moduleThreads;
 
-
-    //std::vector<std::function<void(zef::Engine &, registry &)>> _systems;
+    // std::vector<std::function<void(zef::Engine &, registry &)>> _systems;
     std::queue<size_t> _unusedids;
   };
 }  // namespace ecs

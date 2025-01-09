@@ -28,7 +28,7 @@ void runClient(int sport, int cport, std::string ip) {
   engine.GraphLib->saveAnimation("player", "player2", 0, 1, 33 * 3, 17 * 3);
   engine.GraphLib->saveAnimation("bullet", "bullet2", 0, 0, 32, 8);
 
-  //engine.initClient(sport, cport, ip);
+  // engine.initClient(sport, cport, ip);
 
   /*engine.registerCommand(SPAWNPLAYER, [](zef::Engine& engine, input_t input) {
       network::game::Commands<CommandSpawnPlayer> csp =
@@ -160,14 +160,19 @@ void runClient(int sport, int cport, std::string ip) {
   // engine.addSystem<>(entitycountdisplay);
 
   engine.addSystem<>("zefir", zef::sys::update_user_inputs);
-  engine.addSystem<BackGround, zef::comp::position>("zefir", handleBackgroundScroll);
+  engine.addSystem<BackGround, zef::comp::position>("zefir",
+                                                    handleBackgroundScroll);
   engine.addSystem<Lifetime>("zefir", lifetime_system);
-  engine.addSystem<VectorHolder, zef::comp::vector>("zefir", convertHolderToVect);
+  engine.addSystem<VectorHolder, zef::comp::vector>("zefir",
+                                                    convertHolderToVect);
   engine.addSystem<zef::comp::vector, Player>("zefir", resetPlayerMovement);
-  engine.addSystem<zef::comp::controllable>("zefir", zef::sys::system_constrollables);
+  engine.addSystem<zef::comp::controllable>("zefir",
+                                            zef::sys::system_constrollables);
   engine.addSystem<zef::comp::event_listener>("zefir", zef::sys::resolveEvent);
-  engine.addSystem<zef::comp::vector>("zefir", zef::sys::normalize_velocity_vectors);
-  engine.addSystem<zef::comp::position, zef::comp::vector>("zefir", zef::sys::move);
+  engine.addSystem<zef::comp::vector>("zefir",
+                                      zef::sys::normalize_velocity_vectors);
+  engine.addSystem<zef::comp::position, zef::comp::vector>("zefir",
+                                                           zef::sys::move);
   engine.addSystem<zef::comp::collidable, zef::comp::position>(
       "zefir", zef::sys::check_collidables);
   engine.addSystem<zef::comp::event_listener>("zefir", zef::sys::resolveEvent);

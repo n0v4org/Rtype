@@ -9,6 +9,9 @@
 #define NEW_HPP_
 
 #include <iostream>
+#include <string>
+#include <map>
+#include <any>
 
 #include "AModule.hpp"
 #include "Engine.hpp"
