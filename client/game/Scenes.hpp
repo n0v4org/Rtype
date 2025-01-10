@@ -16,6 +16,7 @@
 #include "EnemyPatron.hpp"
 #include "BackgroundPatron.hpp"
 #include "events.hpp"
+#include "MenuBackgroundPatron.hpp"
 
 class LevelScene {
 public:
@@ -34,6 +35,15 @@ class LobbyScene {
 public:
   static void loadScene(zef::Engine& engine) {
   }
+};
+
+class MenuScene {
+public:
+    static void loadScene(zef::Engine &engine) {
+        // On ne fait qu'instancier un background fixe
+        engine.instanciatePatron<MenuBackgroundPatron>();
+        // Aucune autre entité pour l’instant
+    }
 };
 
 #endif /* !SCENES_HPP_ */
