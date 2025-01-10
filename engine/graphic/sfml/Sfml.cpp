@@ -7,7 +7,11 @@
 
 #include <iostream>
 #include <string>
+
 #include "Sfml.hpp"
+#ifdef _MSC_VER
+  #include <windows.h>
+#endif
 
 namespace zef {
   namespace graph {
@@ -386,6 +390,13 @@ namespace zef {
 
   }  // namespace graph
 }  // namespace zef
-extern "C" zef::graph::IDisplayModule* entryPoint() {
+
+
+
+extern "C" 
+#ifdef _MSC_VER
+  __declspec(dllexport)
+#endif
+zef::graph::IDisplayModule* entryPoint() {
   return new zef::graph::Sfml;
 }
