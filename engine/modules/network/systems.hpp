@@ -17,7 +17,7 @@ struct hihi {
 
 namespace zef {
   namespace sys {
-    void handle_server(zef::Engine& engine) {
+    inline void handle_server(zef::Engine& engine) {
       while (!engine._server->isQueueEmpty()) {
         input_t rcv = engine._server->popMessage();
         // std::cout << (int)rcv.cmd << std::endl;
@@ -32,7 +32,7 @@ namespace zef {
       }
       }
     }
-    void handle_client(zef::Engine& engine) {
+    inline void handle_client(zef::Engine& engine) {
       // while (!engine._client->isQueueEmpty()) {
       //   input_t rcv = engine._client->popMessage();
       //   // std::cout << (int)rcv.cmd << std::endl;

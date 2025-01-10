@@ -10,10 +10,8 @@
 #include <thread>
 #include <memory>
 
-#include "Network_server.hpp"
 #include "Core.hpp"
 #include "macro.hpp"
-#include "game.hpp"
 
 static const char USAGE[231] = R"(
 usage:
@@ -36,8 +34,8 @@ namespace rtype {
         std::cout << USAGE << std::endl;
         return;
       }
-      runServer(_args->get_game_port(), _args->get_lobby_port());
-
+      _server = std::make_unique<GameServer>(_args->get_game_port(), _args->get_lobby_port());
+      _server->run();
     } catch (const std::exception& e) {
       std::cerr << e.what() << '\n';
 

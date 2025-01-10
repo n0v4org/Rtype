@@ -19,14 +19,14 @@
 
 namespace zef {
   namespace sys {
-    void move(Engine &engine, ecs::sparse_array<comp::position> &positions,
+    inline void move(Engine &engine, ecs::sparse_array<comp::position> &positions,
               ecs::sparse_array<comp::vector> &vectors) {
       for (auto &&[pos, vec] : ecs::zipper(positions, vectors)) {
         pos.x += vec.x;
         pos.y += vec.y;
       }
     }
-    void check_collidables(Engine &engine,
+    inline void check_collidables(Engine &engine,
                            ecs::sparse_array<comp::collidable> &collidables,
                            ecs::sparse_array<comp::position> &positions) {
       for (auto &&[i, col, pos] : ecs::indexed_zipper(collidables, positions)) {
@@ -57,7 +57,7 @@ namespace zef {
         }
       }
     }
-    void check_rigidity(Engine &engine,
+    inline void check_rigidity(Engine &engine,
                         ecs::sparse_array<comp::rigidbody> &rigidbodies,
                         ecs::sparse_array<comp::position> &positions,
                         ecs::sparse_array<comp::vector> &vectors) {
@@ -92,7 +92,7 @@ namespace zef {
         }
       }
     }
-    void normalize_velocity_vectors(Engine &engine,
+    inline void normalize_velocity_vectors(Engine &engine,
                                     ecs::sparse_array<comp::vector> &vecs) {
       for (auto &&[i, vec] : ecs::indexed_zipper(vecs)) {
         float tmpx = vec.x;

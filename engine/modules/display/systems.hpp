@@ -19,7 +19,7 @@
 
 namespace zef {
   namespace sys {
-    void draw_drawables(zef::Engine& engine,
+    inline void draw_drawables(zef::Engine& engine,
                         ecs::sparse_array<comp::drawable>& drawables,
                         ecs::sparse_array<comp::position>& positions) {
       std::vector<int> layers;
@@ -41,7 +41,7 @@ namespace zef {
         }
       }
     }
-    void update_animations(zef::Engine& engine,
+    inline void update_animations(zef::Engine& engine,
                            ecs::sparse_array<comp::drawable>& drawables) {
       for (auto&& [i, dr] : ecs::indexed_zipper(drawables)) {
         std::string current_animation =

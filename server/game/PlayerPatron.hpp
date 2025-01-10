@@ -22,7 +22,7 @@
 
 #include "BulletPatron.hpp"
 
-zef::comp::event_listener createPlayerEventListener() {
+inline zef::comp::event_listener createPlayerEventListener() {
   zef::comp::event_listener evtl;
 
   evtl.setEvent<SetPlayerVectorEvent>([](zef::Engine& engine, size_t self,

@@ -8,7 +8,7 @@ project(RtypeServer VERSION 1.0)
 set(SRCS
     src/Core.cpp
     src/Arguments.cpp
-    game/game.cpp
+    game/GameServer.cpp
 )
 
 set(TEST

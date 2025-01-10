@@ -20,7 +20,7 @@
 
 #include "events.hpp"
 
-zef::comp::event_listener createEnemyEventListener() {
+inline zef::comp::event_listener createEnemyEventListener() {
   zef::comp::event_listener evtl;
 
   evtl.setEvent<GetHittedByBullet>(
