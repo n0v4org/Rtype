@@ -43,7 +43,6 @@ namespace rtype {
 
       return;
     }
-
   }
 
   Core::~Core() {
