@@ -9,6 +9,9 @@
 #define NEW_HPP_
 
 #include <iostream>
+#include <string>
+#include <map>
+#include <any>
 
 #include "AModule.hpp"
 #include "Engine.hpp"
@@ -41,20 +44,21 @@ public:
   ~NewModule() = default;
 
   void registerSystems(zef::Engine &engine) {
+    engine.addSystem<comp1>(
+        "newModule", [](zef::Engine &engine, ecs::sparse_array<comp1> &comps) {
+          for (auto &&[i, c] : ecs::indexed_zipper(comps)) {
+            std::cout << "Int: " << c.in << ", Float: " << c.fl
+                      << ", Double: " << c.dou << std::endl;
+          }
+        });
 
-    engine.addSystem<comp1>("newModule", [](zef::Engine &engine, ecs::sparse_array<comp1> &comps) {
-      for (auto &&[i, c] : ecs::indexed_zipper(comps)) {
-        std::cout << "Int: " << c.in << ", Float: " << c.fl
-                  << ", Double: " << c.dou << std::endl;
-      }
-    });
-
-    engine.addSystem<comp1>("newModule", [](zef::Engine &engine, ecs::sparse_array<comp1> &comps) {
-      for (auto &&[i, c] : ecs::indexed_zipper(comps)) {
-        std::cout << "AAInt: " << c.in << ", AAFloat: " << c.fl
-                  << ", AADouble: " << c.dou << std::endl;
-      }
-    });
+    engine.addSystem<comp1>(
+        "newModule", [](zef::Engine &engine, ecs::sparse_array<comp1> &comps) {
+          for (auto &&[i, c] : ecs::indexed_zipper(comps)) {
+            std::cout << "AAInt: " << c.in << ", AAFloat: " << c.fl
+                      << ", AADouble: " << c.dou << std::endl;
+          }
+        });
   }
 };
 

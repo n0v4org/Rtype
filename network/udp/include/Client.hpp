@@ -13,22 +13,35 @@
 #include <deque>
 #include <thread>
 #include <mutex>
+#include <iostream>
 #include <asio.hpp>
+#include "Commands.hpp"
 #include "Input.hpp"
+#include "IClient.hpp"
 
 using asio::ip::udp;
 
 namespace network {
   namespace game {
 
-    class Client {
+    class Client : public IClient {
     public:
       Client(int server_port, int client_port, std::string ip,
              asio::io_context &service);
       void close_connection();
       input_t popMessage();
       bool isQueueEmpty();
-      void send(std::array<uint8_t, 1024> buff);
+      template <typename T>
+      void send(T payload, int cmd) {
+        try {
+          std::array<uint8_t, 1024> buff =
+              Commands<T>::toArray(payload, cmd, _sequence_id);
+          _socket.send_to(asio::buffer(buff), _server_endpoint);
+          _sequence_id++;
+        } catch (const std::exception &e) {
+          std::cerr << "Send error: " << e.what() << std::endl;
+        }
+      }
       void startReceive();
       ~Client();
 
@@ -45,7 +58,6 @@ namespace network {
       void handleReceive(const asio::error_code &error,
                          std::size_t bytes_transferred);
     };
-
   }  // namespace game
 }  // namespace network
 

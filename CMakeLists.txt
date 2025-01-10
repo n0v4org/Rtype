@@ -5,11 +5,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 project(Rtype VERSION 1.0)
-#add_subdirectory(network/tcp)
-
-
-add_subdirectory(network/tcp)
-add_subdirectory(network/udp)
+add_subdirectory(network)
 add_subdirectory(engine)
 add_subdirectory(engine/graphic/sfml)
 add_subdirectory(server)

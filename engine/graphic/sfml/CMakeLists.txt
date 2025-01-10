@@ -8,6 +8,7 @@ project(sfml VERSION 1.0)
 
 set(SRC
     Sfml.cpp
+    HPBar.cpp
 )
 
 add_library(sfml SHARED ${SRC})

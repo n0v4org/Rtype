@@ -8,8 +8,12 @@
 #ifndef SERVER_INCLUDE_CORE_HPP_
 #define SERVER_INCLUDE_CORE_HPP_
 #include <memory>
-// #include <boost/asio.hpp>
+#include <thread>
+#include <vector>
+#include <asio.hpp>
+#include "Network_server.hpp"
 #include "Arguments.hpp"
+#include "Server.hpp"
 
 namespace rtype {
 
@@ -22,6 +26,10 @@ namespace rtype {
   protected:
   private:
     std::unique_ptr<Arguments> _args;
+    std::unique_ptr<network::Network_server> _network;
+    asio::io_context _io_service;
+    std::vector<std::thread> _games;
+    std::thread t;
   };
 
 }  // namespace rtype

@@ -22,12 +22,4 @@ extern "C"
 #endif
 zef::IModule *entryPoint() {
   return new NewModule;
-  // zef::AModule<
-  //     zef::Component<comp1, int, float, float>
-  //   > *module = new zef::AModule<
-  //     zef::Component<comp1, int, float, float>
-  //   >;
-  //   module->addSystem<comp1>(testSystem);
-
-  // return module;
 }
