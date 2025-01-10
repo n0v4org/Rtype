@@ -230,7 +230,8 @@ namespace zef {
     void initGraphLib(const std::string& assetFolder,
                       const std::string& windowName) {
       _grapLibHolder =
-          std::make_unique<LibHolder<zef::graph::IDisplayModule>>("bin\\sfml");
+          std::make_unique<LibHolder<zef::graph::IDisplayModule>>("sfml");
+          //std::make_unique<LibHolder<zef::graph::IDisplayModule>>("bin\\sfml");
       GraphLib.reset(_grapLibHolder->getEntryPoint());
       GraphLib->initialize(assetFolder, "R-type");
     }

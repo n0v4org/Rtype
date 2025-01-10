@@ -21,7 +21,7 @@
 void runClient(int /*sport*/, int /*cport*/, std::string /*ip*/) {
     zef::Engine engine;
 
-    engine.initGraphLib("Assets", "");
+    engine.initGraphLib("../Assets", "");
     engine.GraphLib->saveAnimation("menu", "menu", 0, 0, 1920, 1080);
 
     engine.registerComponent<zef::comp::position>();
