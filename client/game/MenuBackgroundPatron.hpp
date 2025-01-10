@@ -1,10 +1,17 @@
+/*
+** EPITECH PROJECT, 2025
+** r-type
+** File description:
+** MenuBackgroundPatron
+*/
+
 #ifndef MENU_BACKGROUND_PATRON_HPP_
 #define MENU_BACKGROUND_PATRON_HPP_
 
 #include "Engine.hpp"
-#include "components.hpp"              // pour BackGround
-#include "modules/movement/components.hpp" // pour zef::comp::position
-#include "modules/display/components.hpp"   // pour zef::comp::drawable
+#include "components.hpp"
+#include "modules/movement/components.hpp"
+#include "modules/display/components.hpp" 
 
 class MenuBackgroundPatron {
 public:
