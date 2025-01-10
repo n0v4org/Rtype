@@ -22,19 +22,16 @@
 
 #include "modules/IModule.hpp"
 
-void runServer(int port) {
+void runServer(int port, int lobby_port) {
   std::cout << __cplusplus << std::endl;
 
-  std::cout << "wtfff\n";
 
   zef::Engine engine;
-  std::cout << "wtf\n";
   srand(time(NULL));
 
-  engine.initGraphLib("../Assets", "");
-  engine.initServer(14000, 5001);
+  engine.initServer(port, lobby_port);
 
-  engine.GraphLib->saveAnimation("ship", "image", 0, 0, 65, 66);
+  //engine.GraphLib->saveAnimation("ship", "image", 0, 0, 65, 66);
 
   // engine.initServer(port);
   /*
@@ -123,24 +120,24 @@ void runServer(int port) {
       });
 
       */
-  engine.registerComponent<zef::comp::position>();
-  engine.registerComponent<zef::comp::vector>();
-  engine.registerComponent<zef::comp::drawable>();
-  engine.registerComponent<zef::comp::collidable>();
-  engine.registerComponent<Health>();
-  engine.registerComponent<Owner>();
-  engine.registerComponent<Lifetime>();
-  engine.registerComponent<zef::comp::event_listener>();
-  engine.registerComponent<zef::comp::replicable>();
-  engine.registerComponent<VectorHolder>();
-  engine.registerComponent<Player>();
-  engine.registerComponent<PlayerReplacer>();
-  engine.registerComponent<Monster>();
+//   engine.registerComponent<zef::comp::position>();
+//   engine.registerComponent<zef::comp::vector>();
+//   engine.registerComponent<zef::comp::drawable>();
+//   engine.registerComponent<zef::comp::collidable>();
+//   engine.registerComponent<Health>();
+//   engine.registerComponent<Owner>();
+//   engine.registerComponent<Lifetime>();
+//   engine.registerComponent<zef::comp::event_listener>();
+//   engine.registerComponent<zef::comp::replicable>();
+//   engine.registerComponent<VectorHolder>();
+//   engine.registerComponent<Player>();
+//   engine.registerComponent<PlayerReplacer>();
+//   engine.registerComponent<Monster>();
 
-  engine.reg.spawn_entity();
-  engine.loadModules();
+//   engine.reg.spawn_entity();
+//   engine.loadModules();
 
-  engine.reg.disp();
+//   engine.reg.disp();
   ////engine.addSystem<>(entitycountdisplay);
 
   // engine.addSystem<Lifetime>(lifetime_system);
@@ -151,35 +148,35 @@ void runServer(int port) {
   // engine.addSystem<zef::comp::position, zef::comp::vector>(zef::sys::move);
   // engine.addSystem<PlayerReplacer>(syncPlayers);
 
-  // engine.addSystem<Player, zef::comp::replicable>(spawnEnemies);
+    // engine.addSystem<Player, zef::comp::replicable>(spawnEnemies);
 
-  engine.addSystem<zef::comp::collidable, zef::comp::position>(
-      "zefir", zef::sys::check_collidables);
+//   engine.addSystem<zef::comp::collidable, zef::comp::position>(
+//       "zefir", zef::sys::check_collidables);
   // engine.addSystem<zef::comp::event_listener>(zef::sys::resolveEvent);
 
   // engine.addSystem<Health>(handleHealth);
 
-  engine.addSystem<zef::comp::drawable>("zefir", zef::sys::update_animations);
-  engine.addSystem<zef::comp::drawable, zef::comp::position>(
-      "zefir", zef::sys::draw_drawables);
+//   engine.addSystem<zef::comp::drawable>("zefir", zef::sys::update_animations);
+//   engine.addSystem<zef::comp::drawable, zef::comp::position>(
+//       "zefir", zef::sys::draw_drawables);
 
-  engine.addSystem<zef::comp::position>(
-      "zefir",
-      [](zef::Engine &engine, ecs::sparse_array<zef::comp::position> &pos) {
-        for (auto &&[p] : ecs::zipper(pos)) {
-          std::cout << "x: " << p.x << " y: " << p.y << std::endl;
-        }
-      });
+//   engine.addSystem<zef::comp::position>(
+//       "zefir",
+//       [](zef::Engine &engine, ecs::sparse_array<zef::comp::position> &pos) {
+//         for (auto &&[p] : ecs::zipper(pos)) {
+//           std::cout << "x: " << p.x << " y: " << p.y << std::endl;
+//         }
+//       });
 
-  engine.addEntityComponent<zef::comp::position>(engine.reg.spawn_entity(),
-                                                 2.0f, 9.0f);
+//   engine.addEntityComponent<zef::comp::position>(engine.reg.spawn_entity(),
+//                                                  2.0f, 9.0f);
 
-  engine.loadPatron("../Assets/config/patronPlayer.json");
-  engine.instanciatePatron("Player", 3, 4.5f, 56.90f);
+// engine.loadPatron("../Assets/config/patronPlayer.json");
+//   engine.instanciatePatron("Player", 3, 4.5f, 56.90f);
 
-  engine.registerScene<LevelScene>("level");
-  engine.registerScene<LobbyScene>("lobby");
-  // engine.loadScene("level");
+//   engine.registerScene<LevelScene>("level");
+//   engine.registerScene<LobbyScene>("lobby");
+//   engine.loadScene("level");
 
   engine.run();
 }

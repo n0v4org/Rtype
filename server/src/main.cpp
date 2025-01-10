@@ -15,9 +15,6 @@
 #include "game.hpp"
 
 int main(int argc, char* argv[]) {
-  runServer(14000);
-
-  return 0;
   try {
     std::unique_ptr<rtype::Core> core =
         std::make_unique<rtype::Core>(argv, argc);

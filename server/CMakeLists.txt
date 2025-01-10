@@ -40,10 +40,6 @@ target_link_libraries(r-type_server PRIVATE
     asio
     #sfml
     zefir
-    sfml-system
-    sfml-window
-    sfml-graphics
-    sfml-audio
     rtype_network
 )
 
