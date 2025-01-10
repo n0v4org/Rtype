@@ -28,7 +28,7 @@ namespace zef {
       } else {
         std::string cmd_id_tcp = rcv.tcp_cmd; 
         if (engine._cmd_map_tcp.find(cmd_id_tcp) != engine._cmd_map_tcp.end())
-          engine._cmd_map_tcp[cmd_id_tcp](engine, rcv.tcp_payload);
+          engine._cmd_map_tcp[cmd_id_tcp](engine, rcv);
       }
       }
     }
