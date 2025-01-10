@@ -30,6 +30,14 @@ void runServer(int port, int lobby_port) {
 
   engine.initServer(port, lobby_port);
 
+  engine.registerCommandTcp("antoinlepeteur", [](zef::Engine& engine, std::string payload) {
+    std::cout << "aoehrj\n";
+    std::cout << payload << std::endl;
+  });
+
+
+
+    engine.addSystem<>("zefir", zef::sys::handle_server);
   // engine.GraphLib->saveAnimation("ship", "image", 0, 0, 65, 66);
 
   // engine.initServer(port);
