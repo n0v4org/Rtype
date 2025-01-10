@@ -40,9 +40,7 @@ public:
 class MenuScene {
 public:
     static void loadScene(zef::Engine &engine) {
-        // On ne fait qu'instancier un background fixe
         engine.instanciatePatron<MenuBackgroundPatron>();
-        // Aucune autre entité pour l’instant
     }
 };
 
