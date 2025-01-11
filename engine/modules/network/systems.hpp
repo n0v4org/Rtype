@@ -23,15 +23,15 @@ namespace zef {
       while (!engine._server->isQueueEmpty()) {
         input_t rcv = engine._server->popMessage();
         // std::cout << (int)rcv.cmd << std::endl;
-      if (rcv.protocol_type == UDP_CMD) {
-        int cmdid = static_cast<int>(rcv.cmd);
-        if (engine._cmd_map.find(cmdid) != engine._cmd_map.end())
-          engine._cmd_map[cmdid](engine, rcv);
-      } else {
-        std::string cmd_id_tcp = rcv.tcp_cmd; 
-        if (engine._cmd_map_tcp.find(cmd_id_tcp) != engine._cmd_map_tcp.end())
-          engine._cmd_map_tcp[cmd_id_tcp](engine, rcv);
-      }
+        if (rcv.protocol_type == UDP_CMD) {
+          int cmdid = static_cast<int>(rcv.cmd);
+          if (engine._cmd_map.find(cmdid) != engine._cmd_map.end())
+            engine._cmd_map[cmdid](engine, rcv);
+        } else {
+          std::string cmd_id_tcp = rcv.tcp_cmd;
+          if (engine._cmd_map_tcp.find(cmd_id_tcp) != engine._cmd_map_tcp.end())
+            engine._cmd_map_tcp[cmd_id_tcp](engine, rcv);
+        }
       }
     }
     inline void handle_client(zef::Engine& engine) {

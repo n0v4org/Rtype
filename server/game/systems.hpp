@@ -19,7 +19,8 @@ inline void entitycountdisplay(zef::Engine& engine) {
   std::cout << engine.reg.getEntityCount() << std::endl;
 }
 
-inline void lifetime_system(zef::Engine& engine, ecs::sparse_array<Lifetime>& lts) {
+inline void lifetime_system(zef::Engine& engine,
+                            ecs::sparse_array<Lifetime>& lts) {
   for (auto&& [i, lt] : ecs::indexed_zipper(lts)) {
     lt.microsecs -= engine.elapsed.count();
     if (lt.microsecs <= 0)
@@ -61,8 +62,9 @@ inline void handleHealth(zef::Engine& engine, ecs::sparse_array<Health>& hps) {
   }
 }
 
-inline void spawnEnemies(zef::Engine& engine, ecs::sparse_array<Player>& players,
-                  ecs::sparse_array<zef::comp::replicable>& replicables) {
+inline void spawnEnemies(
+    zef::Engine& engine, ecs::sparse_array<Player>& players,
+    ecs::sparse_array<zef::comp::replicable>& replicables) {
   unsigned int seed = time(NULL);
   if (engine._enemyCooldown > 7 * 1000 * 1000) {
     for (int i = 0; i < rand_r(&seed) % 5; ++i) {
@@ -82,15 +84,16 @@ inline void spawnEnemies(zef::Engine& engine, ecs::sparse_array<Player>& players
 }
 
 inline void convertHolderToVect(zef::Engine& engine,
-                         ecs::sparse_array<VectorHolder>& vhs,
-                         ecs::sparse_array<zef::comp::vector>& vvs) {
+                                ecs::sparse_array<VectorHolder>& vhs,
+                                ecs::sparse_array<zef::comp::vector>& vvs) {
   for (auto&& [i, vh, vc] : ecs::indexed_zipper(vhs, vvs)) {
     vc.x = vh.x;
     vc.y = vh.y;
   }
 }
 
-inline void syncPlayers(zef::Engine& engine, ecs::sparse_array<PlayerReplacer>& prs) {
+inline void syncPlayers(zef::Engine& engine,
+                        ecs::sparse_array<PlayerReplacer>& prs) {
   for (auto&& [pr] : ecs::zipper(prs)) {
     pr.time += engine.elapsed.count();
 

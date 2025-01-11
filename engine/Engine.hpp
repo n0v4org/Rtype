@@ -291,7 +291,8 @@ namespace zef {
       _cmd_map[cmd] = fn;
     }
 
-    void registerCommandTcp(std::string cmd, std::function<void(Engine&, input_t)> fn) {
+    void registerCommandTcp(std::string cmd,
+                            std::function<void(Engine&, input_t)> fn) {
       _cmd_map_tcp[cmd] = fn;
     }
 

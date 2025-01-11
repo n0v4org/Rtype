@@ -34,7 +34,8 @@ namespace rtype {
         std::cout << USAGE << std::endl;
         return;
       }
-      _server = std::make_unique<GameServer>(_args->get_game_port(), _args->get_lobby_port());
+      _server = std::make_unique<GameServer>(_args->get_game_port(),
+                                             _args->get_lobby_port());
       _server->run();
     } catch (const std::exception& e) {
       std::cerr << e.what() << '\n';
