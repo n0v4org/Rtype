@@ -10,6 +10,7 @@
 #include <sstream>
 #include <iostream>
 #include <random>
+#include <string>
 
 #include "GameServer.hpp"
 
@@ -44,7 +45,7 @@ namespace rtype {
     }
 
     bool GameServer::tcp_bad_room(input_t input, int room, std::string ec) {
-        if (room < 0 || room > LOBBY_SIZE) {
+        if (room < 0 || room >= _lobby.size()) {
             _engine.ServerSendTcp(input.id, TCP_ERRORS.at(LOBBY_NOT_FOUND));   
             return true;
         }
@@ -63,14 +64,14 @@ namespace rtype {
     }
 
     void GameServer::RegisterTcpLobbyGetCmd() {
-                // Command to retrieve info on all lobby
+        // Command to retrieve info on all lobby
         _engine.registerCommandTcp(GET_ALL_LOBBY_CMD, [this ](zef::Engine& engine, input_t input) {
             std::string res = CMD_RES.at(GET_ALL_LOBBY_CMD).at(SUCCESS);
             
             if (tcp_bad_args(input, std::stoi(CMD_RES.at(GET_ALL_LOBBY_CMD).at(NB_ARGS)), TCP_ERRORS.at(INVALID_ARGS)))
                 return;
-            for (int i = 0; i < LOBBY_SIZE; i++) {
-                res += _lobby.at(i).name + SP;
+            for (int i = 0; i < _lobby.size(); i++) {
+                res += _lobby.at(i).name + SP + std::to_string(_lobby.at(i).slot) + SP;
                 for (int j = 0; j < _lobby.at(i).players.size(); j++) {
                     int id = _lobby.at(i).players.at(j);
                     res += (_usernames.find(id) == _usernames.end()) ? PLAYER + std::to_string(j) + SP : _usernames.at(id);
@@ -89,7 +90,7 @@ namespace rtype {
             int room = std::stoi(input.tcp_payload);
             if (tcp_bad_room(input, room, TCP_ERRORS.at(LOBBY_NOT_FOUND)))
                 return;
-            res += _lobby.at(room).name + SP;
+            res += _lobby.at(room).name + SP + std::to_string(_lobby.at(room).slot) + SP;
             for (int j = 0; j < _lobby.at(room).players.size(); j++) {
                 int id = _lobby.at(room).players.at(j);
                 res += (_usernames.find(id) == _usernames.end()) ? PLAYER + std::to_string(j) + SP : _usernames.at(id) + SP;
@@ -107,6 +108,40 @@ namespace rtype {
                 return;
             _usernames[input.id] = input.tcp_payload;
             res += _usernames[input.id];
+            _engine.ServerSendTcp(input.id, res);
+        });
+
+        // Command to set a new room
+        _engine.registerCommandTcp(SET_ROOM_CMD, [this](zef::Engine& engine, input_t input) {
+            std::string res = CMD_RES.at(SET_ROOM_CMD).at(SUCCESS);
+
+            if (tcp_bad_args(input, std::stoi(CMD_RES.at(SET_ROOM_CMD).at(NB_ARGS)), TCP_ERRORS.at(INVALID_ARGS)))
+                return;
+            std::vector<std::string> parsed_input = parse_input(input.tcp_payload);
+            std::string name = parsed_input.at(0);
+            int slot = std::stoi(parsed_input.at(1));
+            std::string pwd = parsed_input.at(2);
+            if (slot < 0 || slot > LOBBY_SIZE) {
+                _engine.ServerSendTcp(input.id, TCP_ERRORS.at(INVALID_SLOT));
+                return;
+            }
+            std::vector<room_t>::iterator it = std::find_if(_lobby.begin(), _lobby.end(), [&name](const room_t& room) {
+                return room.name == name;
+            });
+            if (it != _lobby.end()) {
+                _engine.ServerSendTcp(input.id, TCP_ERRORS.at(LOBBY_NAME_ALREADY_EXISTS));
+                return;
+            }
+
+            room_t new_room = {
+                .name = name,
+                .players = {},
+                .pwd = pwd,
+                .slot = slot,
+                .owner = input.id,
+            };
+            _lobby.push_back(new_room);
+            res += name;
             _engine.ServerSendTcp(input.id, res);
         });
     }
@@ -171,6 +206,7 @@ namespace rtype {
                 .players = {},
                 .pwd = DEFAULT_PWD,
                 .slot = LOBBY_SIZE,
+                .owner = -1,
             };
             _lobby.push_back(new_room);
         }

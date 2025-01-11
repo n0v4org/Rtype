@@ -41,6 +41,8 @@ enum {
     ALREADY_IN_ROOM = 3,
     NOT_IN_ROOM = 4,
     INVALID_PWD = 5,
+    INVALID_SLOT = 6,
+    LOBBY_NAME_ALREADY_EXISTS = 7,
 };
 
 static const char GET_ALL_LOBBY_CMD[] = "GET_ALL_LOBBY";
@@ -48,6 +50,7 @@ static const char SET_USERNAME_CMD[] = "SET_USERNAME";
 static const char JOIN_ROOM_CMD[] = "JOIN";
 static const char GET_LOBBY_CMD[] = "GET_LOBBY";
 static const char QUIT_ROOM_CMD[] = "QUIT";
+static const char SET_ROOM_CMD[] = "SET_NEW_LOBBY";
 
 static const char SP = ' ';
 static const char PLAYER[] = "player";
@@ -58,7 +61,7 @@ static const char DEFAULT_PWD[] = "magicarpe";
 
 static const uint8_t LOBBY_SIZE = 5;
 static const uint16_t NB_TCP_CMD = 2;
-static const uint16_t NB_TCP_ERRORS = 6;
+static const uint16_t NB_TCP_ERRORS = 8;
 
 static const std::array<std::string, NB_TCP_ERRORS> TCP_ERRORS = {
     "400 invalid args",
@@ -66,7 +69,9 @@ static const std::array<std::string, NB_TCP_ERRORS> TCP_ERRORS = {
     "404 room not found",
     "402 player already in lobby",
     "404 player is not in a lobby",
-    "403 invalid password"
+    "403 invalid password",
+    "402 nb slot should be > 0 && < 5",
+    "401 lobby name already exist please provide an other one",
 };
 
 static const std::map<std::string, std::array<std::string, NB_TCP_CMD>> CMD_RES = {
@@ -74,7 +79,8 @@ static const std::map<std::string, std::array<std::string, NB_TCP_CMD>> CMD_RES 
     {SET_USERNAME_CMD, {"200 Username set successfully to ", "1"}},
     {JOIN_ROOM_CMD, {"200 successfully join room ", "2"}},
     {GET_LOBBY_CMD, {"200  ", "1"}},
-    {QUIT_ROOM_CMD, {"200 successfully quit room ", "1"}}
+    {QUIT_ROOM_CMD, {"200 successfully quit room ", "1"}},
+    {SET_ROOM_CMD, {"successfully created lobby ", "3"}},
 };
 
 struct room_t {
@@ -82,6 +88,7 @@ struct room_t {
     std::vector<int> players;
     std::string pwd;
     int slot;
+    int owner;
 };
 
 namespace rtype {

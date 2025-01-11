@@ -8,6 +8,8 @@
 #ifndef ENGINE_MODULES_NETWORK_SYSTEMS_HPP_
 #define ENGINE_MODULES_NETWORK_SYSTEMS_HPP_
 
+#include <string>
+
 #include "../../Engine.hpp"
 #include "components.hpp"
 
