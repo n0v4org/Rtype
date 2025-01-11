@@ -234,12 +234,11 @@ namespace rtype {
     _engine.registerCommandTcp(LAUNCH_GAME_CMD, [this](zef::Engine& engine,input_t input) {
         std::string res = CMD_RES.at(LAUNCH_GAME_CMD).at(SUCCESS);
 
-      if (tcp_bad_args(input, std::stoi(CMD_RES.at(LAUNCH_GAME_CMD).at(NB_ARGS)),
-                       TCP_ERRORS.at(INVALID_ARGS)))
-        return;
-        int room = std::stoi(input.tcp_payload);
-      if (tcp_bad_room(input, room, TCP_ERRORS.at(LOBBY_NOT_FOUND)))
-        return;
+      if (tcp_bad_args(input, std::stoi(CMD_RES.at(LAUNCH_GAME_CMD).at(NB_ARGS)),TCP_ERRORS.at(INVALID_ARGS)))
+            return;
+      int room = std::stoi(input.tcp_payload);
+        if (tcp_bad_room(input, room, TCP_ERRORS.at(LOBBY_NOT_FOUND)))
+            return;
         std::vector<player_t>::iterator it = std::find_if(_lobby.at(room).players.begin(),_lobby.at(room).players.end(), [input](const player_t& player) {
             return player.id == input.id;
         });
