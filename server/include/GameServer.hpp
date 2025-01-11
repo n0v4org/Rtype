@@ -43,6 +43,8 @@ enum {
   INVALID_PWD               = 5,
   INVALID_SLOT              = 6,
   LOBBY_NAME_ALREADY_EXISTS = 7,
+  NOT_OWNER = 8,
+  NO_PERMS = 9,
 };
 
 static const char GET_ALL_LOBBY_CMD[] = "GET_ALL_LOBBY";
@@ -51,6 +53,7 @@ static const char JOIN_ROOM_CMD[]     = "JOIN";
 static const char GET_LOBBY_CMD[]     = "GET_LOBBY";
 static const char QUIT_ROOM_CMD[]     = "QUIT";
 static const char SET_ROOM_CMD[]      = "SET_NEW_LOBBY";
+static const char DELETE_ROOM_CMD[] = "DELETE_LOBBY";
 
 static const char SP            = ' ';
 static const char PLAYER[]      = "player";
@@ -59,9 +62,10 @@ static const char ROOM[]        = "room";
 static const char LOBBY[]       = "lobby";
 static const char DEFAULT_PWD[] = "magicarpe";
 
+static const int DEFAULT_OWNER = -1;
 static const uint8_t LOBBY_SIZE     = 5;
 static const uint16_t NB_TCP_CMD    = 2;
-static const uint16_t NB_TCP_ERRORS = 8;
+static const uint16_t NB_TCP_ERRORS = 10;
 
 static const std::array<std::string, NB_TCP_ERRORS> TCP_ERRORS = {
     "400 invalid args",
@@ -72,6 +76,8 @@ static const std::array<std::string, NB_TCP_ERRORS> TCP_ERRORS = {
     "403 invalid password",
     "402 nb slot should be > 0 && < 5",
     "401 lobby name already exist please provide an other one",
+    "403 only the owner can delete this lobby",
+    "403 default lobby you do not have the right baka"
 };
 
 static const std::map<std::string, std::array<std::string, NB_TCP_CMD>>
@@ -82,6 +88,7 @@ static const std::map<std::string, std::array<std::string, NB_TCP_CMD>>
         {GET_LOBBY_CMD, {"200  ", "1"}},
         {QUIT_ROOM_CMD, {"200 successfully quit room ", "1"}},
         {SET_ROOM_CMD, {"successfully created lobby ", "3"}},
+        {DELETE_ROOM_CMD, {"200 successfully deleted lobby ", "1"}},
 };
 
 struct room_t {
@@ -104,9 +111,10 @@ namespace rtype {
   private:
     void RegisterUdpCmd();
     void RegisterTcpCmd();
-    void RegisterTcpLobbyGetCmd();
-    void RegisterTcpLobbySetCmd();
-    void RegisterTcpLobbyActionCmd();
+    void LobbyGetCmd();
+    void LobbySetCmd();
+    void LobbyActionCmd();
+    void lobbyDeleteCmd();
     bool tcp_bad_room(input_t input, int room, std::string ec);
     bool tcp_bad_args(input_t input, int nb_args, std::string ec);
     std::vector<std::string> parse_input(std::string input);
