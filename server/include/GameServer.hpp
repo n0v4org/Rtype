@@ -38,27 +38,37 @@ enum {
     FULL_ROOM = 1,
     LOBBY_NOT_FOUND = 2,
     ALREADY_IN_ROOM = 3,
+    NOT_IN_ROOM = 4
 };
 
 static const char GET_ALL_LOBBY_CMD[] = "GET_ALL_LOBBY";
 static const char SET_USERNAME_CMD[] = "SET_USERNAME";
 static const char JOIN_ROOM_CMD[] = "JOIN";
-static const char SP = ' ';
+static const char GET_LOBBY_CMD[] = "GET_LOBBY";
+static const char QUIT_ROOM_CMD[] = "QUIT";
 
-static const uint16_t NB_TCP_CMD = 3;
-static const uint16_t NB_TCP_ERRORS = 4;
+static const char SP = ' ';
+static const char PLAYER[] = "player";
+static const char ENGINE_NAME[] = "zefir";
+static const char ROOM[] = "room";
+
+static const uint16_t NB_TCP_CMD = 2;
+static const uint16_t NB_TCP_ERRORS = 5;
 
 static const std::array<std::string, NB_TCP_ERRORS> TCP_ERRORS = {
     "400 invalid args",
     "403 maximum number of players reached",
     "404 room not found",
     "402 player already in lobby",
+    "404 player is not in a lobby"
 };
 
 static const std::map<std::string, std::array<std::string, NB_TCP_CMD>> CMD_RES = {
     {GET_ALL_LOBBY_CMD, {"200 ", "0"}},
     {SET_USERNAME_CMD, {"200 Username set successfully to ", "1"}},
     {JOIN_ROOM_CMD, {"200 successfully join room ", "1"}},
+    {GET_LOBBY_CMD, {"200 room ", "1"}},
+    {QUIT_ROOM_CMD, {"200 successfully quit room ", "1"}}
 };
 
 namespace rtype {
@@ -75,6 +85,7 @@ class GameServer {
     private:
         void RegisterUdpCmd();
         void RegisterTcpCmd();
+        bool tcp_bad_room(input_t input, int room, std::string ec);
         bool tcp_bad_args(input_t input, int nb_args, std::string ec);
         zef::Engine _engine;
         std::map<int, std::string> _usernames;
