@@ -7,6 +7,7 @@
 
 #include <vector>
 #include <cmath>
+#include <sstream>
 #include <iostream>
 #include <random>
 
@@ -35,7 +36,7 @@ namespace rtype {
              if (!input.tcp_payload.empty() && nb_args == 1)
                 return false;
         }
-        if (nb_cmd - 1 != nb_args) {
+        if (nb_cmd + 1!= nb_args) {
             _engine.ServerSendTcp(input.id, ec);
             return true;
         }
@@ -50,18 +51,28 @@ namespace rtype {
         return false;
     }
 
-    void GameServer::RegisterTcpCmd() {
+    std::vector<std::string> GameServer::parse_input(std::string input) {
+        std::stringstream ss(input.c_str());
+        std::string line;
+        std::vector<std::string> cmds;
 
-        // Command to retrieve info on all lobby
+        while (std::getline(ss, line, ' ')) {
+            cmds.push_back(line);
+        }
+        return cmds;
+    }
+
+    void GameServer::RegisterTcpLobbyGetCmd() {
+                // Command to retrieve info on all lobby
         _engine.registerCommandTcp(GET_ALL_LOBBY_CMD, [this ](zef::Engine& engine, input_t input) {
             std::string res = CMD_RES.at(GET_ALL_LOBBY_CMD).at(SUCCESS);
             
             if (tcp_bad_args(input, std::stoi(CMD_RES.at(GET_ALL_LOBBY_CMD).at(NB_ARGS)), TCP_ERRORS.at(INVALID_ARGS)))
                 return;
             for (int i = 0; i < LOBBY_SIZE; i++) {
-                res += ROOM + std::to_string(i) + SP;
-                for (int j = 0; j < _lobby.at(i).size(); j++) {
-                    int id = _lobby.at(i).at(j);
+                res += _lobby.at(i).name + SP;
+                for (int j = 0; j < _lobby.at(i).players.size(); j++) {
+                    int id = _lobby.at(i).players.at(j);
                     res += (_usernames.find(id) == _usernames.end()) ? PLAYER + std::to_string(j) + SP : _usernames.at(id);
                 }
                 res += ";";
@@ -78,14 +89,16 @@ namespace rtype {
             int room = std::stoi(input.tcp_payload);
             if (tcp_bad_room(input, room, TCP_ERRORS.at(LOBBY_NOT_FOUND)))
                 return;
-            res += std::to_string(room) + SP;
-            for (int j = 0; j < _lobby.at(room).size(); j++) {
-                int id = _lobby.at(room).at(j);
-                res += (_usernames.find(id) == _usernames.end()) ? PLAYER + std::to_string(j) + SP : _usernames.at(id);
+            res += _lobby.at(room).name + SP;
+            for (int j = 0; j < _lobby.at(room).players.size(); j++) {
+                int id = _lobby.at(room).players.at(j);
+                res += (_usernames.find(id) == _usernames.end()) ? PLAYER + std::to_string(j) + SP : _usernames.at(id) + SP;
             }
             _engine.ServerSendTcp(input.id, res); 
         });
+    }
 
+    void GameServer::RegisterTcpLobbySetCmd() {
         // Command to set an username
         _engine.registerCommandTcp(SET_USERNAME_CMD, [this](zef::Engine& engine, input_t input) {
             std::string res = CMD_RES.at(SET_USERNAME_CMD).at(SUCCESS);
@@ -96,27 +109,37 @@ namespace rtype {
             res += _usernames[input.id];
             _engine.ServerSendTcp(input.id, res);
         });
+    }
 
+    void GameServer::RegisterTcpLobbyActionCmd() {
         // Command to join a room
         _engine.registerCommandTcp(JOIN_ROOM_CMD, [this](zef::Engine& engine, input_t input) {
             std::string res = CMD_RES.at(JOIN_ROOM_CMD).at(SUCCESS);
 
             if (tcp_bad_args(input, std::stoi(CMD_RES.at(JOIN_ROOM_CMD).at(NB_ARGS)), TCP_ERRORS.at(INVALID_ARGS)))
                 return;
-            int room = std::stoi(input.tcp_payload);
+
+            std::vector<std::string> parsed_input = parse_input(input.tcp_payload);
+            int room = std::stoi(parsed_input.at(0));
+            std::string pwd = parsed_input.at(1);
+
             if (tcp_bad_room(input, room, TCP_ERRORS.at(LOBBY_NOT_FOUND)))
                 return;
-            if (_lobby.at(room).size() >= LOBBY_SIZE) { 
+            if (_lobby.at(room).pwd != pwd) {
+                _engine.ServerSendTcp(input.id, TCP_ERRORS.at(INVALID_PWD));
+                return;
+            }
+            if (_lobby.at(room).players.size() >= LOBBY_SIZE) { 
                 _engine.ServerSendTcp(input.id, TCP_ERRORS.at(FULL_ROOM));   
                 return;
             }
-            for (auto id: _lobby.at(room)) {
+            for (auto id: _lobby.at(room).players) {
                 if (id == input.id) {
                     _engine.ServerSendTcp(input.id, TCP_ERRORS.at(ALREADY_IN_ROOM));
                     return;
                 }
             }
-            _lobby.at(room).push_back(input.id);
+            _lobby.at(room).players.push_back(input.id);
             res += std::to_string(room);
             _engine.ServerSendTcp(input.id, res);
         });
@@ -130,15 +153,30 @@ namespace rtype {
             int room = std::stoi(input.tcp_payload);
             if (tcp_bad_room(input, room, TCP_ERRORS.at(LOBBY_NOT_FOUND)))
                 return;
-            std::vector<int>::iterator it = std::find(_lobby.at(room).begin(),_lobby.at(room).end(), input.id);
-            if (it == _lobby.at(room).end()) {
+            std::vector<int>::iterator it = std::find(_lobby.at(room).players.begin(),_lobby.at(room).players.end(), input.id);
+            if (it == _lobby.at(room).players.end()) {
                 _engine.ServerSendTcp(input.id, TCP_ERRORS.at(NOT_IN_ROOM));
                 return;
             }
-            _lobby.at(room).erase(it);
+            _lobby.at(room).players.erase(it);
             res += std::to_string(room);
             _engine.ServerSendTcp(input.id, res);
         });
+    }
+
+    void GameServer::RegisterTcpCmd() {
+        for (int i = 0; i < LOBBY_SIZE; i++) {
+            room_t new_room = {
+                .name = LOBBY + std::to_string(i),
+                .players = {},
+                .pwd = DEFAULT_PWD,
+                .slot = LOBBY_SIZE,
+            };
+            _lobby.push_back(new_room);
+        }
+        RegisterTcpLobbyGetCmd();
+        RegisterTcpLobbySetCmd();
+        RegisterTcpLobbyActionCmd();
     }
 
     void GameServer::RegisterUdpCmd() {
