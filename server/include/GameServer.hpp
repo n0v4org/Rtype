@@ -45,18 +45,18 @@ enum {
   LOBBY_NAME_ALREADY_EXISTS = 7,
   NOT_OWNER                 = 8,
   NO_PERMS                  = 9,
-  NOT_ADMIN = 10,
-  NOT_READY = 11,
+  NOT_ADMIN                 = 10,
+  NOT_READY                 = 11,
 };
 
-static const char GET_ALL_LOBBY_CMD[] = "GET_ALL_LOBBY";
-static const char SET_USERNAME_CMD[]  = "SET_USERNAME";
-static const char JOIN_ROOM_CMD[]     = "JOIN";
-static const char GET_LOBBY_CMD[]     = "GET_LOBBY";
-static const char QUIT_ROOM_CMD[]     = "QUIT";
-static const char SET_ROOM_CMD[]      = "SET_NEW_LOBBY";
-static const char DELETE_ROOM_CMD[]   = "DELETE_LOBBY";
-static const char LAUNCH_GAME_CMD[] = "LAUNCH_GAME";
+static const char GET_ALL_LOBBY_CMD[]    = "GET_ALL_LOBBY";
+static const char SET_USERNAME_CMD[]     = "SET_USERNAME";
+static const char JOIN_ROOM_CMD[]        = "JOIN";
+static const char GET_LOBBY_CMD[]        = "GET_LOBBY";
+static const char QUIT_ROOM_CMD[]        = "QUIT";
+static const char SET_ROOM_CMD[]         = "SET_NEW_LOBBY";
+static const char DELETE_ROOM_CMD[]      = "DELETE_LOBBY";
+static const char LAUNCH_GAME_CMD[]      = "LAUNCH_GAME";
 static const char SET_PLAYER_READY_CMD[] = "SET_PLAYER_READY";
 
 static const char SP            = ' ';
@@ -84,7 +84,7 @@ static const std::array<std::string, NB_TCP_ERRORS> TCP_ERRORS = {
     "403 default lobby you do not have the right baka",
     "403 only admin can launch the game",
     "402 some players are not ready",
-    };
+};
 
 static const std::map<std::string, std::array<std::string, NB_TCP_CMD>>
     CMD_RES = {
@@ -100,9 +100,9 @@ static const std::map<std::string, std::array<std::string, NB_TCP_CMD>>
 };
 
 struct player_t {
-    int id;
-    bool is_admin;
-    bool is_ready;
+  int id;
+  bool is_admin;
+  bool is_ready;
 };
 
 struct room_t {
