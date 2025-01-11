@@ -283,7 +283,7 @@ namespace zef {
       _server->get_udp_server()->send(id, cmd_id, c);
     }
 
-    void ServerSendTcp(int id, int cmd_id, std::string c) {
+    void ServerSendTcp(int id, std::string c) {
       _server->get_tcp_server()->send(id, c);
     }
 
