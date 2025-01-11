@@ -224,26 +224,28 @@ namespace rtype {
 
   void GameServer::lobbyDeleteCmd() {
     // Command to delete a room
-    _engine.registerCommandTcp(DELETE_ROOM_CMD, [this](zef::Engine& engine, input_t input) {
-        std::string res = CMD_RES.at(DELETE_ROOM_CMD).at(SUCCESS);
-        if (tcp_bad_args(input, std::stoi(CMD_RES.at(DELETE_ROOM_CMD).at(NB_ARGS)),
-                       TCP_ERRORS.at(INVALID_ARGS)))
+    _engine.registerCommandTcp(
+        DELETE_ROOM_CMD, [this](zef::Engine& engine, input_t input) {
+          std::string res = CMD_RES.at(DELETE_ROOM_CMD).at(SUCCESS);
+          if (tcp_bad_args(input,
+                           std::stoi(CMD_RES.at(DELETE_ROOM_CMD).at(NB_ARGS)),
+                           TCP_ERRORS.at(INVALID_ARGS)))
             return;
-        int room = std::stoi(input.tcp_payload);
-        if (tcp_bad_room(input, room, TCP_ERRORS.at(LOBBY_NOT_FOUND)))
+          int room = std::stoi(input.tcp_payload);
+          if (tcp_bad_room(input, room, TCP_ERRORS.at(LOBBY_NOT_FOUND)))
             return;
-        if (_lobby.at(room).owner == DEFAULT_OWNER) {
+          if (_lobby.at(room).owner == DEFAULT_OWNER) {
             _engine.ServerSendTcp(input.id, TCP_ERRORS.at(NO_PERMS));
             return;
-        }
-        if (_lobby.at(room).owner != input.id) {
+          }
+          if (_lobby.at(room).owner != input.id) {
             _engine.ServerSendTcp(input.id, TCP_ERRORS.at(NOT_OWNER));
             return;
-        }
-        res += std::to_string(room);
-        _lobby.erase(_lobby.begin() + room);
-        _engine.ServerSendTcp(input.id, res);
-    });
+          }
+          res += std::to_string(room);
+          _lobby.erase(_lobby.begin() + room);
+          _engine.ServerSendTcp(input.id, res);
+        });
   }
 
   void GameServer::RegisterTcpCmd() {

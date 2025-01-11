@@ -43,8 +43,8 @@ enum {
   INVALID_PWD               = 5,
   INVALID_SLOT              = 6,
   LOBBY_NAME_ALREADY_EXISTS = 7,
-  NOT_OWNER = 8,
-  NO_PERMS = 9,
+  NOT_OWNER                 = 8,
+  NO_PERMS                  = 9,
 };
 
 static const char GET_ALL_LOBBY_CMD[] = "GET_ALL_LOBBY";
@@ -53,7 +53,7 @@ static const char JOIN_ROOM_CMD[]     = "JOIN";
 static const char GET_LOBBY_CMD[]     = "GET_LOBBY";
 static const char QUIT_ROOM_CMD[]     = "QUIT";
 static const char SET_ROOM_CMD[]      = "SET_NEW_LOBBY";
-static const char DELETE_ROOM_CMD[] = "DELETE_LOBBY";
+static const char DELETE_ROOM_CMD[]   = "DELETE_LOBBY";
 
 static const char SP            = ' ';
 static const char PLAYER[]      = "player";
@@ -62,7 +62,7 @@ static const char ROOM[]        = "room";
 static const char LOBBY[]       = "lobby";
 static const char DEFAULT_PWD[] = "magicarpe";
 
-static const int DEFAULT_OWNER = -1;
+static const int DEFAULT_OWNER      = -1;
 static const uint8_t LOBBY_SIZE     = 5;
 static const uint16_t NB_TCP_CMD    = 2;
 static const uint16_t NB_TCP_ERRORS = 10;
@@ -77,8 +77,7 @@ static const std::array<std::string, NB_TCP_ERRORS> TCP_ERRORS = {
     "402 nb slot should be > 0 && < 5",
     "401 lobby name already exist please provide an other one",
     "403 only the owner can delete this lobby",
-    "403 default lobby you do not have the right baka"
-};
+    "403 default lobby you do not have the right baka"};
 
 static const std::map<std::string, std::array<std::string, NB_TCP_CMD>>
     CMD_RES = {
