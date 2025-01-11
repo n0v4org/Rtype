@@ -58,7 +58,7 @@ namespace rtype {
     std::string line;
     std::vector<std::string> cmds;
 
-    while (std::getline(ss, line, ' ')) {
+    while (std::getline(ss, line, SP)) {
       cmds.push_back(line);
     }
     return cmds;
@@ -77,7 +77,7 @@ namespace rtype {
       for (int i = 0; i < _lobby.size(); i++) {
         res += _lobby.at(i).name + SP + std::to_string(_lobby.at(i).slot) + SP;
         for (int j = 0; j < _lobby.at(i).players.size(); j++) {
-          int id = _lobby.at(i).players.at(j);
+          int id = _lobby.at(i).players.at(j).id;
           res += (_usernames.find(id) == _usernames.end())
                      ? PLAYER + std::to_string(j) + SP
                      : _usernames.at(id);
@@ -101,7 +101,7 @@ namespace rtype {
       res +=
           _lobby.at(room).name + SP + std::to_string(_lobby.at(room).slot) + SP;
       for (int j = 0; j < _lobby.at(room).players.size(); j++) {
-        int id = _lobby.at(room).players.at(j);
+        int id = _lobby.at(room).players.at(j).id;
         res += (_usernames.find(id) == _usernames.end())
                    ? PLAYER + std::to_string(j) + SP
                    : _usernames.at(id) + SP;
@@ -187,13 +187,20 @@ namespace rtype {
         _engine.ServerSendTcp(input.id, TCP_ERRORS.at(FULL_ROOM));
         return;
       }
-      for (auto id : _lobby.at(room).players) {
-        if (id == input.id) {
+      for (auto player : _lobby.at(room).players) {
+        if (player.id == input.id) {
           _engine.ServerSendTcp(input.id, TCP_ERRORS.at(ALREADY_IN_ROOM));
           return;
         }
       }
-      _lobby.at(room).players.push_back(input.id);
+
+      player_t new_player = {
+        .id = input.id,
+        .is_admin = (_lobby.at(room).owner == input.id) ? true : false,
+        .is_ready = false,
+      };
+
+      _lobby.at(room).players.push_back(new_player);
       res += std::to_string(room);
       _engine.ServerSendTcp(input.id, res);
     });
@@ -209,9 +216,11 @@ namespace rtype {
       int room = std::stoi(input.tcp_payload);
       if (tcp_bad_room(input, room, TCP_ERRORS.at(LOBBY_NOT_FOUND)))
         return;
-      std::vector<int>::iterator it =
-          std::find(_lobby.at(room).players.begin(),
-                    _lobby.at(room).players.end(), input.id);
+      std::vector<player_t>::iterator it =
+          std::find_if(_lobby.at(room).players.begin(),
+                    _lobby.at(room).players.end(), [input](const player_t &player) {
+                        return input.id == player.id;
+                    });
       if (it == _lobby.at(room).players.end()) {
         _engine.ServerSendTcp(input.id, TCP_ERRORS.at(NOT_IN_ROOM));
         return;
@@ -219,6 +228,41 @@ namespace rtype {
       _lobby.at(room).players.erase(it);
       res += std::to_string(room);
       _engine.ServerSendTcp(input.id, res);
+    });
+
+    // Command to laucnh a Game
+    _engine.registerCommandTcp(LAUNCH_GAME_CMD, [this](zef::Engine& engine,input_t input) {
+        std::string res = CMD_RES.at(LAUNCH_GAME_CMD).at(SUCCESS);
+
+      if (tcp_bad_args(input, std::stoi(CMD_RES.at(LAUNCH_GAME_CMD).at(NB_ARGS)),
+                       TCP_ERRORS.at(INVALID_ARGS)))
+        return;
+        int room = std::stoi(input.tcp_payload);
+      if (tcp_bad_room(input, room, TCP_ERRORS.at(LOBBY_NOT_FOUND)))
+        return;
+        std::vector<player_t>::iterator it = std::find_if(_lobby.at(room).players.begin(),_lobby.at(room).players.end(), [input](const player_t& player) {
+            return player.id == input.id;
+        });
+        if (it == _lobby.at(room).players.end()) {
+            _engine.ServerSendTcp(input.id, TCP_ERRORS.at(NOT_IN_ROOM));
+            return;
+        }
+        if (!(*it).is_admin) {
+            _engine.ServerSendTcp(input.id, TCP_ERRORS.at(NOT_ADMIN));
+            return;
+        }
+        it = std::find_if(_lobby.at(room).players.begin(),_lobby.at(room).players.end(), [](const player_t& player) {
+            return !player.is_ready;
+        });
+        if (it != _lobby.at(room).players.end()) {
+            _engine.ServerSendTcp(input.id, TCP_ERRORS.at(NOT_READY));
+            return;
+        }
+        // add logic to launch a game in intern 
+        res += _lobby.at(room).name;
+        for (auto player : _lobby.at(room).players) {
+            _engine.ServerSendTcp(player.id, res);
+        }
     });
   }
 
@@ -248,6 +292,30 @@ namespace rtype {
         });
   }
 
+   void GameServer::lobbyUpdateCmd() {
+        // update ready status of a player
+        _engine.registerCommandTcp(SET_PLAYER_READY_CMD, [this](zef::Engine& engine, input_t input) {
+          std::string res = CMD_RES.at(SET_PLAYER_READY_CMD).at(SUCCESS);
+          if (tcp_bad_args(input,
+                           std::stoi(CMD_RES.at(DELETE_ROOM_CMD).at(NB_ARGS)),
+                           TCP_ERRORS.at(INVALID_ARGS)))
+            return;
+          int room = std::stoi(input.tcp_payload);
+          if (tcp_bad_room(input, room, TCP_ERRORS.at(LOBBY_NOT_FOUND)))
+            return;
+        std::vector<player_t>::iterator it = std::find_if(_lobby.at(room).players.begin(),_lobby.at(room).players.end(), [input](const player_t& player) {
+            return player.id == input.id;
+        });
+        if (it == _lobby.at(room).players.end()) {
+            _engine.ServerSendTcp(input.id, TCP_ERRORS.at(NOT_IN_ROOM));
+            return;
+        }
+        (*it).is_ready = true;
+        res += std::to_string((*it).id);
+        _engine.ServerSendTcp(input.id, res);
+        });
+   }
+
   void GameServer::RegisterTcpCmd() {
     for (int i = 0; i < LOBBY_SIZE; i++) {
       room_t new_room = {
@@ -263,6 +331,7 @@ namespace rtype {
     LobbySetCmd();
     LobbyActionCmd();
     lobbyDeleteCmd();
+    lobbyUpdateCmd();
   }
 
   void GameServer::RegisterUdpCmd() {
