@@ -12,6 +12,7 @@ set(SRCS
     lobby/Lobby.cpp
     lobby/utils.cpp
     lobby/error_handling.cpp
+    lobby/response.cpp
     lobby/Commands/action.cpp
     lobby/Commands/delete.cpp
     lobby/Commands/get.cpp

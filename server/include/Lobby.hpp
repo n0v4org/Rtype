@@ -32,6 +32,7 @@
 enum {
   SUCCESS = 0,
   NB_ARGS = 1,
+  STATUS = 2,
 };
 
 enum {
@@ -71,38 +72,38 @@ static const char DEFAULT_PWD[] = "magicarpe";
 
 static const int DEFAULT_OWNER      = -1;
 static const uint8_t LOBBY_SIZE     = 5;
-static const uint16_t NB_TCP_CMD    = 2;
+static const uint16_t NB_TCP_CMD    = 3;
 static const uint16_t NB_TCP_ERRORS = 13;
 
-static const std::array<std::string, NB_TCP_ERRORS> TCP_ERRORS = {
-    "400 invalid args",
-    "401 maximum number of players reached",
-    "404 room not found",
-    "402 player already in lobby",
-    "404 player is not in this lobby",
-    "403 invalid password",
-    "402 nb slot should be > 0 && < 5",
-    "401 lobby name already exist please provide an other one",
-    "403 only the owner has the right",
-    "403 default lobby you do not have the right baka",
-    "403 only admin can launch the game",
-    "402 some players are not ready",
-    "400 some parameters must be numbers",
-};
+static const std::array<std::pair<int, std::string>, NB_TCP_ERRORS> TCP_ERRORS = {{
+    {400, "invalid args"},
+    {401, "maximum number of players reached"},
+    {402, "room not found"},
+    {403, "player already in lobby"},
+    {404, "player is not in this lobby"},
+    {405, "invalid password"},
+    {406, "nb slot should be > 0 && < 5"},
+    {407, "lobby name already exist please provide an other one"},
+    {408, "only the owner has the right"},
+    {409, "default lobby you do not have the right baka"},
+    {410, "only admin can launch the game"},
+    {411, "some players are not ready"},
+    {412, "some parameters must be numbers"},
+}};
 
 static const std::map<std::string, std::array<std::string, NB_TCP_CMD>>
-    CMD_RES = {{GET_ALL_LOBBY_CMD, {"200 ", "0"}},
-               {SET_USERNAME_CMD, {"200 Username set successfully to ", "1"}},
-               {JOIN_ROOM_CMD, {"200 successfully join room ", "2"}},
-               {GET_LOBBY_CMD, {"200  ", "1"}},
-               {QUIT_ROOM_CMD, {"200 successfully quit room ", "1"}},
-               {SET_ROOM_CMD, {"successfully created lobby ", "3"}},
-               {DELETE_ROOM_CMD, {"200 successfully deleted lobby ", "1"}},
-               {LAUNCH_GAME_CMD, {"200 launching game in lobby ", "1"}},
-               {SET_PLAYER_READY_CMD, {"200 player is ready ", "1"}},
-               {UPDATE_ROOM_CMD, {"200 successfully updated lobby ", "4"}},
-               {UPDATE_PERM_CMD, {"200 successfully updated perm of ", "3"}},
-               {KICK_PLAYER_CMD, {"200 kick player ", "2"}}};
+    CMD_RES = {{GET_ALL_LOBBY_CMD, {"succesfully get data on all lobby", "0", "200"}},
+               {SET_USERNAME_CMD, {"Username set successfully to ", "1", "201"}},
+               {JOIN_ROOM_CMD, {"successfully join room ", "2", "202"}},
+               {GET_LOBBY_CMD, {"succesfully get data on lobby ", "1", "203"}},
+               {QUIT_ROOM_CMD, {"successfully quit room ", "1", "204"}},
+               {SET_ROOM_CMD, {"successfully created lobby ", "3", "205"}},
+               {DELETE_ROOM_CMD, {"successfully deleted lobby ", "1", "206"}},
+               {LAUNCH_GAME_CMD, {"launching game in lobby ", "1", "207"}},
+               {SET_PLAYER_READY_CMD, {"player is ready ", "1", "208"}},
+               {UPDATE_ROOM_CMD, {"successfully updated lobby ", "4", "209"}},
+               {UPDATE_PERM_CMD, {"successfully updated perm of ", "3", "210"}},
+               {KICK_PLAYER_CMD, {"kick player ", "2", "211"}}};
 
 struct player_t {
   int id;
@@ -116,7 +117,10 @@ struct room_t {
   std::string pwd;
   int slot;
   int owner;
+  bool running;
 };
+
+using json = nlohmann::json;
 
 namespace rtype {
 
@@ -138,6 +142,8 @@ namespace rtype {
     bool bad_args(input_t input, int nb_args);
     bool is_number(const std::string &s, int id);
     std::vector<std::string> parse_input(std::string input);
+    void send_error(int id, const std::string &ec, int status);
+    json get_data_single_room(room_t room, int room_id);
 
     zef::Engine &_engine;
     std::map<int, std::string> _usernames;

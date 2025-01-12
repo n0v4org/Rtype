@@ -27,6 +27,7 @@ namespace rtype {
           .pwd     = DEFAULT_PWD,
           .slot    = LOBBY_SIZE,
           .owner   = DEFAULT_OWNER,
+          .running = false,
       };
       _lobby.push_back(new_room);
     }

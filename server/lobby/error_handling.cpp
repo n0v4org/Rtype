@@ -28,7 +28,7 @@ namespace rtype {
         return false;
     }
     if (nb_cmd + 1 != nb_args) {
-      _engine.ServerSendTcp(input.id, TCP_ERRORS.at(INVALID_ARGS));
+        send_error(input.id, TCP_ERRORS.at(INVALID_ARGS).second, TCP_ERRORS.at(INVALID_ARGS).first);
       return true;
     }
     return false;
@@ -36,7 +36,7 @@ namespace rtype {
 
   bool Lobby::bad_room(input_t input, int room) {
     if (room < 0 || room >= _lobby.size()) {
-      _engine.ServerSendTcp(input.id, TCP_ERRORS.at(LOBBY_NOT_FOUND));
+        send_error(input.id, TCP_ERRORS.at(LOBBY_NOT_FOUND).second, TCP_ERRORS.at(LOBBY_NOT_FOUND).first);
       return true;
     }
     return false;
@@ -44,7 +44,7 @@ namespace rtype {
 
   bool Lobby::bad_perm(input_t input, int room) {
     if (_lobby.at(room).owner == DEFAULT_OWNER) {
-      _engine.ServerSendTcp(input.id, TCP_ERRORS.at(NO_PERMS));
+        send_error(input.id, TCP_ERRORS.at(NO_PERMS).second, TCP_ERRORS.at(NO_PERMS).first);
       return true;
     }
     std::vector<player_t>::iterator it = std::find_if(
@@ -54,7 +54,7 @@ namespace rtype {
         });
     if (it == _lobby.at(room).players.end() &&
         _lobby.at(room).owner != input.id) {
-      _engine.ServerSendTcp(input.id, TCP_ERRORS.at(NOT_OWNER));
+            send_error(input.id, TCP_ERRORS.at(NOT_OWNER).second, TCP_ERRORS.at(NOT_OWNER).first);
       return true;
     }
     return false;
@@ -64,7 +64,7 @@ namespace rtype {
     std::string::const_iterator it = s.begin();
     while (it != s.end() && std::isdigit(*it)) ++it;
     if (s.empty() || it != s.end()) {
-      _engine.ServerSendTcp(id, TCP_ERRORS.at(NOT_A_NUMBER));
+        send_error(id, TCP_ERRORS.at(NOT_A_NUMBER).second, TCP_ERRORS.at(NOT_A_NUMBER).first);
       return false;
     }
     return true;
