@@ -9,6 +9,7 @@ set(SRCS
     src/Core.cpp
     src/Arguments.cpp
     game/GameServer.cpp
+    lobby/Lobby.cpp
 )
 
 set(TEST
