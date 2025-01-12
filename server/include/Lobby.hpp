@@ -47,7 +47,7 @@ enum {
   NO_PERMS                  = 9,
   NOT_ADMIN                 = 10,
   NOT_READY                 = 11,
-  NOT_A_NUMBER = 12,
+  NOT_A_NUMBER              = 12,
 };
 
 static const char GET_ALL_LOBBY_CMD[]    = "GET_ALL_LOBBY";
@@ -59,7 +59,7 @@ static const char SET_ROOM_CMD[]         = "SET_NEW_LOBBY";
 static const char DELETE_ROOM_CMD[]      = "DELETE_LOBBY";
 static const char LAUNCH_GAME_CMD[]      = "LAUNCH_GAME";
 static const char SET_PLAYER_READY_CMD[] = "SET_PLAYER_READY";
-static const char UPDATE_ROOM_CMD[] = "UPDATE_LOBBY";
+static const char UPDATE_ROOM_CMD[]      = "UPDATE_LOBBY";
 
 static const char SP            = ' ';
 static const char PLAYER[]      = "player";
@@ -134,7 +134,7 @@ namespace rtype {
     bool bad_perm(input_t input, int nb_args);
     bool bad_room(input_t input, int room);
     bool bad_args(input_t input, int nb_args);
-    bool is_number(const std::string& s, int id);
+    bool is_number(const std::string &s, int id);
     std::vector<std::string> parse_input(std::string input);
 
     zef::Engine &_engine;

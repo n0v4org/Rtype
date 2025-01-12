@@ -16,13 +16,12 @@
 
 namespace rtype {
 
-  Lobby::Lobby(zef::Engine &engine)
-  : _engine(engine) {
+  Lobby::Lobby(zef::Engine& engine) : _engine(engine) {
   }
 
-// ----------------------------------------------------------------
-// ERROR HANDLING
-// ----------------------------------------------------------------
+  // ----------------------------------------------------------------
+  // ERROR HANDLING
+  // ----------------------------------------------------------------
 
   bool Lobby::bad_args(input_t input, int nb_args) {
     int nb_cmd =
@@ -52,33 +51,36 @@ namespace rtype {
 
   bool Lobby::bad_perm(input_t input, int room) {
     if (_lobby.at(room).owner == DEFAULT_OWNER) {
-        _engine.ServerSendTcp(input.id, TCP_ERRORS.at(NO_PERMS));
-        return true;
+      _engine.ServerSendTcp(input.id, TCP_ERRORS.at(NO_PERMS));
+      return true;
     }
-    std::vector<player_t>::iterator it = std::find_if(_lobby.at(room).players.begin(), _lobby.at(room).players.end(), [input](const player_t &player) {
-        return input.id == player.id && player.is_admin;
-    });
-    if (it == _lobby.at(room).players.end() && _lobby.at(room).owner != input.id) {
-        _engine.ServerSendTcp(input.id, TCP_ERRORS.at(NOT_OWNER));
-        return true;
+    std::vector<player_t>::iterator it = std::find_if(
+        _lobby.at(room).players.begin(), _lobby.at(room).players.end(),
+        [input](const player_t& player) {
+          return input.id == player.id && player.is_admin;
+        });
+    if (it == _lobby.at(room).players.end() &&
+        _lobby.at(room).owner != input.id) {
+      _engine.ServerSendTcp(input.id, TCP_ERRORS.at(NOT_OWNER));
+      return true;
     }
     return false;
   }
 
-  bool Lobby::is_number(const std::string& s, int id)
-{
+  bool Lobby::is_number(const std::string& s, int id) {
     std::string::const_iterator it = s.begin();
     while (it != s.end() && std::isdigit(*it)) ++it;
     if (s.empty() || it != s.end()) {
-        _engine.ServerSendTcp(id, TCP_ERRORS.at(NOT_A_NUMBER));
-        return false;
+      _engine.ServerSendTcp(id, TCP_ERRORS.at(NOT_A_NUMBER));
+      return false;
     }
-    return true;;
-}
+    return true;
+    ;
+  }
 
-// ----------------------------------------------------------------
-// PARSER
-// ----------------------------------------------------------------
+  // ----------------------------------------------------------------
+  // PARSER
+  // ----------------------------------------------------------------
 
   std::vector<std::string> Lobby::parse_input(std::string input) {
     std::stringstream ss(input.c_str());
@@ -91,9 +93,9 @@ namespace rtype {
     return cmds;
   }
 
-// ----------------------------------------------------------------
-// GET
-// ----------------------------------------------------------------
+  // ----------------------------------------------------------------
+  // GET
+  // ----------------------------------------------------------------
 
   void Lobby::LobbyGetCmd() {
     // Command to retrieve info on all lobby
@@ -101,8 +103,7 @@ namespace rtype {
                                                          input_t input) {
       std::string res = CMD_RES.at(GET_ALL_LOBBY_CMD).at(SUCCESS);
 
-      if (bad_args(input,
-                       std::stoi(CMD_RES.at(GET_ALL_LOBBY_CMD).at(NB_ARGS))))
+      if (bad_args(input, std::stoi(CMD_RES.at(GET_ALL_LOBBY_CMD).at(NB_ARGS))))
         return;
       for (int i = 0; i < _lobby.size(); i++) {
         res += _lobby.at(i).name + SP + std::to_string(_lobby.at(i).slot) + SP;
@@ -122,7 +123,8 @@ namespace rtype {
                                                      input_t input) {
       std::string res = CMD_RES.at(GET_LOBBY_CMD).at(SUCCESS);
 
-      if (bad_args(input, std::stoi(CMD_RES.at(GET_LOBBY_CMD).at(NB_ARGS))) || !is_number(input.tcp_payload, input.id))
+      if (bad_args(input, std::stoi(CMD_RES.at(GET_LOBBY_CMD).at(NB_ARGS))) ||
+          !is_number(input.tcp_payload, input.id))
         return;
       int room = std::stoi(input.tcp_payload);
       if (bad_room(input, room))
@@ -139,23 +141,22 @@ namespace rtype {
     });
   }
 
-// ----------------------------------------------------------------
-// SET
-// ----------------------------------------------------------------
+  // ----------------------------------------------------------------
+  // SET
+  // ----------------------------------------------------------------
 
   void Lobby::LobbySetCmd() {
     // Command to set an username
-    _engine.registerCommandTcp(
-        SET_USERNAME_CMD, [this](zef::Engine& engine, input_t input) {
-          std::string res = CMD_RES.at(SET_USERNAME_CMD).at(SUCCESS);
+    _engine.registerCommandTcp(SET_USERNAME_CMD, [this](zef::Engine& engine,
+                                                        input_t input) {
+      std::string res = CMD_RES.at(SET_USERNAME_CMD).at(SUCCESS);
 
-          if (bad_args(input,
-                           std::stoi(CMD_RES.at(SET_USERNAME_CMD).at(NB_ARGS))))
-            return;
-          _usernames[input.id] = input.tcp_payload;
-          res += _usernames[input.id];
-          _engine.ServerSendTcp(input.id, res);
-        });
+      if (bad_args(input, std::stoi(CMD_RES.at(SET_USERNAME_CMD).at(NB_ARGS))))
+        return;
+      _usernames[input.id] = input.tcp_payload;
+      res += _usernames[input.id];
+      _engine.ServerSendTcp(input.id, res);
+    });
 
     // Command to set a new room
     _engine.registerCommandTcp(SET_ROOM_CMD, [this](zef::Engine& engine,
@@ -168,8 +169,8 @@ namespace rtype {
       std::string name                      = parsed_input.at(0);
       if (!is_number(parsed_input.at(1), input.id))
         return;
-      int slot                              = std::stoi(parsed_input.at(1));
-      std::string pwd                       = parsed_input.at(2);
+      int slot        = std::stoi(parsed_input.at(1));
+      std::string pwd = parsed_input.at(2);
       if (slot < 0 || slot > LOBBY_SIZE) {
         _engine.ServerSendTcp(input.id, TCP_ERRORS.at(INVALID_SLOT));
         return;
@@ -196,9 +197,9 @@ namespace rtype {
     });
   }
 
-// ----------------------------------------------------------------
-// ACTION
-// ----------------------------------------------------------------
+  // ----------------------------------------------------------------
+  // ACTION
+  // ----------------------------------------------------------------
 
   void Lobby::LobbyActionCmd() {
     // Command to join a room
@@ -212,8 +213,8 @@ namespace rtype {
       std::vector<std::string> parsed_input = parse_input(input.tcp_payload);
       if (!is_number(parsed_input.at(0), input.id))
         return;
-      int room                              = std::stoi(parsed_input.at(0));
-      std::string pwd                       = parsed_input.at(1);
+      int room        = std::stoi(parsed_input.at(0));
+      std::string pwd = parsed_input.at(1);
 
       if (bad_room(input, room))
         return;
@@ -248,7 +249,8 @@ namespace rtype {
                                                      input_t input) {
       std::string res = CMD_RES.at(QUIT_ROOM_CMD).at(SUCCESS);
 
-      if (bad_args(input, std::stoi(CMD_RES.at(QUIT_ROOM_CMD).at(NB_ARGS))) || !is_number(input.tcp_payload, input.id))
+      if (bad_args(input, std::stoi(CMD_RES.at(QUIT_ROOM_CMD).at(NB_ARGS))) ||
+          !is_number(input.tcp_payload, input.id))
         return;
       int room = std::stoi(input.tcp_payload);
       if (bad_room(input, room))
@@ -270,8 +272,8 @@ namespace rtype {
                                                        input_t input) {
       std::string res = CMD_RES.at(LAUNCH_GAME_CMD).at(SUCCESS);
 
-      if (bad_args(input,
-                       std::stoi(CMD_RES.at(LAUNCH_GAME_CMD).at(NB_ARGS))) || !is_number(input.tcp_payload, input.id))
+      if (bad_args(input, std::stoi(CMD_RES.at(LAUNCH_GAME_CMD).at(NB_ARGS))) ||
+          !is_number(input.tcp_payload, input.id))
         return;
       int room = std::stoi(input.tcp_payload);
       if (bad_room(input, room))
@@ -302,38 +304,38 @@ namespace rtype {
     });
   }
 
-// ----------------------------------------------------------------
-// DEL
-// ----------------------------------------------------------------
+  // ----------------------------------------------------------------
+  // DEL
+  // ----------------------------------------------------------------
 
   void Lobby::lobbyDeleteCmd() {
     // Command to delete a room
-    _engine.registerCommandTcp(
-        DELETE_ROOM_CMD, [this](zef::Engine& engine, input_t input) {
-          std::string res = CMD_RES.at(DELETE_ROOM_CMD).at(SUCCESS);
-          if (bad_args(input,
-                           std::stoi(CMD_RES.at(DELETE_ROOM_CMD).at(NB_ARGS))) || !is_number(input.tcp_payload, input.id))
-            return;
-          int room = std::stoi(input.tcp_payload);
-          if (bad_room(input, room) || bad_perm(input, room))
-            return;
-          res += std::to_string(room);
-          _lobby.erase(_lobby.begin() + room);
-          _engine.ServerSendTcp(input.id, res);
-        });
+    _engine.registerCommandTcp(DELETE_ROOM_CMD, [this](zef::Engine& engine,
+                                                       input_t input) {
+      std::string res = CMD_RES.at(DELETE_ROOM_CMD).at(SUCCESS);
+      if (bad_args(input, std::stoi(CMD_RES.at(DELETE_ROOM_CMD).at(NB_ARGS))) ||
+          !is_number(input.tcp_payload, input.id))
+        return;
+      int room = std::stoi(input.tcp_payload);
+      if (bad_room(input, room) || bad_perm(input, room))
+        return;
+      res += std::to_string(room);
+      _lobby.erase(_lobby.begin() + room);
+      _engine.ServerSendTcp(input.id, res);
+    });
   }
 
-// ----------------------------------------------------------------
-// UPDATE
-// ----------------------------------------------------------------
+  // ----------------------------------------------------------------
+  // UPDATE
+  // ----------------------------------------------------------------
 
   void Lobby::lobbyUpdateCmd() {
     // update ready status of a player
     _engine.registerCommandTcp(SET_PLAYER_READY_CMD, [this](zef::Engine& engine,
                                                             input_t input) {
       std::string res = CMD_RES.at(SET_PLAYER_READY_CMD).at(SUCCESS);
-      if (bad_args(input,
-                       std::stoi(CMD_RES.at(DELETE_ROOM_CMD).at(NB_ARGS))) || !is_number(input.tcp_payload, input.id))
+      if (bad_args(input, std::stoi(CMD_RES.at(DELETE_ROOM_CMD).at(NB_ARGS))) ||
+          !is_number(input.tcp_payload, input.id))
         return;
       int room = std::stoi(input.tcp_payload);
       if (bad_room(input, room))
@@ -351,37 +353,39 @@ namespace rtype {
     });
 
     // Command to update a room
-    _engine.registerCommandTcp(UPDATE_ROOM_CMD, [this](zef::Engine& engine, input_t input) {
-        std::string res = CMD_RES.at(UPDATE_ROOM_CMD).at(SUCCESS);
-          if (bad_args(input,
-                           std::stoi(CMD_RES.at(UPDATE_ROOM_CMD).at(NB_ARGS))))
-            return;
-          std::vector<std::string> parsed_input = parse_input(input.tcp_payload);
-          if (!is_number(parsed_input.at(0), input.id) || !is_number(parsed_input.at(2), input.id))
-            return;
-          int room = std::stoi(parsed_input.at(0));
-          std::string lobby_name = parsed_input.at(1);
-          int slot = std::stoi(parsed_input.at(2));
-          std::string password = parsed_input.at(3);
-          if (bad_room(input, room) || bad_perm(input, room))
-            return;
-        if (slot < 0 || slot > LOBBY_SIZE) {
+    _engine.registerCommandTcp(UPDATE_ROOM_CMD, [this](zef::Engine& engine,
+                                                       input_t input) {
+      std::string res = CMD_RES.at(UPDATE_ROOM_CMD).at(SUCCESS);
+      if (bad_args(input, std::stoi(CMD_RES.at(UPDATE_ROOM_CMD).at(NB_ARGS))))
+        return;
+      std::vector<std::string> parsed_input = parse_input(input.tcp_payload);
+      if (!is_number(parsed_input.at(0), input.id) ||
+          !is_number(parsed_input.at(2), input.id))
+        return;
+      int room               = std::stoi(parsed_input.at(0));
+      std::string lobby_name = parsed_input.at(1);
+      int slot               = std::stoi(parsed_input.at(2));
+      std::string password   = parsed_input.at(3);
+      if (bad_room(input, room) || bad_perm(input, room))
+        return;
+      if (slot < 0 || slot > LOBBY_SIZE) {
         _engine.ServerSendTcp(input.id, TCP_ERRORS.at(INVALID_SLOT));
         return;
       }
       std::vector<room_t>::iterator it = std::find_if(
-          _lobby.begin(), _lobby.end(),
-          [&lobby_name](const room_t& room) { return room.name == lobby_name; });
+          _lobby.begin(), _lobby.end(), [&lobby_name](const room_t& room) {
+            return room.name == lobby_name;
+          });
       if (it != _lobby.end()) {
         _engine.ServerSendTcp(input.id,
                               TCP_ERRORS.at(LOBBY_NAME_ALREADY_EXISTS));
         return;
       }
-          _lobby.at(room).name = lobby_name;
-          _lobby.at(room).slot = slot;
-          _lobby.at(room).pwd = password;
-        res += std::to_string(room);
-        _engine.ServerSendTcp(input.id, res);
+      _lobby.at(room).name = lobby_name;
+      _lobby.at(room).slot = slot;
+      _lobby.at(room).pwd  = password;
+      res += std::to_string(room);
+      _engine.ServerSendTcp(input.id, res);
     });
   }
 
