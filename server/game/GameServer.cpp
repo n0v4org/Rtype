@@ -11,6 +11,7 @@
 #include <iostream>
 #include <random>
 #include <string>
+#include <memory>
 
 #include "GameServer.hpp"
 
