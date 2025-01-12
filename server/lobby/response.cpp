@@ -44,6 +44,6 @@ namespace rtype {
             res["players"].push_back(json_player);
         }
         return res;
-    };
+    }
 
 }  // namespace rtype
