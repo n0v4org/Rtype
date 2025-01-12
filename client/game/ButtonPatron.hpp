@@ -1,5 +1,5 @@
-#ifndef GENERIC_BUTTON_PATRON_HPP_
-#define GENERIC_BUTTON_PATRON_HPP_
+#ifndef BUTTON_PATRON_HPP_
+#define BUTTON_PATRON_HPP_
 
 #include "Engine.hpp"
 #include "modules/controller/components.hpp"
@@ -10,7 +10,7 @@
 #include <string>
 #include <vector>
 
-class GenericButtonPatron {
+class ButtonPatron {
 public:
     static void instanciate(zef::Engine &engine, const ecs::Entity &self,
                             float x, float y,
@@ -39,4 +39,4 @@ public:
     }
 };
 
-#endif // GENERIC_BUTTON_PATRON_HPP_
+#endif // BUTTON_PATRON_HPP_

@@ -43,7 +43,7 @@ public:
     static void loadScene(zef::Engine &engine) {
         engine.instanciatePatron<MenuBackgroundPatron>();
 
-        engine.instanciatePatron<GenericButtonPatron>(
+        engine.instanciatePatron<ButtonPatron>(
             760.0f, 400.0f,
             "play",
             [](zef::Engine &engine, size_t self) {
@@ -52,7 +52,7 @@ public:
             200.0f, 100.0f
         );
 
-        engine.instanciatePatron<GenericButtonPatron>(
+        engine.instanciatePatron<ButtonPatron>(
             760.0f, 520.0f,
             "play",
             [](zef::Engine &engine, size_t self) {
@@ -61,7 +61,7 @@ public:
             200.0f, 100.0f
         );
 
-        engine.instanciatePatron<GenericButtonPatron>(
+        engine.instanciatePatron<ButtonPatron>(
             760.0f, 640.0f,
             "play",
             [](zef::Engine &engine, size_t self) {
