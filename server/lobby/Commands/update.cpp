@@ -76,6 +76,30 @@ namespace rtype {
     });
 
     // Command to update a player perms
+    _engine.registerCommandTcp(UPDATE_PERM_CMD, [this](zef::Engine& engine, input_t input) {
+        std::string res = CMD_RES.at(UPDATE_PERM_CMD).at(SUCCESS);
+        if (bad_args(input, std::stoi(CMD_RES.at(UPDATE_PERM_CMD).at(NB_ARGS))))
+          return;
+        std::vector<std::string> parsed_input = parse_input(input.tcp_payload);
+        if (!is_number(parsed_input.at(0), input.id) ||
+          !is_number(parsed_input.at(1), input.id) || !is_number(parsed_input.at(2), input.id))
+            return;
+        int room = std::stoi(parsed_input.at(0));
+        int player_id = std::stoi(parsed_input.at(1));
+        int status = std::stoi(parsed_input.at(2));
+        if (bad_room(input, room) || bad_perm(input, room))
+            return;
+        std::vector<player_t>::iterator it = std::find_if(
+            _lobby.at(room).players.begin(), _lobby.at(room).players.end(),
+            [player_id](const player_t& player) { return player.id == player_id; });
+        if (it == _lobby.at(room).players.end()) {
+            _engine.ServerSendTcp(input.id, TCP_ERRORS.at(NOT_IN_ROOM));
+            return;
+        }
+        (*it).is_admin = (status == 0) ? true : (player_id != _lobby.at(room).owner) ? false : true;
+        res += std::to_string(player_id);
+        _engine.ServerSendTcp(input.id, res);
+    });
   }
 
 }  // namespace rtype

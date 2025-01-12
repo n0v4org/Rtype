@@ -61,6 +61,7 @@ static const char LAUNCH_GAME_CMD[]      = "LAUNCH_GAME";
 static const char SET_PLAYER_READY_CMD[] = "SET_PLAYER_READY";
 static const char UPDATE_ROOM_CMD[]      = "UPDATE_LOBBY";
 static const char UPDATE_PERM_CMD[]      = "UPDATE_PERM";
+static const char KICK_PLAYER_CMD[] = "KICK_PLAYER";
 
 static const char SP            = ' ';
 static const char PLAYER[]      = "player";
@@ -100,7 +101,9 @@ static const std::map<std::string, std::array<std::string, NB_TCP_CMD>>
                {LAUNCH_GAME_CMD, {"200 launching game in lobby ", "1"}},
                {SET_PLAYER_READY_CMD, {"200 player is ready ", "1"}},
                {UPDATE_ROOM_CMD, {"200 successfully updated lobby ", "4"}},
-               {UPDATE_PERM_CMD, {"200 successfully updated perm of ", "2"}}};
+               {UPDATE_PERM_CMD, {"200 successfully updated perm of ", "3"}},
+               {KICK_PLAYER_CMD, {"200 kick player ", "2"}}
+               };
 
 struct player_t {
   int id;
