@@ -18,7 +18,7 @@ namespace rtype {
 
   Lobby::Lobby(zef::Engine& engine) : _engine(engine) {
   }
-  
+
   void Lobby::RegisterLobbyCmd() {
     for (int i = 0; i < LOBBY_SIZE; i++) {
       room_t new_room = {

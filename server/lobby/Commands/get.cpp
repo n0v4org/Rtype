@@ -15,7 +15,7 @@
 #include "Lobby.hpp"
 
 namespace rtype {
-      void Lobby::LobbyGetCmd() {
+  void Lobby::LobbyGetCmd() {
     // Command to retrieve info on all lobby
     _engine.registerCommandTcp(GET_ALL_LOBBY_CMD, [this](zef::Engine& engine,
                                                          input_t input) {

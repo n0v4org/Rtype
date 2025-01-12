@@ -15,8 +15,8 @@
 #include "Lobby.hpp"
 
 namespace rtype {
-    
-        bool Lobby::bad_args(input_t input, int nb_args) {
+
+  bool Lobby::bad_args(input_t input, int nb_args) {
     int nb_cmd =
         std::count(input.tcp_payload.begin(), input.tcp_payload.end(), SP);
 

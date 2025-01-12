@@ -16,7 +16,7 @@
 
 namespace rtype {
 
- void Lobby::lobbyUpdateCmd() {
+  void Lobby::lobbyUpdateCmd() {
     // update ready status of a player
     _engine.registerCommandTcp(SET_PLAYER_READY_CMD, [this](zef::Engine& engine,
                                                             input_t input) {
@@ -76,8 +76,6 @@ namespace rtype {
     });
 
     // Command to update a player perms
-    
   }
-
 
 }  // namespace rtype

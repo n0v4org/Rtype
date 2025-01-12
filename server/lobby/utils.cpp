@@ -16,7 +16,7 @@
 
 namespace rtype {
 
- std::vector<std::string> Lobby::parse_input(std::string input) {
+  std::vector<std::string> Lobby::parse_input(std::string input) {
     std::stringstream ss(input.c_str());
     std::string line;
     std::vector<std::string> cmds;

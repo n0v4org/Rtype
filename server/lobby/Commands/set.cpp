@@ -15,8 +15,8 @@
 #include "Lobby.hpp"
 
 namespace rtype {
-    
-     void Lobby::LobbySetCmd() {
+
+  void Lobby::LobbySetCmd() {
     // Command to set an username
     _engine.registerCommandTcp(SET_USERNAME_CMD, [this](zef::Engine& engine,
                                                         input_t input) {

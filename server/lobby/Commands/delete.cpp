@@ -15,8 +15,8 @@
 #include "Lobby.hpp"
 
 namespace rtype {
-    
-     void Lobby::lobbyDeleteCmd() {
+
+  void Lobby::lobbyDeleteCmd() {
     // Command to delete a room
     _engine.registerCommandTcp(DELETE_ROOM_CMD, [this](zef::Engine& engine,
                                                        input_t input) {

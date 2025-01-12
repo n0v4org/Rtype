@@ -15,7 +15,7 @@
 #include "Lobby.hpp"
 
 namespace rtype {
-     void Lobby::LobbyActionCmd() {
+  void Lobby::LobbyActionCmd() {
     // Command to join a room
     _engine.registerCommandTcp(JOIN_ROOM_CMD, [this](zef::Engine& engine,
                                                      input_t input) {
