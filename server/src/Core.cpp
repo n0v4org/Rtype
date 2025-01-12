@@ -10,10 +10,8 @@
 #include <thread>
 #include <memory>
 
-#include "Network_server.hpp"
 #include "Core.hpp"
 #include "macro.hpp"
-#include "game.hpp"
 
 static const char USAGE[231] = R"(
 usage:
@@ -23,18 +21,27 @@ usage:
         -lp <port>: run lobby server on specified port (default is 50002)
 )";
 
-struct test {
-  int a;
-  char b[24];
-  int c;
-};
-
 namespace rtype {
 
   Core::Core(char* argv[], int argc) {
+    _args = std::make_unique<Arguments>(argc, argv);
   }
 
   void Core::run() {
+    try {
+      _args->parse();
+      if (_args->get_help()) {
+        std::cout << USAGE << std::endl;
+        return;
+      }
+      _server = std::make_unique<GameServer>(_args->get_game_port(),
+                                             _args->get_lobby_port());
+      _server->run();
+    } catch (const std::exception& e) {
+      std::cerr << e.what() << '\n';
+
+      return;
+    }
   }
 
   Core::~Core() {
