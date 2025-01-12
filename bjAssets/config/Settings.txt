@@ -1,5 +1,0 @@
-#Use this file to update any seetings such as colorblind modes. See usage below.
-#Settingname SettingValue
-
-#ColorBlind setting, either None,Deuteranopia,Protanopia,Tritanopia or GreyScale. (N/D/P/T/G)
-ColorBlindness      None
