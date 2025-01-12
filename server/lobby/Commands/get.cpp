@@ -23,15 +23,15 @@ namespace rtype {
 
       if (bad_args(input, std::stoi(CMD_RES.at(GET_ALL_LOBBY_CMD).at(NB_ARGS))))
         return;
-    json data;
-    data["rooms"] = json::array();
-    for (int i = 0; i < _lobby.size(); i++) {
+      json data;
+      data["rooms"] = json::array();
+      for (int i = 0; i < _lobby.size(); i++) {
         json room_data = get_data_single_room(_lobby.at(i), i);
         data["rooms"].push_back(room_data);
-    }
-    data["status"] = std::stoi(CMD_RES.at(GET_ALL_LOBBY_CMD).at(STATUS));
-    data["description"] = res;
-    _engine.ServerSendTcp(input.id, data.dump());
+      }
+      data["status"]      = std::stoi(CMD_RES.at(GET_ALL_LOBBY_CMD).at(STATUS));
+      data["description"] = res;
+      _engine.ServerSendTcp(input.id, data.dump());
     });
 
     // Command to retrieve info on a target room
@@ -46,8 +46,8 @@ namespace rtype {
       if (bad_room(input, room))
         return;
       res += std::to_string(room);
-      json data = get_data_single_room(_lobby.at(room), room);
-      data["status"] = std::stoi(CMD_RES.at(GET_LOBBY_CMD).at(STATUS));
+      json data           = get_data_single_room(_lobby.at(room), room);
+      data["status"]      = std::stoi(CMD_RES.at(GET_LOBBY_CMD).at(STATUS));
       data["description"] = res;
       _engine.ServerSendTcp(input.id, data.dump());
     });

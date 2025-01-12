@@ -27,12 +27,9 @@ namespace rtype {
       _usernames[input.id] = input.tcp_payload;
       res += _usernames[input.id];
       json data;
-      data["status"] = std::stoi(CMD_RES.at(SET_USERNAME_CMD).at(STATUS));
+      data["status"]      = std::stoi(CMD_RES.at(SET_USERNAME_CMD).at(STATUS));
       data["description"] = res;
-      data["player"] = {
-        {"player_id", input.id},
-        {"name", input.tcp_payload}
-      };
+      data["player"] = {{"player_id", input.id}, {"name", input.tcp_payload}};
       _engine.ServerSendTcp(input.id, data.dump());
     });
 
@@ -50,15 +47,16 @@ namespace rtype {
       int slot        = std::stoi(parsed_input.at(1));
       std::string pwd = parsed_input.at(2);
       if (slot < 0 || slot > LOBBY_SIZE) {
-        send_error(input.id, TCP_ERRORS.at(INVALID_SLOT).second, TCP_ERRORS.at(INVALID_SLOT).first);
+        send_error(input.id, TCP_ERRORS.at(INVALID_SLOT).second,
+                   TCP_ERRORS.at(INVALID_SLOT).first);
         return;
       }
       std::vector<room_t>::iterator it = std::find_if(
           _lobby.begin(), _lobby.end(),
           [&name](const room_t& room) { return room.name == name; });
       if (it != _lobby.end()) {
-        send_error(input.id,
-                              TCP_ERRORS.at(LOBBY_NAME_ALREADY_EXISTS).second, TCP_ERRORS.at(LOBBY_NAME_ALREADY_EXISTS).first);
+        send_error(input.id, TCP_ERRORS.at(LOBBY_NAME_ALREADY_EXISTS).second,
+                   TCP_ERRORS.at(LOBBY_NAME_ALREADY_EXISTS).first);
         return;
       }
 
@@ -72,8 +70,9 @@ namespace rtype {
       };
       _lobby.push_back(new_room);
       res += name;
-      json data = get_data_single_room(_lobby.at(_lobby.size() - 1), _lobby.size() - 1);
-      data["status"] = std::stoi(CMD_RES.at(SET_ROOM_CMD).at(STATUS));
+      json data =
+          get_data_single_room(_lobby.at(_lobby.size() - 1), _lobby.size() - 1);
+      data["status"]      = std::stoi(CMD_RES.at(SET_ROOM_CMD).at(STATUS));
       data["description"] = res;
       _engine.ServerSendTcp(input.id, data.dump());
     });

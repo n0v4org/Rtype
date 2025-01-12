@@ -30,9 +30,9 @@ namespace rtype {
       res += std::to_string(room);
       _lobby.erase(_lobby.begin() + room);
       json data;
-      data["status"] = std::stoi(CMD_RES.at(DELETE_ROOM_CMD).at(STATUS));
+      data["status"]      = std::stoi(CMD_RES.at(DELETE_ROOM_CMD).at(STATUS));
       data["description"] = res;
-      data["room_id"] = room;
+      data["room_id"]     = room;
       _engine.ServerSendTcp(input.id, data.dump());
     });
   }

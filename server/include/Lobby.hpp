@@ -32,7 +32,7 @@
 enum {
   SUCCESS = 0,
   NB_ARGS = 1,
-  STATUS = 2,
+  STATUS  = 2,
 };
 
 enum {
@@ -75,35 +75,37 @@ static const uint8_t LOBBY_SIZE     = 5;
 static const uint16_t NB_TCP_CMD    = 3;
 static const uint16_t NB_TCP_ERRORS = 13;
 
-static const std::array<std::pair<int, std::string>, NB_TCP_ERRORS> TCP_ERRORS = {{
-    {400, "invalid args"},
-    {401, "maximum number of players reached"},
-    {402, "room not found"},
-    {403, "player already in lobby"},
-    {404, "player is not in this lobby"},
-    {405, "invalid password"},
-    {406, "nb slot should be > 0 && < 5"},
-    {407, "lobby name already exist please provide an other one"},
-    {408, "only the owner has the right"},
-    {409, "default lobby you do not have the right baka"},
-    {410, "only admin can launch the game"},
-    {411, "some players are not ready"},
-    {412, "some parameters must be numbers"},
-}};
+static const std::array<std::pair<int, std::string>, NB_TCP_ERRORS> TCP_ERRORS =
+    {{
+        {400, "invalid args"},
+        {401, "maximum number of players reached"},
+        {402, "room not found"},
+        {403, "player already in lobby"},
+        {404, "player is not in this lobby"},
+        {405, "invalid password"},
+        {406, "nb slot should be > 0 && < 5"},
+        {407, "lobby name already exist please provide an other one"},
+        {408, "only the owner has the right"},
+        {409, "default lobby you do not have the right baka"},
+        {410, "only admin can launch the game"},
+        {411, "some players are not ready"},
+        {412, "some parameters must be numbers"},
+    }};
 
 static const std::map<std::string, std::array<std::string, NB_TCP_CMD>>
-    CMD_RES = {{GET_ALL_LOBBY_CMD, {"succesfully get data on all lobby", "0", "200"}},
-               {SET_USERNAME_CMD, {"Username set successfully to ", "1", "201"}},
-               {JOIN_ROOM_CMD, {"successfully join room ", "2", "202"}},
-               {GET_LOBBY_CMD, {"succesfully get data on lobby ", "1", "203"}},
-               {QUIT_ROOM_CMD, {"successfully quit room ", "1", "204"}},
-               {SET_ROOM_CMD, {"successfully created lobby ", "3", "205"}},
-               {DELETE_ROOM_CMD, {"successfully deleted lobby ", "1", "206"}},
-               {LAUNCH_GAME_CMD, {"launching game in lobby ", "1", "207"}},
-               {SET_PLAYER_READY_CMD, {"player is ready ", "1", "208"}},
-               {UPDATE_ROOM_CMD, {"successfully updated lobby ", "4", "209"}},
-               {UPDATE_PERM_CMD, {"successfully updated perm of ", "3", "210"}},
-               {KICK_PLAYER_CMD, {"kick player ", "2", "211"}}};
+    CMD_RES = {
+        {GET_ALL_LOBBY_CMD, {"succesfully get data on all lobby", "0", "200"}},
+        {SET_USERNAME_CMD, {"Username set successfully to ", "1", "201"}},
+        {JOIN_ROOM_CMD, {"successfully join room ", "2", "202"}},
+        {GET_LOBBY_CMD, {"succesfully get data on lobby ", "1", "203"}},
+        {QUIT_ROOM_CMD, {"successfully quit room ", "1", "204"}},
+        {SET_ROOM_CMD, {"successfully created lobby ", "3", "205"}},
+        {DELETE_ROOM_CMD, {"successfully deleted lobby ", "1", "206"}},
+        {LAUNCH_GAME_CMD, {"launching game in lobby ", "1", "207"}},
+        {SET_PLAYER_READY_CMD, {"player is ready ", "1", "208"}},
+        {UPDATE_ROOM_CMD, {"successfully updated lobby ", "4", "209"}},
+        {UPDATE_PERM_CMD, {"successfully updated perm of ", "3", "210"}},
+        {KICK_PLAYER_CMD, {"kick player ", "2", "211"}}};
 
 struct player_t {
   int id;

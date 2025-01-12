@@ -31,7 +31,8 @@ namespace rtype {
           _lobby.at(room).players.begin(), _lobby.at(room).players.end(),
           [input](const player_t& player) { return player.id == input.id; });
       if (it == _lobby.at(room).players.end()) {
-        send_error(input.id, TCP_ERRORS.at(NOT_IN_ROOM).second, TCP_ERRORS.at(NOT_IN_ROOM).first);
+        send_error(input.id, TCP_ERRORS.at(NOT_IN_ROOM).second,
+                   TCP_ERRORS.at(NOT_IN_ROOM).first);
         return;
       }
       (*it).is_ready = true;
@@ -39,8 +40,8 @@ namespace rtype {
       json data;
       data["status"] = std::stoi(CMD_RES.at(SET_PLAYER_READY_CMD).at(STATUS));
       data["description"] = res;
-      data["room_id"] = room;
-      data["player_id"] = (*it).id;
+      data["room_id"]     = room;
+      data["player_id"]   = (*it).id;
       _engine.ServerSendTcp(input.id, data.dump());
     });
 
@@ -61,7 +62,8 @@ namespace rtype {
       if (bad_room(input, room) || bad_perm(input, room))
         return;
       if (slot < 0 || slot > LOBBY_SIZE) {
-        send_error(input.id, TCP_ERRORS.at(INVALID_SLOT).second, TCP_ERRORS.at(INVALID_SLOT).first);
+        send_error(input.id, TCP_ERRORS.at(INVALID_SLOT).second,
+                   TCP_ERRORS.at(INVALID_SLOT).first);
         return;
       }
       std::vector<room_t>::iterator it = std::find_if(
@@ -69,16 +71,16 @@ namespace rtype {
             return room.name == lobby_name;
           });
       if (it != _lobby.end()) {
-        send_error(input.id,
-                              TCP_ERRORS.at(LOBBY_NAME_ALREADY_EXISTS).second, TCP_ERRORS.at(LOBBY_NAME_ALREADY_EXISTS).first);
+        send_error(input.id, TCP_ERRORS.at(LOBBY_NAME_ALREADY_EXISTS).second,
+                   TCP_ERRORS.at(LOBBY_NAME_ALREADY_EXISTS).first);
         return;
       }
       _lobby.at(room).name = lobby_name;
       _lobby.at(room).slot = slot;
       _lobby.at(room).pwd  = password;
       res += std::to_string(room);
-      json data = get_data_single_room(_lobby.at(room), room);
-      data["status"] = std::stoi(CMD_RES.at(UPDATE_ROOM_CMD).at(STATUS));
+      json data           = get_data_single_room(_lobby.at(room), room);
+      data["status"]      = std::stoi(CMD_RES.at(UPDATE_ROOM_CMD).at(STATUS));
       data["description"] = res;
       _engine.ServerSendTcp(input.id, data.dump());
     });
@@ -105,7 +107,8 @@ namespace rtype {
             return player.id == player_id;
           });
       if (it == _lobby.at(room).players.end()) {
-        send_error(input.id, TCP_ERRORS.at(NOT_IN_ROOM).second, TCP_ERRORS.at(NOT_IN_ROOM).first);
+        send_error(input.id, TCP_ERRORS.at(NOT_IN_ROOM).second,
+                   TCP_ERRORS.at(NOT_IN_ROOM).first);
         return;
       }
       (*it).is_admin = (status == 0)                          ? true
@@ -113,11 +116,11 @@ namespace rtype {
                                                               : true;
       res += std::to_string(player_id);
       json data;
-      data["status"] = std::stoi(CMD_RES.at(UPDATE_PERM_CMD).at(STATUS));
+      data["status"]      = std::stoi(CMD_RES.at(UPDATE_PERM_CMD).at(STATUS));
       data["description"] = res;
-      data["room_id"] = room;
-      data["player_id"] = player_id;
-      data["is_admin"] = (*it).is_admin;
+      data["room_id"]     = room;
+      data["player_id"]   = player_id;
+      data["is_admin"]    = (*it).is_admin;
       _engine.ServerSendTcp(input.id, data.dump());
     });
   }
