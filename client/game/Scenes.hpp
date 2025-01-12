@@ -41,7 +41,7 @@ public:
 class MenuScene {
 public:
     static void loadScene(zef::Engine &engine) {
-        engine.instanciatePatron<MenuBackgroundPatron>();
+        //engine.instanciatePatron<MenuBackgroundPatron>();
 
         engine.instanciatePatron<ButtonPatron>(
             760.0f, 400.0f,

@@ -41,7 +41,7 @@ public:
         dr.addAnimation(spriteName, 1, 200);
         dr.playAnimationLoop(spriteName, 1);
         dr.layer = 0;             
-        dr.setScale(1.0f, 1.0f);           
+        dr.setScale(0.1f, 0.1f);           
         engine.addEntityComponent<zef::comp::drawable>(self, dr);
     }
 };
