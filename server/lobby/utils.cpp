@@ -29,11 +29,13 @@ namespace rtype {
 
   int Lobby::get_player_lobby(int player_id) {
     for (int i = 0; i < _lobby.size(); i++) {
-        std::vector<player_t>::iterator it = std::find_if(_lobby.at(i).players.begin(), _lobby.at(i).players.end(), [player_id](const player_t &player) {
-            return player_id == player.id;
-        });
-        if (it != _lobby.at(i).players.end())
-            return i;
+      std::vector<player_t>::iterator it =
+          std::find_if(_lobby.at(i).players.begin(), _lobby.at(i).players.end(),
+                       [player_id](const player_t &player) {
+                         return player_id == player.id;
+                       });
+      if (it != _lobby.at(i).players.end())
+        return i;
     }
     return -1;
   }

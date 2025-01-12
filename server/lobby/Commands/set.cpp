@@ -29,14 +29,14 @@ namespace rtype {
       json data;
       data["status"]      = std::stoi(CMD_RES.at(SET_USERNAME_CMD).at(STATUS));
       data["description"] = res;
-      data["player"] = {{"player_id", input.id}, {"name", input.tcp_payload}};
+      data["player"]   = {{"player_id", input.id}, {"name", input.tcp_payload}};
       int target_lobby = get_player_lobby(input.id);
       if (target_lobby == -1) {
         _engine.ServerSendTcp(input.id, data.dump());
         return;
       } else {
-        for (auto &player: _lobby.at(target_lobby).players) {
-             _engine.ServerSendTcp(player.id, data.dump());
+        for (auto& player : _lobby.at(target_lobby).players) {
+          _engine.ServerSendTcp(player.id, data.dump());
         }
       }
     });
