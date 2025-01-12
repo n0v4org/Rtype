@@ -1,3 +1,10 @@
+/*
+** EPITECH PROJECT, 2025
+** r-type
+** File description:
+** game
+*/
+
 #include "Engine.hpp"
 #include "Scenes.hpp"         
 #include "systems.hpp" 
