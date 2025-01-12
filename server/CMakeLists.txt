@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.26)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 project(RtypeServer VERSION 1.0)
@@ -10,6 +10,13 @@ set(SRCS
     src/Arguments.cpp
     game/GameServer.cpp
     lobby/Lobby.cpp
+    lobby/utils.cpp
+    lobby/error_handling.cpp
+    lobby/Commands/action.cpp
+    lobby/Commands/delete.cpp
+    lobby/Commands/get.cpp
+    lobby/Commands/set.cpp
+    lobby/Commands/update.cpp
 )
 
 set(TEST
