@@ -17,6 +17,7 @@
 #include "BackgroundPatron.hpp"
 #include "events.hpp"
 #include "MenuBackgroundPatron.hpp"
+#include "ButtonPatron.hpp"
 
 class LevelScene {
 public:
@@ -41,6 +42,33 @@ class MenuScene {
 public:
     static void loadScene(zef::Engine &engine) {
         engine.instanciatePatron<MenuBackgroundPatron>();
+
+        engine.instanciatePatron<GenericButtonPatron>(
+            760.0f, 400.0f,
+            "play",
+            [](zef::Engine &engine, size_t self) {
+                engine.loadScene("game");
+            },
+            200.0f, 100.0f
+        );
+
+        engine.instanciatePatron<GenericButtonPatron>(
+            760.0f, 520.0f,
+            "play",
+            [](zef::Engine &engine, size_t self) {
+                std::cout << "Options clicked!" << std::endl;
+            },
+            200.0f, 100.0f
+        );
+
+        engine.instanciatePatron<GenericButtonPatron>(
+            760.0f, 640.0f,
+            "play",
+            [](zef::Engine &engine, size_t self) {
+                std::exit(0);
+            },
+            200.0f, 100.0f
+        );
     }
 };
 
