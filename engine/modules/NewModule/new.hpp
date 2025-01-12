@@ -60,6 +60,11 @@ public:
           }
         });
   }
+
+    std::any getMember(const std::string& compname, const std::string& membername) {
+      
+    }
+  
 };
 
 #endif /* !NEW_HPP_ */

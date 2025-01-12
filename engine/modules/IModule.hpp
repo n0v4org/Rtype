@@ -26,6 +26,7 @@ namespace zef {
     virtual void emplaceComponent(Engine& engine, size_t e,
                                   const std::string& name,
                                   std::vector<std::any> args) = 0;
+    virtual std::any getMember(const std::string& compname, const std::string& membername) = 0;
   };
 }  // namespace zef
 
