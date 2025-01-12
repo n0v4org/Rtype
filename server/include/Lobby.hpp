@@ -144,6 +144,7 @@ namespace rtype {
     bool bad_args(input_t input, int nb_args);
     bool is_number(const std::string &s, int id);
     std::vector<std::string> parse_input(std::string input);
+    int get_player_lobby(int player_id);
     void send_error(int id, const std::string &ec, int status);
     json get_data_single_room(room_t room, int room_id);
 

@@ -42,7 +42,8 @@ namespace rtype {
       data["description"] = res;
       data["room_id"]     = room;
       data["player_id"]   = (*it).id;
-      _engine.ServerSendTcp(input.id, data.dump());
+      for (auto &player: _lobby.at(room).players)
+        _engine.ServerSendTcp(player.id, data.dump());
     });
 
     // Command to update a room
@@ -121,7 +122,8 @@ namespace rtype {
       data["room_id"]     = room;
       data["player_id"]   = player_id;
       data["is_admin"]    = (*it).is_admin;
-      _engine.ServerSendTcp(input.id, data.dump());
+      for (auto &player: _lobby.at(room).players)
+        _engine.ServerSendTcp(player.id, data.dump());
     });
   }
 

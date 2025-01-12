@@ -65,7 +65,8 @@ namespace rtype {
       json data           = get_data_single_room(_lobby.at(room), room);
       data["status"]      = std::stoi(CMD_RES.at(JOIN_ROOM_CMD).at(STATUS));
       data["description"] = res;
-      _engine.ServerSendTcp(input.id, data.dump());
+      for (auto &player: _lobby.at(room).players)
+        _engine.ServerSendTcp(player.id, data.dump());
     });
 
     // Command to quit a room
@@ -92,7 +93,8 @@ namespace rtype {
       json data           = get_data_single_room(_lobby.at(room), room);
       data["status"]      = std::stoi(CMD_RES.at(QUIT_ROOM_CMD).at(STATUS));
       data["description"] = res;
-      _engine.ServerSendTcp(input.id, data.dump());
+      for (auto &player: _lobby.at(room).players)
+        _engine.ServerSendTcp(player.id, data.dump());
     });
 
     // Command to laucnh a Game
@@ -170,7 +172,8 @@ namespace rtype {
       data["description"]   = res;
       data["kicked_player"] = player_id;
       data["room_id"]       = room;
-      _engine.ServerSendTcp(input.id, data.dump());
+      for (auto &player: _lobby.at(room).players)
+        _engine.ServerSendTcp(player.id, data.dump());
     });
   }
 
