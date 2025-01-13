@@ -309,27 +309,24 @@ namespace zef {
                           bool addActive) {
       const zef::graph::Animation_t anim = _animations.at(animationName);
 
-      _sprites.at(anim.SpriteSheet)
-          .first.setTexture(_sprites.at(anim.SpriteSheet).second);
-      _sprites.at(anim.SpriteSheet)
-          .first.setTextureRect(
+      auto &sp = _sprites.at(anim.SpriteSheet).first;
+      sp.setTexture(_sprites.at(anim.SpriteSheet).second);
+      sp.setTextureRect(
               sf::IntRect(anim.Size.first * currentFrame + anim.StartPos.first,
                           anim.StartPos.second * anim.Size.second,
                           anim.Size.first, anim.Size.second));
-      _sprites.at(anim.SpriteSheet)
-          .first.setColor(sf::Color(255 * mask.R, 255 * mask.G, 255 * mask.B,
+      sp.setColor(sf::Color(255 * mask.R, 255 * mask.G, 255 * mask.B,
                                     255 * mask.A));
-      _sprites.at(anim.SpriteSheet).first.setRotation(rotation);
+      sp.setRotation(rotation);
 
-      _sprites.at(anim.SpriteSheet)
-          .first.setOrigin(anim.Size.first / 2, anim.Size.second / 2);
-      _sprites.at(anim.SpriteSheet).first.setPosition(posX, posY);
-      _sprites.at(anim.SpriteSheet).first.setScale(scaleX, scaleY);
+      sp.setOrigin(anim.Size.first / 2, anim.Size.second / 2);
+      sp.setPosition(posX, posY);
+      sp.setScale(scaleX, scaleY);
 
       _window.setView(_views["Default"]);
-      //    _window.draw(_sprites.at(anim.SpriteSheet).first);
-      drawShaders(_sprites.at(anim.SpriteSheet).first, objectShaders,
-                  addActive);
+          _window.draw(_sprites.at(anim.SpriteSheet).first);
+      //drawShaders(_sprites.at(anim.SpriteSheet).first, objectShaders,
+      //            addActive);
     }
 
     void Sfml::drawSpriteHUD(std::string animationName,

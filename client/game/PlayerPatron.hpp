@@ -41,7 +41,16 @@ zef::comp::event_listener createPlayerEventListener() {
       [](zef::Engine& engine, size_t self, ShootPlayerEvent sht) {
         zef::comp::position& p =
             engine.fetchEntityComponent<zef::comp::position>(self);
-        engine.instanciatePatron<BulletPatron>(p.x, p.y);
+        size_t& ld = engine.fetchEntityComponent<Laser>(self).load;
+        
+        engine.instanciatePatron<BulletPatron>(p.x, p.y, ld >= 16000 * 30 ? 2 : 0);
+        ld = 0;
+        // engine.ClientSend<CommandShoot>(SHOOTPLAYER, {});
+      });
+  evtl.setEvent<LoadShoot>(
+      [](zef::Engine& engine, size_t self, LoadShoot sht) {
+        engine.fetchEntityComponent<Laser>(self).load += engine.elapsed.count();
+        std::cout << engine.fetchEntityComponent<Laser>(self).load << std::endl;
         // engine.ClientSend<CommandShoot>(SHOOTPLAYER, {});
       });
 
@@ -59,11 +68,12 @@ public:
                           float y, size_t rep) {
     engine.addEntityComponent<zef::comp::position>(self, x, y);
     engine.addEntityComponent<zef::comp::vector>(self, 0, 0, 10);
+    engine.addEntityComponent<Health>(self, 75, 100);
+    engine.addEntityComponent<Laser>(self);
 
     zef::comp::drawable dr;
-    dr.addAnimation("player", 1, 200);
-    dr.playAnimationLoop("player", 1);
-    // dr.setScale(4, 4);
+    dr.addAnimation("player_0", 1, 200);
+    dr.playAnimationLoop("player_0", 1);
     engine.addEntityComponent<zef::comp::drawable>(self, dr);
 
     engine.addEntityComponent<zef::comp::event_listener>(
@@ -74,19 +84,18 @@ public:
     cont.bindOnDown<SetPlayerVectorEvent>(zef::utils::ArrowDown, 0.0f, 1.0f);
     cont.bindOnDown<SetPlayerVectorEvent>(zef::utils::ArrowRight, 1.0f, 0.0f);
     cont.bindOnDown<SetPlayerVectorEvent>(zef::utils::ArrowLeft, -1.0f, 0.0f);
+    cont.bindOnDown<LoadShoot>(zef::utils::E);
     cont.bindOnRelease<ShootPlayerEvent>(zef::utils::E);
-
     cont.bindOnPressed<sendingVectorEvt>(zef::utils::ArrowUp, 0.0f, -1.0f);
     cont.bindOnPressed<sendingVectorEvt>(zef::utils::ArrowDown, 0.0f, 1.0f);
     cont.bindOnPressed<sendingVectorEvt>(zef::utils::ArrowRight, 1.0f, 0.0f);
     cont.bindOnPressed<sendingVectorEvt>(zef::utils::ArrowLeft, -1.0f, 0.0f);
-
     cont.bindOnRelease<sendingVectorEvt>(zef::utils::ArrowUp, 0.0f, 1.0f);
     cont.bindOnRelease<sendingVectorEvt>(zef::utils::ArrowDown, 0.0f, -1.0f);
     cont.bindOnRelease<sendingVectorEvt>(zef::utils::ArrowRight, -1.0f, 0.0f);
     cont.bindOnRelease<sendingVectorEvt>(zef::utils::ArrowLeft, 1.0f, 0.0f);
-
     engine.addEntityComponent<zef::comp::controllable>(self, cont);
+
     engine.addEntityComponent<Player>(self);
     engine.addEntityComponent<zef::comp::replicable>(self, rep);
   }

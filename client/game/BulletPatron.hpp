@@ -40,21 +40,34 @@ zef::comp::event_listener createBulletEventListener() {
 class BulletPatron {
 public:
   static void instanciate(zef::Engine& engine, const ecs::Entity& self, float x,
-                          float y) {
+                          float y, size_t size) {
     engine.addEntityComponent<zef::comp::position>(self, x, y);
     engine.addEntityComponent<zef::comp::vector>(self, 1, 0, 18);
     engine.addEntityComponent<Lifetime>(self, 1500 * 1000);
 
     zef::comp::drawable dr;
-    dr.addAnimation("bullet", 1, 200);
-    dr.playAnimationLoop("bullet", 1);
+    if (size == 2) {
+      dr.addAnimation("bullet2", 2, 200);
+      dr.playAnimationLoop("bullet2", 1);
+      dr.setScale(3.0, 3.0);
+    }
+    if (size == 0) {
+      dr.addAnimation("bullet", 2, 200);
+      dr.playAnimationLoop("bullet", 1);
+    }
     engine.addEntityComponent<zef::comp::drawable>(self, dr);
 
     engine.addEntityComponent<zef::comp::event_listener>(
         self, createBulletEventListener());
 
-    std::vector<zef::utils::hitbox> hb = {zef::utils::hitbox(0, 0, 20, 20)};
-    engine.addEntityComponent<zef::comp::collidable>(self, hb);
+    if (size == 0) {
+      std::vector<zef::utils::hitbox> hb = {zef::utils::hitbox(0, 0, 20, 20)};
+      engine.addEntityComponent<zef::comp::collidable>(self, hb);
+    }
+    if (size == 2) {
+      std::vector<zef::utils::hitbox> hb = {zef::utils::hitbox(0, 0, 150, 45)};
+      engine.addEntityComponent<zef::comp::collidable>(self, hb);
+    }
   }
 };
 
