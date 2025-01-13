@@ -82,7 +82,7 @@ namespace rtype {
           get_data_single_room(_lobby.at(_lobby.size() - 1), _lobby.size() - 1);
       data["status"]      = std::stoi(CMD_RES.at(SET_ROOM_CMD).at(STATUS));
       data["description"] = res;
-      _engine.ServerSendTcp(input.id, data.dump());
+      _engine.ServerSendToAllTcp(data.dump());
     });
   }
 
