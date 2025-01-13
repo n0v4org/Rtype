@@ -7,6 +7,7 @@
 
 #include <gtest/gtest.h>
 #include <array>
+#include <cstring>
 #include "Commands.hpp"
 #include "Input.hpp"
 
