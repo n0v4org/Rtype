@@ -40,4 +40,23 @@ namespace rtype {
     return -1;
   }
 
+  std::string Lobby::generateFixedLengthString() {
+    size_t length = 20;
+    
+    const size_t charsetSize = sizeof(CHARSET) - 1;
+
+    std::string result;
+    result.reserve(length);
+
+    std::random_device rd;
+    std::mt19937 generator(rd());
+    std::uniform_int_distribution<> distribution(0, charsetSize - 1);
+
+    for (size_t i = 0; i < length; ++i) {
+        result += CHARSET[distribution(generator)];
+    }
+
+    return result;
+}
+
 }  // namespace rtype

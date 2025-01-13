@@ -24,6 +24,8 @@ namespace network {
     std::shared_ptr<tcp_link::Client> get_tcp_client() const;
     input_t popMessage();
     bool isQueueEmpty();
+    void reset_clients(int server_port, int client_port,
+                                 int lobby_port, std::string ip);
     ~Network_client();
 
   protected:

@@ -45,6 +45,8 @@ namespace rtype {
 
   protected:
   private:
+    void RegisterLaunchGameCmd();
+
     zef::Engine _engine;
     std::unique_ptr<Lobby> _lobby;
     std::unique_ptr<Game> _game;
