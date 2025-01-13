@@ -63,7 +63,18 @@ namespace network {
                 std::string payload = input.substr(cmd_len);
                 trim(cmd);
                 trim(payload);
-                input_t message = {
+                input_t message = {0};
+                message.cmd = 0;
+                message.payload_size = 0;
+                message.seq          = 0;
+                message.id           = 0;
+                message.payload      = {};
+
+                message.tcp_cmd       = cmd;
+                message.tcp_payload   = payload;
+                message.protocol_type = TCP_CMD;
+
+                /*input_t message = {
                     .cmd          = 0,
                     .payload_size = 0,
                     .seq          = 0,
@@ -73,7 +84,7 @@ namespace network {
                     .tcp_cmd       = cmd,
                     .tcp_payload   = payload,
                     .protocol_type = TCP_CMD,
-                };
+                };*/
 
                 {
                   std::lock_guard<std::mutex> lock(_mutex);

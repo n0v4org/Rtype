@@ -24,5 +24,5 @@ endif()
 
 set(GLOBAL_INCLUDE_DIRS ${COMMON_INCLUDE_DIRS} CACHE INTERNAL "Global include directories")
 
-add_subdirectory(NewModule)
+#add_subdirectory(NewModule)
 add_subdirectory(NewModulecopy)
