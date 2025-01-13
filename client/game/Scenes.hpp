@@ -45,8 +45,9 @@ public:
         engine.instanciatePatron<MenuBackgroundPatron>();
 
         engine.instanciatePatron<TitlePatron>(
-            0.0f, -50.0f,
-            "Type_Logo"
+            0.0f, -250.0f,
+            "Type_Logo",
+            1.5f, 1.5f
         );
 
         engine.instanciatePatron<ButtonPatron>(
