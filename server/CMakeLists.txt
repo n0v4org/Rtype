@@ -10,6 +10,7 @@ set(SRCS
     src/Arguments.cpp
     game/GameServer.cpp
     game/Game.cpp
+    game/Commands/tcp_game_cmd.cpp
     lobby/Lobby.cpp
     lobby/utils.cpp
     lobby/error_handling.cpp

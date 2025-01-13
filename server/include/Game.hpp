@@ -8,6 +8,9 @@
 #ifndef GAME_HPP_
 #define GAME_HPP_
 
+#include <thread>
+#include <string>
+
 #include "Engine.hpp"
 #include "Scenes.hpp"
 #include "systems.hpp"
@@ -27,10 +30,14 @@ namespace rtype {
         public:
             Game(zef::Engine &_engine);
             void RegisterGameCmd();
+            void launch_game(std::vector<std::string> player_uuid);
+            void init_game(std::vector<std::string> player_uuid);
             ~Game();
 
         protected:
         private:
+            std::vector<std::thread> _games;
+            void register_tcp_game_cmd();
             zef::Engine &_engine;
     };
 
