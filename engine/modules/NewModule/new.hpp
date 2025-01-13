@@ -61,9 +61,9 @@ public:
         });
   }
 
-    std::any getMember(const std::string& compname, const std::string& membername) {
+    // std::any getMember(const std::string& compname, const std::string& membername) {
       
-    }
+    // }
   
 };
 
