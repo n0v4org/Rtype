@@ -5,8 +5,8 @@
 ** Network.test
 */
 
-#include <array>
 #include <gtest/gtest.h>
+#include <array>
 #include "Commands.hpp"
 #include "Input.hpp"
 
