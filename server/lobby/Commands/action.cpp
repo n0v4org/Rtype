@@ -137,7 +137,7 @@ namespace rtype {
       data["description"] = res;
       data["room_id"]     = room;
       for (auto player : _lobby.at(room).players) {
-        _engine.ServerSendTcp(input.id, data.dump());
+        _engine.ServerSendTcp(player.id, data.dump());
       }
     });
 
