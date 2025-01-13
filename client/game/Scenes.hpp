@@ -49,11 +49,11 @@ public:
             [](zef::Engine &engine, size_t self) {
                 engine.loadScene("game");
             },
-            0.0f, 100.0f
+            200.0f, 100.0f
         );
 
         engine.instanciatePatron<ButtonPatron>(
-            760.0f, 520.0f,
+            0.0f, 300.0f,
             "play",
             [](zef::Engine &engine, size_t self) {
                 std::cout << "Options clicked!" << std::endl;
