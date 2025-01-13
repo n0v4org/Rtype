@@ -56,7 +56,16 @@ public:
             0.0f, 300.0f,
             "Exit",
             [](zef::Engine &engine, size_t self) {
-                std::cout << "Options clicked!" << std::endl;
+                std::cout << "Quit clicked!" << std::endl;
+            },
+            410.0f, 121.0f
+        );
+
+        engine.instanciatePatron<ButtonPatron>(
+            400.0f, -300.0f,
+            "Settings",
+            [](zef::Engine &engine, size_t self) {
+                std::cout << "Settings clicked!" << std::endl;
             },
             410.0f, 121.0f
         );
