@@ -44,7 +44,7 @@ public:
         engine.instanciatePatron<MenuBackgroundPatron>();
 
         engine.instanciatePatron<ButtonPatron>(
-            0.0f, -100.0f,
+            0.0f, 100.0f,
             "Start",
             [](zef::Engine &engine, size_t self) {
                 engine.loadScene("game");
@@ -62,7 +62,7 @@ public:
         );
 
         engine.instanciatePatron<ButtonPatron>(
-            600.0f, -400.0f,
+            850.0f, -450.0f,
             "Settings",
             [](zef::Engine &engine, size_t self) {
                 std::cout << "Settings clicked!" << std::endl;
