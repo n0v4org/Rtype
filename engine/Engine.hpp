@@ -287,10 +287,6 @@ namespace zef {
       _server->get_tcp_server()->send(id, c);
     }
 
-    template <typename payload>
-    void ServerSendToAllUdp(int cmd_id, payload c) {
-      _server->get_udp_server()->send_all(cmd_id, c);
-    }
 
     void ServerSendToAllTcp(std::string c) {
       _server->get_tcp_server()->send_all(c);
