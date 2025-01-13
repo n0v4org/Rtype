@@ -19,7 +19,11 @@ namespace zef {
   class LibHolder : public ILibHolder<T> {
   public:
     explicit LibHolder(const std::string &filename) {
+#ifdef __APPLE__
+      _handle = dlopen(("./bin/lib" + filename + ".dylib").c_str(), RTLD_LAZY);
+#else
       _handle = dlopen(("./lib" + filename + ".so").c_str(), RTLD_LAZY);
+#endif
       if (!_handle) {
         throw std::runtime_error("Error while opening lib: " + filename + ": " +
                                  std::string(dlerror()));

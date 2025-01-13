@@ -42,6 +42,12 @@ namespace network {
       _clients.at(idx)->write(cmd);
     }
 
+    void Server::send_all(const std::string& cmd) {
+      for (auto& client : _clients) {
+        client->write(cmd);
+      }
+    }
+
     bool Server::isQueueEmpty() {
       std::lock_guard<std::mutex> lock(_mutex);
       return tcp_command_queue.empty();
