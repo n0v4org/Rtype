@@ -307,6 +307,14 @@ namespace zef {
     void ServerSendTcp(int id, int cmd_id, std::string c) {
       _server->get_tcp_server()->send(id, c);
     }
+    template <typename payload>
+    void ServerSendToAllUdp(int cmd_id, payload c) {
+      //_server->get_udp_server()->send(id, cmd_id, c);
+    }
+
+    void ServerSendToAllTcp(int cmd_id, std::string c) {
+      //_server->get_tcp_server()->send(id, c);
+    }
 
     void registerCommand(int cmd, std::function<void(Engine&, input_t)> fn) {
       _cmd_map[cmd] = fn;
