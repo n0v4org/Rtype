@@ -62,12 +62,12 @@ public:
         );
 
         engine.instanciatePatron<ButtonPatron>(
-            400.0f, -300.0f,
+            600.0f, -400.0f,
             "Settings",
             [](zef::Engine &engine, size_t self) {
                 std::cout << "Settings clicked!" << std::endl;
             },
-            410.0f, 121.0f
+            410.0f, 121.0f, 0.5f, 0.5f
         );
     }
 };

@@ -23,7 +23,8 @@ public:
                             float x, float y,
                             const std::string &spriteName,
                             std::function<void(zef::Engine &, size_t)> onClickCallback,
-                            float width = 200.0f, float height = 100.0f) {
+                            float width = 200.0f, float height = 100.0f, float scale_w = 1.0f,
+                            float scale_h = 1.0f) {
         engine.addEntityComponent<zef::comp::position>(self, x, y);
 
         std::vector<zef::utils::hitbox> hb = {zef::utils::hitbox(0, 0, width, height)};
