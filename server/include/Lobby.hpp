@@ -94,7 +94,7 @@ static const std::array<std::pair<int, std::string>, NB_TCP_ERRORS> TCP_ERRORS =
 
 static const std::map<std::string, std::array<std::string, NB_TCP_CMD>>
     CMD_RES = {
-        {GET_ALL_LOBBY_CMD, {"succesfully get data on all lobby", "0", "200"}},
+        {GET_ALL_LOBBY_CMD, {"successfully get data on all lobby", "0", "200"}},
         {SET_USERNAME_CMD, {"Username set successfully to ", "1", "201"}},
         {JOIN_ROOM_CMD, {"successfully join room ", "2", "202"}},
         {GET_LOBBY_CMD, {"succesfully get data on lobby ", "1", "203"}},
