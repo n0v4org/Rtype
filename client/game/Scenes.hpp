@@ -46,8 +46,7 @@ public:
 
         engine.instanciatePatron<TitlePatron>(
             0.0f, -50.0f,
-            "Type_Logo.png",
-            326.0f, 119.0f
+            "Type_Logo"
         );
 
         engine.instanciatePatron<ButtonPatron>(

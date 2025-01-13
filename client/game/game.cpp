@@ -25,7 +25,7 @@ void runClient(int /*sport*/, int /*cport*/, std::string /*ip*/) {
     engine.GraphLib->saveAnimation("Start", "Start", 0, 0, 410, 121);
     engine.GraphLib->saveAnimation("Exit", "Exit", 0, 0, 410, 121);
     engine.GraphLib->saveAnimation("Settings", "Settings", 0, 0, 210, 210);
-    engine.GraphLib->saveAnimation("Type_Logo.png", "Type_Logo.png", 0, 0, 326, 119);
+    engine.GraphLib->saveAnimation("Type_Logo", "Type_Logo", 0, 0, 500, 146);
 
 
     engine.registerComponent<zef::comp::position>();
