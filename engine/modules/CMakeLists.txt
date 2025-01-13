@@ -26,3 +26,4 @@ set(GLOBAL_INCLUDE_DIRS ${COMMON_INCLUDE_DIRS} CACHE INTERNAL "Global include di
 
 #add_subdirectory(NewModule)
 add_subdirectory(NewModulecopy)
+add_subdirectory(test)

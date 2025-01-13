@@ -9,6 +9,7 @@
 #include <string>
 #include <filesystem>
 #include <fstream>
+#include <algorithm>
 
 void help() {
   std::cout << "./newModule moduleName" << std::endl;
@@ -16,7 +17,7 @@ void help() {
             << std::endl;
 }
 
-int addToRootCmake(const std::string &moduleName) {
+int addToRootCmake(std::string &moduleName) {
   std::ofstream fichier("CMakeLists.txt", std::ios::app);
 
   if (fichier) {
@@ -38,6 +39,7 @@ int genCmake(std::string moduleName) {
   }
   moduleName = "module" + moduleName;
   cmake << "cmake_minimum_required(VERSION 3.26)" << std::endl << std::endl;
+  cmake << "set(CMAKE_CXX_STANDARD 17)" << std::endl << "set(CMAKE_CXX_STANDARD_REQUIRED ON)" << std::endl << std::endl;
   cmake << "project(" + moduleName + " VERSION 1.0)" << std::endl << std::endl;
   cmake << "set(SRC" << std::endl
         << "\t" << (moduleName.substr(6)) << ".cpp" << std::endl
@@ -62,7 +64,7 @@ int genCmake(std::string moduleName) {
   return 0;
 }
 
-void addEpitechHeader(std::ofstream &file, const std::string &moduleName) {
+void addEpitechHeader(std::ofstream &file, std::string &moduleName) {
   file << "/*" << std::endl
        << "** EPITECH PROJECT, 2025" << std::endl
        << "** RTYPE" << std::endl
@@ -73,7 +75,7 @@ void addEpitechHeader(std::ofstream &file, const std::string &moduleName) {
        << std::endl;
 }
 
-int genCpp(const std::string &moduleName) {
+int genCpp(std::string &moduleName) {
   std::ofstream file(moduleName + ".cpp");
 
   if (!file.is_open()) {
@@ -83,14 +85,14 @@ int genCpp(const std::string &moduleName) {
   addEpitechHeader(file, moduleName);
   file << "#include \"" << moduleName << ".hpp\"" << std::endl << std::endl;
   // TO DO: Add declspec for windows compilation
-  file << "extern \"C\" zef::Imodule *entryPoint() {" << std::endl
+  file << "extern \"C\" zef::IModule *entryPoint() {" << std::endl
        << "\treturn new " << moduleName << ";" << std::endl
        << "}" << std::endl;
 
   return 0;
 }
 
-int genHpp(const std::string &moduleName) {
+int genHpp(std::string &moduleName) {
   std::ofstream file(moduleName + ".hpp");
 
   if (!file.is_open()) {
@@ -98,45 +100,59 @@ int genHpp(const std::string &moduleName) {
     return 1;
   }
   addEpitechHeader(file, moduleName);
+  std::string upper(moduleName);
+  std::transform(upper.begin(), upper.end(), upper.begin(), ::toupper);
+  file << "#ifndef " << upper << "_HPP_" << std::endl << "#define " << upper << "_HPP_" << std::endl << std::endl;
   file << "#include <iostream>" << std::endl << std::endl;
   file << "#include \"AModule.hpp\"" << std::endl
        << "#include \"Engine.hpp\"" << std::endl
        << std::endl;
 
   file << "class ExampleComp1 {" << std::endl << "\tpublic:" << std::endl;
-  file << "\t\tExampleComp1(int a, float b) : _a(a), _b {}" << std::endl
+  file << "\t\tExampleComp1(int a, float b) : _a(a), _b(b) {}" << std::endl
        << std::endl;
-  file << "\t\tint _a;" << std::endl
-       << "\t\tfloat _b;" << std::endl
+  file << "\tint _a;" << std::endl
+       << "\tfloat _b;" << std::endl
        << "};" << std::endl
        << std::endl;
 
   file << "class ExampleComp2 {" << std::endl << "\tpublic:" << std::endl;
-  file << "\t\tExampleComp2(float a, char b) : _a(a), _b {}" << std::endl
+  file << "\t\tExampleComp2(float a, char b) : _a(a), _b(b) {}" << std::endl
        << std::endl;
-  file << "\t\float _a;" << std::endl
-       << "\t\tchar _b;" << std::endl
+  file << "\tfloat _a;" << std::endl
+       << "\tchar _b;" << std::endl
        << "};" << std::endl
        << std::endl;
 
-  file
+  file << "void exampleSystem(zef::Engine &engine, ecs::sparse_array<ExampleComp1> &comps1, ecs::sparse_array<ExampleComp2> &comps2) {" << std::endl
+    << "\tfor (auto [i, c1, c2] : ecs::indexed_zipper(comps1, comps2)) {" << std::endl
+    << "\t\tstd::cout << \"i: \" << i << c1._a << c1._b << c2._a << c2._b << std::endl;" << std::endl
+    << "\t}" << std::endl << "}" << std::endl << std::endl;
 
-          file
+  file
       << "class " << moduleName << " : public zef::AModule<" << std::endl
       << "\tzef::Component<ExampleComp1, int, float>, //Name of component 1 "
          "and there attributes types in the same order than the constructor"
       << std::endl
-      << "\tzef::Component<ExampleComp2, float, char>, //Name of component 2 "
+      << "\tzef::Component<ExampleComp2, float, char> //Name of component 2 "
          "and there attributes types in the same order than the constructor"
       << std::endl
       << "> {" << std::endl
       << "public:" << std::endl
-      << "\t\t" << moduleName << "() : AMdoule {}"
-      << "\t\t~" << moduleName << "() = default;" << std::endl
+      << "\t" << moduleName << "() : AModule() {}" << std::endl
+      << "\t~" << moduleName << "() = default;" << std::endl
       << std::endl;
+  
+  file << "\tvoid registerSystems(zef::Engine &engine) {" << std::endl
+    << "\t\tengine.addSystem<ExampleComp1, ExampleComp2>(\"" << moduleName << "\", exampleSystem);" << std::endl
+    << "\t}" << std::endl << std::endl;
+
+  file << "};" << std::endl << std::endl;
+  file << "#endif /* !" << upper << "_HPP_ */" << std::endl;
+  return 0;
 }
 
-int generateModule(const std::string &moduleName) {
+int generateModule(std::string &moduleName) {
   std::filesystem::path dir = moduleName;
   try {
     if (std::filesystem::create_directory(dir)) {
