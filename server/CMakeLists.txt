@@ -23,6 +23,7 @@ set(SRCS
 set(TEST
     src/test/Arguments.test.cpp
     src/test/main.test.cpp
+    src/test/Network.test.cpp
 )
 
 add_executable(r-type_server ${SRCS} src/main.cpp)

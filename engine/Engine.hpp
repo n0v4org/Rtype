@@ -287,6 +287,10 @@ namespace zef {
       _server->get_tcp_server()->send(id, c);
     }
 
+    void ServerSendToAllTcp(std::string c) {
+      _server->get_tcp_server()->send_all(c);
+    }
+
     void registerCommand(int cmd, std::function<void(Engine&, input_t)> fn) {
       _cmd_map[cmd] = fn;
     }

@@ -83,7 +83,7 @@ namespace rtype {
       json data           = get_data_single_room(_lobby.at(room), room);
       data["status"]      = std::stoi(CMD_RES.at(UPDATE_ROOM_CMD).at(STATUS));
       data["description"] = res;
-      _engine.ServerSendTcp(input.id, data.dump());
+      _engine.ServerSendToAllTcp(data.dump());
     });
 
     // Command to update a player perms
