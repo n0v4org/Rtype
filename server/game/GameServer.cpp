@@ -20,7 +20,9 @@ namespace rtype {
   GameServer::GameServer(int udp_port, int tcp_port) {
     _engine.initServer(udp_port, tcp_port);
     _lobby = std::make_unique<Lobby>(_engine);
+    _game = std::make_unique<Game>(_engine);
     _lobby->RegisterLobbyCmd();
+    _game->RegisterGameCmd();
     _engine.addSystem<>(ENGINE_NAME, zef::sys::handle_server);
   }
 
