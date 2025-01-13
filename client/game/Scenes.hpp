@@ -45,7 +45,7 @@ public:
 
         engine.instanciatePatron<ButtonPatron>(
             0.0f, -100.0f,
-            "play",
+            "Start",
             [](zef::Engine &engine, size_t self) {
                 engine.loadScene("game");
             },
@@ -54,7 +54,7 @@ public:
 
         engine.instanciatePatron<ButtonPatron>(
             0.0f, 300.0f,
-            "play",
+            "Exit",
             [](zef::Engine &engine, size_t self) {
                 std::cout << "Options clicked!" << std::endl;
             },
