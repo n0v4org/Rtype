@@ -37,6 +37,9 @@ namespace zef {
       Patron ret;
       nlohmann::json j;
       std::ifstream ifs(filename);
+      if (!ifs.is_open()) {
+        std::cerr << "error: " << filename << std::endl;
+      }
       ifs >> j;
       std::cout << j << std::endl;
 

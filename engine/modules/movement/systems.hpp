@@ -19,16 +19,17 @@
 
 namespace zef {
   namespace sys {
-    void move(Engine &engine, ecs::sparse_array<comp::position> &positions,
-              ecs::sparse_array<comp::vector> &vectors) {
+    inline void move(Engine &engine,
+                     ecs::sparse_array<comp::position> &positions,
+                     ecs::sparse_array<comp::vector> &vectors) {
       for (auto &&[pos, vec] : ecs::zipper(positions, vectors)) {
         pos.x += vec.x;
         pos.y += vec.y;
       }
     }
-    void check_collidables(Engine &engine,
-                           ecs::sparse_array<comp::collidable> &collidables,
-                           ecs::sparse_array<comp::position> &positions) {
+    inline void check_collidables(
+        Engine &engine, ecs::sparse_array<comp::collidable> &collidables,
+        ecs::sparse_array<comp::position> &positions) {
       for (auto &&[i, col, pos] : ecs::indexed_zipper(collidables, positions)) {
         for (auto &hitboxe : col._hitboxes) {
           hitboxe._posX = pos.x + hitboxe._offsetX - (hitboxe._width / 2);
@@ -57,10 +58,10 @@ namespace zef {
         }
       }
     }
-    void check_rigidity(Engine &engine,
-                        ecs::sparse_array<comp::rigidbody> &rigidbodies,
-                        ecs::sparse_array<comp::position> &positions,
-                        ecs::sparse_array<comp::vector> &vectors) {
+    inline void check_rigidity(Engine &engine,
+                               ecs::sparse_array<comp::rigidbody> &rigidbodies,
+                               ecs::sparse_array<comp::position> &positions,
+                               ecs::sparse_array<comp::vector> &vectors) {
       for (auto &&[i, rgdb, pos] :
            ecs::indexed_zipper(rigidbodies, positions)) {
         for (auto &hitboxe : rgdb._hitboxes) {
@@ -92,8 +93,8 @@ namespace zef {
         }
       }
     }
-    void normalize_velocity_vectors(Engine &engine,
-                                    ecs::sparse_array<comp::vector> &vecs) {
+    inline void normalize_velocity_vectors(
+        Engine &engine, ecs::sparse_array<comp::vector> &vecs) {
       for (auto &&[i, vec] : ecs::indexed_zipper(vecs)) {
         float tmpx = vec.x;
         float tmpy = vec.y;

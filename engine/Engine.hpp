@@ -304,7 +304,7 @@ namespace zef {
       _server->get_udp_server()->send(id, cmd_id, c);
     }
 
-    void ServerSendTcp(int id, int cmd_id, std::string c) {
+    void ServerSendTcp(int id, std::string c) {
       _server->get_tcp_server()->send(id, c);
     }
     template <typename payload>
@@ -316,8 +316,17 @@ namespace zef {
       //_server->get_tcp_server()->send(id, c);
     }
 
+    void ServerSendToAllTcp(std::string c) {
+      _server->get_tcp_server()->send_all(c);
+    }
+
     void registerCommand(int cmd, std::function<void(Engine&, input_t)> fn) {
       _cmd_map[cmd] = fn;
+    }
+
+    void registerCommandTcp(std::string cmd,
+                            std::function<void(Engine&, input_t)> fn) {
+      _cmd_map_tcp[cmd] = fn;
     }
 
     void loadModule(const std::string& name) {
@@ -345,6 +354,7 @@ namespace zef {
     }
 
     std::map<int, std::function<void(Engine&, input_t)>> _cmd_map;
+    std::map<std::string, std::function<void(Engine&, input_t)>> _cmd_map_tcp;
     std::unique_ptr<network::Network_server> _server;
     std::unique_ptr<network::Network_client> _client;
     int seq = 0;

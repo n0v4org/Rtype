@@ -10,10 +10,8 @@
 #include <memory>
 #include <thread>
 #include <vector>
-#include <asio.hpp>
-#include "Network_server.hpp"
 #include "Arguments.hpp"
-#include "Server.hpp"
+#include "GameServer.hpp"
 
 namespace rtype {
 
@@ -26,8 +24,7 @@ namespace rtype {
   protected:
   private:
     std::unique_ptr<Arguments> _args;
-    std::unique_ptr<network::Network_server> _network;
-    asio::io_context _io_service;
+    std::unique_ptr<GameServer> _server;
     std::vector<std::thread> _games;
     std::thread t;
   };

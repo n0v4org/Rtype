@@ -9,6 +9,7 @@
 #define NETWORK_UDP_INCLUDE_COMMANDS_HPP_
 
 #include <algorithm>
+#include <cstring>
 #include "Input.hpp"
 
 namespace network {
