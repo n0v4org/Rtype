@@ -26,6 +26,11 @@ void runClient(int /*sport*/, int /*cport*/, std::string /*ip*/) {
     engine.GraphLib->saveAnimation("Exit", "Exit", 0, 0, 410, 121);
     engine.GraphLib->saveAnimation("Settings", "Settings", 0, 0, 210, 210);
     engine.GraphLib->saveAnimation("Type_Logo", "Type_Logo", 0, 0, 500, 146);
+    engine.GraphLib->saveAnimation("Backward_BTN", "Backward_BTN", 0, 0, 210, 210);
+    engine.GraphLib->saveAnimation("Window", "Window", 0, 0, 940, 1400);
+    engine.GraphLib->saveAnimation("Information", "Information", 0, 0, 606, 59);
+    engine.GraphLib->saveAnimation("Sound_BTN", "Sound_BTN", 0, 0, 210, 210);
+    engine.GraphLib->saveAnimation("Forward_BTN", "Forward_BTN", 0, 0, 210, 210);
 
 
     engine.registerComponent<zef::comp::position>();
@@ -41,6 +46,7 @@ void runClient(int /*sport*/, int /*cport*/, std::string /*ip*/) {
     engine.addSystem<zef::comp::drawable, zef::comp::position>("zefir", zef::sys::draw_drawables);
 
     engine.registerScene<MenuScene>("menu");
+    engine.registerScene<OptionScene>("option");
     engine.loadScene("menu");
 
     engine.run();

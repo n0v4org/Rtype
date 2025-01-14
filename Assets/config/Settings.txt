@@ -3,3 +3,5 @@
 
 #ColorBlind setting, either None,Deuteranopia,Protanopia,Tritanopia or GreyScale. (N/D/P/T/G)
 ColorBlindness      None
+
+Volume 50

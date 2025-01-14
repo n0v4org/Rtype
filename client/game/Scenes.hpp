@@ -76,12 +76,65 @@ public:
             "Settings",
             [](zef::Engine &engine, size_t self) {
                 std::cout << "Settings clicked!" << std::endl;
+                engine.loadScene("option");
             },
             210.0f, 210.0f, 0.5f, 0.5f
         );
     }
 };
 
+class OptionScene {
+public:
+    static void loadScene(zef::Engine &engine) {
+        engine.instanciatePatron<MenuBackgroundPatron>();
 
+        engine.instanciatePatron<ButtonPatron>(
+            -850.0f, -450.0f,
+            "Backward_BTN",
+            [](zef::Engine &engine, size_t self) {
+                std::cout << "return clicked!" << std::endl;
+                engine.loadScene("menu");
+            },
+            210.0f, 210.0f, 0.5f, 0.5f
+        );
+
+        engine.instanciatePatron<TitlePatron>(
+            0.0f, 0.0f,
+            "Window",
+            1.0f, 0.70f
+        );
+
+        engine.instanciatePatron<TitlePatron>(
+            0.0f, -440.0f,
+            "Information",
+            1.0f, 0.8f
+        );
+
+        engine.instanciatePatron<TitlePatron>(
+            0.0f, -200.0f,
+            "Sound_BTN",
+            0.75f, 0.75f
+        );
+        
+        engine.instanciatePatron<ButtonPatron>(
+            -250.0f, -200.0f,
+            "Backward_BTN",
+            [](zef::Engine &engine, size_t self) {
+                std::cout << "minus clicked!" << std::endl;
+            },
+            210.0f, 210.0f, 0.75f, 0.75f
+        );
+
+        engine.instanciatePatron<ButtonPatron>(
+            250.0f, -200.0f,
+            "Forward_BTN",
+            [](zef::Engine &engine, size_t self) {
+                std::cout << "plus clicked!" << std::endl;
+                engine.GraphLib->updateSettings("volume", )
+            },
+            210.0f, 210.0f, 0.75f, 0.75f
+        );
+    }
+};
 
 #endif /* !SCENES_HPP_ */
