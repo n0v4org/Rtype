@@ -421,7 +421,11 @@ namespace zef {
       _sounds.find(soundName)->second.first.setBuffer(_sounds.find(soundName)->second.second);
       std::atoi(getSetting("Volume").c_str());
 
-      _sounds.find(soundName)->second.first.setVolume(volume * std::atoi(getSetting("Volume").c_str()) / 100);
+      if (getSetting("Volume") != ""){
+        _sounds.find(soundName)->second.first.setVolume(volume * std::atoi(getSetting("Volume").c_str()) / 100);
+      } else {
+        _sounds.find(soundName)->second.first.setVolume(volume);
+      }
       std::cout << soundName << std::endl;
       _sounds.find(soundName)->second.first.play();
     }
