@@ -136,13 +136,16 @@ namespace rtype {
     // Command to send a message
     _engine.registerCommandTcp(SEND_MSG_CMD, [this](zef::Engine& engine, input_t input) {
       std::string res = CMD_RES.at(SEND_MSG_CMD).at(SUCCESS);
-      if (bad_args(input, std::stoi(CMD_RES.at(SEND_MSG_CMD).at(NB_ARGS))))
-        return;
       std::vector<std::string> parsed_input = parse_input(input.tcp_payload);
       if (!is_number(parsed_input.at(0), input.id))
         return;
+      if (parsed_input.size() < 2) {
+        send_error(input.id, TCP_ERRORS.at(INVALID_ARGS).second,
+                     TCP_ERRORS.at(INVALID_ARGS).first);
+        return;
+      }
       int room      = std::stoi(parsed_input.at(0));
-      std::string msg = parsed_input.at(1);
+      std::string msg = input.tcp_payload.substr(parsed_input.at(0).length() + 1);
       if (bad_room(input, room))
         return;
       std::vector<player_t>::iterator it = std::find_if(
