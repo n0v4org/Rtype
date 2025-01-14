@@ -42,6 +42,10 @@ void runClient(int sport, int cport, std::string ip) {
   engine.GraphLib->saveAnimation("bullet", "allyBullet", 0, 0, 32, 8);
   engine.GraphLib->saveAnimation("bullet2", "allyBullet2", 0, 0, 48, 14);
 
+  engine.GraphLib->saveAnimation("fireball", "fireball", 0, 0, 8, 8);
+
+  engine.GraphLib->saveAnimation("blast", "blast", 0, 0, 33, 32);
+
   // engine.initClient(sport, cport, ip);
 
   /*engine.registerCommand(SPAWNPLAYER, [](zef::Engine& engine, input_t input) {
@@ -172,25 +176,29 @@ void runClient(int sport, int cport, std::string ip) {
     engine.registerComponent<VectorHolder>();
     engine.registerComponent<Monster>();
     engine.registerComponent<Laser>();
+    engine.registerComponent<Ship>();
 
   //   // engine.addSystem<>(entitycountdisplay);
 
      engine.addSystem<>("zefir", zef::sys::update_user_inputs);
+     engine.addSystem<>("zefir", [](zef::Engine& engine) {
+        engine.GraphLib->moveCamera(2, 0, 1);
+     });
+
      engine.addSystem<BackGround, zef::comp::position>("zefir",
                                                        handleBackgroundScroll);
      engine.addSystem<Lifetime>("zefir", lifetime_system);
-     engine.addSystem<VectorHolder, zef::comp::vector>("zefir",
-                                                       convertHolderToVect);
      engine.addSystem<zef::comp::vector, Player>("zefir",
      resetPlayerMovement); engine.addSystem<zef::comp::controllable>("zefir",
                                                zef::sys::system_constrollables);
      engine.addSystem<zef::comp::event_listener>("zefir",
      zef::sys::resolveEvent); engine.addSystem<zef::comp::vector>("zefir",
                                          zef::sys::normalize_velocity_vectors);
+     engine.addSystem<Ship, zef::comp::vector, zef::comp::drawable>("zefir", animateShips);
      engine.addSystem<zef::comp::position, zef::comp::vector>("zefir",
                                                               zef::sys::move);
-     //engine.addSystem<zef::comp::collidable, zef::comp::position>(
-     //    "zefir", zef::sys::check_collidables);
+     engine.addSystem<zef::comp::collidable, zef::comp::position>(
+         "zefir", zef::sys::check_collidables);
      engine.addSystem<zef::comp::event_listener>("zefir",
      zef::sys::resolveEvent);
 
@@ -198,7 +206,7 @@ void runClient(int sport, int cport, std::string ip) {
      zef::sys::update_animations);
      engine.addSystem<zef::comp::drawable,zef::comp::position>(
          "zefir", zef::sys::draw_drawables);
-    engine.addSystem<Player, Health, zef::comp::position>("zefir", drawHpBarPlayer);
+    engine.addSystem<Ship, Health, zef::comp::position>("zefir", drawHpBarPlayer);
     engine.addSystem<Player, Laser, zef::comp::position>("zefir", drawLoadBar);
 
     engine.registerScene<LevelScene>("level");

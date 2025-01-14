@@ -15,6 +15,8 @@
 #include "BulletPatron.hpp"
 #include "EnemyPatron.hpp"
 #include "BackgroundPatron.hpp"
+#include "EnemyBulletPatron.hpp"
+#include "BlastPatron.hpp"
 #include "events.hpp"
 
 class LevelScene {
@@ -26,6 +28,7 @@ public:
     // engine.instanciatePatron<EnemyPatron>(600.0f, -150.0f);
     engine.instanciatePatron<BackgroundPatron>(0.0f, 0.0f);
     engine.instanciatePatron<BackgroundPatron>(1920.0f, 0.0f);
+    engine.instanciatePatron<BlastPatron>(0.0f, 0.0f, 1.0f);
     // engine.instanciatePatron<BackgroundPatron>(470.0f, 0.0f);
   }
 };
