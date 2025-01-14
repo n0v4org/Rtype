@@ -16,10 +16,8 @@ public:
 };
 
 class Health {
-  public:
-
+public:
   Health(size_t hp, size_t max) : _hp(hp), _max(max) {
-
   }
 
   size_t _hp;

@@ -9,6 +9,7 @@
 #define GAME_HPP_
 
 #include <thread>
+#include <vector>
 #include <string>
 
 #include "Engine.hpp"
@@ -23,24 +24,25 @@
 
 #include "modules/IModule.hpp"
 
-
 namespace rtype {
 
-    class Game {
-        public:
-            Game(zef::Engine &_engine);
-            void RegisterGameCmd();
-            void launch_game(std::vector<std::string> player_uuid);
-            void init_game(std::vector<std::string> player_uuid);
-            ~Game();
+  class Game {
+  public:
+    Game();
+    void RegisterGameCmd();
+    void launch_game(std::vector<std::string> player_uuid, int tcp_port,
+                     int udp_port);
+    void init_game(std::vector<std::string> player_uuid, int tcp_port,
+                   int udp_port);
+    ~Game();
 
-        protected:
-        private:
-            std::vector<std::thread> _games;
-            void register_tcp_game_cmd();
-            zef::Engine &_engine;
-    };
+  protected:
+  private:
+    std::vector<std::thread> _games;
+    void register_tcp_game_cmd();
+    zef::Engine _engine;
+  };
 
-}
+}  // namespace rtype
 
 #endif /* !GAME_HPP_ */

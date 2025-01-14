@@ -309,14 +309,14 @@ namespace zef {
                           bool addActive) {
       const zef::graph::Animation_t anim = _animations.at(animationName);
 
-      auto &sp = _sprites.at(anim.SpriteSheet).first;
+      auto& sp = _sprites.at(anim.SpriteSheet).first;
       sp.setTexture(_sprites.at(anim.SpriteSheet).second);
       sp.setTextureRect(
-              sf::IntRect(anim.Size.first * currentFrame + anim.StartPos.first,
-                          anim.StartPos.second * anim.Size.second,
-                          anim.Size.first, anim.Size.second));
-      sp.setColor(sf::Color(255 * mask.R, 255 * mask.G, 255 * mask.B,
-                                    255 * mask.A));
+          sf::IntRect(anim.Size.first * currentFrame + anim.StartPos.first,
+                      anim.StartPos.second * anim.Size.second, anim.Size.first,
+                      anim.Size.second));
+      sp.setColor(
+          sf::Color(255 * mask.R, 255 * mask.G, 255 * mask.B, 255 * mask.A));
       sp.setRotation(rotation);
 
       sp.setOrigin(anim.Size.first / 2, anim.Size.second / 2);
@@ -324,9 +324,9 @@ namespace zef {
       sp.setScale(scaleX, scaleY);
 
       _window.setView(_views["Default"]);
-          _window.draw(_sprites.at(anim.SpriteSheet).first);
-      //drawShaders(_sprites.at(anim.SpriteSheet).first, objectShaders,
-      //            addActive);
+      _window.draw(_sprites.at(anim.SpriteSheet).first);
+      // drawShaders(_sprites.at(anim.SpriteSheet).first, objectShaders,
+      //             addActive);
     }
 
     void Sfml::drawSpriteHUD(std::string animationName,

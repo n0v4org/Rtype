@@ -46,6 +46,7 @@ namespace rtype {
   protected:
   private:
     void RegisterLaunchGameCmd();
+    int generateRandomPort();
 
     zef::Engine _engine;
     std::unique_ptr<Lobby> _lobby;

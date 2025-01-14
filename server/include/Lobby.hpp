@@ -65,8 +65,10 @@ static const char SET_PLAYER_READY_CMD[] = "SET_PLAYER_READY";
 static const char UPDATE_ROOM_CMD[]      = "UPDATE_LOBBY";
 static const char UPDATE_PERM_CMD[]      = "UPDATE_PERM";
 static const char KICK_PLAYER_CMD[]      = "KICK_PLAYER";
-static const char CHARSET[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+static const char SEND_MSG_CMD[]         = "SEND_MSG";
 
+static const char CHARSET[] =
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 static const char SP            = ' ';
 static const char PLAYER[]      = "player";
 static const char ROOM[]        = "room";
@@ -79,23 +81,21 @@ static const uint16_t NB_TCP_CMD    = 3;
 static const uint16_t NB_TCP_ERRORS = 15;
 
 static const std::array<std::pair<int, std::string>, NB_TCP_ERRORS> TCP_ERRORS =
-    {{
-        {400, "invalid args"},
-        {401, "maximum number of players reached"},
-        {402, "room not found"},
-        {403, "player already in lobby"},
-        {404, "player is not in this lobby"},
-        {405, "invalid password"},
-        {406, "nb slot should be > 0 && < 5"},
-        {407, "lobby name already exist please provide an other one"},
-        {408, "only the owner has the right"},
-        {409, "default lobby you do not have the right baka"},
-        {410, "only admin can launch the game"},
-        {411, "some players are not ready"},
-        {412, "some parameters must be numbers"},
-        {413, "game already running"},
-        {414, "too few players to start a game"}
-    }};
+    {{{400, "invalid args"},
+      {401, "maximum number of players reached"},
+      {402, "room not found"},
+      {403, "player already in lobby"},
+      {404, "player is not in this lobby"},
+      {405, "invalid password"},
+      {406, "nb slot should be > 0 && < 5"},
+      {407, "lobby name already exist please provide an other one"},
+      {408, "only the owner has the right"},
+      {409, "default lobby you do not have the right baka"},
+      {410, "only admin can launch the game"},
+      {411, "some players are not ready"},
+      {412, "some parameters must be numbers"},
+      {413, "game already running"},
+      {414, "too few players to start a game"}}};
 
 static const std::map<std::string, std::array<std::string, NB_TCP_CMD>>
     CMD_RES = {
@@ -110,7 +110,8 @@ static const std::map<std::string, std::array<std::string, NB_TCP_CMD>>
         {SET_PLAYER_READY_CMD, {"player is ready ", "1", "208"}},
         {UPDATE_ROOM_CMD, {"successfully updated lobby ", "4", "209"}},
         {UPDATE_PERM_CMD, {"successfully updated perm of ", "3", "210"}},
-        {KICK_PLAYER_CMD, {"kick player ", "2", "211"}}};
+        {KICK_PLAYER_CMD, {"kick player ", "2", "211"}},
+        {SEND_MSG_CMD, {"send message in lobby ", "2", "212"}}};
 
 struct player_t {
   int id;
