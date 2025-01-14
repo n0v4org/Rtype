@@ -14,6 +14,7 @@
 #include <utility>
 #include <vector>
 #include "IDisplayModule.hpp"
+#define M_PI 3.14159265358979323846
 
 namespace zef {
   namespace graph {
@@ -205,7 +206,6 @@ namespace zef {
           int rotationRange = 360, RGBA mask = {1, 1, 1, 1},
           std::vector<std::string> objectShaders = {"None"},
           bool addActive                         = true) {
-        unsigned int seed              = 4;
         _particleEmmiters[emmiterName] = {
             particleSprite, posX,          posY,   density,
             velocity,       lifetime,      scaleX, scaleY,
@@ -213,11 +213,10 @@ namespace zef {
             addActive};
         for (int i = 0; i < density; i++) {
           _particleEmmiters[emmiterName].particles.push_back(
-              {0, 0, velocity - (rand_r(&seed) % velocity / 4),
-               static_cast<float>(
-                   (rand_r(&seed) % rotationRange + rotationStart) *
-                   (M_PI / 180)),
-               lifetime, lifetime - (rand_r(&seed) % lifetime / 4)});
+              {0, 0, velocity - (rand() % velocity / 4),
+               static_cast<float>((rand() % rotationRange + rotationStart) *
+                                  (M_PI / 180)),
+               lifetime, lifetime - (rand() % lifetime / 4)});
         }
       }
       void removeParticleEmmiter(std::string emmiterName) override {

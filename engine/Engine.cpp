@@ -29,5 +29,20 @@ namespace zef {
         engine._events.pop();
       }
     }
+
+    void nresolveEvent(Engine& engine,
+                       ecs::sparse_array<comp::new_event_listener>& evtls) {
+      while (!engine._nevents.empty()) {
+        newEvent evt = engine._nevents.front();
+
+        for (auto&& [i, listener] : ecs::indexed_zipper(evtls)) {
+          if (i == evt.entity) {
+            listener.execute(evt.name, engine, i, evt.tpl);
+          }
+        }
+
+        engine._nevents.pop();
+      }
+    }
   }  // namespace sys
 }  // namespace zef

@@ -50,11 +50,16 @@ namespace rtype {
         }
       }
 
-      player_t new_player = {
-          .id       = input.id,
-          .is_admin = (_lobby.at(room).owner == input.id) ? true : false,
-          .is_ready = false,
-      };
+      player_t new_player = {};
+      new_player.id       = input.id;
+      new_player.is_admin = (_lobby.at(room).owner == input.id) ? true : false;
+      new_player.is_ready = false;
+
+      // player_t new_player = {
+      //     .id       = input.id,
+      //     .is_admin = (_lobby.at(room).owner == input.id) ? true : false,
+      //     .is_ready = false,
+      // };
 
       if (_usernames.find(input.id) == _usernames.end()) {
         _usernames[input.id] =
