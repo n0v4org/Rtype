@@ -15,6 +15,7 @@
 #include <vector>
 #include <functional>
 #include <map>
+#include <any>
 
 #include "IModule.hpp"
 #include "Engine.hpp"
@@ -93,8 +94,6 @@ namespace zef {
     template <typename M>
     M& getMember(const std::string& name, const std::string& mname) {
     }
-
-    std::map<std::string, std::any> members;
   };
 }  // namespace zef
 

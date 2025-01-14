@@ -12,31 +12,28 @@
 #include <stdexcept>
 #include <string>
 
+#include <dylib.hpp>
+
 #include "ILibHolder.hpp"
+
 
 namespace zef {
   template <typename T>
   class LibHolder : public ILibHolder<T> {
+  typedef T* (*EntryPointFunc)();
   public:
-    explicit LibHolder(const std::string &filename) {
-      _handle = LoadLibrary(("./lib" + filename + ".dll").c_str())
-
-          if (!_handle) {
-        throw std::runtime_error("Error while opening lib: " + filename);
-      }
+    explicit LibHolder(const std::string &filename): _handler("sfml") {
     }
     ~LibHolder() {
-      FreeLibrary(_handle);
     }
 
     T *getEntryPoint() {
-      auto fun =
-          reinterpret_cast<T *(*)()>(GetProcAddress(_handle, "entryPoint"));
-      return fun();
+      auto *fn = _handler.get_function<T *()>("entryPoint");
+      return fn();
     }
 
   private:
-    HINSTANCE _handle;
+    dylib _handler;
   };
 };  // namespace zef
 

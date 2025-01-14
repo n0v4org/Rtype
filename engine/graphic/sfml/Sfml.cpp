@@ -7,9 +7,17 @@
 
 #include <iostream>
 #include <string>
+
+#include "Sfml.hpp"
+#ifdef _MSC_VER
+  #include <windows.h>
+#endif
 #include <vector>
 #include <utility>
 #include "Sfml.hpp"
+#ifdef _MSC_VER
+  #include <windows.h>
+#endif
 #include "HPBar.hpp"
 
 namespace zef {
@@ -309,27 +317,24 @@ namespace zef {
                           bool addActive) {
       const zef::graph::Animation_t anim = _animations.at(animationName);
 
-      _sprites.at(anim.SpriteSheet)
-          .first.setTexture(_sprites.at(anim.SpriteSheet).second);
-      _sprites.at(anim.SpriteSheet)
-          .first.setTextureRect(
-              sf::IntRect(anim.Size.first * currentFrame + anim.StartPos.first,
-                          anim.StartPos.second * anim.Size.second,
-                          anim.Size.first, anim.Size.second));
-      _sprites.at(anim.SpriteSheet)
-          .first.setColor(sf::Color(255 * mask.R, 255 * mask.G, 255 * mask.B,
-                                    255 * mask.A));
-      _sprites.at(anim.SpriteSheet).first.setRotation(rotation);
+      auto& sp = _sprites.at(anim.SpriteSheet).first;
+      sp.setTexture(_sprites.at(anim.SpriteSheet).second);
+      sp.setTextureRect(
+          sf::IntRect(anim.Size.first * currentFrame + anim.StartPos.first,
+                      anim.StartPos.second * anim.Size.second, anim.Size.first,
+                      anim.Size.second));
+      sp.setColor(
+          sf::Color(255 * mask.R, 255 * mask.G, 255 * mask.B, 255 * mask.A));
+      sp.setRotation(rotation);
 
-      _sprites.at(anim.SpriteSheet)
-          .first.setOrigin(anim.Size.first / 2, anim.Size.second / 2);
-      _sprites.at(anim.SpriteSheet).first.setPosition(posX, posY);
-      _sprites.at(anim.SpriteSheet).first.setScale(scaleX, scaleY);
+      sp.setOrigin(anim.Size.first / 2, anim.Size.second / 2);
+      sp.setPosition(posX, posY);
+      sp.setScale(scaleX, scaleY);
 
       _window.setView(_views["Default"]);
-      //    _window.draw(_sprites.at(anim.SpriteSheet).first);
-      drawShaders(_sprites.at(anim.SpriteSheet).first, objectShaders,
-                  addActive);
+      _window.draw(_sprites.at(anim.SpriteSheet).first);
+      // drawShaders(_sprites.at(anim.SpriteSheet).first, objectShaders,
+      //             addActive);
     }
 
     void Sfml::drawSpriteHUD(std::string animationName,
@@ -412,10 +417,15 @@ namespace zef {
                             foregroundColor.B, foregroundColor.A));
     }
 
-    void Sfml::playSound(std::string soundName, int volume) {
-      _sounds.find(soundName)->second.first.setBuffer(
-          _sounds.find(soundName)->second.second);
-      _sounds.find(soundName)->second.first.setVolume(volume);
+    void Sfml::playSound(std::string soundName, int volume){
+      _sounds.find(soundName)->second.first.setBuffer(_sounds.find(soundName)->second.second);
+      std::atoi(getSetting("Volume").c_str());
+
+      if (getSetting("Volume") != ""){
+        _sounds.find(soundName)->second.first.setVolume(volume * std::atoi(getSetting("Volume").c_str()) / 100);
+      } else {
+        _sounds.find(soundName)->second.first.setVolume(volume);
+      }
       std::cout << soundName << std::endl;
       _sounds.find(soundName)->second.first.play();
     }
@@ -535,6 +545,13 @@ namespace zef {
 
   }  // namespace graph
 }  // namespace zef
-extern "C" zef::graph::IDisplayModule* entryPoint() {
+
+
+
+extern "C" 
+#ifdef _MSC_VER
+  __declspec(dllexport)
+#endif
+zef::graph::IDisplayModule* entryPoint() {
   return new zef::graph::Sfml;
 }

@@ -3,6 +3,7 @@
     "gtest",
     "asio",
     "nlohmann-json",
-    "sfml"
+    "sfml",
+    "dylib"
   ]
 }

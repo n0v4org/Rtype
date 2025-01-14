@@ -9,7 +9,9 @@
 #define NEW_HPP_
 
 #include <iostream>
+#include <string>
 #include <map>
+#include <any>
 
 #include "AModule.hpp"
 #include "Engine.hpp"
@@ -35,7 +37,6 @@ public:
 };
 
 class NewModule : public zef::AModule<zef::Component<comp1, int, float, float>,
-
                                       zef::Component<comp2, int> > {
 public:
   NewModule() : AModule() {
