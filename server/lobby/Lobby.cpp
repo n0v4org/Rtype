@@ -21,14 +21,23 @@ namespace rtype {
 
   void Lobby::RegisterLobbyCmd() {
     for (int i = 0; i < LOBBY_SIZE; i++) {
-      room_t new_room = {
-          .name    = LOBBY + std::to_string(i),
-          .players = {},
-          .pwd     = DEFAULT_PWD,
-          .slot    = LOBBY_SIZE,
-          .owner   = DEFAULT_OWNER,
-          .running = false,
-      };
+      room_t new_room = {0};
+      new_room.name    = LOBBY + std::to_string(i);
+      new_room.players = {};
+      new_room.pwd     = DEFAULT_PWD;
+      new_room.slot    = LOBBY_SIZE;
+      new_room.owner   = DEFAULT_OWNER;
+      new_room.running = false;
+
+
+      // room_t new_room = {
+      //     .name    = LOBBY + std::to_string(i),
+      //     .players = {},
+      //     .pwd     = DEFAULT_PWD,
+      //     .slot    = LOBBY_SIZE,
+      //     .owner   = DEFAULT_OWNER,
+      //     .running = false,
+      // };
       _lobby.push_back(new_room);
     }
     LobbyGetCmd();

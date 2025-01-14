@@ -48,12 +48,6 @@ namespace client {
       _network = std::make_unique<network::Network_client>(
           _params->get_server_port(), _params->get_client_port(),
           _params->get_lobby_server_port(), _params->get_ip());
-      std::string line;
-      while (std::getline(std::cin, line)) {
-        struct test yh = {.a = 42, .b = "hello", .c = 89};
-        _network->get_udp_client()->send<struct test>(yh, 1);
-        _network->get_tcp_client()->send(line);
-      }
     } catch (const std::exception &e) {
       if (strcmp(e.what(), EXCEPTION) != 0)
         std::cerr << e.what() << '\n';
