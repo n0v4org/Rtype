@@ -254,10 +254,14 @@ namespace zef {
       _scenes[name] = [](Engine& engine) { engine._loadScene<T>(); };
     }
 
+    void stop() {
+      running = false;
+    }
+
     void run() {
       clock = std::chrono::high_resolution_clock::now();
       int i = 0;
-      while (true) {
+      while (running) {
         elapsed = std::chrono::duration_cast<std::chrono::microseconds>(
             std::chrono::high_resolution_clock::now() - clock);
         clock = std::chrono::high_resolution_clock::now();
@@ -369,6 +373,8 @@ namespace zef {
 
   private:
     int gameFps = 60;
+
+    bool running = true;
 
     utils::UserInputs _user_inputs;
     std::queue<Event> _events;

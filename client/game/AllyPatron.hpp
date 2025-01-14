@@ -33,9 +33,7 @@ zef::comp::event_listener createAllyEventListener() {
 
   evtl.setEvent<ShootPlayerEvent>(
       [](zef::Engine& engine, size_t self, ShootPlayerEvent sht) {
-        zef::comp::position& p =
-            engine.fetchEntityComponent<zef::comp::position>(self);
-        engine.instanciatePatron<BulletPatron>(p.x, p.y);
+
       });
 
   return evtl;
@@ -44,19 +42,21 @@ zef::comp::event_listener createAllyEventListener() {
 class AllyPatron {
 public:
   static void instanciate(zef::Engine& engine, const ecs::Entity& self, float x,
-                          float y, size_t rep) {
+                          float y) {
     engine.addEntityComponent<zef::comp::position>(self, x, y);
     engine.addEntityComponent<zef::comp::vector>(self, 0, 0, 10);
-    engine.addEntityComponent<zef::comp::replicable>(self, rep);
-    engine.addEntityComponent<VectorHolder>(self, 0.0f, 0.0f);
+    engine.addEntityComponent<Health>(self, 45, 100);
 
     zef::comp::drawable dr;
-    dr.addAnimation("player", 1, 200);
-    dr.playAnimationLoop("player", 1);
+    dr.addAnimation("player_0", 1, 200);
+    dr.addAnimation("player_t2", 1, 200);
+    dr.addAnimation("player_d2", 1, 200);
+    dr.playAnimationLoop("player_0", 1);
     engine.addEntityComponent<zef::comp::drawable>(self, dr);
 
     engine.addEntityComponent<zef::comp::event_listener>(
         self, createAllyEventListener());
+    engine.addEntityComponent<Ship>(self);
   }
 };
 

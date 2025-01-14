@@ -49,6 +49,8 @@ enum {
   NOT_ADMIN                 = 10,
   NOT_READY                 = 11,
   NOT_A_NUMBER              = 12,
+  GAME_ALREADY_RUNNING      = 13,
+  TOO_FEW_PLAYERS           = 14,
 };
 
 static const char GET_ALL_LOBBY_CMD[]    = "GET_ALL_LOBBY";
@@ -63,7 +65,10 @@ static const char SET_PLAYER_READY_CMD[] = "SET_PLAYER_READY";
 static const char UPDATE_ROOM_CMD[]      = "UPDATE_LOBBY";
 static const char UPDATE_PERM_CMD[]      = "UPDATE_PERM";
 static const char KICK_PLAYER_CMD[]      = "KICK_PLAYER";
+static const char SEND_MSG_CMD[]         = "SEND_MSG";
 
+static const char CHARSET[] =
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 static const char SP            = ' ';
 static const char PLAYER[]      = "player";
 static const char ROOM[]        = "room";
@@ -73,24 +78,24 @@ static const char DEFAULT_PWD[] = "magicarpe";
 static const int DEFAULT_OWNER      = -1;
 static const uint8_t LOBBY_SIZE     = 5;
 static const uint16_t NB_TCP_CMD    = 3;
-static const uint16_t NB_TCP_ERRORS = 13;
+static const uint16_t NB_TCP_ERRORS = 15;
 
 static const std::array<std::pair<int, std::string>, NB_TCP_ERRORS> TCP_ERRORS =
-    {{
-        {400, "invalid args"},
-        {401, "maximum number of players reached"},
-        {402, "room not found"},
-        {403, "player already in lobby"},
-        {404, "player is not in this lobby"},
-        {405, "invalid password"},
-        {406, "nb slot should be > 0 && < 5"},
-        {407, "lobby name already exist please provide an other one"},
-        {408, "only the owner has the right"},
-        {409, "default lobby you do not have the right baka"},
-        {410, "only admin can launch the game"},
-        {411, "some players are not ready"},
-        {412, "some parameters must be numbers"},
-    }};
+    {{{400, "invalid args"},
+      {401, "maximum number of players reached"},
+      {402, "room not found"},
+      {403, "player already in lobby"},
+      {404, "player is not in this lobby"},
+      {405, "invalid password"},
+      {406, "nb slot should be > 0 && < 5"},
+      {407, "lobby name already exist please provide an other one"},
+      {408, "only the owner has the right"},
+      {409, "default lobby you do not have the right baka"},
+      {410, "only admin can launch the game"},
+      {411, "some players are not ready"},
+      {412, "some parameters must be numbers"},
+      {413, "game already running"},
+      {414, "too few players to start a game"}}};
 
 static const std::map<std::string, std::array<std::string, NB_TCP_CMD>>
     CMD_RES = {
@@ -105,7 +110,8 @@ static const std::map<std::string, std::array<std::string, NB_TCP_CMD>>
         {SET_PLAYER_READY_CMD, {"player is ready ", "1", "208"}},
         {UPDATE_ROOM_CMD, {"successfully updated lobby ", "4", "209"}},
         {UPDATE_PERM_CMD, {"successfully updated perm of ", "3", "210"}},
-        {KICK_PLAYER_CMD, {"kick player ", "2", "211"}}};
+        {KICK_PLAYER_CMD, {"kick player ", "2", "211"}},
+        {SEND_MSG_CMD, {"send message in lobby ", "2", "212"}}};
 
 struct player_t {
   int id;
@@ -130,6 +136,13 @@ namespace rtype {
   public:
     explicit Lobby(zef::Engine &_engine);
     void RegisterLobbyCmd();
+    bool bad_args(input_t input, int nb_args);
+    bool bad_room(input_t input, int room);
+    void send_error(int id, const std::string &ec, int status);
+    bool is_number(const std::string &s, int id);
+    std::string generateFixedLengthString();
+    std::vector<room_t> get_lobby() const;
+    void set_game_running(int room);
     ~Lobby();
 
   protected:
@@ -140,12 +153,8 @@ namespace rtype {
     void lobbyDeleteCmd();
     void lobbyUpdateCmd();
     bool bad_perm(input_t input, int nb_args);
-    bool bad_room(input_t input, int room);
-    bool bad_args(input_t input, int nb_args);
-    bool is_number(const std::string &s, int id);
     std::vector<std::string> parse_input(std::string input);
     int get_player_lobby(int player_id);
-    void send_error(int id, const std::string &ec, int status);
     json get_data_single_room(room_t room, int room_id);
 
     zef::Engine &_engine;

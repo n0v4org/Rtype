@@ -46,6 +46,14 @@ namespace rtype {
     lobbyUpdateCmd();
   }
 
+  void Lobby::set_game_running(int room) {
+    _lobby.at(room).running = true;
+  }
+
+  std::vector<room_t> Lobby::get_lobby() const {
+    return _lobby;
+  }
+
   Lobby::~Lobby() {
   }
 

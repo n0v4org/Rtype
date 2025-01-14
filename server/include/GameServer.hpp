@@ -31,6 +31,7 @@
 #include "modules/IModule.hpp"
 
 #include "Lobby.hpp"
+#include "Game.hpp"
 
 static const char ENGINE_NAME[] = "zefir";
 
@@ -44,8 +45,12 @@ namespace rtype {
 
   protected:
   private:
+    void RegisterLaunchGameCmd();
+    int generateRandomPort();
+
     zef::Engine _engine;
     std::unique_ptr<Lobby> _lobby;
+    std::unique_ptr<Game> _game;
   };
 
 }  // namespace rtype
