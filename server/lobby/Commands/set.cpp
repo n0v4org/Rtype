@@ -68,7 +68,7 @@ namespace rtype {
         return;
       }
 
-      room_t new_room = {0};
+      room_t new_room = {};
       new_room.name    = name;
       new_room.players = {};
       new_room.pwd     = pwd;

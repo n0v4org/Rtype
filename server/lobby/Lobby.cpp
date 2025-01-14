@@ -21,7 +21,7 @@ namespace rtype {
 
   void Lobby::RegisterLobbyCmd() {
     for (int i = 0; i < LOBBY_SIZE; i++) {
-      room_t new_room = {0};
+      room_t new_room = {};
       new_room.name    = LOBBY + std::to_string(i);
       new_room.players = {};
       new_room.pwd     = DEFAULT_PWD;
