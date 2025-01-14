@@ -14,10 +14,7 @@
 #endif
 #include <vector>
 #include <utility>
-#include "Sfml.hpp"
-#ifdef _MSC_VER
-  #include <windows.h>
-#endif
+
 #include "HPBar.hpp"
 #define M_PI       3.14159265358979323846
 
