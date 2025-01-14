@@ -134,7 +134,8 @@ namespace rtype {
     });
 
     // Command to send a message
-    _engine.registerCommandTcp(SEND_MSG_CMD, [this](zef::Engine& engine, input_t input) {
+    _engine.registerCommandTcp(SEND_MSG_CMD, [this](zef::Engine& engine,
+                                                    input_t input) {
       std::string res = CMD_RES.at(SEND_MSG_CMD).at(SUCCESS);
       std::vector<std::string> parsed_input = parse_input(input.tcp_payload);
       if (!is_number(parsed_input.at(0), input.id))
@@ -150,9 +151,7 @@ namespace rtype {
         return;
       std::vector<player_t>::iterator it = std::find_if(
           _lobby.at(room).players.begin(), _lobby.at(room).players.end(),
-          [input](const player_t& player) {
-            return player.id == input.id;
-          });
+          [input](const player_t& player) { return player.id == input.id; });
       if (it == _lobby.at(room).players.end()) {
         send_error(input.id, TCP_ERRORS.at(NOT_IN_ROOM).second,
                    TCP_ERRORS.at(NOT_IN_ROOM).first);
@@ -160,15 +159,14 @@ namespace rtype {
       }
       res += std::to_string(room);
       json data;
-      data["status"]        = std::stoi(CMD_RES.at(KICK_PLAYER_CMD).at(STATUS));
-      data["description"]   = res;
-      data["from"] = _usernames[input.id];
-      data["room_id"]       = room;
-      data["message"] = msg;
+      data["status"]      = std::stoi(CMD_RES.at(KICK_PLAYER_CMD).at(STATUS));
+      data["description"] = res;
+      data["from"]        = _usernames[input.id];
+      data["room_id"]     = room;
+      data["message"]     = msg;
       for (auto& player : _lobby.at(room).players)
         _engine.ServerSendTcp(player.id, data.dump());
     });
-
   }
 
 }  // namespace rtype

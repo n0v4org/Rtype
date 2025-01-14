@@ -21,6 +21,6 @@ struct SetPlayerVectorEvent {
 struct ShootPlayerEvent {};
 struct LoadShoot {};
 
-struct OnDeath{};
+struct OnDeath {};
 
 #endif /* !EVENTS_HPP_ */

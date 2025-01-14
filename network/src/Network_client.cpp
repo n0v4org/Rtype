@@ -29,10 +29,10 @@ namespace network {
   }
 
   void Network_client::reset_clients(int server_port, int client_port,
-                                 int lobby_port, std::string ip) {
+                                     int lobby_port, std::string ip) {
     _io_service.stop();
     if (t.joinable()) {
-        t.join();
+      t.join();
     }
     _client_udp = nullptr;
     _client_tcp = nullptr;

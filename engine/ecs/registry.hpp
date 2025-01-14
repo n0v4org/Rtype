@@ -128,7 +128,7 @@ namespace ecs {
 
     void run_systems(zef::Engine &engine) {
       for (auto &[module, systems] : _systems) {
-        for (auto &&syss: systems) {
+        for (auto &&syss : systems) {
           syss(engine, *this);
         }
       }

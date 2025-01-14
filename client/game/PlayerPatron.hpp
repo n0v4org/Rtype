@@ -39,22 +39,21 @@ zef::comp::event_listener createPlayerEventListener() {
         engine.fetchEntityComponent<zef::comp::vector>(self).y += nv.y;
       });
 
-  evtl.setEvent<ShootPlayerEvent>(
-      [](zef::Engine& engine, size_t self, ShootPlayerEvent sht) {
-        zef::comp::position& p =
-            engine.fetchEntityComponent<zef::comp::position>(self);
-        size_t& ld = engine.fetchEntityComponent<Laser>(self).load;
-        
-        engine.instanciatePatron<BulletPatron>(p.x, p.y, ld >= 16000 * 30 ? 2 : 0);
-        ld = 0;
-        // engine.ClientSend<CommandShoot>(SHOOTPLAYER, {});
-      });
-  evtl.setEvent<LoadShoot>(
-      [](zef::Engine& engine, size_t self, LoadShoot sht) {
-        engine.fetchEntityComponent<Laser>(self).load += engine.elapsed.count();
-        std::cout << engine.fetchEntityComponent<Laser>(self).load << std::endl;
-        // engine.ClientSend<CommandShoot>(SHOOTPLAYER, {});
-      });
+  evtl.setEvent<ShootPlayerEvent>([](zef::Engine& engine, size_t self,
+                                     ShootPlayerEvent sht) {
+    zef::comp::position& p =
+        engine.fetchEntityComponent<zef::comp::position>(self);
+    size_t& ld = engine.fetchEntityComponent<Laser>(self).load;
+
+    engine.instanciatePatron<BulletPatron>(p.x, p.y, ld >= 16000 * 30 ? 2 : 0);
+    ld = 0;
+    // engine.ClientSend<CommandShoot>(SHOOTPLAYER, {});
+  });
+  evtl.setEvent<LoadShoot>([](zef::Engine& engine, size_t self, LoadShoot sht) {
+    engine.fetchEntityComponent<Laser>(self).load += engine.elapsed.count();
+    std::cout << engine.fetchEntityComponent<Laser>(self).load << std::endl;
+    // engine.ClientSend<CommandShoot>(SHOOTPLAYER, {});
+  });
 
   evtl.setEvent<sendingVectorEvt>(
       [](zef::Engine& engine, size_t self, sendingVectorEvt sve) {

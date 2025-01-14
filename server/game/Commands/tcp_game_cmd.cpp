@@ -8,7 +8,6 @@
 #include "Game.hpp"
 
 namespace rtype {
-    void Game::register_tcp_game_cmd() {
-        
-    }
-}
+  void Game::register_tcp_game_cmd() {
+  }
+}  // namespace rtype
