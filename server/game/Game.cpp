@@ -13,17 +13,19 @@
 namespace rtype {
 
   Game::Game() {
+    _engine.addSystem<>("zefir", zef::sys::handle_server);
+    register_tcp_game_cmd();
   }
 
   void Game::RegisterGameCmd() {
-    register_tcp_game_cmd();
+    
   }
 
   void Game::launch_game(std::vector<std::string> player_uuid, int tcp_port,
                          int udp_port) {
-    std::cout << "new game running here" << std::endl;
-    std::cout << tcp_port << udp_port << std::endl;
+    
     _engine.initServer(udp_port, tcp_port);
+    _engine.run();
   }
 
   void Game::init_game(std::vector<std::string> player_uuid, int tcp_port,
