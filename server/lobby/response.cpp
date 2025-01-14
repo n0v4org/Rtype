@@ -23,7 +23,7 @@ namespace rtype {
         {"status", status},
     };
     std::string json_str = res.dump();
-    _engine.ServerSendTcp(id, json_str);
+    _engine.ServerSendToLobby(id, json_str);
   }
 
   json Lobby::get_data_single_room(room_t room, int room_id) {

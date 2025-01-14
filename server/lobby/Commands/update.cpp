@@ -43,7 +43,7 @@ namespace rtype {
       data["room_id"]     = room;
       data["player_id"]   = (*it).id;
       for (auto& player : _lobby.at(room).players)
-        _engine.ServerSendTcp(player.id, data.dump());
+        _engine.ServerSendToLobby(player.id, data.dump());
     });
 
     // Command to update a room
@@ -83,7 +83,7 @@ namespace rtype {
       json data           = get_data_single_room(_lobby.at(room), room);
       data["status"]      = std::stoi(CMD_RES.at(UPDATE_ROOM_CMD).at(STATUS));
       data["description"] = res;
-      _engine.ServerSendToAllTcp(data.dump());
+      _engine.ServerSendToAllLobby(data.dump());
     });
 
     // Command to update a player perms
@@ -123,7 +123,7 @@ namespace rtype {
       data["player_id"]   = player_id;
       data["is_admin"]    = (*it).is_admin;
       for (auto& player : _lobby.at(room).players)
-        _engine.ServerSendTcp(player.id, data.dump());
+        _engine.ServerSendToLobby(player.id, data.dump());
     });
   }
 

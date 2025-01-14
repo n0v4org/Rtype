@@ -19,13 +19,15 @@
 namespace rtype {
 
   GameServer::GameServer(int udp_port, int tcp_port) {
-    _engine.initServer(udp_port, tcp_port);
+    _engine.initServer(tcp_port);
     _lobby = std::make_unique<Lobby>(_engine);
     _game  = std::make_unique<Game>();
     _lobby->RegisterLobbyCmd();
     RegisterLaunchGameCmd();
     _game->RegisterGameCmd();
-    _engine.addSystem<>(ENGINE_NAME, zef::sys::handle_server);
+    _engine.addSystem<>(ENGINE_NAME, [](zef::Engine& engine) {
+        zef::sys::handle_server(engine, -1);
+    });
   }
 
   int GameServer::generateRandomPort() {
@@ -67,7 +69,7 @@ namespace rtype {
         for (const auto& player : room.players) {
           if (!player.is_ready) {
             _lobby->send_error(input.id, TCP_ERRORS.at(NOT_READY).second,
-                           TCP_ERRORS.at(NOT_READY).first);
+                               TCP_ERRORS.at(NOT_READY).first);
             return;
           }
         }
@@ -94,7 +96,7 @@ namespace rtype {
           players_uuid.push_back(uuid);
           json player_data           = data;
           player_data["player_uuid"] = uuid;
-          _engine.ServerSendTcp(player.id, player_data.dump());
+          _engine.ServerSendToLobby(player.id, player_data.dump());
         }
       }
       _game->init_game(players_uuid, tcp_port, udp_port);

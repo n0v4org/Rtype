@@ -32,11 +32,11 @@ namespace rtype {
       data["player"]   = {{"player_id", input.id}, {"name", input.tcp_payload}};
       int target_lobby = get_player_lobby(input.id);
       if (target_lobby == -1) {
-        _engine.ServerSendTcp(input.id, data.dump());
+        _engine.ServerSendToLobby(input.id, data.dump());
         return;
       } else {
         for (auto& player : _lobby.at(target_lobby).players) {
-          _engine.ServerSendTcp(player.id, data.dump());
+          _engine.ServerSendToLobby(player.id, data.dump());
         }
       }
     });
@@ -82,7 +82,7 @@ namespace rtype {
           get_data_single_room(_lobby.at(_lobby.size() - 1), _lobby.size() - 1);
       data["status"]      = std::stoi(CMD_RES.at(SET_ROOM_CMD).at(STATUS));
       data["description"] = res;
-      _engine.ServerSendToAllTcp(data.dump());
+      _engine.ServerSendToAllLobby(data.dump());
     });
   }
 

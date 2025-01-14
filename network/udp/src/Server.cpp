@@ -18,6 +18,7 @@ namespace network {
 
     Server::Server(asio::io_context& context, int port)
       : _socket(context, udp::endpoint(udp::v4(), port)), _sequence_id(0) {
+        std::cout << "arrived" << std::endl;
       start_receive();
     }
 

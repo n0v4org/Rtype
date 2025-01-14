@@ -33,7 +33,7 @@ namespace rtype {
       data["status"]      = std::stoi(CMD_RES.at(DELETE_ROOM_CMD).at(STATUS));
       data["description"] = res;
       data["room_id"]     = room;
-      _engine.ServerSendToAllTcp(data.dump());
+      _engine.ServerSendToAllLobby(data.dump());
     });
   }
 

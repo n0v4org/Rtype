@@ -66,7 +66,7 @@ namespace rtype {
       data["status"]      = std::stoi(CMD_RES.at(JOIN_ROOM_CMD).at(STATUS));
       data["description"] = res;
       for (auto& player : _lobby.at(room).players)
-        _engine.ServerSendTcp(player.id, data.dump());
+        _engine.ServerSendToLobby(player.id, data.dump());
     });
 
     // Command to quit a room
@@ -94,8 +94,8 @@ namespace rtype {
       data["status"]      = std::stoi(CMD_RES.at(QUIT_ROOM_CMD).at(STATUS));
       data["description"] = res;
       for (auto& player : _lobby.at(room).players)
-        _engine.ServerSendTcp(player.id, data.dump());
-      _engine.ServerSendTcp(input.id, data.dump());
+        _engine.ServerSendToLobby(player.id, data.dump());
+      _engine.ServerSendToLobby(input.id, data.dump());
     });
 
     // Command to kick a player
@@ -130,7 +130,7 @@ namespace rtype {
       data["kicked_player"] = player_id;
       data["room_id"]       = room;
       for (auto& player : _lobby.at(room).players)
-        _engine.ServerSendTcp(player.id, data.dump());
+        _engine.ServerSendToLobby(player.id, data.dump());
     });
 
     // Command to send a message
@@ -166,7 +166,7 @@ namespace rtype {
       data["room_id"]     = room;
       data["message"]     = msg;
       for (auto& player : _lobby.at(room).players)
-        _engine.ServerSendTcp(player.id, data.dump());
+        _engine.ServerSendToLobby(player.id, data.dump());
     });
   }
 

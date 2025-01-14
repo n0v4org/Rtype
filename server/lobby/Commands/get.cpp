@@ -31,7 +31,7 @@ namespace rtype {
       }
       data["status"]      = std::stoi(CMD_RES.at(GET_ALL_LOBBY_CMD).at(STATUS));
       data["description"] = res;
-      _engine.ServerSendTcp(input.id, data.dump());
+      _engine.ServerSendToLobby(input.id, data.dump());
     });
 
     // Command to retrieve info on a target room
@@ -49,7 +49,7 @@ namespace rtype {
       json data           = get_data_single_room(_lobby.at(room), room);
       data["status"]      = std::stoi(CMD_RES.at(GET_LOBBY_CMD).at(STATUS));
       data["description"] = res;
-      _engine.ServerSendTcp(input.id, data.dump());
+      _engine.ServerSendToLobby(input.id, data.dump());
     });
   }
 }  // namespace rtype

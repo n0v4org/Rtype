@@ -260,13 +260,17 @@ namespace zef {
       }
     }
 
-    void initServer(int udpport, int tcpport) {
-      _server = std::make_unique<network::Network_server>(udpport, tcpport);
+    void initServer(int tcpport) {
+      _server = std::make_unique<network::Network_server>(tcpport);
     }
     //
     void initClient(int tcpport, int clientport, int udpport, std::string ip) {
       _client = std::make_unique<network::Network_client>(udpport, clientport,
                                                           tcpport, ip);
+    }
+
+    int ServerCreateGame(int tcp_port, int udp_port) {
+      return _server->set_new_game(udp_port, tcp_port);
     }
 
     template <typename payload>
@@ -279,16 +283,24 @@ namespace zef {
     }
 
     template <typename payload>
-    void ServerSendUdp(int id, int cmd_id, payload c) {
-      _server->get_udp_server()->send(id, cmd_id, c);
+    void ServerSendUdp(int id, int cmd_id, payload c, int game_id) {
+      _server->get_udp_server(game_id)->send(id, cmd_id, c);
     }
 
-    void ServerSendTcp(int id, std::string c) {
-      _server->get_tcp_server()->send(id, c);
+    void ServerSendToLobby(int id, std::string c) {
+      _server->get_lobby()->send(id, c);
     }
 
-    void ServerSendToAllTcp(std::string c) {
-      _server->get_tcp_server()->send_all(c);
+    void ServerSendToAllLobby(std::string c) {
+      _server->get_lobby()->send_all(c);
+    }
+
+    void ServerSendTcp(int id, std::string c, int game_id) {
+      _server->get_tcp_server(game_id)->send(id, c);
+    }
+
+    void ServerSendToAllTcp(std::string c, int game_id) {
+      _server->get_tcp_server(game_id)->send_all(c);
     }
 
     void registerCommand(int cmd, std::function<void(Engine&, input_t)> fn) {
