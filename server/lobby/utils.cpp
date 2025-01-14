@@ -42,7 +42,7 @@ namespace rtype {
 
   std::string Lobby::generateFixedLengthString() {
     size_t length = 20;
-    
+
     const size_t charsetSize = sizeof(CHARSET) - 1;
 
     std::string result;
@@ -53,10 +53,10 @@ namespace rtype {
     std::uniform_int_distribution<> distribution(0, charsetSize - 1);
 
     for (size_t i = 0; i < length; ++i) {
-        result += CHARSET[distribution(generator)];
+      result += CHARSET[distribution(generator)];
     }
 
     return result;
-}
+  }
 
 }  // namespace rtype

@@ -23,7 +23,7 @@ public:
   static void instanciate(zef::Engine& engine, const ecs::Entity& self, float x,
                           float y) {
     engine.addEntityComponent<zef::comp::position>(self, x, y);
-    //engine.addEntityComponent<zef::comp::vector>(self, -1, 0, 3);
+    // engine.addEntityComponent<zef::comp::vector>(self, -1, 0, 3);
     engine.addEntityComponent<BackGround>(self);
 
     zef::comp::drawable dr;
