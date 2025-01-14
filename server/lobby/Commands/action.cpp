@@ -142,11 +142,12 @@ namespace rtype {
         return;
       if (parsed_input.size() < 2) {
         send_error(input.id, TCP_ERRORS.at(INVALID_ARGS).second,
-                     TCP_ERRORS.at(INVALID_ARGS).first);
+                   TCP_ERRORS.at(INVALID_ARGS).first);
         return;
       }
-      int room      = std::stoi(parsed_input.at(0));
-      std::string msg = input.tcp_payload.substr(parsed_input.at(0).length() + 1);
+      int room = std::stoi(parsed_input.at(0));
+      std::string msg =
+          input.tcp_payload.substr(parsed_input.at(0).length() + 1);
       if (bad_room(input, room))
         return;
       std::vector<player_t>::iterator it = std::find_if(
