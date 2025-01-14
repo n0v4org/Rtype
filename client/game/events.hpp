@@ -19,5 +19,8 @@ struct SetPlayerVectorEvent {
   float y;
 };
 struct ShootPlayerEvent {};
+struct LoadShoot {};
+
+struct OnDeath {};
 
 #endif /* !EVENTS_HPP_ */
