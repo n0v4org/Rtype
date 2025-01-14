@@ -64,7 +64,8 @@ static const char LAUNCH_GAME_CMD[]      = "LAUNCH_GAME";
 static const char SET_PLAYER_READY_CMD[] = "SET_PLAYER_READY";
 static const char UPDATE_ROOM_CMD[]      = "UPDATE_LOBBY";
 static const char UPDATE_PERM_CMD[]      = "UPDATE_PERM";
-static const char KICK_PLAYER_CMD[]      = "KICK_PLAYER";
+static const char KICK_PLAYER_CMD[]      = "KICK_PLAYER"; 
+static const char SEND_MSG_CMD[] = "SEND_MSG";
 
 static const char CHARSET[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 static const char SP            = ' ';
@@ -110,7 +111,9 @@ static const std::map<std::string, std::array<std::string, NB_TCP_CMD>>
         {SET_PLAYER_READY_CMD, {"player is ready ", "1", "208"}},
         {UPDATE_ROOM_CMD, {"successfully updated lobby ", "4", "209"}},
         {UPDATE_PERM_CMD, {"successfully updated perm of ", "3", "210"}},
-        {KICK_PLAYER_CMD, {"kick player ", "2", "211"}}};
+        {KICK_PLAYER_CMD, {"kick player ", "2", "211"}},
+        {SEND_MSG_CMD, {"send message in lobby ", "2", "212"}}
+    };
 
 struct player_t {
   int id;

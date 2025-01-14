@@ -246,7 +246,6 @@ namespace zef {
           GraphLib->clear();
 
         reg.run_systems(*this);
-        printf("%d %d\n", elapsed, reg.getEntityCount());
 
         if (GraphLib)
           GraphLib->refresh();
