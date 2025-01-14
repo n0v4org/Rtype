@@ -8,6 +8,8 @@
 #ifndef PLAYERPATRON_HPP_
 #define PLAYERPATRON_HPP_
 
+#include <iostream>
+
 #include "Engine.hpp"
 
 #include "components.hpp"

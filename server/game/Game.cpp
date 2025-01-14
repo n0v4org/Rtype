@@ -5,6 +5,9 @@
 ** game
 */
 
+#include <string>
+#include <iostream>
+
 #include "Game.hpp"
 
 namespace rtype {
@@ -32,4 +35,4 @@ namespace rtype {
     Game::~Game() {
     }
 
-}
+} // namespace rtype

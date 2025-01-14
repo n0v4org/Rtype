@@ -9,6 +9,7 @@
 #define GAME_HPP_
 
 #include <thread>
+#include <vector>
 #include <string>
 
 #include "Engine.hpp"
@@ -41,6 +42,6 @@ namespace rtype {
             zef::Engine _engine;
     };
 
-}
+} // namespace rtype
 
 #endif /* !GAME_HPP_ */
