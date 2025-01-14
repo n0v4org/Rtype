@@ -128,6 +128,12 @@ namespace ecs {
 
     void run_systems(zef::Engine &engine) {
       for (auto &[module, systems] : _systems) {
+        for (auto &&syss: systems) {
+          syss(engine, *this);
+        }
+      }
+      return;
+      for (auto &[module, systems] : _systems) {
         _moduleThreads[module] =
             std::thread([&systems, &engine, &reg = *this]() {
               for (auto &sys : systems) sys(engine, reg);

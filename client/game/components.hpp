@@ -15,6 +15,17 @@ public:
   size_t player;
 };
 
+class Health {
+  public:
+
+  Health(size_t hp, size_t max) : _hp(hp), _max(max) {
+
+  }
+
+  size_t _hp;
+  size_t _max;
+};
+
 class Lifetime {
 public:
   explicit Lifetime(int _microsecs) : microsecs(_microsecs) {
@@ -38,6 +49,13 @@ class Monster {
 public:
   Monster() {
   }
+};
+
+class Laser {
+public:
+  Laser() {
+  }
+  size_t load = 0.0;
 };
 
 class VectorHolder {

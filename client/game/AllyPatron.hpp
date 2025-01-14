@@ -35,7 +35,7 @@ zef::comp::event_listener createAllyEventListener() {
       [](zef::Engine& engine, size_t self, ShootPlayerEvent sht) {
         zef::comp::position& p =
             engine.fetchEntityComponent<zef::comp::position>(self);
-        engine.instanciatePatron<BulletPatron>(p.x, p.y);
+        engine.instanciatePatron<BulletPatron>(p.x, p.y, 0);
       });
 
   return evtl;
