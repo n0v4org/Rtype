@@ -28,8 +28,9 @@ namespace network {
     public:
       typedef std::shared_ptr<Connection> pointer;
 
-      static pointer create(asio::io_context& io_context, std::deque<input_t>& queue,
-                      std::mutex& queue_mutex) {
+      static pointer create(asio::io_context& io_context,
+                            std::deque<input_t>& queue,
+                            std::mutex& queue_mutex) {
         return pointer(new Connection(io_context, queue, queue_mutex));
       }
 
@@ -54,10 +55,10 @@ namespace network {
       }
 
     private:
-      Connection(asio::io_context& io_context, 
-               std::deque<input_t>& queue, 
-               std::mutex& queue_mutex)
-        : socket_(io_context), queue_(queue), queue_mutex_(queue_mutex) {}
+      Connection(asio::io_context& io_context, std::deque<input_t>& queue,
+                 std::mutex& queue_mutex)
+        : socket_(io_context), queue_(queue), queue_mutex_(queue_mutex) {
+      }
 
       void read() {
         socket_.async_read_some(

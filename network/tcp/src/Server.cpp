@@ -20,7 +20,8 @@ namespace network {
     }
 
     void Server::start_accept() {
-      Connection::pointer new_connection = Connection::create(io_context_, tcp_command_queue, _mutex);
+      Connection::pointer new_connection =
+          Connection::create(io_context_, tcp_command_queue, _mutex);
 
       acceptor_.async_accept(
           new_connection->socket(),
