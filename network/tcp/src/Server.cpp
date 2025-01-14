@@ -18,8 +18,9 @@ namespace network {
       , acceptor_(io_context, tcp::endpoint(tcp::v4(), port)) {
       start_accept();
     }
+
     void Server::start_accept() {
-      Connection::pointer new_connection = Connection::create(io_context_);
+      Connection::pointer new_connection = Connection::create(io_context_, tcp_command_queue, _mutex);
 
       acceptor_.async_accept(
           new_connection->socket(),
