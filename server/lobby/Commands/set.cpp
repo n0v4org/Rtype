@@ -68,14 +68,22 @@ namespace rtype {
         return;
       }
 
-      room_t new_room = {
-          .name    = name,
-          .players = {},
-          .pwd     = pwd,
-          .slot    = slot,
-          .owner   = input.id,
-          .running = false,
-      };
+      room_t new_room  = {};
+      new_room.name    = name;
+      new_room.players = {};
+      new_room.pwd     = pwd;
+      new_room.slot    = slot;
+      new_room.owner   = input.id;
+      new_room.running = false;
+
+      // room_t new_room = {
+      //     .name    = name,
+      //     .players = {},
+      //     .pwd     = pwd,
+      //     .slot    = slot,
+      //     .owner   = input.id,
+      //     .running = false,
+      // };
       _lobby.push_back(new_room);
       res += name;
       json data =
