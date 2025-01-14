@@ -65,8 +65,8 @@ static const char SET_PLAYER_READY_CMD[] = "SET_PLAYER_READY";
 static const char UPDATE_ROOM_CMD[]      = "UPDATE_LOBBY";
 static const char UPDATE_PERM_CMD[]      = "UPDATE_PERM";
 static const char KICK_PLAYER_CMD[]      = "KICK_PLAYER";
-static const char CHARSET[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
+static const char CHARSET[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 static const char SP            = ' ';
 static const char PLAYER[]      = "player";
 static const char ROOM[]        = "room";
