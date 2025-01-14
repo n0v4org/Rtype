@@ -67,7 +67,7 @@ namespace rtype {
         for (const auto& player : room.players) {
           if (!player.is_ready) {
             _lobby->send_error(input.id, TCP_ERRORS.at(NOT_READY).second,
-                           TCP_ERRORS.at(NOT_READY).first);
+                               TCP_ERRORS.at(NOT_READY).first);
             return;
           }
         }
