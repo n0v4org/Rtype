@@ -45,7 +45,11 @@ zef::comp::event_listener createPlayerEventListener() {
         engine.fetchEntityComponent<zef::comp::position>(self);
     size_t& ld = engine.fetchEntityComponent<Laser>(self).load;
 
-    engine.instanciatePatron<BulletPatron>(p.x, p.y, ld >= 16000 * 30 ? 2 : 0);
+    engine.instanciatePatron<BulletPatron>(p.x + 70.0f, p.y, ld >= 16000 * 30 ? 2 : 0);
+    //engine.instanciatePatron<BulletPatron>(p.x + 80.0f, p.y, ld >= 16000 * 30 ? 2 : 0);
+    //engine.instanciatePatron<BulletPatron>(p.x + 90.0f, p.y, ld >= 16000 * 30 ? 2 : 0);
+    //engine.instanciatePatron<BulletPatron>(p.x + 100.0f, p.y, ld >= 16000 * 30 ? 2 : 0);
+    //engine.instanciatePatron<BulletPatron>(p.x + 110.0f, p.y, ld >= 16000 * 30 ? 2 : 0);
     ld = 0;
     // engine.ClientSend<CommandShoot>(SHOOTPLAYER, {});
   });

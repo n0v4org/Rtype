@@ -25,8 +25,9 @@ zef::comp::event_listener createBulletEventListener() {
 
   evtl.setEvent<zef::evt::startCollision>(
       [](zef::Engine& engine, size_t self, zef::evt::startCollision col) {
-
+        
       });
+
 
   return evtl;
 }
@@ -48,8 +49,9 @@ public:
     engine.addEntityComponent<zef::comp::event_listener>(
         self, createBulletEventListener());
 
-    std::vector<zef::utils::hitbox> hb = {zef::utils::hitbox(0, 0, 16, 16)};
-    engine.addEntityComponent<zef::comp::collidable>(self, hb);
+    
+      std::vector<zef::utils::hitbox> hb = {zef::utils::hitbox(0, 0, 16, 16)};
+      engine.addEntityComponent<zef::comp::collidable>(self, hb);
   }
 };
 
