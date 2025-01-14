@@ -36,6 +36,11 @@ public:
   Player() {
   }
 };
+class Ship {
+public:
+  Ship() {
+  }
+};
 
 class BackGround {
 public:

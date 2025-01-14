@@ -74,6 +74,8 @@ public:
 
     zef::comp::drawable dr;
     dr.addAnimation("player_0", 1, 200);
+    dr.addAnimation("player_t2", 1, 200);
+    dr.addAnimation("player_d2", 1, 200);
     dr.playAnimationLoop("player_0", 1);
     engine.addEntityComponent<zef::comp::drawable>(self, dr);
 
@@ -98,6 +100,7 @@ public:
     engine.addEntityComponent<zef::comp::controllable>(self, cont);
 
     engine.addEntityComponent<Player>(self);
+    engine.addEntityComponent<Ship>(self);
     engine.addEntityComponent<zef::comp::replicable>(self, rep);
   }
 };

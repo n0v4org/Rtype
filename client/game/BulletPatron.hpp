@@ -20,19 +20,31 @@
 
 #include "events.hpp"
 
-zef::comp::event_listener createBulletEventListener() {
+#include "BlastPatron.hpp"
+
+zef::comp::event_listener createBulletEventListener(size_t size) {
   zef::comp::event_listener evtl;
 
   evtl.setEvent<zef::evt::startCollision>(
-      [](zef::Engine& engine, size_t self, zef::evt::startCollision col) {
+      [size](zef::Engine& engine, size_t self, zef::evt::startCollision col) {
         engine.sendEvent<GetHittedByBullet>(col.other, self, 10);
-        engine.reg.kill_entity(ecs::Entity(self));
+        if (size == 0)
+          engine.reg.kill_entity(ecs::Entity(self));
       });
 
   evtl.setEvent<DestroyBullet>(
-      [](zef::Engine& engine, size_t self, DestroyBullet db) {
-        engine.reg.kill_entity(ecs::Entity(self));
+      [&](zef::Engine& engine, size_t self, DestroyBullet db) {
+        if (size == 0)
+          engine.reg.kill_entity(ecs::Entity(self));
       });
+
+  evtl.setEvent<OnDeath>([size](zef::Engine& engine, size_t self, OnDeath db) {
+    float& posx = engine.fetchEntityComponent<zef::comp::position>(self).x;
+    float& posy = engine.fetchEntityComponent<zef::comp::position>(self).y;
+
+    engine.instanciatePatron<BlastPatron>(posx, posy, size == 0 ? 0.7f : 3.0f);
+    engine.reg.kill_entity(ecs::Entity(self));
+  });
 
   return evtl;
 }
@@ -58,7 +70,7 @@ public:
     engine.addEntityComponent<zef::comp::drawable>(self, dr);
 
     engine.addEntityComponent<zef::comp::event_listener>(
-        self, createBulletEventListener());
+        self, createBulletEventListener(size));
 
     if (size == 0) {
       std::vector<zef::utils::hitbox> hb = {zef::utils::hitbox(0, 0, 20, 20)};
