@@ -13,6 +13,7 @@
 #include <string>
 #include <memory>
 
+#include "macro.hpp"
 #include "GameServer.hpp"
 
 namespace rtype {
@@ -62,14 +63,14 @@ namespace rtype {
                            TCP_ERRORS.at(NOT_ADMIN).first);
         return;
       }
-      it =
-          std::find_if(_lobby->get_lobby().at(room).players.begin(),
-                       _lobby->get_lobby().at(room).players.end(),
-                       [](const player_t& player) { return !player.is_ready; });
-      if (it != _lobby->get_lobby().at(room).players.end()) {
-        _lobby->send_error(input.id, TCP_ERRORS.at(NOT_READY).second,
+      for (const auto& room : _lobby->get_lobby()) {
+        for (const auto& player : room.players) {
+          if (!player.is_ready) {
+            _lobby->send_error(input.id, TCP_ERRORS.at(NOT_READY).second,
                            TCP_ERRORS.at(NOT_READY).first);
-        return;
+            return;
+          }
+        }
       }
       if (_lobby->get_lobby().at(room).running) {
         _lobby->send_error(input.id, TCP_ERRORS.at(GAME_ALREADY_RUNNING).second,
