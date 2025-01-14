@@ -233,6 +233,9 @@ namespace zef {
                           std::string SettingValue) override {
         _settings[SettingName] = SettingValue;
       };
+      std::string getSetting(std::string SettingName){
+        return _settings[SettingName];
+      };
 
     protected:
       std::vector<std::string> _activeShaders;

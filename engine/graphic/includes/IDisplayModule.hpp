@@ -186,6 +186,8 @@ namespace zef {
       virtual void updateUserInputs(utils::UserInputs& ui)  = 0;
       virtual void updateSettings(std::string SettingName,
                                   std::string SettingValue) = 0;
+      virtual std::string getSetting(std::string SettingName) =0;
+
 
     protected:
     private:
