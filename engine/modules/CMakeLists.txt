@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.26)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
+#set(CMAKE_CXX_EXTENSIONS OFF)
 
 project(Rtype VERSION 1.0)
 
@@ -24,5 +24,6 @@ endif()
 
 set(GLOBAL_INCLUDE_DIRS ${COMMON_INCLUDE_DIRS} CACHE INTERNAL "Global include directories")
 
-add_subdirectory(NewModule)
+#add_subdirectory(NewModule)
 add_subdirectory(NewModulecopy)
+add_subdirectory(test)

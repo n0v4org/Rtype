@@ -89,17 +89,28 @@ namespace network {
           trim(cmd);
           trim(payload);
 
-          input_t message = {
-              .cmd          = 0,
-              .payload_size = 0,
-              .seq          = 0,
-              .id           = _id,
-              .payload      = {},
+          input_t message      = {};
+          message.cmd          = 0;
+          message.payload_size = 0;
+          message.seq          = 0;
+          message.id           = _id;
+          message.payload      = {};
 
-              .tcp_cmd       = cmd,
-              .tcp_payload   = payload,
-              .protocol_type = TCP_CMD,
-          };
+          message.tcp_cmd       = cmd;
+          message.tcp_payload   = payload;
+          message.protocol_type = TCP_CMD;
+
+          // input_t message = {
+          //     .cmd          = 0,
+          //     .payload_size = 0,
+          //     .seq          = 0,
+          //     .id           = _id,
+          //     .payload      = {},
+
+          //     .tcp_cmd       = cmd,
+          //     .tcp_payload   = payload,
+          //     .protocol_type = TCP_CMD,
+          // };
           {
             std::lock_guard<std::mutex> lock(_mutex);
             tcp_command_queue.push_back(message);

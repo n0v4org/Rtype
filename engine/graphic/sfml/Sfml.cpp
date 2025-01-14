@@ -7,10 +7,16 @@
 
 #include <iostream>
 #include <string>
+
+#include "Sfml.hpp"
+#ifdef _MSC_VER
+#include <windows.h>
+#endif
 #include <vector>
 #include <utility>
-#include "Sfml.hpp"
+
 #include "HPBar.hpp"
+#define M_PI 3.14159265358979323846
 
 namespace zef {
   namespace graph {
@@ -43,17 +49,16 @@ namespace zef {
     }
 
     void Sfml::drawParticleEmmiters() {
-      unsigned int seed = 4;
       for (auto particleEmmiter : _particleEmmiters) {
         for (int i = 0; i < particleEmmiter.second.density; i++) {
           if (_particleEmmiters[particleEmmiter.first]
                   .particles[i]
                   .startupTime <= 0) {
             _particleEmmiters[particleEmmiter.first].particles[i].lifeTime -=
-                rand_r(&seed) % 10;
+                rand() % 10;
           } else {
             _particleEmmiters[particleEmmiter.first].particles[i].startupTime -=
-                rand_r(&seed) % 10;
+                rand() % 10;
           }
 
           if (_particleEmmiters[particleEmmiter.first].particles[i].lifeTime <=
@@ -64,19 +69,19 @@ namespace zef {
                 _particleEmmiters[particleEmmiter.first].lifeTime;
             _particleEmmiters[particleEmmiter.first].particles[i].direction =
                 static_cast<float>(
-                    (rand_r(&seed) % _particleEmmiters[particleEmmiter.first]
-                                         .rotationRange +
+                    (rand() % _particleEmmiters[particleEmmiter.first]
+                                  .rotationRange +
                      _particleEmmiters[particleEmmiter.first].rotationStart) *
                     (M_PI / 180.0));
             _particleEmmiters[particleEmmiter.first].particles[i].velocity =
                 _particleEmmiters[particleEmmiter.first].velocity -
-                (rand_r(&seed) %
-                 _particleEmmiters[particleEmmiter.first].velocity / 4);
+                (rand() % _particleEmmiters[particleEmmiter.first].velocity /
+                 4);
             _particleEmmiters[particleEmmiter.first].particles[i].startupTime =
                 _particleEmmiters[particleEmmiter.first].particles[i].lifeTime -
-                (rand_r(&seed) % _particleEmmiters[particleEmmiter.first]
-                                     .particles[i]
-                                     .lifeTime);
+                (rand() % _particleEmmiters[particleEmmiter.first]
+                              .particles[i]
+                              .lifeTime);
           }
 
           if (_particleEmmiters[particleEmmiter.first]
@@ -535,6 +540,11 @@ namespace zef {
 
   }  // namespace graph
 }  // namespace zef
-extern "C" zef::graph::IDisplayModule* entryPoint() {
+
+extern "C"
+#ifdef _MSC_VER
+    __declspec(dllexport)
+#endif
+        zef::graph::IDisplayModule* entryPoint() {
   return new zef::graph::Sfml;
 }

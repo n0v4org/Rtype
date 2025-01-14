@@ -13,6 +13,7 @@
 #include <queue>
 #include <thread>
 #include <string>
+#include <tuple>
 #include <functional>
 #include <vector>
 #include <filesystem>
@@ -41,6 +42,9 @@ namespace zef {
   namespace sys {
     void resolveEvent(Engine& engine,
                       ecs::sparse_array<comp::event_listener>& evtls);
+
+    void nresolveEvent(Engine& engine,
+                       ecs::sparse_array<comp::new_event_listener>& evtls);
   }  // namespace sys
 
   class Engine {
@@ -52,6 +56,8 @@ namespace zef {
 
     friend void sys::resolveEvent(
         Engine& engine, ecs::sparse_array<comp::event_listener>& evtls);
+    friend void sys::nresolveEvent(
+        Engine& engine, ecs::sparse_array<comp::new_event_listener>& evtls);
 
     template <typename T, typename... U>
     void sendEvent(size_t entity, U... args) {
@@ -61,6 +67,16 @@ namespace zef {
       evt.tpl    = str;
       evt.tid    = std::type_index(typeid(T));
       _events.push(evt);
+    }
+
+    template <typename... U>
+    void nsendEvent(std::string name, size_t entity, U... args) {
+      newEvent evt;
+      evt.name   = name;
+      evt.entity = entity;
+      evt.tpl    = std::tuple<U...>(args...);
+
+      _nevents.push(evt);
     }
 
     void resolveEvent() {
@@ -87,6 +103,11 @@ namespace zef {
       if (optComp == std::nullopt)
         throw std::runtime_error("this entity does not have the component");
       return optComp.value();
+    }
+
+    template <typename T>
+    T& fetchEntityComponentAccessMember(const std::string& comp,
+                                        const std::string& membername) {
     }
 
     template <typename Component>
@@ -286,6 +307,14 @@ namespace zef {
     void ServerSendTcp(int id, std::string c) {
       _server->get_tcp_server()->send(id, c);
     }
+    template <typename payload>
+    void ServerSendToAllUdp(int cmd_id, payload c) {
+      //_server->get_udp_server()->send(id, cmd_id, c);
+    }
+
+    void ServerSendToAllTcp(int cmd_id, std::string c) {
+      //_server->get_tcp_server()->send(id, c);
+    }
 
     void ServerSendToAllTcp(std::string c) {
       _server->get_tcp_server()->send_all(c);
@@ -343,6 +372,7 @@ namespace zef {
 
     utils::UserInputs _user_inputs;
     std::queue<Event> _events;
+    std::queue<newEvent> _nevents;
 
     std::unique_ptr<ILibHolder<zef::graph::IDisplayModule>> _grapLibHolder;
 
