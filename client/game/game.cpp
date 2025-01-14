@@ -23,6 +23,7 @@ void runClient(int sport, int cport, std::string ip) {
 
   engine.initGraphLib("../Assets", "");
 
+
   engine.GraphLib->saveAnimation("ship", "image", 0, 0, 65, 66);
 
   engine.GraphLib->saveAnimation("bg", "bg2", 0, 0, 1000, 562);
@@ -43,6 +44,15 @@ void runClient(int sport, int cport, std::string ip) {
   engine.GraphLib->saveAnimation("fireball", "fireball", 0, 0, 8, 8);
 
   engine.GraphLib->saveAnimation("blast", "blast", 0, 0, 33, 32);
+
+  engine.initClient(sport, cport, 14001, ip);
+
+    engine.ClientSendTcp("JOIN 1 magicarpe");
+    
+//SET_PLAYER_READY 1
+//LAUNCH_GAME 1
+
+
 
   // engine.initClient(sport, cport, ip);
 
@@ -209,8 +219,8 @@ void runClient(int sport, int cport, std::string ip) {
     engine.addSystem<Player, Laser, zef::comp::position>("zefir", drawLoadBar);
 
   engine.registerScene<LevelScene>("level");
-  //   engine.registerScene<LobbyScene>("lobby");
-  engine.loadScene("level");
+  engine.registerScene<LobbyScene>("lobby");
+  engine.loadScene("lobby");
 
   engine.run();
 }
