@@ -417,10 +417,11 @@ namespace zef {
                             foregroundColor.B, foregroundColor.A));
     }
 
-    void Sfml::playSound(std::string soundName, int volume) {
-      _sounds.find(soundName)->second.first.setBuffer(
-          _sounds.find(soundName)->second.second);
-      _sounds.find(soundName)->second.first.setVolume(volume);
+    void Sfml::playSound(std::string soundName, int volume){
+      _sounds.find(soundName)->second.first.setBuffer(_sounds.find(soundName)->second.second);
+      std::atoi(getSetting("Volume").c_str());
+
+      _sounds.find(soundName)->second.first.setVolume(volume * std::atoi(getSetting("Volume").c_str()) / 100);
       std::cout << soundName << std::endl;
       _sounds.find(soundName)->second.first.play();
     }
