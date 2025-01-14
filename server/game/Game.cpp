@@ -18,12 +18,10 @@ namespace rtype {
   }
 
   void Game::RegisterGameCmd() {
-    
   }
 
   void Game::launch_game(std::vector<std::string> player_uuid, int tcp_port,
                          int udp_port) {
-    
     _engine.initServer(udp_port, tcp_port);
     _engine.run();
   }

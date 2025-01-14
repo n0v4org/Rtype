@@ -33,7 +33,7 @@ zef::comp::event_listener createAllyEventListener() {
 
   evtl.setEvent<ShootPlayerEvent>(
       [](zef::Engine& engine, size_t self, ShootPlayerEvent sht) {
-        
+
       });
 
   return evtl;

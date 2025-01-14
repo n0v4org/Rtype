@@ -30,16 +30,13 @@ zef::comp::event_listener createBulletEventListener(size_t size) {
         engine.sendEvent<GetHittedByBullet>(col.other, self, 10);
       });
 
-  evtl.setEvent<OnDeath>(
-    [size](zef::Engine& engine, size_t self, OnDeath db) {
+  evtl.setEvent<OnDeath>([size](zef::Engine& engine, size_t self, OnDeath db) {
+    float& posx = engine.fetchEntityComponent<zef::comp::position>(self).x;
+    float& posy = engine.fetchEntityComponent<zef::comp::position>(self).y;
 
-      float& posx = engine.fetchEntityComponent<zef::comp::position>(self).x;
-      float& posy = engine.fetchEntityComponent<zef::comp::position>(self).y;
-
-      engine.instanciatePatron<BlastPatron>(posx, posy, size == 0 ? 0.7f : 3.0f);
-      engine.reg.kill_entity(ecs::Entity(self));
-    });
-
+    engine.instanciatePatron<BlastPatron>(posx, posy, size == 0 ? 0.7f : 3.0f);
+    engine.reg.kill_entity(ecs::Entity(self));
+  });
 
   return evtl;
 }
