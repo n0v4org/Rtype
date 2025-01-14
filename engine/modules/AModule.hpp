@@ -91,8 +91,8 @@ namespace zef {
        ...);
     }
 
-    //virtual std::any getMember(const std::string& compname, const std::string& membername) = 0;
-    
+    // virtual std::any getMember(const std::string& compname, const
+    // std::string& membername) = 0;
   };
 }  // namespace zef
 

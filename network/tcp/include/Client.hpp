@@ -63,8 +63,8 @@ namespace network {
                 std::string payload = input.substr(cmd_len);
                 trim(cmd);
                 trim(payload);
-                input_t message = {};
-                message.cmd = 0;
+                input_t message      = {};
+                message.cmd          = 0;
                 message.payload_size = 0;
                 message.seq          = 0;
                 message.id           = 0;

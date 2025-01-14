@@ -8,5 +8,5 @@
 #include "test.hpp"
 
 extern "C" zef::IModule *entryPoint() {
-	return new test;
+  return new test;
 }

@@ -39,7 +39,9 @@ int genCmake(std::string moduleName) {
   }
   moduleName = "module" + moduleName;
   cmake << "cmake_minimum_required(VERSION 3.26)" << std::endl << std::endl;
-  cmake << "set(CMAKE_CXX_STANDARD 17)" << std::endl << "set(CMAKE_CXX_STANDARD_REQUIRED ON)" << std::endl << std::endl;
+  cmake << "set(CMAKE_CXX_STANDARD 17)" << std::endl
+        << "set(CMAKE_CXX_STANDARD_REQUIRED ON)" << std::endl
+        << std::endl;
   cmake << "project(" + moduleName + " VERSION 1.0)" << std::endl << std::endl;
   cmake << "set(SRC" << std::endl
         << "\t" << (moduleName.substr(6)) << ".cpp" << std::endl
@@ -102,7 +104,9 @@ int genHpp(std::string &moduleName) {
   addEpitechHeader(file, moduleName);
   std::string upper(moduleName);
   std::transform(upper.begin(), upper.end(), upper.begin(), ::toupper);
-  file << "#ifndef " << upper << "_HPP_" << std::endl << "#define " << upper << "_HPP_" << std::endl << std::endl;
+  file << "#ifndef " << upper << "_HPP_" << std::endl
+       << "#define " << upper << "_HPP_" << std::endl
+       << std::endl;
   file << "#include <iostream>" << std::endl << std::endl;
   file << "#include \"AModule.hpp\"" << std::endl
        << "#include \"Engine.hpp\"" << std::endl
@@ -124,28 +128,37 @@ int genHpp(std::string &moduleName) {
        << "};" << std::endl
        << std::endl;
 
-  file << "void exampleSystem(zef::Engine &engine, ecs::sparse_array<ExampleComp1> &comps1, ecs::sparse_array<ExampleComp2> &comps2) {" << std::endl
-    << "\tfor (auto [i, c1, c2] : ecs::indexed_zipper(comps1, comps2)) {" << std::endl
-    << "\t\tstd::cout << \"i: \" << i << c1._a << c1._b << c2._a << c2._b << std::endl;" << std::endl
-    << "\t}" << std::endl << "}" << std::endl << std::endl;
+  file << "void exampleSystem(zef::Engine &engine, "
+          "ecs::sparse_array<ExampleComp1> &comps1, "
+          "ecs::sparse_array<ExampleComp2> &comps2) {"
+       << std::endl
+       << "\tfor (auto [i, c1, c2] : ecs::indexed_zipper(comps1, comps2)) {"
+       << std::endl
+       << "\t\tstd::cout << \"i: \" << i << c1._a << c1._b << c2._a << c2._b "
+          "<< std::endl;"
+       << std::endl
+       << "\t}" << std::endl
+       << "}" << std::endl
+       << std::endl;
 
-  file
-      << "class " << moduleName << " : public zef::AModule<" << std::endl
-      << "\tzef::Component<ExampleComp1, int, float>, //Name of component 1 "
-         "and there attributes types in the same order than the constructor"
-      << std::endl
-      << "\tzef::Component<ExampleComp2, float, char> //Name of component 2 "
-         "and there attributes types in the same order than the constructor"
-      << std::endl
-      << "> {" << std::endl
-      << "public:" << std::endl
-      << "\t" << moduleName << "() : AModule() {}" << std::endl
-      << "\t~" << moduleName << "() = default;" << std::endl
-      << std::endl;
-  
+  file << "class " << moduleName << " : public zef::AModule<" << std::endl
+       << "\tzef::Component<ExampleComp1, int, float>, //Name of component 1 "
+          "and there attributes types in the same order than the constructor"
+       << std::endl
+       << "\tzef::Component<ExampleComp2, float, char> //Name of component 2 "
+          "and there attributes types in the same order than the constructor"
+       << std::endl
+       << "> {" << std::endl
+       << "public:" << std::endl
+       << "\t" << moduleName << "() : AModule() {}" << std::endl
+       << "\t~" << moduleName << "() = default;" << std::endl
+       << std::endl;
+
   file << "\tvoid registerSystems(zef::Engine &engine) {" << std::endl
-    << "\t\tengine.addSystem<ExampleComp1, ExampleComp2>(\"" << moduleName << "\", exampleSystem);" << std::endl
-    << "\t}" << std::endl << std::endl;
+       << "\t\tengine.addSystem<ExampleComp1, ExampleComp2>(\"" << moduleName
+       << "\", exampleSystem);" << std::endl
+       << "\t}" << std::endl
+       << std::endl;
 
   file << "};" << std::endl << std::endl;
   file << "#endif /* !" << upper << "_HPP_ */" << std::endl;

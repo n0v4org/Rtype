@@ -10,13 +10,13 @@
 
 #include "Sfml.hpp"
 #ifdef _MSC_VER
-  #include <windows.h>
+#include <windows.h>
 #endif
 #include <vector>
 #include <utility>
 
 #include "HPBar.hpp"
-#define M_PI       3.14159265358979323846
+#define M_PI 3.14159265358979323846
 
 namespace zef {
   namespace graph {
@@ -70,18 +70,18 @@ namespace zef {
             _particleEmmiters[particleEmmiter.first].particles[i].direction =
                 static_cast<float>(
                     (rand() % _particleEmmiters[particleEmmiter.first]
-                                         .rotationRange +
+                                  .rotationRange +
                      _particleEmmiters[particleEmmiter.first].rotationStart) *
                     (M_PI / 180.0));
             _particleEmmiters[particleEmmiter.first].particles[i].velocity =
                 _particleEmmiters[particleEmmiter.first].velocity -
-                (rand() %
-                 _particleEmmiters[particleEmmiter.first].velocity / 4);
+                (rand() % _particleEmmiters[particleEmmiter.first].velocity /
+                 4);
             _particleEmmiters[particleEmmiter.first].particles[i].startupTime =
                 _particleEmmiters[particleEmmiter.first].particles[i].lifeTime -
                 (rand() % _particleEmmiters[particleEmmiter.first]
-                                     .particles[i]
-                                     .lifeTime);
+                              .particles[i]
+                              .lifeTime);
           }
 
           if (_particleEmmiters[particleEmmiter.first]
@@ -541,12 +541,10 @@ namespace zef {
   }  // namespace graph
 }  // namespace zef
 
-
-
-extern "C" 
+extern "C"
 #ifdef _MSC_VER
-  __declspec(dllexport)
+    __declspec(dllexport)
 #endif
-zef::graph::IDisplayModule* entryPoint() {
+        zef::graph::IDisplayModule* entryPoint() {
   return new zef::graph::Sfml;
 }

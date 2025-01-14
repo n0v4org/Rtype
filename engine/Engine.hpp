@@ -106,8 +106,8 @@ namespace zef {
     }
 
     template <typename T>
-    T& fetchEntityComponentAccessMember(const std::string& comp, const std::string& membername) {
-      
+    T& fetchEntityComponentAccessMember(const std::string& comp,
+                                        const std::string& membername) {
     }
 
     template <typename Component>

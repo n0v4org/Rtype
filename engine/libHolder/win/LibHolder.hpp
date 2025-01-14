@@ -16,13 +16,13 @@
 
 #include "ILibHolder.hpp"
 
-
 namespace zef {
   template <typename T>
   class LibHolder : public ILibHolder<T> {
-  typedef T* (*EntryPointFunc)();
+    typedef T *(*EntryPointFunc)();
+
   public:
-    explicit LibHolder(const std::string &filename): _handler("sfml") {
+    explicit LibHolder(const std::string &filename) : _handler("sfml") {
     }
     ~LibHolder() {
     }

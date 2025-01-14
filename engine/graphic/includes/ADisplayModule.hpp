@@ -14,7 +14,7 @@
 #include <utility>
 #include <vector>
 #include "IDisplayModule.hpp"
-#define M_PI       3.14159265358979323846
+#define M_PI 3.14159265358979323846
 
 namespace zef {
   namespace graph {
@@ -214,9 +214,8 @@ namespace zef {
         for (int i = 0; i < density; i++) {
           _particleEmmiters[emmiterName].particles.push_back(
               {0, 0, velocity - (rand() % velocity / 4),
-               static_cast<float>(
-                   (rand() % rotationRange + rotationStart) *
-                   (M_PI / 180)),
+               static_cast<float>((rand() % rotationRange + rotationStart) *
+                                  (M_PI / 180)),
                lifetime, lifetime - (rand() % lifetime / 4)});
         }
       }
