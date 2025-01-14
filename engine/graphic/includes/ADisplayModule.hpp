@@ -234,7 +234,8 @@ namespace zef {
         _settings[SettingName] = SettingValue;
       };
       std::string getSetting(std::string SettingName){
-        return _settings[SettingName];
+//        return _settings[SettingName];
+        return "40";
       };
 
     protected:

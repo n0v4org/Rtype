@@ -70,4 +70,9 @@ public:
   float y;
 };
 
+class SounbdBar {
+public:
+  SounbdBar() {}
+};
+
 #endif /* !COMPONENTS_HPP_ */

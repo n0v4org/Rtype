@@ -38,12 +38,14 @@ void runClient(int /*sport*/, int /*cport*/, std::string /*ip*/) {
     engine.registerComponent<zef::comp::clickable>();
     engine.registerComponent<zef::comp::event_listener>();
     engine.registerComponent<BackGround>();
+    engine.registerComponent<SounbdBar>();
 
     engine.addSystem<>("zefir", zef::sys::update_user_inputs);
     engine.addSystem<zef::comp::clickable, zef::comp::position>("zefir", zef::sys::handleclickable);
     engine.addSystem<zef::comp::event_listener>("zefir", zef::sys::resolveEvent);
     engine.addSystem<zef::comp::drawable>("zefir", zef::sys::update_animations);
     engine.addSystem<zef::comp::drawable, zef::comp::position>("zefir", zef::sys::draw_drawables);
+    engine.addSystem<SounbdBar, zef::comp::position>("zefir", drawSoundBar);
 
     engine.registerScene<MenuScene>("menu");
     engine.registerScene<OptionScene>("option");

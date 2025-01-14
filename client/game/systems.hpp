@@ -91,4 +91,12 @@ inline void convertHolderToVect(zef::Engine& engine,
   }
 }
 
+void drawSoundBar(zef::Engine& engine,
+                                ecs::sparse_array<SounbdBar>& sss,
+                                ecs::sparse_array<zef::comp::position>& pss) {
+   for (auto &&[s, pos] : ecs::zipper(sss, pss)) {
+    engine.GraphLib->drawHPBar(pos.x - 250, pos.y, 500, 20, 0.8, {255, 0, 0, 255}, {0, 255, 0, 255});
+   }
+  }
+
 #endif /* !SYSTEMS_HPP_ */

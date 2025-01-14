@@ -27,7 +27,7 @@ public:
                             float scale_h = 1.0f) {
         engine.addEntityComponent<zef::comp::position>(self, x, y);
 
-        std::vector<zef::utils::hitbox> hb = {zef::utils::hitbox(0, 0, width, height)};
+        std::vector<zef::utils::hitbox> hb = {zef::utils::hitbox(0, 0, width * scale_w, height * scale_h)};
         engine.addEntityComponent<zef::comp::clickable>(self, hb);
 
         zef::comp::event_listener evtl;
@@ -45,6 +45,15 @@ public:
         dr.setScale(scale_w, scale_h);           
         engine.addEntityComponent<zef::comp::drawable>(self, dr);
     }
+};
+
+class SoundBarPatron {
+    public:
+        static void instanciate(zef::Engine &engine, const ecs::Entity &self,
+                            float x, float y) {
+            engine.addEntityComponent<zef::comp::position>(self, x, y);
+            engine.addEntityComponent<SounbdBar>(self);
+        }
 };
 
 #endif // BUTTON_PATRON_HPP_
