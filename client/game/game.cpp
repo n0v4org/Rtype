@@ -45,9 +45,15 @@ void runClient(int sport, int cport, std::string ip) {
 
   engine.GraphLib->saveAnimation("blast", "blast", 0, 0, 33, 32);
 
-  engine.initClient(sport, cport, 14001, ip);
 
-    engine.ClientSendTcp("JOIN 1 magicarpe");
+  engine.GraphLib->saveAnimation("turretu", "turret", 0, 0, 17, 18);
+  engine.GraphLib->saveAnimation("turretd", "turret", 0, 1, 17, 18);
+
+
+
+  //engine.initClient(sport, cport, 14001, ip);
+  //  sleep(1);
+  //  engine.ClientSendTcp("JOIN 1 magicarpe");
     
 //SET_PLAYER_READY 1
 //LAUNCH_GAME 1
@@ -185,6 +191,8 @@ void runClient(int sport, int cport, std::string ip) {
   engine.registerComponent<Monster>();
   engine.registerComponent<Laser>();
   engine.registerComponent<Ship>();
+  engine.registerComponent<TurretTurnRate>();
+  engine.registerComponent<Damaged>();
 
   //   // engine.addSystem<>(entitycountdisplay);
 
@@ -192,6 +200,8 @@ void runClient(int sport, int cport, std::string ip) {
   engine.addSystem<>("zefir", [](zef::Engine& engine) {
     engine.GraphLib->moveCamera(2, 0, 1);
   });
+
+  //engine.addSystem<>("zefir", zef::sys::handle_client);
 
   engine.addSystem<BackGround, zef::comp::position>("zefir",
                                                     handleBackgroundScroll);
@@ -211,6 +221,7 @@ void runClient(int sport, int cport, std::string ip) {
       "zefir", zef::sys::check_collidables);
   engine.addSystem<zef::comp::event_listener>("zefir", zef::sys::resolveEvent);
 
+  engine.addSystem<Damaged, zef::comp::drawable>("zefir", handleDamageEffect);
   engine.addSystem<zef::comp::drawable>("zefir", zef::sys::update_animations);
   engine.addSystem<zef::comp::drawable, zef::comp::position>(
       "zefir", zef::sys::draw_drawables);
@@ -219,7 +230,7 @@ void runClient(int sport, int cport, std::string ip) {
 
   engine.registerScene<LevelScene>("level");
   engine.registerScene<LobbyScene>("lobby");
-  engine.loadScene("lobby");
+  engine.loadScene("level");
 
   engine.run();
 }

@@ -61,6 +61,15 @@ namespace zef {
         scaleY = y;
       }
 
+      void setRgba(float r, float g, float b,float a) {
+        rgba.R = r;
+        rgba.G = g;
+        rgba.B = b;
+        rgba.A = a;
+      }
+
+      zef::graph::RGBA rgba = {1, 1, 1, 1};
+
       float scaleX = 1.0;
       float scaleY = 1.0;
 

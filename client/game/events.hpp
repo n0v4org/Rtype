@@ -23,4 +23,9 @@ struct LoadShoot {};
 
 struct OnDeath {};
 
+
+struct TurretTurn {
+  int angle; // 0 up 1 diag 2 side
+};
+
 #endif /* !EVENTS_HPP_ */

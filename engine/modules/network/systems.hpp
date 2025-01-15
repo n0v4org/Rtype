@@ -35,13 +35,28 @@ namespace zef {
       }
     }
     inline void handle_client(zef::Engine& engine) {
-      // while (!engine._client->isQueueEmpty()) {
-      //   input_t rcv = engine._client->popMessage();
-      //   // std::cout << (int)rcv.cmd << std::endl;
-      //   int cmdid = static_cast<int>(rcv.cmd);
-      //   if (engine._cmd_map.find(cmdid) != engine._cmd_map.end())
-      //     engine._cmd_map[cmdid](engine, rcv);
-      // }
+      while (!engine._client->isQueueEmpty()) {
+        input_t rcv = engine._client->popMessage();
+        // std::cout << (int)rcv.cmd << std::endl;
+        if (rcv.protocol_type == UDP_CMD) {
+          int cmdid = static_cast<int>(rcv.cmd);
+          if (engine._cmd_map.find(cmdid) != engine._cmd_map.end())
+            engine._cmd_map[cmdid](engine, rcv);
+        } else {
+          std::string cmdtcp = rcv.tcp_cmd + rcv.tcp_payload;
+          int status_int = -1;
+          std::string status = "";
+          nlohmann::json j = nlohmann::json::parse(cmdtcp);
+          if (j.contains("status")) {
+            status_int = j["status"];
+            status = std::to_string(status_int);
+          }
+          rcv.tcp_payload = rcv.tcp_cmd + rcv.tcp_payload;
+          
+          if (engine._cmd_map_tcp.find(status) != engine._cmd_map_tcp.end())
+            engine._cmd_map_tcp[status](engine, rcv);
+        }
+      }
     }
   }  // namespace sys
 
