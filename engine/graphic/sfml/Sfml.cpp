@@ -206,7 +206,7 @@ namespace zef {
                            std::vector<std::string>& objectShaders,
                            bool addActive) {
       std::vector<std::string> shaders = {
-        _settings.find(std::string("ColorBlindness"))->second};
+          _settings.find(std::string("ColorBlindness"))->second};
       if (addActive) {
         for (auto& shader : _activeShaders) {
           shaders.push_back(shader);
@@ -246,45 +246,48 @@ namespace zef {
 
     void Sfml::applyShaders(sf::Sprite& sprite,
                             std::vector<std::string>& shaderNames) {
-    /**/
-//      sprite.setPosition(sprite.getPosition().x + _windowSize.first / 2,
-//                         sprite.getPosition().y + _windowSize.second / 2);
-//      front->clear(_trs);
-//      std::vector<std::string> shaderParts = splitstring(shaderNames[0], '|');
-//      if (_shaders.find(shaderParts[0]) == _shaders.end()) {
-//        throw("Shader not found: " + shaderParts[0]);
-//      }
-//      for (int i = 1; i < shaderParts.size() - 1; i += 2) {
-//        _shaders[shaderParts[0]].setParameter(shaderParts[i].c_str(),
-//                                              std::stof(shaderParts[i + 1]));
-//      }
-//      front->draw(sprite, &_shaders[shaderParts[0].c_str()]);
-//      front->display();
-//      for (int i = 1; i < shaderNames.size(); ++i) {
-//        shaderParts = splitstring(shaderNames[i], '|');
-//        if (_shaders.find(shaderParts[0]) == _shaders.end()) {
-//          throw("Shader not found: " + shaderNames[i]);
-//        }
-//        for (int j = 1; j < shaderParts.size() - 1; j += 2) {
-//          _shaders[shaderParts[0]].setParameter(shaderParts[j].c_str(),
-//                                                std::stof(shaderParts[j + 1]));
-//        }
-//        back->clear(_trs);
-//        resultSprite.setTexture(front->getTexture());
-//        sprite.setTexture(front->getTexture());
-//        sprite.setTextureRect(sf::IntRect(0,0,1920,1080));
-//        back->draw(sprite,
-//                   &_shaders[shaderParts[0].c_str()]);
-//        back->display();
-//        std::swap(front, back);
-//      }
-//      resultSprite.setTexture(front->getTexture());
-//      resultSprite.setOrigin(_windowSize.first / 2, _windowSize.second / 2);
-//      _window.draw(resultSprite);
-//      front->clear(_trs);
-//      back->clear(_trs);
-    /**/
-      std::vector<std::string> shaderParts = splitstring(shaderNames[shaderNames.size()-1], '|');
+      /**/
+      //      sprite.setPosition(sprite.getPosition().x + _windowSize.first / 2,
+      //                         sprite.getPosition().y + _windowSize.second /
+      //                         2);
+      //      front->clear(_trs);
+      //      std::vector<std::string> shaderParts = splitstring(shaderNames[0],
+      //      '|'); if (_shaders.find(shaderParts[0]) == _shaders.end()) {
+      //        throw("Shader not found: " + shaderParts[0]);
+      //      }
+      //      for (int i = 1; i < shaderParts.size() - 1; i += 2) {
+      //        _shaders[shaderParts[0]].setParameter(shaderParts[i].c_str(),
+      //                                              std::stof(shaderParts[i +
+      //                                              1]));
+      //      }
+      //      front->draw(sprite, &_shaders[shaderParts[0].c_str()]);
+      //      front->display();
+      //      for (int i = 1; i < shaderNames.size(); ++i) {
+      //        shaderParts = splitstring(shaderNames[i], '|');
+      //        if (_shaders.find(shaderParts[0]) == _shaders.end()) {
+      //          throw("Shader not found: " + shaderNames[i]);
+      //        }
+      //        for (int j = 1; j < shaderParts.size() - 1; j += 2) {
+      //          _shaders[shaderParts[0]].setParameter(shaderParts[j].c_str(),
+      //                                                std::stof(shaderParts[j
+      //                                                + 1]));
+      //        }
+      //        back->clear(_trs);
+      //        resultSprite.setTexture(front->getTexture());
+      //        sprite.setTexture(front->getTexture());
+      //        sprite.setTextureRect(sf::IntRect(0,0,1920,1080));
+      //        back->draw(sprite,
+      //                   &_shaders[shaderParts[0].c_str()]);
+      //        back->display();
+      //        std::swap(front, back);
+      //      }
+      //      resultSprite.setTexture(front->getTexture());
+      //      resultSprite.setOrigin(_windowSize.first / 2, _windowSize.second /
+      //      2); _window.draw(resultSprite); front->clear(_trs);
+      //      back->clear(_trs);
+      /**/
+      std::vector<std::string> shaderParts =
+          splitstring(shaderNames[shaderNames.size() - 1], '|');
       if (_shaders.find(shaderParts[0]) == _shaders.end()) {
         throw("Shader not found: " + shaderParts[0]);
       }
@@ -293,7 +296,7 @@ namespace zef {
                                               std::stof(shaderParts[i + 1]));
       }
       _window.draw(sprite, &_shaders[shaderParts[0]]);
-    /**/
+      /**/
     }
 
     void Sfml::drawSprite(std::string animationName, std::size_t currentFrame,
@@ -318,9 +321,9 @@ namespace zef {
       sp.setScale(scaleX, scaleY);
 
       _window.setView(_views["Default"]);
-//      _window.draw(_sprites.at(anim.SpriteSheet).first);
-       drawShaders(_sprites.at(anim.SpriteSheet).first, objectShaders,
-                   addActive);
+      //      _window.draw(_sprites.at(anim.SpriteSheet).first);
+      drawShaders(_sprites.at(anim.SpriteSheet).first, objectShaders,
+                  addActive);
     }
 
     void Sfml::drawSpriteHUD(std::string animationName,

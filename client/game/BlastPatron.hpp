@@ -19,13 +19,11 @@
 #include "events.hpp"
 
 zef::comp::event_listener get_script() {
-
   zef::comp::event_listener ev;
-  ev.setEvent<OnDeath>([](zef::Engine &e, size_t self, OnDeath o) {
-     e.reg.kill_entity(ecs::Entity(self));
+  ev.setEvent<OnDeath>([](zef::Engine& e, size_t self, OnDeath o) {
+    e.reg.kill_entity(ecs::Entity(self));
   });
   return ev;
-
 }
 class BlastPatron {
 public:
