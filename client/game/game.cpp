@@ -21,32 +21,34 @@
 void runClient(int sport, int cport, std::string ip) {
   zef::Engine engine;
 
-  engine.initGraphLib("../Assets", "");
+//   engine.initGraphLib("../Assets", "");
 
-  engine.GraphLib->saveAnimation("ship", "image", 0, 0, 65, 66);
+//   engine.GraphLib->saveAnimation("ship", "image", 0, 0, 65, 66);
 
-  engine.GraphLib->saveAnimation("bg", "bg2", 0, 0, 1000, 562);
+//   engine.GraphLib->saveAnimation("bg", "bg2", 0, 0, 1000, 562);
 
-  engine.GraphLib->saveAnimation("player_t2", "player2", 0, 1, 33 * 3, 17 * 3);
-  engine.GraphLib->saveAnimation("player_t1", "player2", 33 * 3, 1, 33 * 3,
-                                 17 * 3);
-  engine.GraphLib->saveAnimation("player_0", "player2", 33 * 3 * 2, 1, 33 * 3,
-                                 17 * 3);
-  engine.GraphLib->saveAnimation("player_d1", "player2", 33 * 3 * 3, 1, 33 * 3,
-                                 17 * 3);
-  engine.GraphLib->saveAnimation("player_d2", "player2", 33 * 3 * 4, 1, 33 * 3,
-                                 17 * 3);
+//   engine.GraphLib->saveAnimation("player_t2", "player2", 0, 1, 33 * 3, 17 * 3);
+//   engine.GraphLib->saveAnimation("player_t1", "player2", 33 * 3, 1, 33 * 3,
+//                                  17 * 3);
+//   engine.GraphLib->saveAnimation("player_0", "player2", 33 * 3 * 2, 1, 33 * 3,
+//                                  17 * 3);
+//   engine.GraphLib->saveAnimation("player_d1", "player2", 33 * 3 * 3, 1, 33 * 3,
+//                                  17 * 3);
+//   engine.GraphLib->saveAnimation("player_d2", "player2", 33 * 3 * 4, 1, 33 * 3,
+//                                  17 * 3);
 
-  engine.GraphLib->saveAnimation("bullet", "allyBullet", 0, 0, 32, 8);
-  engine.GraphLib->saveAnimation("bullet2", "allyBullet2", 0, 0, 48, 14);
+//   engine.GraphLib->saveAnimation("bullet", "allyBullet", 0, 0, 32, 8);
+//   engine.GraphLib->saveAnimation("bullet2", "allyBullet2", 0, 0, 48, 14);
 
-  engine.GraphLib->saveAnimation("fireball", "fireball", 0, 0, 8, 8);
+//   engine.GraphLib->saveAnimation("fireball", "fireball", 0, 0, 8, 8);
 
-  engine.GraphLib->saveAnimation("blast", "blast", 0, 0, 33, 32);
+//   engine.GraphLib->saveAnimation("blast", "blast", 0, 0, 33, 32);
 
   engine.initClient(sport, cport, 14001, ip);
-
-  engine.ClientSendTcp("JOIN 1 magicarpe");
+    sleep();
+    std::cout << "sendind" << std::endl;
+ engine.ClientSendTcp("JOIN 1 magicarpe");   
+  engine.run();
 
   // SET_PLAYER_READY 1
   // LAUNCH_GAME 1
@@ -165,6 +167,7 @@ void runClient(int sport, int cport, std::string ip) {
   });*/
 
   // engine.ClientSend<CommandConnect>(CONNECT, {});
+  return;
 
   engine.registerComponent<zef::comp::position>();
   engine.registerComponent<zef::comp::vector>();
