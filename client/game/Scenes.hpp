@@ -116,7 +116,7 @@ public:
             [](zef::Engine &engine, size_t self) {
                 std::string vol = "Volume";
                 int currentVolume = std::stoi(engine.GraphLib->getSetting(vol).c_str());
-                engine.GraphLib->playSound("checkSound", currentVolume);
+                engine.GraphLib->playSound("checkSound");
             },
             210.0f, 210.0f, 0.75f, 0.75f
         );
@@ -134,7 +134,7 @@ public:
                     newVolume = 0;
                 } else {
                     newVolume = currentVolume - 5;
-                    engine.GraphLib->playSound("checkSound", newVolume);
+                    engine.GraphLib->playSound("checkSound");
                 }
                 engine.GraphLib->updateSettings("Volume", std::to_string(newVolume));
                 std::cout << newVolume << std::endl;
@@ -155,7 +155,7 @@ public:
                     newVolume = 100;
                 } else {
                     newVolume = currentVolume + 5;
-                    engine.GraphLib->playSound("checkSound", newVolume);
+                    engine.GraphLib->playSound("checkSound");
                 }
                 engine.GraphLib->updateSettings("Volume", std::to_string(newVolume));
                 std::cout << newVolume << std::endl;
