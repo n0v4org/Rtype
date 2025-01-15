@@ -152,7 +152,7 @@ namespace zef {
 
     template <class... Components, typename Function>
     void addSystem(const std::string& moduleName, Function&& f) {
-      reg.add_system<Components...>(moduleName, f);
+      reg.add_system<Components...>(*this, moduleName, f);
     }
 
     template <typename Patron, typename... T>
@@ -257,16 +257,20 @@ namespace zef {
     void run() {
       clock = std::chrono::high_resolution_clock::now();
       int i = 0;
+      loadModules();
+      ecs::Entity e(reg.spawn_entity());
+      addEntityComponent(e, "ExampleComp1", 2, 2.5f);
+      addEntityComponent(e, "ExampleComp2", 4.1f, 'c');
       while (true) {
         elapsed = std::chrono::duration_cast<std::chrono::microseconds>(
             std::chrono::high_resolution_clock::now() - clock);
         clock = std::chrono::high_resolution_clock::now();
-        // std::cout << i++ << std::endl;
 
         if (GraphLib)
           GraphLib->clear();
 
         reg.run_systems(*this);
+        std::cout << "elapsed: " << elapsed.count() << std::endl;
 
         if (GraphLib)
           GraphLib->refresh();

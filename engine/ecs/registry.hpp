@@ -20,6 +20,8 @@
 #include <string>
 #include <vector>
 #include <thread>
+#include <atomic>
+#include <mutex>
 // #include <boost/type_index.hpp>
 
 #include "entitie.hpp"
@@ -119,24 +121,58 @@ namespace ecs {
     }
 
     template <class... Components, typename Function>
-    void add_system(const std::string &moduleName, Function &&f) {
+    void add_system(zef::Engine &engine, const std::string &moduleName, Function &&f) {
+
       _systems[moduleName].push_back(
           [f = std::forward<Function>(f)](zef::Engine &e, ecs::registry &r) {
             f(e, r.get_components<Components>()...);
           });
+
+
+      if (_moduleThreads.find(moduleName) == _moduleThreads.end()) {
+        _moduleNames.push_back(moduleName);
+        _moduleExecutes[moduleName] = false;
+        //_moduleMutexes.emplace(moduleName, std::mutex());
+        _moduleThreads[moduleName] = std::thread([this, moduleName, &engine](){
+          while (running) {
+            std::cout << moduleName << std::endl;
+            std::unique_lock Glock(_mutex);
+            std::unique_lock<std::mutex> lock(_moduleMutexes[moduleName]);
+            _moduleCondVars[moduleName].wait(lock, [&]() {return _moduleExecutes[moduleName] || !running;});
+            if (!running) break;
+            for (auto &sys : _systems[moduleName]) {
+              sys(engine, *this);
+            }
+            _moduleExecutes[moduleName] = false;
+          }
+        });
+      }
+
+      // if (_moduleThreads.find(moduleName) == _moduleThreads.end()) {
+      //   _moduleThreads[moduleName] = std::thread([&systems = _systems[moduleName], &engine, &reg = *this, &mutex = _mutex](){
+      //     while (1) {
+      //       std::unique_lock lock(mutex);
+      //       for (auto &sys : systems) {
+
+      //         sys(engine, reg);
+      //       }
+      //     }
+      //   });
+      // }
+
     }
 
+
     void run_systems(zef::Engine &engine) {
-      for (auto &[module, systems] : _systems) {
-        _moduleThreads[module] =
-            std::thread([&systems, &engine, &reg = *this]() {
-              for (auto &sys : systems) sys(engine, reg);
-            });
+
+      for (auto module : _moduleNames) {
+        {
+          std::lock_guard<std::mutex> lock(_moduleMutexes[module]);
+          _moduleExecutes[module] = true;
+        }
+        _moduleCondVars[module].notify_one();
       }
 
-      for (auto &[name, th] : _moduleThreads) {
-        th.join();
-      }
     }
 
     size_t getEntityCount() {
@@ -172,10 +208,14 @@ namespace ecs {
         _deleteFunctions;
     size_t _maxId = 0;
 
-    std::map<std::string,
-             std::vector<std::function<void(zef::Engine &, registry &)>>>
-        _systems;
+    std::map<std::string, std::vector<std::function<void(zef::Engine &, registry &)>>> _systems;
     std::map<std::string, std::thread> _moduleThreads;
+    std::map<std::string, bool> _moduleExecutes;
+    std::map<std::string, std::mutex> _moduleMutexes;
+    std::map<std::string, std::condition_variable> _moduleCondVars;
+    std::atomic<bool> running = std::atomic<bool>(true);
+    std::mutex _mutex;
+    std::vector<std::string> _moduleNames;
 
     // std::vector<std::function<void(zef::Engine &, registry &)>> _systems;
     std::queue<size_t> _unusedids;

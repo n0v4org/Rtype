@@ -54,6 +54,7 @@ public:
 
   void registerSystems(zef::Engine &engine) {
     engine.addSystem<ExampleComp1, ExampleComp2>("test", exampleSystem);
+    std::cout << "system registered" << std::endl;
   }
 };
 
