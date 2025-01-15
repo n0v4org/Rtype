@@ -98,4 +98,18 @@ inline void convertHolderToVect(zef::Engine& engine,
   }
 }
 
+void handleDamageEffect(zef::Engine& engine, ecs::sparse_array<Damaged>& dgs, ecs::sparse_array<zef::comp::drawable>& drs) {
+  for (auto &&[i, dg, dr] : ecs::indexed_zipper(dgs, drs)) {
+    dg._microsec -= engine.elapsed.count();
+    dr.rgba.R = 1;
+    dr.rgba.G = 0;
+    dr.rgba.B = 0;
+    if (dg._microsec <= 0) {
+      engine.removeEntityComponent<Damaged>(ecs::Entity(i));
+      dr.rgba.G = 1;
+      dr.rgba.B = 1;
+    }
+  }
+}
+
 #endif /* !SYSTEMS_HPP_ */

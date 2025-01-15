@@ -79,6 +79,8 @@ public:
     engine.addEntityComponent<Health>(self, 75, 100);
     engine.addEntityComponent<Laser>(self);
 
+    //engine.addEntityComponent<Damaged>(self, 5000 * 1000);
+
     zef::comp::drawable dr;
     dr.addAnimation("player_0", 1, 200);
     dr.addAnimation("player_t2", 1, 200);

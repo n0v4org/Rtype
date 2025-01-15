@@ -42,6 +42,23 @@ public:
   }
 };
 
+class Damaged {
+public:
+  Damaged(int microsec) : _microsec(microsec) {
+
+  }
+
+  int _microsec;
+};
+
+class TurretTurnRate {
+public:
+  TurretTurnRate() {
+
+  }
+  int tr = 0;
+};
+
 class BackGround {
 public:
   BackGround() {

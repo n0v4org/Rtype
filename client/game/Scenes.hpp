@@ -14,6 +14,7 @@
 #include "AllyPatron.hpp"
 #include "BulletPatron.hpp"
 #include "EnemyPatron.hpp"
+#include "EnemyTurretPatron.hpp"
 #include "BackgroundPatron.hpp"
 #include "EnemyBulletPatron.hpp"
 #include "BlastPatron.hpp"
@@ -29,6 +30,8 @@ public:
     engine.instanciatePatron<BackgroundPatron>(0.0f, 0.0f);
     engine.instanciatePatron<BackgroundPatron>(1920.0f, 0.0f);
     engine.instanciatePatron<AllyPatron>(0.0f, 0.0f);
+    engine.instanciatePatron<EnemyTurretPatron>(0.0f, 0.0f, false, true);
+    engine.sendEvent<TurretTurn>(engine.instanciatePatron<EnemyTurretPatron>(0.0f, 100.0f, true, false), 1);
     // engine.instanciatePatron<BackgroundPatron>(470.0f, 0.0f);
   }
 };
