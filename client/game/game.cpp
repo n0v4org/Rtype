@@ -23,7 +23,6 @@ void runClient(int sport, int cport, std::string ip) {
 
   engine.initGraphLib("../Assets", "");
 
-
   engine.GraphLib->saveAnimation("ship", "image", 0, 0, 65, 66);
 
   engine.GraphLib->saveAnimation("bg", "bg2", 0, 0, 1000, 562);
@@ -53,12 +52,10 @@ void runClient(int sport, int cport, std::string ip) {
 
   //engine.initClient(sport, cport, 14001, ip);
   //  sleep(1);
-  //  engine.ClientSendTcp("JOIN 1 magicarpe");
-    
-//SET_PLAYER_READY 1
-//LAUNCH_GAME 1
+//  engine.ClientSendTcp("JOIN 1 magicarpe");
 
-
+  // SET_PLAYER_READY 1
+  // LAUNCH_GAME 1
 
   // engine.initClient(sport, cport, ip);
 

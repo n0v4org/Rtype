@@ -9,9 +9,8 @@
 
 namespace rtype {
   void Game::register_tcp_game_cmd() {
-    _engine.registerCommandTcp("tester",
-                               [this](zef::Engine& test, input_t input) {
-                                 test.ServerSendTcp(input.id, "in game");
-                               });
+    _engine.registerCommandTcp(LOGIN_CMD, [this](zef::Engine& engine, input_t input) {
+      std::string res = CMD_TCP_RES.at(LOGIN_CMD).at(GAME_SUCCESS);
+    });
   }
 }  // namespace rtype

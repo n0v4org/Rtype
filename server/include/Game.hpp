@@ -24,6 +24,20 @@
 
 #include "modules/IModule.hpp"
 
+enum {
+  GAME_SUCCESS = 0,
+  GAME_NB_ARGS = 1,
+  GAME_STATUS  = 2,
+};
+
+static const char LOGIN_CMD[] = "LOGIN";
+
+static const uint16_t GAME_NB_TCP_CMD    = 3;
+
+static const std::map<std::string, std::array<std::string, GAME_NB_TCP_CMD>>
+    CMD_TCP_RES = {
+        {LOGIN_CMD, {"send message in lobby ", "1", "220"}}};
+
 namespace rtype {
 
   class Game {
@@ -39,6 +53,8 @@ namespace rtype {
   protected:
   private:
     std::vector<std::thread> _games;
+    void send_error(int id, const std::string &ec, int status);
+    bool bad_args(input_t input, int nb_args);
     void register_tcp_game_cmd();
     zef::Engine _engine;
   };
