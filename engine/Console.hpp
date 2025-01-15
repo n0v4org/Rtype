@@ -14,30 +14,28 @@
 #include <iostream>
 
 namespace zef {
-    class Console {
-    public:
-        Console() = default;
-        ~Console() = default;
+  class Console {
+  public:
+    Console()  = default;
+    ~Console() = default;
 
-        Console &displayMessages() {
-            while (!_messageQueue.empty()) {
-                std::cout << "[INFO] " << _messageQueue.back() << std::endl;
-                _messageQueue.pop();
-            }
-            return *this;
-        }
+    Console &displayMessages() {
+      while (!_messageQueue.empty()) {
+        std::cout << "[INFO] " << _messageQueue.back() << std::endl;
+        _messageQueue.pop();
+      }
+      return *this;
+    }
 
-        Console &sendMessage(const std::string &message) {
-            _messageQueue.push(message);
-            return *this;
-        }
+    Console &sendMessage(const std::string &message) {
+      _messageQueue.push(message);
+      return *this;
+    }
 
-    private:
-        std::queue<std::string> _messageQueue;
-};
-    
-} // namespace zef
+  private:
+    std::queue<std::string> _messageQueue;
+  };
 
-
+}  // namespace zef
 
 #endif /* !CONSOLE_HPP_ */
