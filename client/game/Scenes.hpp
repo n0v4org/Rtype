@@ -124,7 +124,13 @@ public:
                 std::string vol = "Volume";
                 int currentVolume = std::stoi(engine.GraphLib->getSetting(vol).c_str());
                 std::cout << currentVolume << std::endl;
-                int newVolume = currentVolume - 2;
+                int newVolume;
+                if (currentVolume <= 0) {
+                    newVolume = 0;
+                } else {
+                    newVolume = currentVolume - 5;
+                    engine.GraphLib->playSound("checkSound", newVolume);
+                }
                 engine.GraphLib->updateSettings("Volume", std::to_string(newVolume));
                 std::cout << newVolume << std::endl;
             },
@@ -139,7 +145,13 @@ public:
                 std::string vol = "Volume";
                 int currentVolume = std::stoi(engine.GraphLib->getSetting(vol).c_str());
                 std::cout << currentVolume << std::endl;
-                int newVolume = currentVolume + 2;
+                int newVolume;
+                if (currentVolume >= 100) {
+                    newVolume = 100;
+                } else {
+                    newVolume = currentVolume + 5;
+                    engine.GraphLib->playSound("checkSound", newVolume);
+                }
                 engine.GraphLib->updateSettings("Volume", std::to_string(newVolume));
                 std::cout << newVolume << std::endl;
             },
@@ -147,7 +159,7 @@ public:
         );
 
         engine.instanciatePatron<SoundBarPatron>(
-            0.0f, 0.0f
+            0.0f, -50.0f
         );
     }
 };
