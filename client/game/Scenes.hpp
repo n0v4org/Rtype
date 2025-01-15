@@ -121,6 +121,12 @@ public:
             "Backward_BTN",
             [](zef::Engine &engine, size_t self) {
                 std::cout << "minus clicked!" << std::endl;
+                std::string vol = "Volume";
+                int currentVolume = std::stoi(engine.GraphLib->getSetting(vol).c_str());
+                std::cout << currentVolume << std::endl;
+                int newVolume = currentVolume - 2;
+                engine.GraphLib->updateSettings("Volume", std::to_string(newVolume));
+                std::cout << newVolume << std::endl;
             },
             210.0f, 210.0f, 0.75f, 0.75f
         );
@@ -131,7 +137,7 @@ public:
             [](zef::Engine &engine, size_t self) {
                 std::cout << "plus clicked!" << std::endl;
                 std::string vol = "Volume";
-                int currentVolume = std::stoi(engine.GraphLib->getSetting(vol));
+                int currentVolume = std::stoi(engine.GraphLib->getSetting(vol).c_str());
                 std::cout << currentVolume << std::endl;
                 int newVolume = currentVolume + 2;
                 engine.GraphLib->updateSettings("Volume", std::to_string(newVolume));
