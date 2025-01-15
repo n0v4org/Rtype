@@ -50,23 +50,21 @@ void runClient(int sport, int cport, std::string ip) {
 
 
 
-  //engine.initClient(sport, cport, 14001, ip);
-  //  sleep(1);
-//  engine.ClientSendTcp("JOIN 1 magicarpe");
 
   // SET_PLAYER_READY 1
   // LAUNCH_GAME 1
 
   // engine.initClient(sport, cport, ip);
 
-  /*engine.registerCommand(SPAWNPLAYER, [](zef::Engine& engine, input_t input) {
-      network::game::Commands<CommandSpawnPlayer> csp =
-  network::game::Commands<CommandSpawnPlayer>(input);
-      engine.instanciatePatron<PlayerPatron>(0.0f, 0.0f,
-  csp.getCommand().replicable);
+  engine.registerCommandTcp("202", [](zef::Engine& engine, input_t input) {
+      std::cout << "hihi" << std::endl;
+      std::cout << input.tcp_payload << std::endl;
   });
 
-  engine.registerCommand(SPAWNALLY, [](zef::Engine& engine, input_t input) {
+engine.initClient(sport, cport, 14001, ip);
+  sleep(1);
+engine.ClientSendTcp("JOIN 1 magicarpe");
+  /*engine.registerCommand(SPAWNALLY, [](zef::Engine& engine, input_t input) {
       CommandSpawnAlly csp =
   network::game::Commands<CommandSpawnAlly>(input).getCommand();
       engine.instanciatePatron<AllyPatron>(csp.x, csp.y, csp.replicable);
@@ -198,7 +196,7 @@ void runClient(int sport, int cport, std::string ip) {
     engine.GraphLib->moveCamera(2, 0, 1);
   });
 
-  //engine.addSystem<>("zefir", zef::sys::handle_client);
+  engine.addSystem<>("zefir", zef::sys::handle_client);
 
   engine.addSystem<BackGround, zef::comp::position>("zefir",
                                                     handleBackgroundScroll);
