@@ -87,4 +87,17 @@ public:
   float y;
 };
 
+class SinusoidalMotion {
+public:
+    SinusoidalMotion(float amplitude, float frequency, float speedX)
+        : amplitude(amplitude), frequency(frequency),
+          speedX(speedX), phase(0.f) {}
+
+    float amplitude;
+    float frequency;
+    float speedX;
+    float phase;
+};
+
+
 #endif /* !COMPONENTS_HPP_ */
