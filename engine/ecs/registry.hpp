@@ -121,13 +121,12 @@ namespace ecs {
     }
 
     template <class... Components, typename Function>
-    void add_system(zef::Engine &engine, const std::string &moduleName, Function &&f) {
-
+    void add_system(zef::Engine &engine, const std::string &moduleName,
+                    Function &&f) {
       _systems[moduleName].push_back(
           [f = std::forward<Function>(f)](zef::Engine &e, ecs::registry &r) {
             f(e, r.get_components<Components>()...);
           });
-
 
       if (_moduleThreads.find(moduleName) == _moduleThreads.end()) {
         _moduleNames.push_back(moduleName);
@@ -136,8 +135,11 @@ namespace ecs {
           while (running) {
             std::unique_lock Glock(_mutex);
             std::unique_lock<std::mutex> lock(_moduleMutexes[moduleName]);
-            _moduleCondVars[moduleName].wait(lock, [&]() {return _moduleExecutes[moduleName] || !running;});
-            if (!running) break;
+            _moduleCondVars[moduleName].wait(lock, [&]() {
+              return _moduleExecutes[moduleName] || !running;
+            });
+            if (!running)
+              break;
             for (auto &sys : _systems[moduleName]) {
               sys(engine, *this);
             }
@@ -147,7 +149,8 @@ namespace ecs {
       }
 
       // if (_moduleThreads.find(moduleName) == _moduleThreads.end()) {
-      //   _moduleThreads[moduleName] = std::thread([&systems = _systems[moduleName], &engine, &reg = *this, &mutex = _mutex](){
+      //   _moduleThreads[moduleName] = std::thread([&systems =
+      //   _systems[moduleName], &engine, &reg = *this, &mutex = _mutex](){
       //     while (1) {
       //       std::unique_lock lock(mutex);
       //       for (auto &sys : systems) {
@@ -157,12 +160,9 @@ namespace ecs {
       //     }
       //   });
       // }
-
     }
 
-
     void run_systems(zef::Engine &engine) {
-
       for (auto module : _moduleNames) {
         {
           std::lock_guard<std::mutex> lock(_moduleMutexes[module]);
@@ -170,7 +170,6 @@ namespace ecs {
         }
         _moduleCondVars[module].notify_one();
       }
-
     }
 
     size_t getEntityCount() {
@@ -206,7 +205,9 @@ namespace ecs {
         _deleteFunctions;
     size_t _maxId = 0;
 
-    std::map<std::string, std::vector<std::function<void(zef::Engine &, registry &)>>> _systems;
+    std::map<std::string,
+             std::vector<std::function<void(zef::Engine &, registry &)>>>
+        _systems;
     std::map<std::string, std::thread> _moduleThreads;
     std::map<std::string, bool> _moduleExecutes;
     std::map<std::string, std::mutex> _moduleMutexes;
