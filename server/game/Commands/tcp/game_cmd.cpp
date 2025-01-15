@@ -6,6 +6,7 @@
 */
 
 #include "Game.hpp"
+#include "tcp_cmds.hpp"
 
 namespace rtype {
   void Game::register_tcp_game_cmd() {
@@ -21,18 +22,13 @@ namespace rtype {
         send_error(input.id, GAME_TCP_ERRORS.at(WRONG_PWD).second, GAME_TCP_ERRORS.at(WRONG_PWD).first);
         return;
       }
-      _players_tcp.push_back(input.id);
+      _players_tcp.push_back(std::make_pair(player_uuid, input.id));
       engine.ServerSendTcp(input.id, res);
       json data;
       data["status"] = CMD_TCP_RES.at(LOGIN_CMD).at(GAME_STATUS);
       data["description"] = res;
       _engine.ServerSendTcp(input.id, data.dump());
-      if (_players_tcp.size() == _player_uuid.size() && _players_udp.size() == _player_uuid.size()) {
-        json start_json;
-        start_json["status"] = CMD_TCP_RES.at(START_GAME_CMD).at(GAME_STATUS);
-        start_json["description"] = CMD_TCP_RES.at(START_GAME_CMD).at(GAME_SUCCESS);
-        _engine.ServerSendToAllTcp(start_json.dump());
-      }
+      check_game_start();
     });
   }
 }  // namespace rtype

@@ -26,10 +26,8 @@ usage:
         -lcp <port>: run newtork client lobby in a specified port (default is 50004)
 )";
 
-struct test {
-  int a;
-  char b[24];
-  int c;
+struct login_t {
+    char pwd[21];
 };
 
 namespace client {
@@ -45,8 +43,18 @@ namespace client {
         std::cout << USAGE << std::endl;
         return;
       }
-      runClient(_params->get_lobby_server_port(), _params->get_client_port(),
-                _params->get_ip());
+      _network = std::make_unique<network::Network_client>(
+          _params->get_server_port(), _params->get_client_port(),
+          _params->get_lobby_server_port(), _params->get_ip());
+      std::string line;
+      while (std::getline(std::cin, line)) {
+        struct login_t yh;
+        std::strncpy(yh.pwd, line.c_str(), sizeof(yh.pwd) - 1);
+        yh.pwd[sizeof(yh.pwd) - 1] = '\0';
+        _network->get_udp_client()->send <struct login_t> (yh, 0);
+      }
+      // runClient(_params->get_lobby_server_port(), _params->get_client_port(),
+      //           _params->get_ip());
     } catch (const std::exception &e) {
       if (strcmp(e.what(), EXCEPTION) != 0)
         std::cerr << e.what() << '\n';
