@@ -62,6 +62,15 @@ void runClient(int sport, int cport, std::string ip) {
   engine.registerCommandTcp("208", [](zef::Engine& engine, input_t input) {
       std::cout << input.tcp_payload << std::endl;
   });
+  engine.registerCommandTcp("203", [](zef::Engine& engine, input_t input) {
+      std::cout << input.tcp_payload << std::endl;
+  });
+  engine.registerCommandTcp("204", [ip](zef::Engine& engine, input_t input) {
+      std::cout << input.tcp_payload << std::endl;
+        nlohmann::json rep = nlohmann::json::parse(input.tcp_payload);
+      std::cout << "switching port into " << rep["tcp_port"] << " " << rep["udp_port"] << std::endl;
+      engine._client->reset_clients(rep["udp_port"], 15005, rep["tcp_port"], ip);
+  });
 
 engine.initClient(sport, cport, 14001, ip);
   sleep(1);
@@ -196,7 +205,8 @@ engine.ClientSendTcp("LAUNCH_GAME 1");
   engine.registerComponent<Ship>();
   engine.registerComponent<TurretTurnRate>();
   engine.registerComponent<Damaged>();
-
+    engine.loadModules();
+    
   //   // engine.addSystem<>(entitycountdisplay);
 
   engine.addSystem<>("zefir", zef::sys::update_user_inputs);
