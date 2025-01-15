@@ -132,10 +132,8 @@ namespace ecs {
       if (_moduleThreads.find(moduleName) == _moduleThreads.end()) {
         _moduleNames.push_back(moduleName);
         _moduleExecutes[moduleName] = false;
-        //_moduleMutexes.emplace(moduleName, std::mutex());
         _moduleThreads[moduleName] = std::thread([this, moduleName, &engine](){
           while (running) {
-            std::cout << moduleName << std::endl;
             std::unique_lock Glock(_mutex);
             std::unique_lock<std::mutex> lock(_moduleMutexes[moduleName]);
             _moduleCondVars[moduleName].wait(lock, [&]() {return _moduleExecutes[moduleName] || !running;});

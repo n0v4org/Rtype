@@ -34,6 +34,7 @@
 #include "IModule.hpp"
 #include "LibHolder.hpp"
 #include "Patron.hpp"
+#include "Console.hpp"
 
 // #include "Scene.hpp"
 // #include "Patron.hpp"
@@ -259,8 +260,8 @@ namespace zef {
       int i = 0;
       loadModules();
       ecs::Entity e(reg.spawn_entity());
-      addEntityComponent(e, "ExampleComp1", 2, 2.5f);
-      addEntityComponent(e, "ExampleComp2", 4.1f, 'c');
+      addEntityComponent(e, "ExampleComp1", 2, 3.6f);
+      addEntityComponent(e, "ExampleComp2", 4.2f, 'c');
       while (true) {
         elapsed = std::chrono::duration_cast<std::chrono::microseconds>(
             std::chrono::high_resolution_clock::now() - clock);
@@ -270,7 +271,7 @@ namespace zef {
           GraphLib->clear();
 
         reg.run_systems(*this);
-        std::cout << "elapsed: " << elapsed.count() << std::endl;
+        console.displayMessages();
 
         if (GraphLib)
           GraphLib->refresh();
@@ -370,6 +371,7 @@ namespace zef {
         clock;  // = std::chrono::high_resolution_clock::now();
     std::chrono::microseconds elapsed;
     size_t _enemyCooldown = 0;
+    Console console;
 
   private:
     int gameFps = 60;
