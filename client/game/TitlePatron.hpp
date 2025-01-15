@@ -21,13 +21,13 @@ public:
                             float x, float y,
                             const std::string &spriteName,
                             float scale_w = 1.0f,
-                            float scale_h = 1.0f) {
+                            float scale_h = 1.0f, int layer = 0) {
         engine.addEntityComponent<zef::comp::position>(self, x, y);
 
         zef::comp::drawable dr;
         dr.addAnimation(spriteName, 1, 200);
         dr.playAnimationLoop(spriteName, 1);
-        dr.layer = 0;             
+        dr.layer = layer;             
         dr.setScale(scale_w, scale_h);           
         engine.addEntityComponent<zef::comp::drawable>(self, dr);
     }

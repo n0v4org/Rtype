@@ -107,13 +107,18 @@ public:
         engine.instanciatePatron<TitlePatron>(
             0.0f, -440.0f,
             "Information",
-            1.0f, 0.8f
+            1.0f, 0.8f, 1
         );
 
-        engine.instanciatePatron<TitlePatron>(
+        engine.instanciatePatron<ButtonPatron>(
             0.0f, -200.0f,
             "Sound_BTN",
-            0.75f, 0.75f
+            [](zef::Engine &engine, size_t self) {
+                std::string vol = "Volume";
+                int currentVolume = std::stoi(engine.GraphLib->getSetting(vol).c_str());
+                engine.GraphLib->playSound("checkSound", currentVolume);
+            },
+            210.0f, 210.0f, 0.75f, 0.75f
         );
         
         engine.instanciatePatron<ButtonPatron>(
