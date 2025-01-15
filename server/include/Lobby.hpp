@@ -143,6 +143,7 @@ namespace rtype {
     std::string generateFixedLengthString();
     std::vector<room_t> get_lobby() const;
     void set_game_running(int room);
+    json get_data_single_room(room_t room, int room_id);
     ~Lobby();
 
   protected:
@@ -155,7 +156,6 @@ namespace rtype {
     bool bad_perm(input_t input, int nb_args);
     std::vector<std::string> parse_input(std::string input);
     int get_player_lobby(int player_id);
-    json get_data_single_room(room_t room, int room_id);
 
     zef::Engine &_engine;
     std::map<int, std::string> _usernames;

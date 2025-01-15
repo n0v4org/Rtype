@@ -12,6 +12,7 @@
 #include <random>
 #include <string>
 
+#include "tcp_cmds.hpp"
 #include "Game.hpp"
 
 namespace rtype {

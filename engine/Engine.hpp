@@ -349,6 +349,7 @@ namespace zef {
       for (const auto& entry : std::filesystem::directory_iterator("./")) {
         std::string mdname = entry.path().filename().string();
         if (mdname.rfind("libmodule", 0) == 0) {
+          std::cout << "akjhakezjhezfakjhbefza \n";
           std::string str  = mdname.substr(9);
           auto f           = str.find_last_of('.');
           std::string name = str.substr(0, f);
