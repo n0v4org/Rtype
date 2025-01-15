@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <memory>
+#include <mutex>
 #include <string>
 #include <asio.hpp>
 
@@ -29,19 +30,36 @@ namespace network {
   }
 
   void Network_client::reset_clients(int server_port, int client_port,
-                                     int lobby_port, std::string ip) {
-    _io_service.stop();
-    if (t.joinable()) {
-      t.join();
+                                   int lobby_port, std::string ip) {
+  std::lock_guard<std::mutex> lock(reset_mutex);
+
+    if (_client_tcp) {
+        _client_tcp->close();
     }
-    _client_udp = nullptr;
-    _client_tcp = nullptr;
-    _client_udp = std::make_shared<game::Client>(server_port, client_port, ip,
-                                                 _io_service);
-    _client_tcp =
-        std::make_shared<tcp_link::Client>(ip, lobby_port, _io_service);
+    if (_client_udp) {
+        _client_udp->close_connection();
+    }
+
+    _io_service.stop();
+    _io_service.poll(); 
     _io_service.reset();
-    t = std::thread([this]() { _io_service.run(); });
+
+    if (t.joinable()) {
+        t.join();
+    }
+
+    _client_udp = std::make_shared<game::Client>(server_port, client_port, ip, _io_service);
+    _client_tcp = std::make_shared<tcp_link::Client>(ip, lobby_port, _io_service);
+
+    t = std::thread([this]() {
+        try {
+            std::cout << "Starting io_service.run()" << std::endl;
+            _io_service.run();
+            std::cout << "io_service stopped" << std::endl;
+        } catch (const std::exception& e) {
+            std::cerr << "Exception in io_service: " << e.what() << std::endl;
+        }
+    });
   }
 
   input_t Network_client::popMessage() {
