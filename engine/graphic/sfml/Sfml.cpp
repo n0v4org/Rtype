@@ -318,9 +318,9 @@ namespace zef {
       sp.setScale(scaleX, scaleY);
 
       _window.setView(_views["Default"]);
-      _window.draw(_sprites.at(anim.SpriteSheet).first);
-      // drawShaders(_sprites.at(anim.SpriteSheet).first, objectShaders,
-      //             addActive);
+//      _window.draw(_sprites.at(anim.SpriteSheet).first);
+       drawShaders(_sprites.at(anim.SpriteSheet).first, objectShaders,
+                   addActive);
     }
 
     void Sfml::drawSpriteHUD(std::string animationName,
