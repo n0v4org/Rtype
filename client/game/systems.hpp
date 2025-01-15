@@ -59,6 +59,7 @@ void drawHpBarPlayer(zef::Engine& engine, ecs::sparse_array<Ship>& pls,
 void drawLoadBar(zef::Engine& engine, ecs::sparse_array<Player>& pls,
                  ecs::sparse_array<Laser>& lss,
                  ecs::sparse_array<zef::comp::position>& pss) {
+  std::cout << engine.reg.getEntityCount() << std::endl;
   for (auto&& [i, p, ls, pos] : ecs::indexed_zipper(pls, lss, pss)) {
     float value = ls.load;
     if (value > 16000 * 30)
