@@ -19,6 +19,8 @@
 #include "EnemyBulletPatron.hpp"
 #include "BlastPatron.hpp"
 #include "events.hpp"
+#include "EnemyPlanePatron.hpp"
+#include "EnemyCrabPatron.hpp"
 
 class LevelScene {
 public:
@@ -31,7 +33,13 @@ public:
     engine.instanciatePatron<BackgroundPatron>(1920.0f, 0.0f);
     engine.instanciatePatron<AllyPatron>(0.0f, 0.0f);
     engine.instanciatePatron<EnemyTurretPatron>(0.0f, 0.0f, false, true);
+    ecs::Entity e = engine.instanciatePatron<EnemyPlanePatron>(500.0f, 0.0f, 1);
+    engine.sendEvent<SetEnemyVectorEvent>(e, -1.0f, 0.0f);
+    engine.sendEvent<PlaneShootEvent>(e, -1.0f, 0.0f);
     engine.sendEvent<TurretTurn>(engine.instanciatePatron<EnemyTurretPatron>(0.0f, 100.0f, true, false), 1);
+    ecs::Entity crab = engine.instanciatePatron<EnemyCrabPatron>(400.0f, 200.0f, 2);
+    engine.sendEvent<SetEnemyVectorEvent>(crab, 0.0f, 1.0f);
+    //engine.sendEvent<SetEnemyPos>(crab, -500.0f, 200.0f);
     // engine.instanciatePatron<BackgroundPatron>(470.0f, 0.0f);
   }
 };
