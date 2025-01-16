@@ -16,10 +16,10 @@
 #include "Engine.hpp"
 
 namespace zef {
-    class Console {
-    public:
-        Console()  = default;
-        ~Console() = default;
+  class Console {
+  public:
+    Console()   = default;
+    ~Console() = default;
 
         void run(std::mutex &mutex, Engine &engine) {
             std::string input("");
@@ -60,27 +60,25 @@ namespace zef {
             //engine.GraphLib->playSound("")
         }
 
-        Console &displayMessages() {
-            while (!_messageQueue.empty()) {
+    Console &displayMessages() {
+      while (!_messageQueue.empty()) {
                 if (_debug)
-                    std::cout << "[DEBUG] " << _messageQueue.back() << std::endl;
-                _messageQueue.pop();
-            }
-            return *this;
-        }
+            std::cout << "[DEBUG] " << _messageQueue.back() << std::endl;
+        _messageQueue.pop();
+      }
+      return *this;
+    }
 
-        Console &sendMessage(const std::string &message) {
-            _messageQueue.push(message);
-            return *this;
-        }
+    Console &sendMessage(const std::string &message) {
+      _messageQueue.push(message);
+      return *this;
+    }
 
-    private:
-        std::queue<std::string> _messageQueue;
+  private:
+    std::queue<std::string> _messageQueue;
         bool _debug = false;
-};
-    
-} // namespace zef
+  };
 
-
+}  // namespace zef
 
 #endif /* !CONSOLE_HPP_ */
