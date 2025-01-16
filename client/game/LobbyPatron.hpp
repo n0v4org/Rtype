@@ -8,15 +8,15 @@
 #ifndef LOBBY_PATRON_HPP_
 #define LOBBY_PATRON_HPP_
 
+#include <functional>
+#include <string>
+#include <vector>
+
 #include "Engine.hpp"
 #include "modules/controller/components.hpp"
 #include "modules/display/components.hpp"
 #include "modules/controller/events.hpp"
 #include "components.hpp"
-#include <functional>
-#include <string>
-#include <vector>
-
 
 class LobbySettings{
 public:

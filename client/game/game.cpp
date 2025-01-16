@@ -5,6 +5,9 @@
 ** game
 */
 
+
+#include <string>
+
 #include "Engine.hpp"
 #include "Scenes.hpp"         
 #include "systems.hpp" 

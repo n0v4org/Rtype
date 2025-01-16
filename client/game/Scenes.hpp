@@ -8,6 +8,10 @@
 #ifndef SCENES_HPP_
 #define SCENES_HPP_
 
+#include <vector>
+#include <iostream>
+#include <string>
+
 #include "Engine.hpp"
 
 #include "PlayerPatron.hpp"

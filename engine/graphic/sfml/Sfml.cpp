@@ -15,9 +15,6 @@
 #include <vector>
 #include <utility>
 #include "Sfml.hpp"
-#ifdef _MSC_VER
-  #include <windows.h>
-#endif
 #include "HPBar.hpp"
 
 namespace zef {

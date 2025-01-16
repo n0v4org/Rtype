@@ -8,6 +8,7 @@
 #ifndef TITLE_PATRON_HPP_
 #define TITLE_PATRON_HPP_
 
+#include <string>
 
 #include "Engine.hpp"
 #include "modules/controller/components.hpp"
