@@ -6,6 +6,7 @@
 */
 
 #include <string>
+#include <thread>
 
 #include "Engine.hpp"
 #include "Scenes.hpp"
@@ -71,15 +72,20 @@ void runClient(int sport, int cport, std::string ip) {
         nlohmann::json rep = nlohmann::json::parse(input.tcp_payload);
       std::cout << "switching port into " << rep["tcp_port"] << " " << rep["udp_port"] << std::endl;
       engine._client->reset_clients(rep["udp_port"], 15005, rep["tcp_port"], ip);
+    std::this_thread::sleep_for(std::chrono::microseconds(100));
+      engine.ClientSendTcp("LOGIN esfg");
   });
 std::cout << "here" << std::endl;
 engine.initClient(sport, cport, 14001, ip);
-  sleep(1);
+       std::this_thread::sleep_for(std::chrono::microseconds(100));
+
 engine.ClientSendTcp("JOIN 1 magicarpe");
-  sleep(1);
+       std::this_thread::sleep_for(std::chrono::microseconds(100));
+
 
 engine.ClientSendTcp("SET_PLAYER_READY 1");
-  sleep(1);
+       std::this_thread::sleep_for(std::chrono::microseconds(100));
+
 
 engine.ClientSendTcp("LAUNCH_GAME 1");
 
