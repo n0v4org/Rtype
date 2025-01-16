@@ -105,6 +105,11 @@ namespace zef {
       return optComp.value();
     }
 
+    template <typename T>
+    T& fetchEntityComponentAccessMember(const std::string& comp,
+                                        const std::string& membername) {
+    }
+
     template <typename Component>
     void registerComponent() {
       reg.register_component<Component>();
@@ -231,7 +236,6 @@ namespace zef {
                       const std::string& windowName) {
       _grapLibHolder =
           std::make_unique<LibHolder<zef::graph::IDisplayModule>>("sfml");
-          //std::make_unique<LibHolder<zef::graph::IDisplayModule>>("bin\\sfml");
       GraphLib.reset(_grapLibHolder->getEntryPoint());
       GraphLib->initialize(assetFolder, "R-type");
     }
@@ -250,10 +254,14 @@ namespace zef {
       _scenes[name] = [](Engine& engine) { engine._loadScene<T>(); };
     }
 
+    void stop() {
+      running = false;
+    }
+
     void run() {
       clock = std::chrono::high_resolution_clock::now();
       int i = 0;
-      while (true) {
+      while (running) {
         elapsed = std::chrono::duration_cast<std::chrono::microseconds>(
             std::chrono::high_resolution_clock::now() - clock);
         clock = std::chrono::high_resolution_clock::now();
@@ -291,7 +299,7 @@ namespace zef {
       _client->get_udp_client()->send(c, cmd_id);
     }
 
-    void ClientSendTcp(int cmd_id, const std::string& c) {
+    void ClientSendTcp(const std::string& c) {
       _client->get_tcp_client()->send(c);
     }
 
@@ -302,6 +310,14 @@ namespace zef {
 
     void ServerSendTcp(int id, std::string c) {
       _server->get_tcp_server()->send(id, c);
+    }
+    template <typename payload>
+    void ServerSendToAllUdp(int cmd_id, payload c) {
+      //_server->get_udp_server()->send(id, cmd_id, c);
+    }
+
+    void ServerSendToAllTcp(int cmd_id, std::string c) {
+      //_server->get_tcp_server()->send(id, c);
     }
 
     void ServerSendToAllTcp(std::string c) {
@@ -333,6 +349,7 @@ namespace zef {
       for (const auto& entry : std::filesystem::directory_iterator("./")) {
         std::string mdname = entry.path().filename().string();
         if (mdname.rfind("libmodule", 0) == 0) {
+          std::cout << "akjhakezjhezfakjhbefza \n";
           std::string str  = mdname.substr(9);
           auto f           = str.find_last_of('.');
           std::string name = str.substr(0, f);
@@ -357,6 +374,8 @@ namespace zef {
 
   private:
     int gameFps = 60;
+
+    bool running = true;
 
     utils::UserInputs _user_inputs;
     std::queue<Event> _events;

@@ -17,7 +17,7 @@ namespace network {
 
     static input_t unpack(std::size_t byte_size,
                           std::array<uint8_t, 1024> _recv_buffer_) {
-      input_t input = {0};
+      input_t input = {};
 
       input.cmd          = _recv_buffer_[0];
       input.payload_size = (_recv_buffer_[1] << 8) | _recv_buffer_[2];
@@ -48,7 +48,7 @@ namespace network {
 
       static std::array<uint8_t, 1024> toArray(const T& data, uint8_t cmd,
                                                uint32_t seq) {
-        std::array<uint8_t, 1024> result = {0};
+        std::array<uint8_t, 1024> result = {};
 
         constexpr size_t dataSize = sizeof(T);
         if ((dataSize + 7) > result.size()) {

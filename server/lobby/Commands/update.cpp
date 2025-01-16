@@ -12,6 +12,7 @@
 #include <random>
 #include <string>
 
+#include "macro.hpp"
 #include "Lobby.hpp"
 
 namespace rtype {
@@ -21,10 +22,11 @@ namespace rtype {
     _engine.registerCommandTcp(SET_PLAYER_READY_CMD, [this](zef::Engine& engine,
                                                             input_t input) {
       std::string res = CMD_RES.at(SET_PLAYER_READY_CMD).at(SUCCESS);
-      if (bad_args(input, std::stoi(CMD_RES.at(DELETE_ROOM_CMD).at(NB_ARGS))) ||
-          !is_number(input.tcp_payload, input.id))
+      if (bad_args(input, std::stoi(CMD_RES.at(DELETE_ROOM_CMD).at(NB_ARGS))))
         return;
-      int room = std::stoi(input.tcp_payload);
+      int room = get_lobby_id(input);
+      if (room == KO)
+        return;
       if (bad_room(input, room))
         return;
       std::vector<player_t>::iterator it = std::find_if(
@@ -53,13 +55,14 @@ namespace rtype {
       if (bad_args(input, std::stoi(CMD_RES.at(UPDATE_ROOM_CMD).at(NB_ARGS))))
         return;
       std::vector<std::string> parsed_input = parse_input(input.tcp_payload);
-      if (!is_number(parsed_input.at(0), input.id) ||
-          !is_number(parsed_input.at(2), input.id))
+      if (!is_number(parsed_input.at(1), input.id))
         return;
-      int room               = std::stoi(parsed_input.at(0));
-      std::string lobby_name = parsed_input.at(1);
-      int slot               = std::stoi(parsed_input.at(2));
-      std::string password   = parsed_input.at(3);
+      int room = get_lobby_id(input);
+      if (room == KO)
+        return;
+      std::string lobby_name = parsed_input.at(0);
+      int slot               = std::stoi(parsed_input.at(1));
+      std::string password   = parsed_input.at(2);
       if (bad_room(input, room) || bad_perm(input, room))
         return;
       if (slot < 0 || slot > LOBBY_SIZE) {
@@ -94,12 +97,13 @@ namespace rtype {
         return;
       std::vector<std::string> parsed_input = parse_input(input.tcp_payload);
       if (!is_number(parsed_input.at(0), input.id) ||
-          !is_number(parsed_input.at(1), input.id) ||
-          !is_number(parsed_input.at(2), input.id))
+          !is_number(parsed_input.at(1), input.id))
         return;
-      int room      = std::stoi(parsed_input.at(0));
-      int player_id = std::stoi(parsed_input.at(1));
-      int status    = std::stoi(parsed_input.at(2));
+      int room = get_lobby_id(input);
+      if (room == KO)
+        return;
+      int player_id = std::stoi(parsed_input.at(0));
+      int status    = std::stoi(parsed_input.at(1));
       if (bad_room(input, room) || bad_perm(input, room))
         return;
       std::vector<player_t>::iterator it = std::find_if(

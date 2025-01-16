@@ -58,7 +58,7 @@ struct test_3_t {
 };
 
 TEST_F(NetworkTest, ArrayOverflowException) {
-  test_3_t largeCmd = {0};
+  test_3_t largeCmd = {};
   EXPECT_THROW(
       {
         try {

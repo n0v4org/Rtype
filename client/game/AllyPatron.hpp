@@ -33,10 +33,20 @@ zef::comp::event_listener createAllyEventListener() {
 
   evtl.setEvent<ShootPlayerEvent>(
       [](zef::Engine& engine, size_t self, ShootPlayerEvent sht) {
-        zef::comp::position& p =
-            engine.fetchEntityComponent<zef::comp::position>(self);
-        engine.instanciatePatron<BulletPatron>(p.x, p.y, 0);
+
       });
+
+  evtl.setEvent<GetHittedByMonsterBullet>(
+        [](zef::Engine& engine, size_t self, GetHittedByMonsterBullet p) {
+            engine.addEntityComponent<Damaged>(ecs::Entity(self), 100 * 1000);
+        }
+    );
+
+    evtl.setEvent<zef::evt::startCollision>(
+        [](zef::Engine& engine, size_t self, zef::evt::startCollision p) {
+            engine.sendEvent<GetHittedByPlayer>(p.other);
+        }
+    );
 
   return evtl;
 }
@@ -47,16 +57,23 @@ public:
                           float y, size_t rep) {
     engine.addEntityComponent<zef::comp::position>(self, x, y);
     engine.addEntityComponent<zef::comp::vector>(self, 0, 0, 10);
+    engine.addEntityComponent<Health>(self, 45, 100);
     engine.addEntityComponent<zef::comp::replicable>(self, rep);
-    engine.addEntityComponent<VectorHolder>(self, 0.0f, 0.0f);
 
     zef::comp::drawable dr;
-    dr.addAnimation("player", 1, 200);
-    dr.playAnimationLoop("player", 1);
+    dr.addAnimation("player_0", 1, 200);
+    dr.addAnimation("player_t2", 1, 200);
+    dr.addAnimation("player_d2", 1, 200);
+    dr.playAnimationLoop("player_0", 1);
+    dr.layer = 8;
     engine.addEntityComponent<zef::comp::drawable>(self, dr);
 
     engine.addEntityComponent<zef::comp::event_listener>(
         self, createAllyEventListener());
+    engine.addEntityComponent<Ship>(self);
+    std::vector<zef::utils::hitbox> hb = {
+      zef::utils::hitbox(0, 0, 33, 17)};
+    engine.addEntityComponent<zef::comp::collidable>(self, hb);
   }
 };
 

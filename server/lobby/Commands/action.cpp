@@ -12,6 +12,7 @@
 #include <random>
 #include <string>
 
+#include "macro.hpp"
 #include "Lobby.hpp"
 
 namespace rtype {
@@ -50,11 +51,10 @@ namespace rtype {
         }
       }
 
-      player_t new_player = {
-          .id       = input.id,
-          .is_admin = (_lobby.at(room).owner == input.id) ? true : false,
-          .is_ready = false,
-      };
+      player_t new_player = {};
+      new_player.id       = input.id;
+      new_player.is_admin = (_lobby.at(room).owner == input.id) ? true : false;
+      new_player.is_ready = false;
 
       if (_usernames.find(input.id) == _usernames.end()) {
         _usernames[input.id] =
@@ -74,10 +74,11 @@ namespace rtype {
                                                      input_t input) {
       std::string res = CMD_RES.at(QUIT_ROOM_CMD).at(SUCCESS);
 
-      if (bad_args(input, std::stoi(CMD_RES.at(QUIT_ROOM_CMD).at(NB_ARGS))) ||
-          !is_number(input.tcp_payload, input.id))
+      if (bad_args(input, std::stoi(CMD_RES.at(QUIT_ROOM_CMD).at(NB_ARGS))))
         return;
-      int room = std::stoi(input.tcp_payload);
+      int room = get_lobby_id(input);
+      if (room == KO)
+        return;
       if (bad_room(input, room))
         return;
       std::vector<player_t>::iterator it = std::find_if(
@@ -104,12 +105,12 @@ namespace rtype {
       std::string res = CMD_RES.at(KICK_PLAYER_CMD).at(SUCCESS);
       if (bad_args(input, std::stoi(CMD_RES.at(KICK_PLAYER_CMD).at(NB_ARGS))))
         return;
-      std::vector<std::string> parsed_input = parse_input(input.tcp_payload);
-      if (!is_number(parsed_input.at(0), input.id) ||
-          !is_number(parsed_input.at(1), input.id))
+      if (!is_number(input.tcp_payload, input.id))
         return;
-      int room      = std::stoi(parsed_input.at(0));
-      int player_id = std::stoi(parsed_input.at(1));
+      int room = get_lobby_id(input);
+      if (room == KO)
+        return;
+      int player_id = std::stoi(input.tcp_payload);
       if (bad_room(input, room) || bad_perm(input, room))
         return;
       std::vector<player_t>::iterator it = std::find_if(
@@ -137,17 +138,11 @@ namespace rtype {
     _engine.registerCommandTcp(SEND_MSG_CMD, [this](zef::Engine& engine,
                                                     input_t input) {
       std::string res = CMD_RES.at(SEND_MSG_CMD).at(SUCCESS);
-      std::vector<std::string> parsed_input = parse_input(input.tcp_payload);
-      if (!is_number(parsed_input.at(0), input.id))
+      int room = get_lobby_id(input);
+      if (room == KO)
         return;
-      if (parsed_input.size() < 2) {
-        send_error(input.id, TCP_ERRORS.at(INVALID_ARGS).second,
-                   TCP_ERRORS.at(INVALID_ARGS).first);
-        return;
-      }
-      int room = std::stoi(parsed_input.at(0));
       std::string msg =
-          input.tcp_payload.substr(parsed_input.at(0).length() + 1);
+          input.tcp_payload;
       if (bad_room(input, room))
         return;
       std::vector<player_t>::iterator it = std::find_if(

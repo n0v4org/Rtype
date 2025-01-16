@@ -10,6 +10,7 @@
 
 #include <memory>
 #include <string>
+#include <mutex>
 #include <thread>
 #include <asio.hpp>
 #include "Client.hpp"
@@ -32,6 +33,7 @@ namespace network {
   private:
     std::shared_ptr<game::Client> _client_udp;
     std::shared_ptr<tcp_link::Client> _client_tcp;
+    std::mutex reset_mutex;
     asio::io_context _io_service;
     std::thread t;
   };

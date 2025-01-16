@@ -28,8 +28,10 @@ namespace network {
     public:
       typedef std::shared_ptr<Connection> pointer;
 
-      static pointer create(asio::io_context& io_context) {
-        return pointer(new Connection(io_context));
+      static pointer create(asio::io_context& io_context,
+                            std::deque<input_t>& queue,
+                            std::mutex& queue_mutex) {
+        return pointer(new Connection(io_context, queue, queue_mutex));
       }
 
       tcp::socket& socket() {
@@ -53,7 +55,9 @@ namespace network {
       }
 
     private:
-      explicit Connection(asio::io_context& io_context) : socket_(io_context) {
+      Connection(asio::io_context& io_context, std::deque<input_t>& queue,
+                 std::mutex& queue_mutex)
+        : socket_(io_context), queue_(queue), queue_mutex_(queue_mutex) {
       }
 
       void read() {
@@ -89,20 +93,31 @@ namespace network {
           trim(cmd);
           trim(payload);
 
-          input_t message = {
-              .cmd          = 0,
-              .payload_size = 0,
-              .seq          = 0,
-              .id           = _id,
-              .payload      = {},
+          input_t message      = {};
+          message.cmd          = 0;
+          message.payload_size = 0;
+          message.seq          = 0;
+          message.id           = _id;
+          message.payload      = {};
 
-              .tcp_cmd       = cmd,
-              .tcp_payload   = payload,
-              .protocol_type = TCP_CMD,
-          };
+          message.tcp_cmd       = cmd;
+          message.tcp_payload   = payload;
+          message.protocol_type = TCP_CMD;
+
+          // input_t message = {
+          //     .cmd          = 0,
+          //     .payload_size = 0,
+          //     .seq          = 0,
+          //     .id           = _id,
+          //     .payload      = {},
+
+          //     .tcp_cmd       = cmd,
+          //     .tcp_payload   = payload,
+          //     .protocol_type = TCP_CMD,
+          // };
           {
-            std::lock_guard<std::mutex> lock(_mutex);
-            tcp_command_queue.push_back(message);
+            std::lock_guard<std::mutex> lock(queue_mutex_);
+            queue_.push_back(message);
           }
           read();
         } catch (const std::invalid_argument& e) {
@@ -132,6 +147,8 @@ namespace network {
       std::string message_;
       char _data[1024];
       int _id;
+      std::deque<input_t>& queue_;
+      std::mutex& queue_mutex_;
     };
   }  // namespace tcp_link
 }  // namespace network

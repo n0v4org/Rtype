@@ -10,6 +10,8 @@
 #include <functional>
 #include <iostream>
 #include <memory>
+#include <mutex>
+#include <deque>
 #include <string>
 #include <vector>
 #include <asio.hpp>
@@ -37,6 +39,8 @@ namespace network {
       asio::io_context& io_context_;
       tcp::acceptor acceptor_;
       std::vector<Connection::pointer> _clients;
+      std::deque<input_t> tcp_command_queue;
+      std::mutex _mutex;
     };
   }  // namespace tcp_link
 }  // namespace network

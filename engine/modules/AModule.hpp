@@ -91,9 +91,8 @@ namespace zef {
        ...);
     }
 
-    template <typename M>
-    M& getMember(const std::string& name, const std::string& mname) {
-    }
+    // virtual std::any getMember(const std::string& compname, const
+    // std::string& membername) = 0;
   };
 }  // namespace zef
 

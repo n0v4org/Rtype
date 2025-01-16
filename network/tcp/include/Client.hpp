@@ -24,7 +24,10 @@ namespace network {
       Client(const std::string& host, const int port,
              asio::io_context& io_service);
       void close() {
-        asio::post(io_context_, [this]() { socket_.close(); });
+        if (socket_.is_open()) {
+        socket_.cancel();
+        socket_.close();
+        }
       }
       ~Client();
       void write(const std::string& message) {
@@ -63,7 +66,18 @@ namespace network {
                 std::string payload = input.substr(cmd_len);
                 trim(cmd);
                 trim(payload);
-                input_t message = {
+                input_t message      = {};
+                message.cmd          = 0;
+                message.payload_size = 0;
+                message.seq          = 0;
+                message.id           = 0;
+                message.payload      = {};
+
+                message.tcp_cmd       = cmd;
+                message.tcp_payload   = payload;
+                message.protocol_type = TCP_CMD;
+
+                /*input_t message = {
                     .cmd          = 0,
                     .payload_size = 0,
                     .seq          = 0,
@@ -73,7 +87,7 @@ namespace network {
                     .tcp_cmd       = cmd,
                     .tcp_payload   = payload,
                     .protocol_type = TCP_CMD,
-                };
+                };*/
 
                 {
                   std::lock_guard<std::mutex> lock(_mutex);
@@ -83,7 +97,6 @@ namespace network {
                 do_read();
               } else {
                 std::cerr << "Read error: " << ec.message() << "\n";
-                socket_.close();
               }
             });
       }
@@ -94,7 +107,6 @@ namespace network {
                             if (ec) {
                               std::cerr << "Write error: " << ec.message()
                                         << "\n";
-                              socket_.close();
                             }
                           });
       }
