@@ -84,6 +84,8 @@ namespace zef {
       int layer;
       size_t timer = 0;
 
+      float rotation = 0.0f;
+
       std::map<std::string, std::pair<size_t, size_t>> _animation_sizes;
     };
   }  // namespace comp

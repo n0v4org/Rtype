@@ -112,4 +112,18 @@ void handleDamageEffect(zef::Engine& engine, ecs::sparse_array<Damaged>& dgs, ec
   }
 }
 
+void sinusoidalVectorSystem(zef::Engine& engine,
+                            ecs::sparse_array<SinusoidalMotion>& sms,
+                            ecs::sparse_array<zef::comp::vector>& vecs)
+{
+    for (auto&& [i, sm, vec] : ecs::indexed_zipper(sms, vecs)) {
+        float dt = engine.elapsed.count() / 1'000'000.f;
+
+        sm.phase += sm.frequency * dt;
+
+        vec.x = sm.speedX;
+        vec.y = sm.amplitude * std::sin(sm.phase);
+    }
+}
+
 #endif /* !SYSTEMS_HPP_ */

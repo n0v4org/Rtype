@@ -66,6 +66,7 @@ static const char UPDATE_ROOM_CMD[]      = "UPDATE_LOBBY";
 static const char UPDATE_PERM_CMD[]      = "UPDATE_PERM";
 static const char KICK_PLAYER_CMD[]      = "KICK_PLAYER";
 static const char SEND_MSG_CMD[]         = "SEND_MSG";
+static const char GET_LOBBY_ID_CMD[] = "GET_LOBBY_ID";
 
 static const char CHARSET[] =
     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -103,15 +104,16 @@ static const std::map<std::string, std::array<std::string, NB_TCP_CMD>>
         {SET_USERNAME_CMD, {"Username set successfully to ", "1", "201"}},
         {JOIN_ROOM_CMD, {"successfully join room ", "2", "202"}},
         {GET_LOBBY_CMD, {"succesfully get data on lobby ", "1", "203"}},
-        {QUIT_ROOM_CMD, {"successfully quit room ", "1", "204"}},
+        {QUIT_ROOM_CMD, {"successfully quit room ", "0", "204"}},
         {SET_ROOM_CMD, {"successfully created lobby ", "3", "205"}},
-        {DELETE_ROOM_CMD, {"successfully deleted lobby ", "1", "206"}},
-        {LAUNCH_GAME_CMD, {"launching game in lobby ", "1", "207"}},
-        {SET_PLAYER_READY_CMD, {"player is ready ", "1", "208"}},
-        {UPDATE_ROOM_CMD, {"successfully updated lobby ", "4", "209"}},
-        {UPDATE_PERM_CMD, {"successfully updated perm of ", "3", "210"}},
-        {KICK_PLAYER_CMD, {"kick player ", "2", "211"}},
-        {SEND_MSG_CMD, {"send message in lobby ", "2", "212"}}};
+        {DELETE_ROOM_CMD, {"successfully deleted lobby ", "0", "206"}},
+        {LAUNCH_GAME_CMD, {"launching game in lobby ", "0", "207"}},
+        {SET_PLAYER_READY_CMD, {"player is ready ", "0", "208"}},
+        {UPDATE_ROOM_CMD, {"successfully updated lobby ", "3", "209"}},
+        {UPDATE_PERM_CMD, {"successfully updated perm of ", "2", "210"}},
+        {KICK_PLAYER_CMD, {"kick player ", "1", "211"}},
+        {SEND_MSG_CMD, {"send message in lobby ", "1", "212"}},
+        {GET_LOBBY_ID_CMD, {"successfully get lobby id ", "0", "213"}}};
 
 struct player_t {
   int id;
@@ -143,6 +145,8 @@ namespace rtype {
     std::string generateFixedLengthString();
     std::vector<room_t> get_lobby() const;
     void set_game_running(int room);
+    json get_data_single_room(room_t room, int room_id);
+    int get_lobby_id(input_t input);
     ~Lobby();
 
   protected:
@@ -155,7 +159,6 @@ namespace rtype {
     bool bad_perm(input_t input, int nb_args);
     std::vector<std::string> parse_input(std::string input);
     int get_player_lobby(int player_id);
-    json get_data_single_room(room_t room, int room_id);
 
     zef::Engine &_engine;
     std::map<int, std::string> _usernames;

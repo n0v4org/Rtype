@@ -12,6 +12,7 @@
 #include <random>
 #include <string>
 
+#include "tcp_cmds.hpp"
 #include "Game.hpp"
 
 namespace rtype {
@@ -34,4 +35,4 @@ namespace rtype {
     }
     return false;
   }
-}
+} // namespace rtype

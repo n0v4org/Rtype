@@ -6,6 +6,8 @@
 */
 
 #include <string>
+#include <cstring>
+#include <chrono>
 
 #include "Engine.hpp"
 #include "Scenes.hpp"
@@ -17,6 +19,7 @@
 #include "modules/controller/systems.hpp"
 #include "asio.hpp"
 #include "CommonCommands.hpp"
+#include "UdpProtoCommands.hpp"
 
 void runClient(int sport, int cport, std::string ip) {
   zef::Engine engine;
@@ -48,13 +51,18 @@ void runClient(int sport, int cport, std::string ip) {
   engine.GraphLib->saveAnimation("turretu", "turret", 0, 0, 17, 18);
   engine.GraphLib->saveAnimation("turretd", "turret", 0, 1, 17, 18);
 
+  engine.GraphLib->saveAnimation("enemyPlaneG", "enemyPlaneG", 0, 0, 33, 35);
+  engine.GraphLib->saveAnimation("enemyCrab", "enemyCrab", 4*33, 1, 33, 34);
+
+  engine.GraphLib->saveAnimation("enemyRobot", "enemyRobot", 1*56, 0, 56, 59);
+  engine.GraphLib->saveAnimation("robotBulletA", "robotBulletA", 0, 0, 65, 17);
+  engine.GraphLib->saveAnimation("enemyRobotS", "enemyRobot", 2*56, 0, 56, 59);
+
+  engine.GraphLib->saveAnimation("AWall", "AWall", 0, 0, 48, 40);
+  engine.GraphLib->saveAnimation("BWall", "BWall", 0, 0, 48, 8);
+  engine.GraphLib->saveAnimation("CWall", "CWall", 0, 0, 189, 72);
 
 
-
-  // SET_PLAYER_READY 1
-  // LAUNCH_GAME 1
-
-  // engine.initClient(sport, cport, ip);
 
   engine.registerCommandTcp("202", [](zef::Engine& engine, input_t input) {
       std::cout << input.tcp_payload << std::endl;
@@ -62,16 +70,35 @@ void runClient(int sport, int cport, std::string ip) {
   engine.registerCommandTcp("208", [](zef::Engine& engine, input_t input) {
       std::cout << input.tcp_payload << std::endl;
   });
+  engine.registerCommandTcp("203", [](zef::Engine& engine, input_t input) {
+      std::cout << input.tcp_payload << std::endl;
+  });
+  engine.registerCommandTcp("204", [ip](zef::Engine& engine, input_t input) {
+      std::cout << input.tcp_payload << std::endl;
+        nlohmann::json rep = nlohmann::json::parse(input.tcp_payload);
+      std::cout << "switching port into " << rep["tcp_port"] << " " << rep["udp_port"] << " " << rep["player_uuid"]  << std::endl;
+      engine._client->reset_clients(rep["udp_port"], 15005, rep["tcp_port"], ip);
+      std::this_thread::sleep_for(std::chrono::microseconds(100));
+      std::string uuid = rep["player_uuid"];
+      std::string loginstr = "LOGIN " + uuid;
+      std::cout << "sending " << uuid << " " << loginstr << std::endl;
+      engine.ClientSendTcp(loginstr);
+        login_t lgt;
+      strncpy(lgt.pwd, uuid.c_str(), 21);
+      std::cout << "hohoho\n";
+      engine.ClientSendUdp<login_t>(LOGIN, lgt);
+      std::cout << "hiih\n";
+  });
 
-// engine.initClient(sport, cport, 14001, ip);
-//   sleep(1);
-// engine.ClientSendTcp("JOIN 1 magicarpe");
-//   sleep(1);
+  
 
-// engine.ClientSendTcp("SET_PLAYER_READY 1");
-//   sleep(1);
+engine.initClient(sport, cport, 14001, ip);
+std::this_thread::sleep_for(std::chrono::microseconds(100));
+engine.ClientSendTcp("JOIN 1 magicarpe");
+std::this_thread::sleep_for(std::chrono::microseconds(100));
 
-//engine.ClientSendTcp("LAUNCH_GAME 1");
+engine.ClientSendTcp("SET_PLAYER_READY");
+engine.ClientSendTcp("LAUNCH_GAME");
   /*engine.registerCommand(SPAWNALLY, [](zef::Engine& engine, input_t input) {
       CommandSpawnAlly csp =
   network::game::Commands<CommandSpawnAlly>(input).getCommand();
@@ -196,7 +223,9 @@ void runClient(int sport, int cport, std::string ip) {
   engine.registerComponent<Ship>();
   engine.registerComponent<TurretTurnRate>();
   engine.registerComponent<Damaged>();
-
+  engine.registerComponent<SinusoidalMotion>();
+    //engine.loadModules();
+    
   //   // engine.addSystem<>(entitycountdisplay);
 
   engine.addSystem<>("zefir", zef::sys::update_user_inputs);
@@ -230,10 +259,16 @@ void runClient(int sport, int cport, std::string ip) {
       "zefir", zef::sys::draw_drawables);
   engine.addSystem<Ship, Health, zef::comp::position>("zefir", drawHpBarPlayer);
   engine.addSystem<Player, Laser, zef::comp::position>("zefir", drawLoadBar);
+  engine.addSystem<SinusoidalMotion, zef::comp::vector>(
+      "zefir",
+      sinusoidalVectorSystem
+  );
 
-  engine.registerScene<LevelScene>("level");
-  engine.registerScene<LobbyScene>("lobby");
-  engine.loadScene("level");
+  //engine.registerScene<LevelScene>("level");
+  //engine.registerScene<LobbyScene>("lobby");
+  //engine.loadScene("level");
+
+  engine.newLoadScene<LevelScene>();
 
   engine.run();
 }

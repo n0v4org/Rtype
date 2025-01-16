@@ -12,6 +12,7 @@
 #include <random>
 #include <string>
 
+#include "macro.hpp"
 #include "Lobby.hpp"
 
 namespace rtype {
@@ -24,7 +25,9 @@ namespace rtype {
       if (bad_args(input, std::stoi(CMD_RES.at(DELETE_ROOM_CMD).at(NB_ARGS))) ||
           !is_number(input.tcp_payload, input.id))
         return;
-      int room = std::stoi(input.tcp_payload);
+      int room = get_lobby_id(input);
+      if (room == KO)
+        return;
       if (bad_room(input, room) || bad_perm(input, room))
         return;
       res += std::to_string(room);

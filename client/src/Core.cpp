@@ -26,10 +26,8 @@ usage:
         -lcp <port>: run newtork client lobby in a specified port (default is 50004)
 )";
 
-struct test {
-  int a;
-  char b[24];
-  int c;
+struct login_t {
+    char pwd[21];
 };
 
 namespace client {
@@ -45,8 +43,9 @@ namespace client {
         std::cout << USAGE << std::endl;
         return;
       }
+      
       runClient(_params->get_lobby_server_port(), _params->get_client_port(),
-                _params->get_ip());
+                 _params->get_ip());
     } catch (const std::exception &e) {
       if (strcmp(e.what(), EXCEPTION) != 0)
         std::cerr << e.what() << '\n';
