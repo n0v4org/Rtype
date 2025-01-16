@@ -262,9 +262,7 @@ namespace zef {
       ecs::Entity e(reg.spawn_entity());
       addEntityComponent(e, "ExampleComp1", 2, 3.6f);
       addEntityComponent(e, "ExampleComp2", 4.2f, 'c');
-      std::thread t([this](){
-        console.run(consoleMutex, *this);
-      });
+      std::thread t([this]() { console.run(consoleMutex, *this); });
       while (true) {
         elapsed = std::chrono::duration_cast<std::chrono::microseconds>(
             std::chrono::high_resolution_clock::now() - clock);
@@ -289,7 +287,7 @@ namespace zef {
       }
     }
 
-    void consoleSendMessage(const std::string &message) {
+    void consoleSendMessage(const std::string& message) {
       console.sendMessage(message);
     }
 
