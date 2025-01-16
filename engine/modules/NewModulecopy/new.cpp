@@ -13,7 +13,7 @@
 #include "new.hpp"
 
 extern "C"
-#ifndef _MSVC_VER
+#ifdef _MSC_VER
   __declspec(dllexport)
 #endif
 zef::IModule *entryPoint() {

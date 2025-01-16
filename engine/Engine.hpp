@@ -272,6 +272,9 @@ namespace zef {
       clock = std::chrono::high_resolution_clock::now();
       int i = 0;
       loadModules();
+      // ecs::Entity e(reg.spawn_entity());
+      // addEntityComponent(e, "ExampleComp1", 2, 2.0f);
+      // addEntityComponent(e, "ExampleComp2", 3.0f, 'c');
       while (running) {
         elapsed = std::chrono::duration_cast<std::chrono::microseconds>(
             std::chrono::high_resolution_clock::now() - clock);

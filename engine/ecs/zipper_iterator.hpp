@@ -41,7 +41,7 @@ namespace ecs {
       _current = it_tuple;
       _idx     = idx;
       _end = it_end;
-      if (_max != 0 && !all_set(_seq)) {
+      if (_idx < _max && !all_set(_seq)) {
         incr_all(_seq);
       }
     }
