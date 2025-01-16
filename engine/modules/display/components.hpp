@@ -61,6 +61,15 @@ namespace zef {
         scaleY = y;
       }
 
+      void setRgba(float r, float g, float b,float a) {
+        rgba.R = r;
+        rgba.G = g;
+        rgba.B = b;
+        rgba.A = a;
+      }
+
+      zef::graph::RGBA rgba = {1, 1, 1, 1};
+
       float scaleX = 1.0;
       float scaleY = 1.0;
 
@@ -74,6 +83,8 @@ namespace zef {
 
       int layer;
       size_t timer = 0;
+
+      float rotation = 0.0f;
 
       std::map<std::string, std::pair<size_t, size_t>> _animation_sizes;
     };

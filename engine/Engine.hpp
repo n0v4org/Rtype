@@ -255,6 +255,10 @@ namespace zef {
       _scenes[name] = [](Engine& engine) { engine._loadScene<T>(); };
     }
 
+    void stop() {
+      running = false;
+    }
+
     void run() {
       clock = std::chrono::high_resolution_clock::now();
       int i = 0;
@@ -305,7 +309,7 @@ namespace zef {
       _client->get_udp_client()->send(c, cmd_id);
     }
 
-    void ClientSendTcp(int cmd_id, const std::string& c) {
+    void ClientSendTcp(const std::string& c) {
       _client->get_tcp_client()->send(c);
     }
 
@@ -355,6 +359,7 @@ namespace zef {
       for (const auto& entry : std::filesystem::directory_iterator("./")) {
         std::string mdname = entry.path().filename().string();
         if (mdname.rfind("libmodule", 0) == 0) {
+          std::cout << "akjhakezjhezfakjhbefza \n";
           std::string str  = mdname.substr(9);
           auto f           = str.find_last_of('.');
           std::string name = str.substr(0, f);
@@ -381,6 +386,8 @@ namespace zef {
 
   private:
     int gameFps = 60;
+
+    bool running = true;
 
     utils::UserInputs _user_inputs;
     std::queue<Event> _events;

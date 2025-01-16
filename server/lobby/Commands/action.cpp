@@ -100,50 +100,7 @@ namespace rtype {
       data["description"] = res;
       for (auto& player : _lobby.at(room).players)
         _engine.ServerSendTcp(player.id, data.dump());
-    });
-
-    // Command to laucnh a Game
-    _engine.registerCommandTcp(LAUNCH_GAME_CMD, [this](zef::Engine& engine,
-                                                       input_t input) {
-      std::string res = CMD_RES.at(LAUNCH_GAME_CMD).at(SUCCESS);
-
-      if (bad_args(input, std::stoi(CMD_RES.at(LAUNCH_GAME_CMD).at(NB_ARGS))) ||
-          !is_number(input.tcp_payload, input.id))
-        return;
-      int room = std::stoi(input.tcp_payload);
-      if (bad_room(input, room))
-        return;
-      std::vector<player_t>::iterator it = std::find_if(
-          _lobby.at(room).players.begin(), _lobby.at(room).players.end(),
-          [input](const player_t& player) { return player.id == input.id; });
-      if (it == _lobby.at(room).players.end()) {
-        send_error(input.id, TCP_ERRORS.at(NOT_IN_ROOM).second,
-                   TCP_ERRORS.at(NOT_IN_ROOM).first);
-        return;
-      }
-      if (!(*it).is_admin && _lobby.at(room).owner != DEFAULT_OWNER) {
-        send_error(input.id, TCP_ERRORS.at(NOT_ADMIN).second,
-                   TCP_ERRORS.at(NOT_ADMIN).first);
-        return;
-      }
-      it = std::find_if(
-          _lobby.at(room).players.begin(), _lobby.at(room).players.end(),
-          [](const player_t& player) { return !player.is_ready; });
-      if (it != _lobby.at(room).players.end()) {
-        send_error(input.id, TCP_ERRORS.at(NOT_READY).second,
-                   TCP_ERRORS.at(NOT_READY).first);
-        return;
-      }
-      // add logic to launch a game in intern
-      _lobby.at(room).running = true;
-      res += _lobby.at(room).name;
-      json data;
-      data["status"]      = std::stoi(CMD_RES.at(QUIT_ROOM_CMD).at(STATUS));
-      data["description"] = res;
-      data["room_id"]     = room;
-      for (auto player : _lobby.at(room).players) {
-        _engine.ServerSendTcp(input.id, data.dump());
-      }
+      _engine.ServerSendTcp(input.id, data.dump());
     });
 
     // Command to kick a player
@@ -177,6 +134,42 @@ namespace rtype {
       data["description"]   = res;
       data["kicked_player"] = player_id;
       data["room_id"]       = room;
+      for (auto& player : _lobby.at(room).players)
+        _engine.ServerSendTcp(player.id, data.dump());
+    });
+
+    // Command to send a message
+    _engine.registerCommandTcp(SEND_MSG_CMD, [this](zef::Engine& engine,
+                                                    input_t input) {
+      std::string res = CMD_RES.at(SEND_MSG_CMD).at(SUCCESS);
+      std::vector<std::string> parsed_input = parse_input(input.tcp_payload);
+      if (!is_number(parsed_input.at(0), input.id))
+        return;
+      if (parsed_input.size() < 2) {
+        send_error(input.id, TCP_ERRORS.at(INVALID_ARGS).second,
+                   TCP_ERRORS.at(INVALID_ARGS).first);
+        return;
+      }
+      int room = std::stoi(parsed_input.at(0));
+      std::string msg =
+          input.tcp_payload.substr(parsed_input.at(0).length() + 1);
+      if (bad_room(input, room))
+        return;
+      std::vector<player_t>::iterator it = std::find_if(
+          _lobby.at(room).players.begin(), _lobby.at(room).players.end(),
+          [input](const player_t& player) { return player.id == input.id; });
+      if (it == _lobby.at(room).players.end()) {
+        send_error(input.id, TCP_ERRORS.at(NOT_IN_ROOM).second,
+                   TCP_ERRORS.at(NOT_IN_ROOM).first);
+        return;
+      }
+      res += std::to_string(room);
+      json data;
+      data["status"]      = std::stoi(CMD_RES.at(KICK_PLAYER_CMD).at(STATUS));
+      data["description"] = res;
+      data["from"]        = _usernames[input.id];
+      data["room_id"]     = room;
+      data["message"]     = msg;
       for (auto& player : _lobby.at(room).players)
         _engine.ServerSendTcp(player.id, data.dump());
     });

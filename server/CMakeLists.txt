@@ -9,6 +9,12 @@ set(SRCS
     src/Core.cpp
     src/Arguments.cpp
     game/GameServer.cpp
+    game/Game.cpp
+    game/Commands/utils.cpp
+    game/Commands/tcp/game_cmd.cpp
+    game/Commands/udp/game_cmd.cpp
+    game/error_handling.cpp
+    game/response.cpp
     lobby/Lobby.cpp
     lobby/utils.cpp
     lobby/error_handling.cpp
