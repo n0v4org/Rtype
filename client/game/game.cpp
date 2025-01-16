@@ -264,9 +264,11 @@ engine.ClientSendTcp("LAUNCH_GAME");
       sinusoidalVectorSystem
   );
 
-  engine.registerScene<LevelScene>("level");
-  engine.registerScene<LobbyScene>("lobby");
-  engine.loadScene("level");
+  //engine.registerScene<LevelScene>("level");
+  //engine.registerScene<LobbyScene>("lobby");
+  //engine.loadScene("level");
+
+  engine.newLoadScene<LevelScene>(4.9321f);
 
   engine.run();
 }

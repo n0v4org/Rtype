@@ -249,6 +249,16 @@ namespace zef {
       T::loadScene(*this);
     }
 
+    template <typename T, typename ...Args>
+    void newLoadScene(Args ...args)  {
+      _new_next_scene = [&](Engine& engine) {
+        for (int i = 0; i < reg.getMaxId(); i++)
+            reg.kill_entity(ecs::Entity(i));
+        T::loadScene(*this, args...);
+      };
+    }
+
+
     template <typename T>
     void registerScene(const std::string& name) {
       _scenes[name] = [](Engine& engine) { engine._loadScene<T>(); };
@@ -274,6 +284,9 @@ namespace zef {
 
         if (GraphLib)
           GraphLib->refresh();
+
+        _new_next_scene(*this);
+        _new_next_scene = [](zef::Engine& e) {};
 
         if (_next_scene != "") {
           for (int i = 0; i < reg.getMaxId(); i++) {
@@ -385,6 +398,8 @@ namespace zef {
 
     std::map<std::string, std::function<void(Engine&)>> _scenes;
     std::string _next_scene = "";
+
+    std::function<void(Engine&)> _new_next_scene;
 
     std::vector<std::unique_ptr<zef::ILibHolder<zef::IModule>>>
         _runtime_lib_holder;
