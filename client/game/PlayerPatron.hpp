@@ -58,7 +58,7 @@ zef::comp::event_listener createPlayerEventListener() {
       });
   evtl.setEvent<LoadShoot>([](zef::Engine& engine, size_t self, LoadShoot sht) {
     engine.fetchEntityComponent<Laser>(self).load += engine.elapsed.count();
-    std::cout << engine.fetchEntityComponent<Laser>(self).load << std::endl;
+    //std::cout << engine.fetchEntityComponent<Laser>(self).load << std::endl;
     // engine.ClientSend<CommandShoot>(SHOOTPLAYER, {});
   });
 

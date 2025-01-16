@@ -54,10 +54,11 @@ zef::comp::event_listener createAllyEventListener() {
 class AllyPatron {
 public:
   static void instanciate(zef::Engine& engine, const ecs::Entity& self, float x,
-                          float y) {
+                          float y, size_t rep) {
     engine.addEntityComponent<zef::comp::position>(self, x, y);
     engine.addEntityComponent<zef::comp::vector>(self, 0, 0, 10);
     engine.addEntityComponent<Health>(self, 45, 100);
+    engine.addEntityComponent<zef::comp::replicable>(self, rep);
 
     zef::comp::drawable dr;
     dr.addAnimation("player_0", 1, 200);

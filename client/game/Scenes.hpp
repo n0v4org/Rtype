@@ -31,11 +31,10 @@ public:
   static void loadScene(zef::Engine& engine) {
     // engine.GraphLib->moveCamera(0, 0, 0.5);
     engine.instanciatePatron<PlayerPatron>(0.0f, 150.0f, 0);
-    // ecs::Entity ally = engine.instanciatePatron<AllyPatron>(0.0f, -150.0f);
     // engine.instanciatePatron<EnemyPatron>(600.0f, -150.0f);
     engine.instanciatePatron<BackgroundPatron>(0.0f, 0.0f);
     engine.instanciatePatron<BackgroundPatron>(1920.0f, 0.0f);
-    engine.instanciatePatron<AllyPatron>(0.0f, 0.0f);
+    //engine.instanciatePatron<AllyPatron>(0.0f, 0.0f, 4);
     engine.instanciatePatron<EnemyTurretPatron>(0.0f, 0.0f, false, true);
     ecs::Entity e = engine.instanciatePatron<EnemyPlanePatron>(500.0f, 0.0f, 1);
     engine.sendEvent<SetEnemyVectorEvent>(e, -1.0f, 0.0f);

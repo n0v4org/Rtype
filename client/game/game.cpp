@@ -97,8 +97,8 @@ std::this_thread::sleep_for(std::chrono::microseconds(100));
 engine.ClientSendTcp("JOIN 1 magicarpe");
 std::this_thread::sleep_for(std::chrono::microseconds(100));
 
-engine.ClientSendTcp("SET_PLAYER_READY 1");
-engine.ClientSendTcp("LAUNCH_GAME 1");
+engine.ClientSendTcp("SET_PLAYER_READY");
+engine.ClientSendTcp("LAUNCH_GAME");
   /*engine.registerCommand(SPAWNALLY, [](zef::Engine& engine, input_t input) {
       CommandSpawnAlly csp =
   network::game::Commands<CommandSpawnAlly>(input).getCommand();
