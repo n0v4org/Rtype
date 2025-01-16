@@ -10,6 +10,7 @@
 #define ENEMYCRAB_PATRON_HPP_
 
 #include <iostream>
+#include <vector>
 #include "Engine.hpp"
 
 #include "components.hpp"

@@ -44,7 +44,7 @@ public:
 
 class Damaged {
 public:
-  Damaged(int microsec) : _microsec(microsec) {
+  explicit Damaged(int microsec) : _microsec(microsec) {
 
   }
 

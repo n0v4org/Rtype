@@ -5,6 +5,10 @@
 ** tcp_game_cmd
 */
 
+#include <string>
+ #include <vector>
+ #include <utility> 
+
 #include "Game.hpp"
 #include "tcp_cmds.hpp"
 

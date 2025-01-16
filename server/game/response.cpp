@@ -5,6 +5,8 @@
 ** response
 */
 
+#include <string>
+
 #include "Game.hpp"
 
 namespace rtype {

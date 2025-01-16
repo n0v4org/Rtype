@@ -5,6 +5,10 @@
 ** utils
 */
 
+#include <iostream>
+#include <string>
+ #include <utility> 
+
 #include "Game.hpp"
 #include "tcp_cmds.hpp"
 
@@ -36,4 +40,4 @@ namespace rtype {
         _engine.ServerSendToAllTcp(start_json.dump());
       }
     }
-}
+} // namespace rtype
