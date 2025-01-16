@@ -8,14 +8,15 @@
 #ifndef BUTTON_PATRON_HPP_
 #define BUTTON_PATRON_HPP_
 
+#include <functional>
+#include <string>
+#include <vector>
+
 #include "Engine.hpp"
 #include "modules/controller/components.hpp"
 #include "modules/display/components.hpp"
 #include "modules/controller/events.hpp"
 #include "components.hpp"
-#include <functional>
-#include <string>
-#include <vector>
 
 class ButtonPatron {
 public:
