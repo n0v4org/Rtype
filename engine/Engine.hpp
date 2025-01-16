@@ -276,6 +276,9 @@ namespace zef {
       // ecs::Entity e(reg.spawn_entity());
       // addEntityComponent(e, "ExampleComp1", 2, 2.0f);
       // addEntityComponent(e, "ExampleComp2", 3.0f, 'c');
+      std::thread consoleThread([this](){
+        console.run(consoleMutex, *this);
+      });
       while (running) {
         elapsed = std::chrono::duration_cast<std::chrono::microseconds>(
             std::chrono::high_resolution_clock::now() - clock);
@@ -371,7 +374,6 @@ namespace zef {
       for (const auto& entry : std::filesystem::directory_iterator("./")) {
         std::string mdname = entry.path().filename().string();
         if (mdname.rfind("libmodule", 0) == 0) {
-          std::cout << "akjhakezjhezfakjhbefza \n";
           std::string str  = mdname.substr(9);
           auto f           = str.find_last_of('.');
           std::string name = str.substr(0, f);
