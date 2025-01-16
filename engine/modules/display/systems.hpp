@@ -36,7 +36,7 @@ namespace zef {
               continue;
             engine.GraphLib->drawSprite(current_animation, dr.current_frame,
                                         pos.x, pos.y, dr.scaleX, dr.scaleY, 0.0,
-                                        zef::graph::RGBA({1, 1, 1, 1}));
+                                        dr.rgba);
           }
         }
       }
@@ -60,6 +60,24 @@ namespace zef {
           }
           dr.current_frame++;
           dr.timer = 0;
+        }
+      }
+    }
+
+    inline void draw_texts(zef::Engine& engine,
+                           ecs::sparse_array<comp::drawableText>& texts,
+                           ecs::sparse_array<comp::position>& positions) {
+      std::vector<int> layers;
+      for (auto&& [i, txt, pos] : ecs::indexed_zipper(texts, positions)) {
+        layers.push_back(txt.layer);
+      }
+      std::sort(layers.begin(), layers.end());
+      for (auto l : layers) {
+        for (auto&& [i, txt, pos] : ecs::indexed_zipper(texts, positions)) {
+          if (txt.layer == l) {
+            engine.GraphLib->drawText(txt.text, txt.font, txt.textSize, pos.x, pos.y,
+                                      txt.scaleX, txt.scaleY, txt.rotation, txt.rgba);
+          }
         }
       }
     }

@@ -158,7 +158,7 @@ namespace zef {
                              float value, RGBA backgroundColor,
                              RGBA foregroundColor)       = 0;
 
-      virtual void playSound(std::string soundName, int volume = 50) = 0;
+      virtual bool playSound(std::string soundName, int volume = 50) = 0;
 
       virtual void saveAnimation(std::string animationName,
                                  std::string spriteSheetName,
@@ -181,6 +181,7 @@ namespace zef {
 
       virtual void setCamera(int x, int y, int z)    = 0;
       virtual void moveCamera(int x, int y, float z) = 0;
+      virtual std::pair<int,int> getCameraPos() = 0;
 
       virtual UserInput getEvent()                          = 0;
       virtual void updateUserInputs(utils::UserInputs& ui)  = 0;

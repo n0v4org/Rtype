@@ -63,6 +63,7 @@ namespace zef {
 
       float scaleX = 1.0;
       float scaleY = 1.0;
+      zef::graph::RGBA rgba = {1,1,1,1};
 
       size_t current_frame = 0;
 
@@ -77,6 +78,23 @@ namespace zef {
 
       std::map<std::string, std::pair<size_t, size_t>> _animation_sizes;
     };
+
+    class drawableText{
+      public:
+		drawableText(){
+		}
+
+        std::string text;
+        std::string font;
+        int textSize = 42;
+        float scaleX = 1.0f;
+        float scaleY = 1.0f;
+        float rotation = 0.0f;
+        zef::graph::RGBA rgba = {1,1,1,1};
+
+        int layer;
+    };
+
   }  // namespace comp
 
 }  // namespace zef
