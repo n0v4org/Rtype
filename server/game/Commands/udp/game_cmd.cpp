@@ -29,7 +29,7 @@ namespace rtype {
                     return;
                 }
                 _players_udp.push_back(std::make_pair(result.pwd, input.id));
-                check_game_start();
+                check_game_start(input);
             });
         }
 } // namespace rtype

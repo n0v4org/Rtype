@@ -28,7 +28,7 @@ namespace rtype {
       data["status"] = std::stoi(CMD_TCP_RES.at(LOGIN_CMD).at(GAME_STATUS));
       data["description"] = res;
       _engine.ServerSendTcp(input.id, data.dump());
-      check_game_start();
+      check_game_start(input);
     });
   }
 }  // namespace rtype
