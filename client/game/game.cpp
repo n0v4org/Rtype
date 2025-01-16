@@ -6,6 +6,7 @@
 */
 
 #include <string>
+#include <chrono>
 
 #include "Engine.hpp"
 #include "Scenes.hpp"
@@ -17,45 +18,41 @@
 #include "modules/controller/systems.hpp"
 #include "asio.hpp"
 #include "CommonCommands.hpp"
-#include "UdpProtoCommands.hpp"
 
 void runClient(int sport, int cport, std::string ip) {
   zef::Engine engine;
 
-//   engine.initGraphLib("../Assets", "");
+  engine.initGraphLib("../Assets", "");
 
-//   engine.GraphLib->saveAnimation("ship", "image", 0, 0, 65, 66);
+  engine.GraphLib->saveAnimation("ship", "image", 0, 0, 65, 66);
 
-//   engine.GraphLib->saveAnimation("bg", "bg2", 0, 0, 1000, 562);
+  engine.GraphLib->saveAnimation("bg", "bg2", 0, 0, 1000, 562);
 
-//   engine.GraphLib->saveAnimation("player_t2", "player2", 0, 1, 33 * 3, 17 * 3);
-//   engine.GraphLib->saveAnimation("player_t1", "player2", 33 * 3, 1, 33 * 3,
-//                                  17 * 3);
-//   engine.GraphLib->saveAnimation("player_0", "player2", 33 * 3 * 2, 1, 33 * 3,
-//                                  17 * 3);
-//   engine.GraphLib->saveAnimation("player_d1", "player2", 33 * 3 * 3, 1, 33 * 3,
-//                                  17 * 3);
-//   engine.GraphLib->saveAnimation("player_d2", "player2", 33 * 3 * 4, 1, 33 * 3,
-//                                  17 * 3);
+  engine.GraphLib->saveAnimation("player_t2", "player2", 0, 1, 33 * 3, 17 * 3);
+  engine.GraphLib->saveAnimation("player_t1", "player2", 33 * 3, 1, 33 * 3,
+                                 17 * 3);
+  engine.GraphLib->saveAnimation("player_0", "player2", 33 * 3 * 2, 1, 33 * 3,
+                                 17 * 3);
+  engine.GraphLib->saveAnimation("player_d1", "player2", 33 * 3 * 3, 1, 33 * 3,
+                                 17 * 3);
+  engine.GraphLib->saveAnimation("player_d2", "player2", 33 * 3 * 4, 1, 33 * 3,
+                                 17 * 3);
 
-//   engine.GraphLib->saveAnimation("bullet", "allyBullet", 0, 0, 32, 8);
-//   engine.GraphLib->saveAnimation("bullet2", "allyBullet2", 0, 0, 48, 14);
+  engine.GraphLib->saveAnimation("bullet", "allyBullet", 0, 0, 32, 8);
+  engine.GraphLib->saveAnimation("bullet2", "allyBullet2", 0, 0, 48, 14);
 
-//   engine.GraphLib->saveAnimation("fireball", "fireball", 0, 0, 8, 8);
+  engine.GraphLib->saveAnimation("fireball", "fireball", 0, 0, 8, 8);
 
-//   engine.GraphLib->saveAnimation("blast", "blast", 0, 0, 33, 32);
-
-
-//   engine.GraphLib->saveAnimation("turretu", "turret", 0, 0, 17, 18);
-//   engine.GraphLib->saveAnimation("turretd", "turret", 0, 1, 17, 18);
+  engine.GraphLib->saveAnimation("blast", "blast", 0, 0, 33, 32);
 
 
+  engine.GraphLib->saveAnimation("turretu", "turret", 0, 0, 17, 18);
+  engine.GraphLib->saveAnimation("turretd", "turret", 0, 1, 17, 18);
+
+  engine.GraphLib->saveAnimation("enemyPlaneG", "enemyPlaneG", 0, 0, 33, 35);
+  engine.GraphLib->saveAnimation("enemyCrab", "enemyCrab", 4*33, 1, 33, 34);
 
 
-  // SET_PLAYER_READY 1
-  // LAUNCH_GAME 1
-
-  // engine.initClient(sport, cport, ip);
 
   engine.registerCommandTcp("202", [](zef::Engine& engine, input_t input) {
       std::cout << input.tcp_payload << std::endl;
@@ -69,24 +66,24 @@ void runClient(int sport, int cport, std::string ip) {
   engine.registerCommandTcp("204", [ip](zef::Engine& engine, input_t input) {
       std::cout << input.tcp_payload << std::endl;
         nlohmann::json rep = nlohmann::json::parse(input.tcp_payload);
-      std::cout << "switching port into " << rep["tcp_port"] << " " << rep["udp_port"] << std::endl;
+      std::cout << "switching port into " << rep["tcp_port"] << " " << rep["udp_port"] << " " << rep["player_uuid"]  << std::endl;
       engine._client->reset_clients(rep["udp_port"], 15005, rep["tcp_port"], ip);
+      std::this_thread::sleep_for(std::chrono::microseconds(100));
+      std::string uuid = rep["player_uuid"];
+      std::string loginstr = "LOGIN " + uuid;
+      std::cout << "sending " << uuid << " " << loginstr << std::endl;
+      //engine.ClientSendTcp(loginstr);
   });
-std::cout << "here" << std::endl;
+
+  
+
 engine.initClient(sport, cport, 14001, ip);
-  sleep(1);
+std::this_thread::sleep_for(std::chrono::microseconds(100));
 engine.ClientSendTcp("JOIN 1 magicarpe");
-  sleep(1);
+std::this_thread::sleep_for(std::chrono::microseconds(100));
 
 engine.ClientSendTcp("SET_PLAYER_READY 1");
-  sleep(1);
-
 engine.ClientSendTcp("LAUNCH_GAME 1");
-
-  engine.addSystem<>("zefir", zef::sys::handle_client);
-
-engine.run();
-return;
   /*engine.registerCommand(SPAWNALLY, [](zef::Engine& engine, input_t input) {
       CommandSpawnAlly csp =
   network::game::Commands<CommandSpawnAlly>(input).getCommand();
@@ -211,7 +208,8 @@ return;
   engine.registerComponent<Ship>();
   engine.registerComponent<TurretTurnRate>();
   engine.registerComponent<Damaged>();
-    engine.loadModules();
+  engine.registerComponent<SinusoidalMotion>();
+    //engine.loadModules();
     
   //   // engine.addSystem<>(entitycountdisplay);
 
@@ -246,6 +244,10 @@ return;
       "zefir", zef::sys::draw_drawables);
   engine.addSystem<Ship, Health, zef::comp::position>("zefir", drawHpBarPlayer);
   engine.addSystem<Player, Laser, zef::comp::position>("zefir", drawLoadBar);
+  engine.addSystem<SinusoidalMotion, zef::comp::vector>(
+      "zefir",
+      sinusoidalVectorSystem
+  );
 
   engine.registerScene<LevelScene>("level");
   engine.registerScene<LobbyScene>("lobby");
