@@ -63,15 +63,15 @@ void runClient(int sport, int cport, std::string ip) {
       std::cout << input.tcp_payload << std::endl;
   });
 
-engine.initClient(sport, cport, 14001, ip);
-  sleep(1);
-engine.ClientSendTcp("JOIN 1 magicarpe");
-  sleep(1);
+// engine.initClient(sport, cport, 14001, ip);
+//   sleep(1);
+// engine.ClientSendTcp("JOIN 1 magicarpe");
+//   sleep(1);
 
-engine.ClientSendTcp("SET_PLAYER_READY 1");
-  sleep(1);
+// engine.ClientSendTcp("SET_PLAYER_READY 1");
+//   sleep(1);
 
-engine.ClientSendTcp("LAUNCH_GAME 1");
+//engine.ClientSendTcp("LAUNCH_GAME 1");
   /*engine.registerCommand(SPAWNALLY, [](zef::Engine& engine, input_t input) {
       CommandSpawnAlly csp =
   network::game::Commands<CommandSpawnAlly>(input).getCommand();
@@ -204,7 +204,7 @@ engine.ClientSendTcp("LAUNCH_GAME 1");
     engine.GraphLib->moveCamera(2, 0, 1);
   });
 
-  engine.addSystem<>("zefir", zef::sys::handle_client);
+  //engine.addSystem<>("zefir", zef::sys::handle_client);
 
   engine.addSystem<BackGround, zef::comp::position>("zefir",
                                                     handleBackgroundScroll);

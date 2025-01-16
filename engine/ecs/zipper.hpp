@@ -28,12 +28,12 @@ namespace ecs {
 
     iterator begin() {
       if (_size == 0)
-        return iterator(_end, _size);
-      return iterator(_begin, _size);
+        return iterator(_end, _end, _size);
+      return iterator(_begin, _end, _size);
     }
     iterator end() {
-      auto it = iterator(_end, _size);
-      it._idx = _size;
+      auto it = iterator(_end, _end, _size, _size);
+      //it._idx = _size;
       return it;
     }
 
@@ -53,7 +53,7 @@ namespace ecs {
             }
           }(),
           ...);
-      return size;
+      return size - 1;
     }
 
     // Helper function to compute an iterator_tuple that will allow us to

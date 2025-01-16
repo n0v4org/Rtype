@@ -261,6 +261,7 @@ namespace zef {
     void run() {
       clock = std::chrono::high_resolution_clock::now();
       int i = 0;
+      loadModules();
       while (running) {
         elapsed = std::chrono::duration_cast<std::chrono::microseconds>(
             std::chrono::high_resolution_clock::now() - clock);
@@ -350,6 +351,12 @@ namespace zef {
         std::string mdname = entry.path().filename().string();
         if (mdname.rfind("libmodule", 0) == 0) {
           std::string str  = mdname.substr(9);
+          auto f           = str.find_last_of('.');
+          std::string name = str.substr(0, f);
+          loadModule(name);
+        }
+        if (mdname.rfind("module", 0) == 0) {
+          std::string str  = mdname.substr(6);;
           auto f           = str.find_last_of('.');
           std::string name = str.substr(0, f);
           loadModule(name);
