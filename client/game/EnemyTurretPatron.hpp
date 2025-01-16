@@ -9,6 +9,7 @@
 #define ENEMYTURRETPATRON_HPP_
 
 #include <vector>
+#include <string>
 
 #include "Engine.hpp"
 

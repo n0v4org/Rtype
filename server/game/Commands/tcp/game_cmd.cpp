@@ -23,9 +23,9 @@ namespace rtype {
         return;
       }
       _players_tcp.push_back(std::make_pair(player_uuid, input.id));
-      engine.ServerSendTcp(input.id, res);
+      //engine.ServerSendTcp(input.id, res);
       json data;
-      data["status"] = CMD_TCP_RES.at(LOGIN_CMD).at(GAME_STATUS);
+      data["status"] = std::stoi(CMD_TCP_RES.at(LOGIN_CMD).at(GAME_STATUS));
       data["description"] = res;
       _engine.ServerSendTcp(input.id, data.dump());
       check_game_start();

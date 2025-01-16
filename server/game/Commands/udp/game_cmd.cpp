@@ -5,6 +5,10 @@
 ** game_cmd
 */
 
+#include <string>
+ #include <vector>
+ #include <utility> 
+
 #include "Game.hpp"
 
 #include "UdpProtoCommands.hpp"
@@ -16,7 +20,6 @@ namespace rtype {
                 network::game::Commands<login_t> cmd_handler =
                     network::game::Commands<login_t>(input);
                 login_t result = cmd_handler.getCommand();
-                std::cout << result.pwd << std::endl;
                 std::vector<std::string>::iterator it = std::find_if(_player_uuid.begin(), _player_uuid.end(), [result](const std::string &uuid){
                   return uuid == result.pwd;
                 });

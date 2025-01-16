@@ -43,10 +43,11 @@ namespace rtype {
       
 
       if (_lobby->bad_args(
-              input, std::stoi(CMD_RES.at(LAUNCH_GAME_CMD).at(NB_ARGS))) ||
-          !_lobby->is_number(input.tcp_payload, input.id))
+              input, std::stoi(CMD_RES.at(LAUNCH_GAME_CMD).at(NB_ARGS))))
         return;
-      int room = std::stoi(input.tcp_payload);
+      int room = _lobby->get_lobby_id(input);
+      if (room == KO)
+        return;
       if (_lobby->bad_room(input, room))
         return;
       json datar           = _lobby->get_data_single_room(_lobby->get_lobby().at(room), room);
@@ -57,7 +58,6 @@ namespace rtype {
       bool status = false;
       for (const auto& room : _lobby->get_lobby()) {
         for (const auto& player : room.players) {
-          std::cout << player.id << " and " <<input.id << std::endl;
           if (player.id == input.id) {
             status = true;
             temp_player = player;
