@@ -2,3 +2,24 @@
 #animationName spriteSheetName startTileX startTileY tileSizeX tileSizeY
 
 
+menu menu 0 0 1920 1080
+Start Start 0 0 410 121
+Exit Exit 0 0 410 121
+Settings Settings 0 0 210 210
+Type_Logo Type_Logo 0 0 500 146
+Backward_BTN Backward_BTN 0 0 210 210
+Window Window 0 0 940 1400
+Information Information 0 0 606 59
+Sound_BTN Sound_BTN 0 0 210 210
+Forward_BTN Forward_BTN 0 0 210 210
+emptyButton emptyButton 0 0 421 171
+emptyButton emptyButton 0 0 421 171
+returnButton return 0 0 210 210
+
+lobbyPlayer0 player2 3 0 101 50
+lobbyPlayer1 player2 3 1 101 50
+lobbyPlayer2 player2 3 2 101 50
+lobbyPlayer3 player2 3 3 101 50
+lobbyPlayer4 player2 3 4 101 50
+
+iamadmin IAmAdmin 0 0 280 280
