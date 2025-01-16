@@ -128,7 +128,7 @@ namespace ecs {
             f(e, r.get_components<Components>()...);
           });
 
-      if (_moduleThreads.find(moduleName) == _moduleThreads.end()) {
+      if (moduleName != "zefir" && _moduleThreads.find(moduleName) == _moduleThreads.end()) {
         _moduleNames.push_back(moduleName);
         _moduleExecutes[moduleName] = false;
         _moduleThreads[moduleName] = std::thread([this, moduleName, &engine]() {
@@ -169,6 +169,9 @@ namespace ecs {
           _moduleExecutes[module] = true;
         }
         _moduleCondVars[module].notify_one();
+      }
+      for (auto sys : _systems["zefir"]) {
+        sys(engine, *this);
       }
     }
 

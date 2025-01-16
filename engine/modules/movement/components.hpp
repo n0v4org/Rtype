@@ -95,6 +95,21 @@ namespace zef {
       std::vector<std::string> _pass_through;
     };
 
+    class gravity {
+      public:
+        gravity(float x, float y, float weight) : _x(x), _y(y), _weight(weight) {
+
+        }
+
+        ~gravity() {}
+
+        constexpr static float GlobalDistance = 1000000000.0f;
+
+        float _x;
+        float _y;
+        float _weight;
+    };
+
   }  // namespace comp
 }  // namespace zef
 

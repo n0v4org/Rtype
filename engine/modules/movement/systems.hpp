@@ -23,8 +23,8 @@ namespace zef {
                      ecs::sparse_array<comp::position> &positions,
                      ecs::sparse_array<comp::vector> &vectors) {
       for (auto &&[pos, vec] : ecs::zipper(positions, vectors)) {
-        pos.x += vec.x;
-        pos.y += vec.y;
+        pos.x += vec.x * 10;
+        pos.y += vec.y * 10;
       }
     }
     inline void check_collidables(
@@ -95,18 +95,43 @@ namespace zef {
     }
     inline void normalize_velocity_vectors(
         Engine &engine, ecs::sparse_array<comp::vector> &vecs) {
-      for (auto &&[i, vec] : ecs::indexed_zipper(vecs)) {
-        float tmpx = vec.x;
-        float tmpy = vec.y;
+      // for (auto &&[i, vec] : ecs::indexed_zipper(vecs)) {
+      //   float tmpx = vec.x;
+      //   float tmpy = vec.y;
 
-        if (tmpx == 0 && tmpy == 0)
-          continue;
+      //   if (tmpx == 0 && tmpy == 0)
+      //     continue;
 
-        float norm = std::sqrt(std::pow(tmpx, 2) + std::pow(tmpy, 2));
-        vec.x /= norm;
-        vec.y /= norm;
-        vec.x *= vec.norm;
-        vec.y *= vec.norm;
+      //   float norm = std::sqrt(std::pow(tmpx, 2) + std::pow(tmpy, 2));
+      //   vec.x /= norm;
+      //   vec.y /= norm;
+      //   vec.x *= vec.norm;
+      //   vec.y *= vec.norm;
+      // }
+    }
+
+    inline void apply_gravity(Engine &engine, ecs::sparse_array<comp::vector> &vecs, ecs::sparse_array<comp::position> &posistions, ecs::sparse_array<comp::gravity> &gravities) {
+      for (auto &&[i, vec, pos, grav] : ecs::indexed_zipper(vecs, posistions, gravities)) {
+        float destX = pos.x + vec.x;
+        float destY = pos.y + vec.y;
+
+        float posToGravX = grav._x - pos.x; // a
+        float posToGravY = grav._y - pos.y;
+
+        float dist = sqrt(pow(posToGravX, 2) + pow(posToGravY, 2));
+
+        float destToGravX = posToGravX - vec.x; // b
+        float destToGravY = posToGravY - vec.y; // b
+
+        float nDestX = destX + (destToGravX * (grav._weight / dist));
+        float nDestY = destY + (destToGravY * (grav._weight / dist));
+
+        float nDirX = nDestX - pos.x;
+        float nDirY = nDestY - pos.y;
+
+        vec.x = nDirX;
+        vec.y = nDirY;
+
       }
     }
   }  // namespace sys

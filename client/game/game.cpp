@@ -209,6 +209,7 @@ engine.ClientSendTcp("LAUNCH_GAME 1");
   engine.registerComponent<TurretTurnRate>();
   engine.registerComponent<Damaged>();
   engine.registerComponent<SinusoidalMotion>();
+  engine.registerComponent<zef::comp::gravity>();
     //engine.loadModules();
     
   //   // engine.addSystem<>(entitycountdisplay);
@@ -226,6 +227,9 @@ engine.ClientSendTcp("LAUNCH_GAME 1");
   engine.addSystem<zef::comp::vector, Player>("zefir", resetPlayerMovement);
   engine.addSystem<zef::comp::controllable>("zefir",
                                             zef::sys::system_constrollables);
+
+    engine.addSystem<zef::comp::vector, zef::comp::position, zef::comp::gravity>("zefir", zef::sys::apply_gravity);
+
   engine.addSystem<zef::comp::event_listener>("zefir", zef::sys::resolveEvent);
   engine.addSystem<zef::comp::vector>("zefir",
                                       zef::sys::normalize_velocity_vectors);

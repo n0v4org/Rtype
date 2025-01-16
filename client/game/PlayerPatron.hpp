@@ -78,6 +78,7 @@ public:
     engine.addEntityComponent<zef::comp::vector>(self, 0, 0, 10);
     engine.addEntityComponent<Health>(self, 75, 100);
     engine.addEntityComponent<Laser>(self);
+    //engine.addEntityComponent<zef::comp::gravity>(self, zef::comp::gravity::GlobalDistance, 0.0f, 0.3f);
 
     //engine.addEntityComponent<Damaged>(self, 5000 * 1000);
 
