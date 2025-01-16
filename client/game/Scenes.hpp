@@ -192,13 +192,18 @@ public:
         engine.instanciatePatron<TitlePatron>(
             0.0f, -440.0f,
             "Information",
-            1.0f, 0.8f
+            1.0f, 0.8f, 1
         );
 
-        engine.instanciatePatron<TitlePatron>(
+        engine.instanciatePatron<ButtonPatron>(
             0.0f, -200.0f,
             "Sound_BTN",
-            0.75f, 0.75f
+            [](zef::Engine &engine, size_t self) {
+                std::string vol = "Volume";
+                int currentVolume = std::stoi(engine.GraphLib->getSetting(vol).c_str());
+                engine.GraphLib->playSound("checkSound");
+            },
+            210.0f, 210.0f, 0.75f, 0.75f
         );
         
         engine.instanciatePatron<ButtonPatron>(
@@ -209,7 +214,13 @@ public:
                 std::string vol = "Volume";
                 int currentVolume = std::stoi(engine.GraphLib->getSetting(vol).c_str());
                 std::cout << currentVolume << std::endl;
-                int newVolume = currentVolume - 2;
+                int newVolume;
+                if (currentVolume <= 0) {
+                    newVolume = 0;
+                } else {
+                    newVolume = currentVolume - 5;
+                    engine.GraphLib->playSound("checkSound");
+                }
                 engine.GraphLib->updateSettings("Volume", std::to_string(newVolume));
                 std::cout << newVolume << std::endl;
             },
@@ -224,7 +235,13 @@ public:
                 std::string vol = "Volume";
                 int currentVolume = std::stoi(engine.GraphLib->getSetting(vol).c_str());
                 std::cout << currentVolume << std::endl;
-                int newVolume = currentVolume + 2;
+                int newVolume;
+                if (currentVolume >= 100) {
+                    newVolume = 100;
+                } else {
+                    newVolume = currentVolume + 5;
+                    engine.GraphLib->playSound("checkSound");
+                }
                 engine.GraphLib->updateSettings("Volume", std::to_string(newVolume));
                 std::cout << newVolume << std::endl;
             },
@@ -232,7 +249,7 @@ public:
         );
 
         engine.instanciatePatron<SoundBarPatron>(
-            0.0f, 0.0f
+            0.0f, -50.0f
         );
     }
 };
