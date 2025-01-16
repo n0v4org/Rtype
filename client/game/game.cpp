@@ -50,6 +50,9 @@ void runClient(int /*sport*/, int /*cport*/, std::string /*ip*/) {
 
     engine.registerScene<MenuScene>("menu");
     engine.registerScene<OptionScene>("option");
+    engine.registerScene<LobbyListScene>("lobbyList");
+    engine.registerScene<LobbyScene>("lobby");
+//    engine.registerScene<LobbySinglePlayerScene>("singlePlayer");
     engine.loadScene("menu");
 
     engine.run();
