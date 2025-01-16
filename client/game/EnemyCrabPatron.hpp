@@ -10,7 +10,6 @@
 #define ENEMYCRAB_PATRON_HPP_
 
 #include <iostream>
-#include <vector>
 #include "Engine.hpp"
 
 #include "components.hpp"
@@ -62,6 +61,18 @@ inline zef::comp::event_listener createCrabEventListener()
         }
     );
 
+    evtl.setEvent<GetHittedByBullet>(
+        [](zef::Engine& engine, size_t self, GetHittedByBullet p) {
+            engine.addEntityComponent<Damaged>(ecs::Entity(self), 100 * 1000);
+        }
+    );
+
+        evtl.setEvent<zef::evt::startCollision>(
+        [](zef::Engine& engine, size_t self, zef::evt::startCollision p) {
+            engine.sendEvent<GetHittedByMonster>(p.other);
+        }
+    );
+
     return evtl;
 }
 
@@ -81,7 +92,7 @@ public:
         zef::comp::drawable dr;
         dr.addAnimation("enemyCrab", 1, 200);
         dr.playAnimationLoop("enemyCrab", 1);
-        dr.setScale(2.0f, 2.0f);
+        dr.setScale(3.0f, 3.0f);
         engine.addEntityComponent<zef::comp::drawable>(self, dr);
 
         engine.addEntityComponent<Monster>(self);

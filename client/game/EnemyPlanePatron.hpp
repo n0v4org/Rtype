@@ -9,7 +9,6 @@
 #define ENEMYPLANE_PATRON_HPP_
 
 #include <iostream>
-#include <vector>
 #include "Engine.hpp"
 
 #include "components.hpp"
@@ -49,6 +48,18 @@ inline zef::comp::event_listener creatPlaneMove()
         }
     );
 
+    evtl.setEvent<GetHittedByBullet>(
+        [](zef::Engine& engine, size_t self, GetHittedByBullet p) {
+            engine.addEntityComponent<Damaged>(ecs::Entity(self), 100 * 1000);
+        }
+    );
+
+        evtl.setEvent<zef::evt::startCollision>(
+        [](zef::Engine& engine, size_t self, zef::evt::startCollision p) {
+            engine.sendEvent<GetHittedByMonster>(p.other);
+        }
+    );
+
     return evtl;
 }
 
@@ -80,7 +91,7 @@ public:
         engine.addEntityComponent<zef::comp::replicable>(self, rep);
 
         std::vector<zef::utils::hitbox> hb = {
-        zef::utils::hitbox(0, 0, 33 * 3, 33 * 3)};
+        zef::utils::hitbox(0, 0, 33 * 2, 33 * 2)};
         engine.addEntityComponent<zef::comp::collidable>(self, hb);
     }
 };
