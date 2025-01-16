@@ -66,6 +66,7 @@ static const char UPDATE_ROOM_CMD[]      = "UPDATE_LOBBY";
 static const char UPDATE_PERM_CMD[]      = "UPDATE_PERM";
 static const char KICK_PLAYER_CMD[]      = "KICK_PLAYER";
 static const char SEND_MSG_CMD[]         = "SEND_MSG";
+static const char GET_LOBBY_ID_CMD[] = "GET_LOBBY_ID";
 
 static const char CHARSET[] =
     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -111,7 +112,8 @@ static const std::map<std::string, std::array<std::string, NB_TCP_CMD>>
         {UPDATE_ROOM_CMD, {"successfully updated lobby ", "4", "209"}},
         {UPDATE_PERM_CMD, {"successfully updated perm of ", "3", "210"}},
         {KICK_PLAYER_CMD, {"kick player ", "2", "211"}},
-        {SEND_MSG_CMD, {"send message in lobby ", "2", "212"}}};
+        {SEND_MSG_CMD, {"send message in lobby ", "2", "212"}},
+        {GET_LOBBY_ID_CMD, {"successfully get lobby id ", "0", "213"}}};
 
 struct player_t {
   int id;
@@ -143,6 +145,7 @@ namespace rtype {
     std::string generateFixedLengthString();
     std::vector<room_t> get_lobby() const;
     void set_game_running(int room);
+    json get_data_single_room(room_t room, int room_id);
     ~Lobby();
 
   protected:
@@ -155,7 +158,6 @@ namespace rtype {
     bool bad_perm(input_t input, int nb_args);
     std::vector<std::string> parse_input(std::string input);
     int get_player_lobby(int player_id);
-    json get_data_single_room(room_t room, int room_id);
 
     zef::Engine &_engine;
     std::map<int, std::string> _usernames;

@@ -58,7 +58,7 @@ zef::comp::event_listener createPlayerEventListener() {
       });
   evtl.setEvent<LoadShoot>([](zef::Engine& engine, size_t self, LoadShoot sht) {
     engine.fetchEntityComponent<Laser>(self).load += engine.elapsed.count();
-    std::cout << engine.fetchEntityComponent<Laser>(self).load << std::endl;
+    //std::cout << engine.fetchEntityComponent<Laser>(self).load << std::endl;
     // engine.ClientSend<CommandShoot>(SHOOTPLAYER, {});
   });
 
@@ -78,6 +78,8 @@ public:
     engine.addEntityComponent<zef::comp::vector>(self, 0, 0, 10);
     engine.addEntityComponent<Health>(self, 75, 100);
     engine.addEntityComponent<Laser>(self);
+
+    //engine.addEntityComponent<Damaged>(self, 5000 * 1000);
 
     zef::comp::drawable dr;
     dr.addAnimation("player_0", 1, 200);

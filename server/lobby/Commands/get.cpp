@@ -51,5 +51,27 @@ namespace rtype {
       data["description"] = res;
       _engine.ServerSendTcp(input.id, data.dump());
     });
+
+    _engine.registerCommandTcp(GET_LOBBY_ID_CMD, [this](zef::Engine& engine, input_t input) {
+      std::string res = CMD_RES.at(GET_LOBBY_ID_CMD).at(SUCCESS);
+
+      if (bad_args(input, std::stoi(CMD_RES.at(GET_LOBBY_ID_CMD).at(NB_ARGS))))
+        return;
+      auto it = std::find_if(_lobby.begin(), _lobby.end(), [input](const room_t &room){
+        auto player_it = std::find_if(room.players.begin(), room.players.end(), [input](const player_t &player) {
+          return player.id == input.id;
+        });
+        return player_it != room.players.end();
+      });
+      if (it == _lobby.end()) {
+        send_error(input.id, TCP_ERRORS.at(NOT_IN_ROOM).second, TCP_ERRORS.at(NOT_IN_ROOM).first);
+        return;
+      }
+      json data;
+      data["status"]      = std::stoi(CMD_RES.at(GET_LOBBY_ID_CMD).at(STATUS));
+      data["description"] = res;
+      data["room_id"] = it - _lobby.begin();
+      _engine.ServerSendTcp(input.id, data.dump());
+    });
   }
 }  // namespace rtype

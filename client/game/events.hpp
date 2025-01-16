@@ -23,4 +23,25 @@ struct LoadShoot {};
 
 struct OnDeath {};
 
+
+struct TurretTurn {
+  int angle; // 0 up 1 diag 2 side
+};
+
+struct SetEnemyVectorEvent {
+    float vx;
+    float vy;
+};
+
+struct PlaneShootEvent {
+    float vx;
+    float vy;
+};
+
+struct SetEnemyPos {
+  float px;
+  float py;
+};
+
+
 #endif /* !EVENTS_HPP_ */
