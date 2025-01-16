@@ -5,13 +5,12 @@
 ** SFML DisplayModule
 */
 
-#include <iostream>
-#include <string>
 
-#include "Sfml.hpp"
 #ifdef _MSC_VER
   #include <windows.h>
 #endif
+#include <iostream>
+#include <string>
 #include <vector>
 #include <utility>
 #include "Sfml.hpp"
