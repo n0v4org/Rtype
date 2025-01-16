@@ -63,6 +63,7 @@ namespace zef {
 
       float scaleX = 1.0;
       float scaleY = 1.0;
+      zef::graph::RGBA rgba = {1,1,1,1};
 
       size_t current_frame = 0;
 
