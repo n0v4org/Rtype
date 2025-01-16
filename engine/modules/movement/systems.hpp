@@ -22,9 +22,9 @@ namespace zef {
     inline void move(Engine &engine,
                      ecs::sparse_array<comp::position> &positions,
                      ecs::sparse_array<comp::vector> &vectors) {
-      for (auto &&[pos, vec] : ecs::zipper(positions, vectors)) {
-        pos.x += vec.x * 10;
-        pos.y += vec.y * 10;
+      for (auto &&[i, pos, vec] : ecs::indexed_zipper(positions, vectors)) {
+        pos.x += vec.x;
+        pos.y += vec.y;
       }
     }
     inline void check_collidables(

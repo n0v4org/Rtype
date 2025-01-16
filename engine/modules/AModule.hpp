@@ -32,7 +32,7 @@ std::string demangle(const char* mangled_name) {
 #else
 
 std::string demangle(const char* name) {
-  return name;
+  return std::string(name).substr(6);
 }
 #endif
 

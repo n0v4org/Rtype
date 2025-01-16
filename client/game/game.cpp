@@ -6,6 +6,7 @@
 */
 
 #include <string>
+#include <cstring>
 #include <chrono>
 
 #include "Engine.hpp"
@@ -18,6 +19,7 @@
 #include "modules/controller/systems.hpp"
 #include "asio.hpp"
 #include "CommonCommands.hpp"
+#include "UdpProtoCommands.hpp"
 
 void runClient(int sport, int cport, std::string ip) {
   zef::Engine engine;
@@ -52,6 +54,14 @@ void runClient(int sport, int cport, std::string ip) {
   engine.GraphLib->saveAnimation("enemyPlaneG", "enemyPlaneG", 0, 0, 33, 35);
   engine.GraphLib->saveAnimation("enemyCrab", "enemyCrab", 4*33, 1, 33, 34);
 
+  engine.GraphLib->saveAnimation("enemyRobot", "enemyRobot", 1*56, 0, 56, 59);
+  engine.GraphLib->saveAnimation("robotBulletA", "robotBulletA", 0, 0, 65, 17);
+  engine.GraphLib->saveAnimation("enemyRobotS", "enemyRobot", 2*56, 0, 56, 59);
+
+  engine.GraphLib->saveAnimation("AWall", "AWall", 0, 0, 48, 40);
+  engine.GraphLib->saveAnimation("BWall", "BWall", 0, 0, 48, 8);
+  engine.GraphLib->saveAnimation("CWall", "CWall", 0, 0, 189, 72);
+
 
 
   engine.registerCommandTcp("202", [](zef::Engine& engine, input_t input) {
@@ -72,7 +82,12 @@ void runClient(int sport, int cport, std::string ip) {
       std::string uuid = rep["player_uuid"];
       std::string loginstr = "LOGIN " + uuid;
       std::cout << "sending " << uuid << " " << loginstr << std::endl;
-      //engine.ClientSendTcp(loginstr);
+      engine.ClientSendTcp(loginstr);
+        login_t lgt;
+      strncpy(lgt.pwd, uuid.c_str(), 21);
+      std::cout << "hohoho\n";
+      engine.ClientSendUdp<login_t>(LOGIN, lgt);
+      std::cout << "hiih\n";
   });
 
   
@@ -82,8 +97,8 @@ std::this_thread::sleep_for(std::chrono::microseconds(100));
 engine.ClientSendTcp("JOIN 1 magicarpe");
 std::this_thread::sleep_for(std::chrono::microseconds(100));
 
-engine.ClientSendTcp("SET_PLAYER_READY 1");
-engine.ClientSendTcp("LAUNCH_GAME 1");
+engine.ClientSendTcp("SET_PLAYER_READY");
+engine.ClientSendTcp("LAUNCH_GAME");
   /*engine.registerCommand(SPAWNALLY, [](zef::Engine& engine, input_t input) {
       CommandSpawnAlly csp =
   network::game::Commands<CommandSpawnAlly>(input).getCommand();
@@ -219,7 +234,7 @@ engine.ClientSendTcp("LAUNCH_GAME 1");
     engine.GraphLib->moveCamera(2, 0, 1);
   });
 
-  engine.addSystem<>("zefir", zef::sys::handle_client);
+  //engine.addSystem<>("zefir", zef::sys::handle_client);
 
   engine.addSystem<BackGround, zef::comp::position>("zefir",
                                                     handleBackgroundScroll);
@@ -253,9 +268,11 @@ engine.ClientSendTcp("LAUNCH_GAME 1");
       sinusoidalVectorSystem
   );
 
-  engine.registerScene<LevelScene>("level");
-  engine.registerScene<LobbyScene>("lobby");
-  engine.loadScene("level");
+  //engine.registerScene<LevelScene>("level");
+  //engine.registerScene<LobbyScene>("lobby");
+  //engine.loadScene("level");
+
+  engine.newLoadScene<LevelScene>();
 
   engine.run();
 }

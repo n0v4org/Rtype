@@ -9,9 +9,17 @@
 #define GEVENTS_HPP_
 
 struct GetHittedByBullet {
-  size_t bullet;
-  int damage;
 };
+
+struct GetHittedByMonster {
+};
+
+struct GetHittedByMonsterBullet {
+};
+
+struct GetHittedByPlayer{
+};
+
 struct DestroyBullet {};
 
 struct SetPlayerVectorEvent {
@@ -43,5 +51,6 @@ struct SetEnemyPos {
   float py;
 };
 
+struct RobotShoot {};
 
 #endif /* !EVENTS_HPP_ */

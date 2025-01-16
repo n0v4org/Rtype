@@ -6,7 +6,14 @@
 */
 
 #include "test.hpp"
+#ifdef _MSC_VER
+#include <windows.h>
+#endif
 
-extern "C" zef::IModule *entryPoint() {
+extern "C"
+#ifdef _MSC_VER
+  __declspec(dllexport)
+#endif
+zef::IModule *entryPoint() {
   return new test;
 }
