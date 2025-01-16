@@ -29,6 +29,7 @@ public:
     dr.addAnimation("blast", 6, 100);
     dr.playAnimation("blast", 1);
     dr.setScale(size, size);
+    dr.layer = 10;
     engine.addEntityComponent<zef::comp::drawable>(self, dr);
   }
 };
