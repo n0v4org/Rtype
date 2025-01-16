@@ -6,8 +6,8 @@
 */
 
 #include <string>
+#include <cstring>
 #include <chrono>
-#include <iostream>
 
 #include "Engine.hpp"
 #include "Scenes.hpp"
@@ -19,6 +19,7 @@
 #include "modules/controller/systems.hpp"
 #include "asio.hpp"
 #include "CommonCommands.hpp"
+#include "UdpProtoCommands.hpp"
 
 void runClient(int sport, int cport, std::string ip) {
   zef::Engine engine;
@@ -73,7 +74,12 @@ void runClient(int sport, int cport, std::string ip) {
       std::string uuid = rep["player_uuid"];
       std::string loginstr = "LOGIN " + uuid;
       std::cout << "sending " << uuid << " " << loginstr << std::endl;
-      //engine.ClientSendTcp(loginstr);
+      engine.ClientSendTcp(loginstr);
+        login_t lgt;
+      strncpy(lgt.pwd, uuid.c_str(), 21);
+      std::cout << "hohoho\n";
+      engine.ClientSendUdp<login_t>(LOGIN, lgt);
+      std::cout << "hiih\n";
   });
 
   

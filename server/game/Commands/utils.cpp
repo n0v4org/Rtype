@@ -5,10 +5,6 @@
 ** utils
 */
 
-#include <iostream>
-#include <string>
- #include <utility> 
-
 #include "Game.hpp"
 #include "tcp_cmds.hpp"
 
@@ -31,7 +27,7 @@ namespace rtype {
             _players.push_back(new_player);
         }
         json start_json;
-        start_json["status"] = CMD_TCP_RES.at(START_GAME_CMD).at(GAME_STATUS);
+        start_json["status"] = std::stoi(CMD_TCP_RES.at(START_GAME_CMD).at(GAME_STATUS));
         start_json["description"] = CMD_TCP_RES.at(START_GAME_CMD).at(GAME_SUCCESS);
         start_json["players"] = json::array();
         for (int i = 0; i < _players.size(); i++) {
@@ -40,4 +36,4 @@ namespace rtype {
         _engine.ServerSendToAllTcp(start_json.dump());
       }
     }
-} // namespace rtype
+}
