@@ -36,11 +36,12 @@ namespace ecs {
     friend class zipper;
 
     // Constructor
-    zipper_iterator(iterator_tuple const& it_tuple, std::size_t max) {
+    zipper_iterator(iterator_tuple const& it_tuple, iterator_tuple const& it_end, std::size_t max, size_t idx = 0) {
       _max     = max;
       _current = it_tuple;
-      _idx     = 0;
-      if (_max != 0 && !all_set(_seq)) {
+      _idx     = idx;
+      _end = it_end;
+      if (_idx < _max && !all_set(_seq)) {
         incr_all(_seq);
       }
     }
@@ -51,6 +52,7 @@ namespace ecs {
       _current = z._current;
       _max     = z._max;
       _idx     = z._idx;
+      _end = z._end;
       //_seq = z._seq;
     }
 
@@ -107,7 +109,8 @@ namespace ecs {
     // Check if every std::optional is set
     template <std::size_t... Is>
     bool all_set(std::index_sequence<Is...>) {
-      return (... && (*std::get<Is>(_current)).has_value());
+      bool ret = ((std::get<Is>(_current) != std::get<Is>(_end) && (*std::get<Is>(_current)).has_value()) && ...);
+      return ret;
     }
 
     // Return a tuple of references to components
@@ -118,6 +121,7 @@ namespace ecs {
 
   private:
     iterator_tuple _current;
+    iterator_tuple _end;
     std::size_t _max;  // Prevent infinite loop by comparing to _idx
     static constexpr std::index_sequence_for<Containers...> _seq{};
   };

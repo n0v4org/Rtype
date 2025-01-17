@@ -22,7 +22,7 @@ namespace zef {
     inline void move(Engine &engine,
                      ecs::sparse_array<comp::position> &positions,
                      ecs::sparse_array<comp::vector> &vectors) {
-      for (auto &&[pos, vec] : ecs::zipper(positions, vectors)) {
+      for (auto &&[i, pos, vec] : ecs::indexed_zipper(positions, vectors)) {
         pos.x += vec.x;
         pos.y += vec.y;
       }

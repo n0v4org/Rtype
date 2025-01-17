@@ -104,5 +104,10 @@ public:
     float phase;
 };
 
+class MoveCamera {
+  public:
+  MoveCamera() {}
+};
+
 
 #endif /* !COMPONENTS_HPP_ */

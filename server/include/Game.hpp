@@ -63,7 +63,7 @@ namespace rtype {
     bool bad_args(input_t input, int nb_args);
     void register_tcp_game_cmd();
     void register_udp_game_cmd();
-    void check_game_start();
+    void check_game_start(input_t input);
   };
 
 }  // namespace rtype

@@ -6,10 +6,17 @@
 */
 
 #include <iostream>
+#ifdef _MSC_VER
+#include <windows.h>
+#endif
 
 #include "new.hpp"
 
-extern "C" zef::IModule *entryPoint() {
+extern "C"
+#ifdef _MSC_VER
+  __declspec(dllexport)
+#endif
+zef::IModule *entryPoint() {
   return new NewModuleCopy;
   // zef::AModule<
   //     zef::Component<comp1, int, float, float>

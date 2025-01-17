@@ -54,7 +54,7 @@ public:
   static void instanciate(zef::Engine& engine, const ecs::Entity& self, float x,
                           float y, size_t size) {
     engine.addEntityComponent<zef::comp::position>(self, x, y);
-    engine.addEntityComponent<zef::comp::vector>(self, 1, 0, 18);
+    engine.addEntityComponent<zef::comp::vector>(self, 18, 0, 18);
     engine.addEntityComponent<Lifetime>(self, 1500 * 1000);
 
     zef::comp::drawable dr;

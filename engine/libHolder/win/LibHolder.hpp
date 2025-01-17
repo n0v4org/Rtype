@@ -22,7 +22,7 @@ namespace zef {
     typedef T *(*EntryPointFunc)();
 
   public:
-    explicit LibHolder(const std::string &filename) : _handler("sfml") {
+    explicit LibHolder(const std::string &filename) : _handler(filename) {
     }
     ~LibHolder() {
     }
