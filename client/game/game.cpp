@@ -95,13 +95,13 @@ void runClient(int sport, int cport, std::string ip) {
 
 
 
-//engine.initClient(sport, cport, 14001, ip);
+engine.initClient(sport, cport, 14001, ip);
 std::this_thread::sleep_for(std::chrono::microseconds(100));
-//engine.ClientSendTcp("JOIN 1 magicarpe");
+engine.ClientSendTcp("JOIN 1 magicarpe");
 std::this_thread::sleep_for(std::chrono::microseconds(100));
 
-//engine.ClientSendTcp("SET_PLAYER_READY");
-//engine.ClientSendTcp("LAUNCH_GAME");
+engine.ClientSendTcp("SET_PLAYER_READY");
+engine.ClientSendTcp("LAUNCH_GAME");
   /*engine.registerCommand(SPAWNALLY, [](zef::Engine& engine, input_t input) {
       CommandSpawnAlly csp =
   network::game::Commands<CommandSpawnAlly>(input).getCommand();

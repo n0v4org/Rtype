@@ -14,7 +14,6 @@
 #include "game.hpp"
 
 int main(int argc, char *argv[]) {
-  runClient(0, 0, "j");
   try {
     std::unique_ptr<client::Core> core =
         std::make_unique<client::Core>(argc, argv);
