@@ -95,7 +95,7 @@ namespace rtype {
       int tcp_port = generateRandomPort();
       int udp_port = generateRandomPort();
       json data;
-      data["status"]      = std::stoi(CMD_RES.at(QUIT_ROOM_CMD).at(STATUS));
+      data["status"]      = std::stoi(CMD_RES.at(LAUNCH_GAME_CMD).at(STATUS));
       data["description"] = res;
       data["room_id"]     = room;
       data["tcp_port"]    = tcp_port;
