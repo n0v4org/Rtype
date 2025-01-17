@@ -251,9 +251,9 @@ namespace zef {
 
     template <typename T, typename ...Args>
     void newLoadScene(Args ...args)  {
-      _new_next_scene = [&](Engine& engine) {
+      _new_next_scene = [args..., this](Engine& engine) {
         for (int i = 0; i < reg.getMaxId(); i++)
-            reg.kill_entity(ecs::Entity(i));
+            this->reg.kill_entity(ecs::Entity(i));
         T::loadScene(*this, args...);
       };
     }
@@ -265,13 +265,13 @@ namespace zef {
     }
 
     void stop() {
+      std::cout << "qkegr\n";
       running = false;
     }
 
     void run() {
       clock = std::chrono::high_resolution_clock::now();
       int i = 0;
-      loadModules();
       // ecs::Entity e(reg.spawn_entity());
       // addEntityComponent(e, "ExampleComp1", 2, 2.0f);
       // addEntityComponent(e, "ExampleComp2", 3.0f, 'c');

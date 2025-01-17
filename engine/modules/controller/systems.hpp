@@ -21,6 +21,9 @@ namespace zef {
         zef::Engine& engine,
         ecs::sparse_array<zef::comp::controllable>& controllables) {
       // zef::utils::UserInputs engine._user_inputs = engine.getUserInputs();
+      if (engine.getUserInputs().keyboard.close) {
+        engine.stop();
+      }
       if (controllables.size() == 0)
         return;
       for (auto&& [i, co] : ecs::indexed_zipper(controllables)) {
