@@ -1,9 +1,21 @@
+/*
+** EPITECH PROJECT, 2025
+** Rtype
+** File description:
+** systems
+*/
+
+#include <iostream>
 #include "systems.hpp"
 
 void zef::sys::system_constrollables(
     zef::Engine& engine,
     ecs::sparse_array<zef::comp::controllable>& controllables) {
   // zef::utils::UserInputs engine._user_inputs = engine.getUserInputs();
+  std::cout << engine.getUserInputs().keyboard.close << std::endl;
+  if (engine.getUserInputs().keyboard.close) {
+    engine.stop();
+  }
   if (controllables.size() == 0)
     return;
   for (auto&& [i, co] : ecs::indexed_zipper(controllables)) {

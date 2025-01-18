@@ -36,8 +36,8 @@ public:
         "newModuleCopy",
         [](zef::Engine &engine, ecs::sparse_array<comppp1> &comps) {
           for (auto &&[i, c] : ecs::indexed_zipper(comps)) {
-            std::cout << "Intttt: " << c.in << ", Floatttttttt: " << c.fl
-                      << ", Doubleeeeeeee: " << c.dou << std::endl;
+            // std::cout << "Intttt: " << c.in << ", Floatttttttt: " << c.fl
+            //           << ", Doubleeeeeeee: " << c.dou << std::endl;
           }
         });
   }

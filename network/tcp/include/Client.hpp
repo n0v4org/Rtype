@@ -24,7 +24,10 @@ namespace network {
       Client(const std::string& host, const int port,
              asio::io_context& io_service);
       void close() {
-        asio::post(io_context_, [this]() { socket_.close(); });
+        if (socket_.is_open()) {
+          socket_.cancel();
+          socket_.close();
+        }
       }
       ~Client();
       void write(const std::string& message) {
@@ -94,7 +97,6 @@ namespace network {
                 do_read();
               } else {
                 std::cerr << "Read error: " << ec.message() << "\n";
-                socket_.close();
               }
             });
       }
@@ -105,7 +107,6 @@ namespace network {
                             if (ec) {
                               std::cerr << "Write error: " << ec.message()
                                         << "\n";
-                              socket_.close();
                             }
                           });
       }

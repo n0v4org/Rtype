@@ -249,18 +249,31 @@ namespace zef {
       T::loadScene(*this);
     }
 
+    template <typename T, typename... Args>
+    void newLoadScene(Args... args) {
+      _new_next_scene = [args..., this](Engine& engine) {
+        for (int i = 0; i < reg.getMaxId(); i++)
+          this->reg.kill_entity(ecs::Entity(i));
+        T::loadScene(*this, args...);
+      };
+    }
+
     template <typename T>
     void registerScene(const std::string& name) {
       _scenes[name] = [](Engine& engine) { engine._loadScene<T>(); };
     }
 
     void stop() {
+      std::cout << "qkegr\n";
       running = false;
     }
 
     void run() {
       clock = std::chrono::high_resolution_clock::now();
       int i = 0;
+      // ecs::Entity e(reg.spawn_entity());
+      // addEntityComponent(e, "ExampleComp1", 2, 2.0f);
+      // addEntityComponent(e, "ExampleComp2", 3.0f, 'c');
       while (running) {
         elapsed = std::chrono::duration_cast<std::chrono::microseconds>(
             std::chrono::high_resolution_clock::now() - clock);
@@ -274,6 +287,9 @@ namespace zef {
 
         if (GraphLib)
           GraphLib->refresh();
+
+        _new_next_scene(*this);
+        _new_next_scene = [](zef::Engine& e) {};
 
         if (_next_scene != "") {
           for (int i = 0; i < reg.getMaxId(); i++) {
@@ -299,7 +315,7 @@ namespace zef {
       _client->get_udp_client()->send(c, cmd_id);
     }
 
-    void ClientSendTcp(int cmd_id, const std::string& c) {
+    void ClientSendTcp(const std::string& c) {
       _client->get_tcp_client()->send(c);
     }
 
@@ -349,7 +365,15 @@ namespace zef {
       for (const auto& entry : std::filesystem::directory_iterator("./")) {
         std::string mdname = entry.path().filename().string();
         if (mdname.rfind("libmodule", 0) == 0) {
+          std::cout << "akjhakezjhezfakjhbefza \n";
           std::string str  = mdname.substr(9);
+          auto f           = str.find_last_of('.');
+          std::string name = str.substr(0, f);
+          loadModule(name);
+        }
+        if (mdname.rfind("module", 0) == 0) {
+          std::string str = mdname.substr(6);
+          ;
           auto f           = str.find_last_of('.');
           std::string name = str.substr(0, f);
           loadModule(name);
@@ -384,6 +408,8 @@ namespace zef {
 
     std::map<std::string, std::function<void(Engine&)>> _scenes;
     std::string _next_scene = "";
+
+    std::function<void(Engine&)> _new_next_scene = [](zef::Engine& e) {};
 
     std::vector<std::unique_ptr<zef::ILibHolder<zef::IModule>>>
         _runtime_lib_holder;

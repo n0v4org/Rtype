@@ -98,4 +98,32 @@ inline void convertHolderToVect(zef::Engine& engine,
   }
 }
 
+void handleDamageEffect(zef::Engine& engine, ecs::sparse_array<Damaged>& dgs,
+                        ecs::sparse_array<zef::comp::drawable>& drs) {
+  for (auto&& [i, dg, dr] : ecs::indexed_zipper(dgs, drs)) {
+    dg._microsec -= engine.elapsed.count();
+    dr.rgba.R = 1;
+    dr.rgba.G = 0;
+    dr.rgba.B = 0;
+    if (dg._microsec <= 0) {
+      engine.removeEntityComponent<Damaged>(ecs::Entity(i));
+      dr.rgba.G = 1;
+      dr.rgba.B = 1;
+    }
+  }
+}
+
+void sinusoidalVectorSystem(zef::Engine& engine,
+                            ecs::sparse_array<SinusoidalMotion>& sms,
+                            ecs::sparse_array<zef::comp::vector>& vecs) {
+  for (auto&& [i, sm, vec] : ecs::indexed_zipper(sms, vecs)) {
+    float dt = engine.elapsed.count() / 1'000'000.f;
+
+    sm.phase += sm.frequency * dt;
+
+    vec.x = sm.speedX;
+    vec.y = sm.amplitude * std::sin(sm.phase);
+  }
+}
+
 #endif /* !SYSTEMS_HPP_ */

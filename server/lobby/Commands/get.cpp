@@ -12,6 +12,7 @@
 #include <random>
 #include <string>
 
+#include "macro.hpp"
 #include "Lobby.hpp"
 
 namespace rtype {
@@ -49,6 +50,22 @@ namespace rtype {
       json data           = get_data_single_room(_lobby.at(room), room);
       data["status"]      = std::stoi(CMD_RES.at(GET_LOBBY_CMD).at(STATUS));
       data["description"] = res;
+      _engine.ServerSendTcp(input.id, data.dump());
+    });
+
+    _engine.registerCommandTcp(GET_LOBBY_ID_CMD, [this](zef::Engine& engine,
+                                                        input_t input) {
+      std::string res = CMD_RES.at(GET_LOBBY_ID_CMD).at(SUCCESS);
+
+      if (bad_args(input, std::stoi(CMD_RES.at(GET_LOBBY_ID_CMD).at(NB_ARGS))))
+        return;
+      int lobby_id = get_lobby_id(input);
+      if (lobby_id == KO)
+        return;
+      json data;
+      data["status"]      = std::stoi(CMD_RES.at(GET_LOBBY_ID_CMD).at(STATUS));
+      data["description"] = res;
+      data["room_id"]     = lobby_id;
       _engine.ServerSendTcp(input.id, data.dump());
     });
   }

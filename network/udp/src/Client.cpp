@@ -48,10 +48,9 @@ namespace network {
     }
 
     void Client::close_connection() {
-      try {
+      if (_socket.is_open()) {
+        _socket.cancel();
         _socket.close();
-      } catch (const std::exception &e) {
-        std::cerr << "Close error: " << e.what() << std::endl;
       }
     }
 

@@ -17,6 +17,7 @@
 #include "modules/movement/components.hpp"
 #include "modules/movement/events.hpp"
 #include "modules/display/components.hpp"
+#include "BlastPatron.hpp"
 
 #include "events.hpp"
 
@@ -26,6 +27,24 @@ zef::comp::event_listener createBulletEventListener() {
   evtl.setEvent<zef::evt::startCollision>(
       [](zef::Engine& engine, size_t self, zef::evt::startCollision col) {
 
+      });
+
+  evtl.setEvent<OnDeath>([](zef::Engine& engine, size_t self, OnDeath db) {
+    float& posx = engine.fetchEntityComponent<zef::comp::position>(self).x;
+    float& posy = engine.fetchEntityComponent<zef::comp::position>(self).y;
+
+    engine.instanciatePatron<BlastPatron>(posx, posy, 1.0f);
+    engine.reg.kill_entity(ecs::Entity(self));
+  });
+
+  evtl.setEvent<GetHittedByPlayer>(
+      [](zef::Engine& engine, size_t self, GetHittedByPlayer p) {
+        engine.sendEvent<OnDeath>(self);
+      });
+
+  evtl.setEvent<zef::evt::startCollision>(
+      [](zef::Engine& engine, size_t self, zef::evt::startCollision p) {
+        engine.sendEvent<GetHittedByMonsterBullet>(p.other);
       });
 
   return evtl;
@@ -48,7 +67,8 @@ public:
     engine.addEntityComponent<zef::comp::event_listener>(
         self, createBulletEventListener());
 
-    std::vector<zef::utils::hitbox> hb = {zef::utils::hitbox(0, 0, 16, 16)};
+    std::vector<zef::utils::hitbox> hb = {
+        zef::utils::hitbox(0, 0, 16 * 2, 16 * 2)};
     engine.addEntityComponent<zef::comp::collidable>(self, hb);
   }
 };
