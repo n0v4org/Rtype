@@ -93,13 +93,9 @@ void runClient(int sport, int cport, std::string ip) {
 
   
 
-engine.initClient(sport, cport, 14001, ip);
-std::this_thread::sleep_for(std::chrono::microseconds(100));
-engine.ClientSendTcp("JOIN 1 magicarpe");
-std::this_thread::sleep_for(std::chrono::microseconds(100));
+//engine.initClient(sport, cport, 14001, ip);
+//std::this_thread::sleep_for(std::chrono::microseconds(100));
 
-engine.ClientSendTcp("SET_PLAYER_READY");
-engine.ClientSendTcp("LAUNCH_GAME");
   /*engine.registerCommand(SPAWNALLY, [](zef::Engine& engine, input_t input) {
       CommandSpawnAlly csp =
   network::game::Commands<CommandSpawnAlly>(input).getCommand();
@@ -225,16 +221,15 @@ engine.ClientSendTcp("LAUNCH_GAME");
   engine.registerComponent<TurretTurnRate>();
   engine.registerComponent<Damaged>();
   engine.registerComponent<SinusoidalMotion>();
-    //engine.loadModules();
-    
-  //   // engine.addSystem<>(entitycountdisplay);
+  engine.registerComponent<MoveCamera>();
 
   engine.addSystem<>("zefir", zef::sys::update_user_inputs);
-  engine.addSystem<>("zefir", [](zef::Engine& engine) {
-    engine.GraphLib->moveCamera(2, 0, 1);
+  engine.addSystem<MoveCamera>("zefir", [](zef::Engine& engine, ecs::sparse_array<MoveCamera>& mvs) {
+    for (auto &&[i, mv] : ecs::indexed_zipper(mvs))
+        engine.GraphLib->moveCamera(2, 0, 1);
   });
 
-  engine.addSystem<>("zefir", zef::sys::handle_client);
+  //engine.addSystem<>("zefir", zef::sys::handle_client);
 
   engine.addSystem<BackGround, zef::comp::position>("zefir",
                                                     handleBackgroundScroll);
@@ -243,8 +238,8 @@ engine.ClientSendTcp("LAUNCH_GAME");
   engine.addSystem<zef::comp::controllable>("zefir",
                                             zef::sys::system_constrollables);
   engine.addSystem<zef::comp::event_listener>("zefir", zef::sys::resolveEvent);
-  engine.addSystem<zef::comp::vector>("zefir",
-                                      zef::sys::normalize_velocity_vectors);
+  //engine.addSystem<zef::comp::vector>("zefir",
+  //                                    zef::sys::normalize_velocity_vectors);
   engine.addSystem<Ship, zef::comp::vector, zef::comp::drawable>("zefir",
                                                                  animateShips);
   engine.addSystem<zef::comp::position, zef::comp::vector>("zefir",
@@ -265,9 +260,11 @@ engine.ClientSendTcp("LAUNCH_GAME");
       sinusoidalVectorSystem
   );
 
-  engine.registerScene<LevelScene>("level");
-  engine.registerScene<LobbyScene>("lobby");
-  engine.loadScene("level");
+  //engine.registerScene<LevelScene>("level");
+  //engine.registerScene<LobbyScene>("lobby");
+  //engine.loadScene("level");
+
+  engine.newLoadScene<LevelScene>();
 
   engine.run();
 }

@@ -39,7 +39,8 @@
 //   }
 //   moduleName = "module" + moduleName;
 //   cmake << "cmake_minimum_required(VERSION 3.26)" << std::endl << std::endl;
-//   cmake << "set(CMAKE_CXX_STANDARD 17)" << std::endl
+//   cmake << "set(CMAKE_CXX_STANDARD 17)
+// " << std::endl
 //         << "set(CMAKE_CXX_STANDARD_REQUIRED ON)" << std::endl
 //         << std::endl;
 //   cmake << "project(" + moduleName + " VERSION 1.0)" << std::endl << std::endl;

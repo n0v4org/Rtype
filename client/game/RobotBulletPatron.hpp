@@ -57,7 +57,7 @@ public:
     {
         engine.addEntityComponent<zef::comp::position>(self, x, y);
 
-        engine.addEntityComponent<zef::comp::vector>(self, -1.f, 0.f, 5);
+        engine.addEntityComponent<zef::comp::vector>(self, -5.f, 0.f, 5);
 
         engine.addEntityComponent<Lifetime>(self, 15000 * 1000);
 
