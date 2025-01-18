@@ -293,6 +293,11 @@ void runClient(int sport, int cport, std::string ip) {
   engine.addSystem<SinusoidalAboveMotion, zef::comp::position>(
       "zefir", sinusoidalAbovePositionSystem);
 
+  engine.addSystem<zef::comp::position, Player>(
+    "zefir",
+    send_player_position
+);
+
   // engine.registerScene<LevelScene>("level");
   // engine.registerScene<LobbyScene>("lobby");
   // engine.loadScene("level");

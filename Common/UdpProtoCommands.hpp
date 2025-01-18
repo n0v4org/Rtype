@@ -10,6 +10,7 @@
 
 enum {
   LOGIN = 0,
+  GET_POS = 1,
 };
 
 enum {
@@ -26,6 +27,11 @@ struct login_t {
 
 struct pwd_error_t {
   char error[13];
+};
+
+struct pos_t {
+  float x;
+  float y;
 };
 
 #endif /* !UDPPROTOCOMMANDS_HPP_ */

@@ -12,6 +12,7 @@
 
 #include "components.hpp"
 #include "Engine.hpp"
+#include "../Common/UdpProtoCommands.hpp"
 
 void entitycountdisplay(zef::Engine& engine) {
   std::cout << engine.reg.getEntityCount() << std::endl;
@@ -135,6 +136,22 @@ void sinusoidalAbovePositionSystem(
     float wave = (std::sin(sam.phase) + 1.f) * 0.5f;
     pos.y      = sam.baseY - wave * sam.amplitude;
   }
+}
+
+void send_player_position(zef::Engine& engine,
+                          ecs::sparse_array<zef::comp::position>& positions,
+                          ecs::sparse_array<Player>& players)
+{
+    for (auto&& [entityIndex, pos, ply] : ecs::indexed_zipper(positions, players)) {
+        pos_t temp;
+        temp.x = pos.x;
+        temp.y = pos.y;
+
+        engine.ClientSendUdp<pos_t>(GET_POS, temp);
+
+         std::cout << "Envoyé position player " << entityIndex
+                   << " : (" << temp.x << ", " << temp.y << ")\n";
+    }
 }
 
 #endif /* !SYSTEMS_HPP_ */

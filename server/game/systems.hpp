@@ -121,7 +121,7 @@ inline void syncPlayers(zef::Engine& engine,
   }
 }
 
-void sinusoidalVectorSystem(zef::Engine& engine,
+inline void sinusoidalVectorSystem(zef::Engine& engine,
                             ecs::sparse_array<SinusoidalMotion>& sms,
                             ecs::sparse_array<zef::comp::vector>& vecs) {
   for (auto&& [i, sm, vec] : ecs::indexed_zipper(sms, vecs)) {
@@ -134,7 +134,7 @@ void sinusoidalVectorSystem(zef::Engine& engine,
   }
 }
 
-void sinusoidalAbovePositionSystem(
+inline void sinusoidalAbovePositionSystem(
     zef::Engine& engine, ecs::sparse_array<SinusoidalAboveMotion>& sams,
     ecs::sparse_array<zef::comp::position>& poss) {
   for (auto&& [i, sam, pos] : ecs::indexed_zipper(sams, poss)) {
@@ -143,6 +143,12 @@ void sinusoidalAbovePositionSystem(
     float wave = (std::sin(sam.phase) + 1.f) * 0.5f;
     pos.y      = sam.baseY - wave * sam.amplitude;
   }
+}
+
+inline void showShipPos(zef::Engine& e, ecs::sparse_array<Ship>& sss,ecs::sparse_array<zef::comp::position>& pss) {
+    for (auto &&[i, ss, pos] : ecs::indexed_zipper(sss, pss)) {
+      std::cout << "theo bibou" << pos.x << " " << pos.y << "\n";
+    } 
 }
 
 #endif /* !SYSTEMS_HPP_ */
