@@ -225,6 +225,7 @@ engine.ClientSendTcp("LAUNCH_GAME");
   engine.registerComponent<Damaged>();
   engine.registerComponent<SinusoidalMotion>();
   engine.registerComponent<zef::comp::gravity>();
+  engine.registerComponent<zef::comp::rigidbody>();
     //engine.loadModules();
     
   //   // engine.addSystem<>(entitycountdisplay);
@@ -252,9 +253,9 @@ engine.ClientSendTcp("LAUNCH_GAME");
                                                                  animateShips);
   engine.addSystem<zef::comp::position, zef::comp::vector>("zefir",
                                                            zef::sys::move);
-  engine.addSystem<Ship, zef::comp::position>("zefir", autoWalkShips);
-  engine.addSystem<zef::comp::collidable, zef::comp::position>(
-      "zefir", zef::sys::check_collidables);
+  engine.addSystem<zef::comp::rigidbody, zef::comp::position, zef::comp::vector>("zefir", zef::sys::check_rigidity);
+  engine.addSystem<Ship, zef::comp::vector>("zefir", autoWalkShips);
+  
   engine.addSystem<zef::comp::event_listener>("zefir", zef::sys::resolveEvent);
 
   engine.addSystem<Damaged, zef::comp::drawable>("zefir", handleDamageEffect);
@@ -267,6 +268,9 @@ engine.ClientSendTcp("LAUNCH_GAME");
       "zefir",
       sinusoidalVectorSystem
   );
+  
+  engine.addSystem<zef::comp::collidable, zef::comp::position>(
+      "zefir", zef::sys::check_collidables);
 
   //engine.registerScene<LevelScene>("level");
   //engine.registerScene<LobbyScene>("lobby");

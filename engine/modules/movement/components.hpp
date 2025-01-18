@@ -64,10 +64,6 @@ namespace zef {
         : _hitboxes(hitboxes), _rigidity_type(rigidity_type) {
       }
 
-      rigidbody(std::vector<utils::hitbox> &hitboxes, type rigidity_type)
-        : _hitboxes(hitboxes), _rigidity_type(rigidity_type) {
-      }
-
       ~rigidbody() {
       }
 

@@ -32,6 +32,10 @@ namespace zef {
         ecs::sparse_array<comp::position> &positions) {
       for (auto &&[i, col, pos] : ecs::indexed_zipper(collidables, positions)) {
         for (auto &hitboxe : col._hitboxes) {
+          if (engine.showHitboxes) {
+            engine.GraphLib->drawRectangle(hitboxe._posX, hitboxe._posY, hitboxe._width, hitboxe._height, {0, 1, 0, 1});
+          }
+
           hitboxe._posX = pos.x + hitboxe._offsetX - (hitboxe._width / 2);
           hitboxe._posY = pos.y + hitboxe._offsetY - (hitboxe._height / 2);
         }

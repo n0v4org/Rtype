@@ -128,6 +128,7 @@ public:
     std::vector<zef::utils::hitbox> hb = {
       zef::utils::hitbox(0, 0, 33, 17)};
     engine.addEntityComponent<zef::comp::collidable>(self, hb);
+    engine.addEntityComponent<zef::comp::rigidbody>(self, hb, zef::comp::rigidbody::DYNAMIC);
   }
 };
 

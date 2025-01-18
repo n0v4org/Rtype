@@ -83,9 +83,9 @@ void animateShips(zef::Engine& engine, ecs::sparse_array<Ship>& pls,
 }
 
 void autoWalkShips(zef::Engine& engine, ecs::sparse_array<Ship>& shs,
-                   ecs::sparse_array<zef::comp::position>& pss) {
-  for (auto&& [i, p, pos] : ecs::indexed_zipper(shs, pss)) {
-    pos.x += 2;
+                   ecs::sparse_array<zef::comp::vector>& pss) {
+  for (auto&& [i, p, vec] : ecs::indexed_zipper(shs, pss)) {
+    vec.x += 2;
   }
 }
 

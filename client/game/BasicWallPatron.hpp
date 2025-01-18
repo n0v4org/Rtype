@@ -34,6 +34,7 @@ public:
             zef::utils::hitbox(0, 0, 48.f * scaleX, 40.f * scaleY)
         };
         engine.addEntityComponent<zef::comp::collidable>(self, hb);
+        engine.addEntityComponent<zef::comp::rigidbody>(self, hb, zef::comp::rigidbody::STATIC);
     }
 };
 

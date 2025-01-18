@@ -185,6 +185,8 @@ namespace zef {
                              float value, RGBA backgroundColor,
                              RGBA foregroundColor)       = 0;
 
+      virtual void drawRectangle(float posX, float posY, float wigth, float height, RGBA color) = 0;
+
       virtual void saveAnimation(std::string animationName,
                                  std::string spriteSheetName,
                                  std::size_t startTileX, std::size_t startTileY,

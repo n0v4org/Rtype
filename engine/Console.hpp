@@ -31,6 +31,8 @@ namespace zef {
 
     void metrics(Engine &engine, const std::string &turn);
 
+    void hitbox(Engine &engine, const std::string &turn);
+
     void playSound(Engine &engine, const std::string &name);
 
     Console &displayMessages();

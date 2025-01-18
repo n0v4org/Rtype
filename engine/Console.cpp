@@ -28,6 +28,8 @@ void Console::run(std::mutex &mutex, Engine &engine) {
         playSound(engine, input.substr(10));
         else if (input.rfind("debug ", 0) == 0)
         debug(input.substr(6));
+        else if (engine.GraphLib && input.rfind("hitbox ", 0) == 0)
+        hitbox(engine, input.substr(7));
         else if (engine.GraphLib && input.rfind("metrics ", 0) == 0)
             metrics(engine, input.substr(8));
         else
@@ -45,6 +47,17 @@ void Console::help() {
             << std::endl;
     std::cout << "\tplaySound [name]   -> Play a sound by name." << std::endl;
     std::cout << "\tmetrics [on | off] -> Toggle metrics displaying." << std::endl;
+    std::cout << "\thitbox  [on | off] -> Toggle hitboxes displaying." << std::endl;
+}
+
+void Console::hitbox(Engine &engine, const std::string &turn) {
+    if (turn == "on")
+        engine.showHitboxes = true;
+    else if (turn == "off")
+        engine.showHitboxes = false;
+    else
+    std::cout << "[HITBOX]: argument \"" << turn
+                << "\" unknown, must be \"on\" or \"off\"." << std::endl;
 }
 
 void Console::metrics(Engine &engine, const std::string &turn) {
@@ -74,10 +87,9 @@ void Console::playSound(Engine &engine, const std::string &name) {
 }
 
 Console &Console::displayMessages() {
-    while (!_messageQueue.empty()) {
-    if (_debug)
+    while (!_messageQueue.empty() && _debug) {
         std::cout << "[DEBUG] " << _messageQueue.back() << std::endl;
-    _messageQueue.pop();
+        _messageQueue.pop();
     }
     return *this;
 }

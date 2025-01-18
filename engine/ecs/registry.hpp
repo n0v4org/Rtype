@@ -73,7 +73,6 @@ namespace ecs {
     entity_t spawn_entity() {
       if (_unusedids.empty()) {
         _maxId++;
-        std::cout << "maxidquandspawn " << _maxId << "\n";
         return entity_t(_entityCount++);
       } else {
         entity_t entity(_unusedids.front());

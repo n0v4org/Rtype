@@ -414,6 +414,15 @@ namespace zef {
                             foregroundColor.B, foregroundColor.A));
     }
 
+    void Sfml::drawRectangle(float posX, float posY, float width, float height, RGBA color) {
+      _rectangle.setSize(sf::Vector2f(width, height));
+      _rectangle.setPosition(posX, posY);
+      _rectangle.setOutlineThickness(2);
+      _rectangle.setOutlineColor(sf::Color(color.R * 255, color.G * 255, color.B * 255, color.A * 255));
+      _rectangle.setFillColor(sf::Color(0, 0, 0, 0));
+      _window.draw(_rectangle);
+    }
+
     void Sfml::playSound(std::string soundName, int volume) {
       _sounds.find(soundName)->second.first.setBuffer(
           _sounds.find(soundName)->second.second);
