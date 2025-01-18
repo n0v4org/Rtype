@@ -252,6 +252,8 @@ public:
             }
   		});
     	engine.instanciatePatron<MenuBackgroundPatron>();
+        engine.instanciatePatron<LobbyOffsetTracker>();
+
         engine.instanciatePatron<ButtonPatron>(
             850.0f, -450.0f,
             "returnButton",
@@ -265,7 +267,6 @@ public:
             "emptyButton",
             "Lobby List","eth",42,
             [](zef::Engine &engine, size_t self) {
-                engine.newLoadScene<OptionScene>();
             },
             420.0f, 170.0f, 1.f, 1.f
         );
@@ -276,30 +277,54 @@ public:
         );
 
         engine.instanciatePatron<ButtonPatron>(
-                  -200.0f, -400.0f,
-                  "returnButton",
-                  [](zef::Engine &engine, size_t self) {
-                      for (auto &&[i,p]: ecs::indexed_zipper(engine.reg.get_components<Tab>())){
-                          engine.reg.kill_entity(ecs::Entity(i));
-                          std::cout << i << " " <<std::endl;
-                      }
-                      engine.ClientSendTcp("GET_ALL_LOBBY");
-                  },
-                  210.0f, 210.0f, 0.5f, 0.5f
+            -175.0f, 100.0f,
+            "Forward_BTN",
+            [](zef::Engine &engine, size_t self) {
+                for (auto &&[i,p]: ecs::indexed_zipper(engine.reg.get_components<Tab>())){
+                    engine.reg.kill_entity(ecs::Entity(i));
+                }
+                for (auto &&[i,p]: ecs::indexed_zipper(engine.reg.get_components<zef::comp::LobbyOffset>())){
+                   p.offset == 0;
+                }
+                engine.ClientSendTcp("GET_ALL_LOBBY");
+            },
+            210.0f, 210.0f, 0.5f, 0.5f, 180.0f
         );
 
+		engine.instanciatePatron<ButtonPatron>(
+            -175.0f, -50.0f,
+            "Forward_BTN",
+            [](zef::Engine &engine, size_t self) {
+                for (auto &&[i,p]: ecs::indexed_zipper(engine.reg.get_components<Tab>())){
+                    engine.reg.kill_entity(ecs::Entity(i));
+                }
+                for (auto &&[i,p]: ecs::indexed_zipper(engine.reg.get_components<zef::comp::LobbyOffset>())){
+                   p.offset += 1;
+                }
+                engine.ClientSendTcp("GET_ALL_LOBBY");
+            },
+            210.0f, 210.0f, 0.5f, 0.5f, 270.0f
+        );
+
+    	engine.instanciatePatron<ButtonPatron>(
+            -175.0f, 250.0f,
+            "Forward_BTN",
+            [](zef::Engine &engine, size_t self) {
+                for (auto &&[i,p]: ecs::indexed_zipper(engine.reg.get_components<Tab>())){
+                    engine.reg.kill_entity(ecs::Entity(i));
+                }
+                for (auto &&[i,p]: ecs::indexed_zipper(engine.reg.get_components<zef::comp::LobbyOffset>())){
+                   p.offset -= 1;
+                }
+                engine.ClientSendTcp("GET_ALL_LOBBY");
+            },
+            210.0f, 210.0f, 0.5f, 0.5f, 90.0f
+        );
+
+        engine.instanciatePatron<LobbyCreatePatron>(350.f,-100.f);
+
+
         engine.ClientSendTcp("GET_ALL_LOBBY");
-   //     for (int i = 0; i < 3; i += 1) {
-   //     slots = rand() % 5;
-   //     engine.instanciatePatron<LobbyListTabPatron>(
-   //         -550.0f, -80.0f + (i * 180.0f),
-   //         8, names[rand() % 4],
-   //         slots, rand() % slots,
-   //         [](zef::Engine &engine, size_t self) {
-   //             engine.newLoadScene<LobbyScene>();
-   //         }
-   //     );
-    //    }
     }
 };
 
