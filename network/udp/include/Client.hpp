@@ -36,13 +36,11 @@ namespace network {
         try {
          std::array<uint8_t, 1024> message = Commands<T>::toArray(payload, cmd, _sequence_id);
 
-    // Compress the message
     std::vector<uint8_t> compressed_message = compressVector(
         std::vector<uint8_t>(message.begin(), message.end())
     );
 
-    // Prepare the header (4 bytes for original size + compressed data)
-    uint32_t compressed_size = compressed_message.size();
+    uint32_t compressed_size = message.size();
     std::cout << "Compressed size: " << compressed_size << std::endl;
     std::vector<uint8_t> header(4 + compressed_size);
     header[0] = static_cast<uint8_t>((compressed_size >> 24) & 0xFF);
@@ -50,7 +48,6 @@ namespace network {
     header[2] = static_cast<uint8_t>((compressed_size >> 8) & 0xFF);
     header[3] = static_cast<uint8_t>(compressed_size & 0xFF);
 
-    // Append compressed message to the header
     std::memcpy(header.data() + 4, compressed_message.data(), compressed_size);
             _socket.send_to(asio::buffer(header), _server_endpoint);
           _sequence_id++;

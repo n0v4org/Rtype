@@ -86,7 +86,6 @@ private:
         asio::async_read(socket_, asio::buffer(read_buffer_),
             [this, original_size, compressed_size](std::error_code ec, std::size_t /*length*/) {
                 if (!ec) {
-                    std::cout << "compressed size: " << compressed_size << std::endl;
                     process_message(read_buffer_, original_size);
                     do_read_header(); 
                 } else {
