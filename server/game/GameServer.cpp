@@ -49,11 +49,6 @@ namespace rtype {
         return;
       if (_lobby->bad_room(input, room))
         return;
-      json datar =
-          _lobby->get_data_single_room(_lobby->get_lobby().at(room), room);
-      datar["status"]      = std::stoi(CMD_RES.at(GET_LOBBY_CMD).at(STATUS));
-      datar["description"] = res;
-      _engine.ServerSendTcp(input.id, datar.dump());
       player_t temp_player = {};
       bool status          = false;
       for (const auto& room : _lobby->get_lobby()) {
