@@ -87,26 +87,11 @@ public:
   }
 };
 
-class Monster {
-public:
-  Monster() {
-  }
-};
-
 class Laser {
 public:
   Laser() {
   }
   size_t load = 0.0;
-};
-
-class VectorHolder {
-public:
-  VectorHolder(float _x, float _y) : x(_x), y(_y) {
-  }
-
-  float x;
-  float y;
 };
 
 class SinusoidalMotion {

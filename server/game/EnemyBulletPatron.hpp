@@ -21,7 +21,7 @@
 
 #include "events.hpp"
 
-zef::comp::event_listener createBulletEventListener() {
+inline zef::comp::event_listener createBulletEventListener() {
   //zef::comp::event_listener evtl;
 //
   //evtl.setEvent<zef::evt::startCollision>(

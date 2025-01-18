@@ -20,9 +20,7 @@
 
 #include "events.hpp"
 
-#include "BlastPatron.hpp"
-
-zef::comp::event_listener createBulletEventListener(size_t size) {
+inline zef::comp::event_listener createBulletEventListener(size_t size) {
   //zef::comp::event_listener evtl;
 //
   //evtl.setEvent<OnDeath>([size](zef::Engine& engine, size_t self, OnDeath db) {

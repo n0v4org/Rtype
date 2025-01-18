@@ -10,9 +10,7 @@
 
 #include "Engine.hpp"
 
-#include "PlayerPatron.hpp"
 #include "BulletPatron.hpp"
-#include "EnemyPatron.hpp"
 #include "events.hpp"
 
 class LevelScene {
