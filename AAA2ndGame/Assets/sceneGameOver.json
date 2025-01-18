@@ -1,0 +1,12 @@
+{
+
+    "name" : "GameOver",
+
+
+    "patrons" : [
+        ["BackgroundMenu"],
+        ["Bttn", "menu", 0.0, 0.0, "go_back_to_menu"],
+        ["ScoreBoard"]
+    ]
+
+}

@@ -1,0 +1,22 @@
+{
+    "name": "Background",
+    "inputs" : [],
+    "components" : [
+        {
+            "name": "NewDrawable",
+            "args": ["bg", 2.0, 1]
+        },
+        {
+            "name": "Position",
+            "args": [0.0, 0.0]
+        },
+        {
+            "name" : "Clickable",
+            "args" : [1920, 1080]
+        },
+        {
+            "name": "SCRIPT",
+            "args": ["bg_script"]
+        }
+    ]
+}

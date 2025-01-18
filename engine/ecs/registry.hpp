@@ -73,6 +73,7 @@ namespace ecs {
     entity_t spawn_entity() {
       if (_unusedids.empty()) {
         _maxId++;
+        std::cout << "maxidquandspawn " << _maxId << "\n";
         return entity_t(_entityCount++);
       } else {
         entity_t entity(_unusedids.front());
@@ -90,6 +91,7 @@ namespace ecs {
     }
 
     void kill_entity(entity_t const &e) {
+      std::cout << e << std::endl;
       for (auto &func : _deleteFunctions) {
         func.second(*this, e);
       }
@@ -200,13 +202,14 @@ namespace ecs {
       }
     }
 
-  private:
+    std::queue<size_t> _unusedids;
     size_t _entityCount = 0;
+    size_t _maxId = 0;
+  private:
     std::unordered_map<std::type_index, std::any> _components_arrays;
     std::unordered_map<std::type_index,
                        std::function<void(registry &, entity_t const &)>>
         _deleteFunctions;
-    size_t _maxId = 0;
 
     std::map<std::string,
              std::vector<std::function<void(zef::Engine &, registry &)>>>
@@ -220,7 +223,6 @@ namespace ecs {
     std::vector<std::string> _moduleNames;
 
     // std::vector<std::function<void(zef::Engine &, registry &)>> _systems;
-    std::queue<size_t> _unusedids;
   };
 }  // namespace ecs
 

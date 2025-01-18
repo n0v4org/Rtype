@@ -1,0 +1,14 @@
+{
+    "name": "Grass",
+    "inputs" : [],
+    "components" : [
+        {
+            "name": "NewDrawable",
+            "args": ["grass", 2.0, 3]
+        },
+        {
+            "name": "Position",
+            "args": [0.0, 0.0]
+        }
+    ]
+}
