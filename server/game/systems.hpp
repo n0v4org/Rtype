@@ -121,4 +121,28 @@ inline void syncPlayers(zef::Engine& engine,
   }
 }
 
+void sinusoidalVectorSystem(zef::Engine& engine,
+                            ecs::sparse_array<SinusoidalMotion>& sms,
+                            ecs::sparse_array<zef::comp::vector>& vecs) {
+  for (auto&& [i, sm, vec] : ecs::indexed_zipper(sms, vecs)) {
+    float dt = engine.elapsed.count() / 1'000'000.f;
+
+    sm.phase += sm.frequency * dt;
+
+    vec.x = sm.speedX;
+    vec.y = sm.amplitude * std::sin(sm.phase);
+  }
+}
+
+void sinusoidalAbovePositionSystem(
+    zef::Engine& engine, ecs::sparse_array<SinusoidalAboveMotion>& sams,
+    ecs::sparse_array<zef::comp::position>& poss) {
+  for (auto&& [i, sam, pos] : ecs::indexed_zipper(sams, poss)) {
+    float dt = engine.elapsed.count() / 1'000'000.f;
+    sam.phase += sam.frequency * dt;
+    float wave = (std::sin(sam.phase) + 1.f) * 0.5f;
+    pos.y      = sam.baseY - wave * sam.amplitude;
+  }
+}
+
 #endif /* !SYSTEMS_HPP_ */
