@@ -33,16 +33,31 @@ namespace network {
       bool isQueueEmpty();
 
       template <typename T>
-      void send(int idx, int cmd, T payload) {
-        std::array<uint8_t, 1024> message =
-            Commands<T>::toArray(payload, cmd, _sequence_id);
-        _socket.async_send_to(
-            asio::buffer(message), _clients[idx],
-            [this](const std::error_code& ec, std::size_t bytes_transferred) {
-              handle_send(ec, bytes_transferred);
-            });
-        _sequence_id++;
-      }
+    void send(int idx, int cmd, const T& payload) {
+        std::array<uint8_t, 1024> message = 
+        Commands<T>::toArray(payload, cmd, _sequence_id);
+
+    std::vector<uint8_t> compressed_message = compressVector(
+        std::vector<uint8_t>(message.begin(), message.end())
+    );
+
+    std::vector<uint8_t> header(4 + compressed_message.size());
+    uint32_t compressed_size = message.size();
+    header[0] = static_cast<uint8_t>((compressed_size >> 24) & 0xFF);
+    header[1] = static_cast<uint8_t>((compressed_size >> 16) & 0xFF);
+    header[2] = static_cast<uint8_t>((compressed_size >> 8) & 0xFF);
+    header[3] = static_cast<uint8_t>(compressed_size & 0xFF);
+
+    std::memcpy(header.data() + 4, compressed_message.data(), compressed_message.size());
+
+    _socket.async_send_to(
+        asio::buffer(header), _clients[idx],
+        [this](const std::error_code& ec, std::size_t bytes_transferred) {
+            handle_send(ec, bytes_transferred);
+        });
+
+    _sequence_id++;
+    }
 
       std::vector<int> getAllIds();
 

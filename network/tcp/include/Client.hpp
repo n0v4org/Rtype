@@ -84,8 +84,9 @@ private:
     void do_read_body(uint32_t compressed_size, uint32_t original_size) {
         read_buffer_.resize(compressed_size);
         asio::async_read(socket_, asio::buffer(read_buffer_),
-            [this, original_size](std::error_code ec, std::size_t /*length*/) {
+            [this, original_size, compressed_size](std::error_code ec, std::size_t /*length*/) {
                 if (!ec) {
+                    std::cout << "compressed size: " << compressed_size << std::endl;
                     process_message(read_buffer_, original_size);
                     do_read_header();
                 } else {
@@ -97,7 +98,8 @@ private:
     void process_message(const std::vector<char>& compressed_data, uint32_t original_size) {
         try {
             std::string input = decompressString(compressed_data, original_size);
-
+            std::cout << "decommpres size: " << input.size() << std::endl;
+            std::cout << "input " << input << std::endl;
             std::size_t cmd_len = input.find(' ');
             std::string cmd = (cmd_len != std::string::npos) ? input.substr(0, cmd_len) : input;
             std::string payload = (cmd_len != std::string::npos) ? input.substr(cmd_len + 1) : "";

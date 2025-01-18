@@ -23,7 +23,7 @@ namespace zef {
     inline void handle_server(zef::Engine& engine) {
       while (!engine._server->isQueueEmpty()) {
         input_t rcv = engine._server->popMessage();
-        std::cout << "salam" << rcv.tcp_cmd << " " << rcv.tcp_payload
+        std::cout  << rcv.tcp_cmd << " " << rcv.tcp_payload
                   << std::endl;
         if (rcv.protocol_type == UDP_CMD) {
           int cmdid = static_cast<int>(rcv.cmd);

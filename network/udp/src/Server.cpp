@@ -70,6 +70,7 @@ namespace network {
         if (f == _clients.end())
           throw std::runtime_error("client does not exist");
         input_t message = unpack(bytes_transferred, _recv_buffer_);
+        std::cout << "message: " << message.seq << " and "  << message.cmd << std::endl;
         auto it    = find(_clients.begin(), _clients.end(), _remote_endpoint_);
         message.id = it - _clients.begin();
         {

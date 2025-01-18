@@ -10,30 +10,106 @@
 
 #include <algorithm>
 #include <cstring>
+#include <iostream>
+
+#include <lz4.h>
 #include "Input.hpp"
 
 namespace network {
   namespace game {
 
-    static input_t unpack(std::size_t byte_size,
-                          std::array<uint8_t, 1024> _recv_buffer_) {
-      input_t input = {};
+    static std::vector<uint8_t> compressVector(const std::vector<uint8_t>& input) {
+    int maxCompressedSize = LZ4_compressBound(input.size());
+    std::vector<uint8_t> compressedData(maxCompressedSize);
 
-      input.cmd          = _recv_buffer_[0];
-      input.payload_size = (_recv_buffer_[1] << 8) | _recv_buffer_[2];
-      input.seq          = 0;
-      for (int i = 0; i < 4; i++) {
-        input.seq = (input.seq << 8) | _recv_buffer_[3 + i];
-      }
-      if (input.payload_size > 1024 || input.payload_size > (byte_size - 7)) {
-        throw std::runtime_error("Invalid payload size");
-      }
-      std::copy(_recv_buffer_.begin() + 7,
-                _recv_buffer_.begin() + 7 + input.payload_size,
-                input.payload.begin());
-      input.protocol_type = UDP_CMD;
-      return input;
+    int compressedSize = LZ4_compress_default(
+        reinterpret_cast<const char*>(input.data()),
+        reinterpret_cast<char*>(compressedData.data()),
+        input.size(),
+        maxCompressedSize
+    );
+
+    if (compressedSize <= 0) {
+        throw std::runtime_error("Compression failed!");
     }
+
+    compressedData.resize(compressedSize);
+
+    return compressedData;
+}
+
+static std::vector<uint8_t> decompressVector(const std::vector<uint8_t>& compressed, int originalSize) {
+    std::vector<uint8_t> decompressedData(originalSize);
+
+    int decompressedSize = LZ4_decompress_safe(
+        reinterpret_cast<const char*>(compressed.data()),
+        reinterpret_cast<char*>(decompressedData.data()),
+        compressed.size(),
+        originalSize
+    );
+
+    if (decompressedSize < 0) {
+        throw std::runtime_error("Decompression failed!");
+    }
+
+    decompressedData.resize(decompressedSize);
+
+    return decompressedData;
+}
+
+
+static input_t unpack(std::size_t byte_size, const std::array<uint8_t, 1024>& _recv_buffer_) {
+    input_t input = {};
+
+    // Ensure the buffer has at least the header size
+    if (byte_size < 4) {
+        throw std::runtime_error("Invalid data: Header too small");
+    }
+
+    // Step 1: Extract the original size from the header (first 4 bytes)
+    uint32_t original_size =
+        (_recv_buffer_[0] << 24) | (_recv_buffer_[1] << 16) |
+        (_recv_buffer_[2] << 8) | _recv_buffer_[3];
+
+    // Step 2: Extract the compressed data
+    if (byte_size <= 4) {
+        throw std::runtime_error("Invalid data: No compressed payload");
+    }
+    std::cout << original_size << std::endl;
+    std::vector<uint8_t> compressed_data(
+        _recv_buffer_.begin() + 4,
+        _recv_buffer_.begin() + byte_size
+    );
+    std::cout << compressed_data.size() << std::endl;
+    // Step 3: Decompress the data
+    std::vector<uint8_t> decompressed_data = decompressVector(compressed_data, original_size);
+
+    // Step 4: Perform existing unpack logic on decompressed data
+    if (decompressed_data.size() < 11) {
+        throw std::runtime_error("Invalid decompressed data: Too small");
+    }
+
+    input.cmd = decompressed_data[4];
+    input.payload_size = (decompressed_data[5] << 8) | decompressed_data[6];
+    input.seq = 0;
+
+    for (int i = 0; i < 4; i++) {
+        input.seq = (input.seq << 8) | decompressed_data[7 + i];
+    }
+
+    if (input.payload_size > 1024 || input.payload_size > (decompressed_data.size() - 11)) {
+        throw std::runtime_error("Invalid payload size");
+    }
+
+    std::copy(
+        decompressed_data.begin() + 11,
+        decompressed_data.begin() + 11 + input.payload_size,
+        input.payload.begin()
+    );
+
+    input.protocol_type = UDP_CMD;
+    return input;
+}
 
     template <typename T>
     class Commands {
