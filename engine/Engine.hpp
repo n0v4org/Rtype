@@ -53,6 +53,7 @@ namespace zef {
     Engine() {
       clock = std::chrono::high_resolution_clock::now();
     }
+
     ecs::registry reg;
 
     friend void sys::resolveEvent(
@@ -279,6 +280,10 @@ namespace zef {
       std::thread consoleThread([this](){
         console.run(consoleMutex, *this);
       });
+      int FPS = 0;
+      int nbFrames = 0;
+      getCpuUsage(prevActiveTime, prevTotalTime);
+      getRamUsage(prevTotalMem, prevAvailableMem);
       while (running) {
         elapsed = std::chrono::duration_cast<std::chrono::microseconds>(
             std::chrono::high_resolution_clock::now() - clock);
@@ -290,8 +295,35 @@ namespace zef {
         reg.run_systems(*this);
         console.displayMessages();
 
-        if (GraphLib)
+        nbFrames++;
+        _totalElapsed += elapsed.count();
+        if (_totalElapsed >= 1000000) {
+          FPS = nbFrames;
+          nbFrames = 0;
+          _totalElapsed = 0;
+
+          long long currActiveTime = 0, currTotalTime = 0;
+          getCpuUsage(currActiveTime, currTotalTime);
+
+          cpuUsage = 100.0 * (currActiveTime - prevActiveTime) / (currTotalTime - prevTotalTime);
+          prevActiveTime = currActiveTime;
+          prevTotalTime = currTotalTime;
+
+          long long totalMem = 0, availableMem = 0;
+          getRamUsage(totalMem, availableMem);
+          ramUsage = 100.0 * (totalMem - availableMem) / totalMem;
+          prevAvailableMem = availableMem;
+          prevTotalMem = totalMem;
+
+        }
+
+        if (GraphLib) {
+          if (showMetrics)
+            displayMetrics(FPS);
           GraphLib->refresh();
+        }
+          
+
 
         _new_next_scene(*this);
         _new_next_scene = [](zef::Engine& e) {};
@@ -304,6 +336,49 @@ namespace zef {
           _next_scene = "";
         }
       }
+    }
+
+    void displayMetrics(int FPS) {
+      GraphLib->drawTextHUD("FPS: " + std::to_string(FPS), "michelin", 13, 860, -520, 1, 1, 0, {0, 1, 0, 1});
+
+      std::ostringstream oss;
+      oss << std::fixed << std::setprecision(4) << cpuUsage;
+      std::string res = oss.str();
+      GraphLib->drawTextHUD("CPU Usage: " + res + "%", "michelin", 13, 860, -500, 1, 1, 0, {0, 1, 0, 1});
+
+      std::ostringstream oss2;
+      oss2 << std::fixed << std::setprecision(4) << ramUsage;
+      std::string res2 = oss2.str();
+      GraphLib->drawTextHUD("RAM Usage: " + res2 + "%", "michelin", 13, 860, -480, 1, 1, 0, {0, 1, 0, 1});
+
+      GraphLib->drawTextHUD("Entity count: " + std::to_string(reg.getEntityCount()), "michelin", 13, 860, -460, 1, 1, 0, {0, 1, 0, 1});
+    }
+
+    void getCpuUsage(long long &activeTime, long long &totalTime) {
+      std::ifstream statFile("/proc/stat");
+      std::string line;
+      std::getline(statFile, line);
+      statFile.close();
+      std::istringstream stream(line);
+      std::string cpu;
+      long long user, nice, system, idle, iowait, irq, softirq, steal;
+      stream >> cpu >> user >> nice >> system >> idle >> iowait >> irq >> softirq >> steal;
+      activeTime = user + nice + system + irq + softirq + steal;
+      totalTime = activeTime + idle + iowait;
+    }
+
+    void getRamUsage(long long &totalMem, long long &availableMem) {
+      std::ifstream file("/proc/meminfo");
+      std::string line;
+
+      while (std::getline(file, line)) {
+          if (line.find("MemTotal:") == 0) {
+              totalMem = std::stoll(line.substr(9)) * 1024;
+          } else if (line.find("MemAvailable:") == 0) {
+              availableMem = std::stoll(line.substr(13)) * 1024;
+          }
+      }
+      file.close();
     }
 
     void consoleSendMessage(const std::string& message) {
@@ -405,6 +480,14 @@ namespace zef {
     std::mutex consoleMutex;
 
   private:
+
+    long long prevActiveTime = 0;
+    long long prevTotalTime = 0;
+    long long prevTotalMem = 0;
+    long long prevAvailableMem = 0;
+    double cpuUsage = 0;
+    double ramUsage = 0;
+
     int gameFps = 60;
 
     bool running = true;
@@ -425,6 +508,10 @@ namespace zef {
     std::map<std::string, std::unique_ptr<zef::IModule>> _runtime_modules;
 
     std::vector<Patron> _patrons;
+    int64_t _totalElapsed = 0;
+
+    friend class Console;
+    bool showMetrics = false;
   };
 
   namespace sys {

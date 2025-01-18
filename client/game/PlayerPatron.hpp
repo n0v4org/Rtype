@@ -106,10 +106,10 @@ public:
         self, createPlayerEventListener());
 
     zef::comp::controllable cont;
-    cont.bindOnDown<SetPlayerVectorEvent>(zef::utils::ArrowUp, 0.0f, -1.0f);
-    cont.bindOnDown<SetPlayerVectorEvent>(zef::utils::ArrowDown, 0.0f, 1.0f);
-    cont.bindOnDown<SetPlayerVectorEvent>(zef::utils::ArrowRight, 1.0f, 0.0f);
-    cont.bindOnDown<SetPlayerVectorEvent>(zef::utils::ArrowLeft, -1.0f, 0.0f);
+    cont.bindOnDown<SetPlayerVectorEvent>(zef::utils::ArrowUp, 0.0f, -10.0f);
+    cont.bindOnDown<SetPlayerVectorEvent>(zef::utils::ArrowDown, 0.0f, 10.0f);
+    cont.bindOnDown<SetPlayerVectorEvent>(zef::utils::ArrowRight, 10.0f, 0.0f);
+    cont.bindOnDown<SetPlayerVectorEvent>(zef::utils::ArrowLeft, -10.0f, 0.0f);
     cont.bindOnDown<LoadShoot>(zef::utils::E);
     cont.bindOnRelease<ShootPlayerEvent>(zef::utils::E);
     cont.bindOnPressed<sendingVectorEvt>(zef::utils::ArrowUp, 0.0f, -1.0f);

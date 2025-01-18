@@ -24,10 +24,12 @@ void Console::run(std::mutex &mutex, Engine &engine) {
         std::getline(std::cin, input);
         if (input == "help")
         help();
-        else if (input.rfind("playSound ", 0) == 0)
+        else if (engine.GraphLib && input.rfind("playSound ", 0) == 0)
         playSound(engine, input.substr(10));
         else if (input.rfind("debug ", 0) == 0)
         debug(input.substr(6));
+        else if (engine.GraphLib && input.rfind("metrics ", 0) == 0)
+            metrics(engine, input.substr(8));
         else
         std::cout << "Command \"" << input
                     << "\" unknown type \"help\" to display all commands."
@@ -38,10 +40,22 @@ void Console::run(std::mutex &mutex, Engine &engine) {
 
 
 void Console::help() {
-    std::cout << "\thelp             -> Display all commands." << std::endl;
-    std::cout << "\tdebug [on | off] -> Turn on or off debug log."
+    std::cout << "\thelp               -> Display all commands." << std::endl;
+    std::cout << "\tdebug [on | off]   -> Turn on or off debug log."
             << std::endl;
-    std::cout << "\tplaySound [name] -> Play a sound by name." << std::endl;
+    std::cout << "\tplaySound [name]   -> Play a sound by name." << std::endl;
+    std::cout << "\tmetrics [on | off] -> Toggle metrics displaying." << std::endl;
+}
+
+void Console::metrics(Engine &engine, const std::string &turn) {
+    if (turn == "on")
+        engine.showMetrics = true;
+    else if (turn == "off")
+        engine.showMetrics = false;
+    else
+    std::cout << "[METRICS]: argument \"" << turn
+                << "\" unknown, must be \"on\" or \"off\"." << std::endl;
+        
 }
 
 void Console::debug(const std::string &turn) {

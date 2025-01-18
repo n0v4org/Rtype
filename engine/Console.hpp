@@ -29,6 +29,8 @@ namespace zef {
 
     void debug(const std::string &turn);
 
+    void metrics(Engine &engine, const std::string &turn);
+
     void playSound(Engine &engine, const std::string &name);
 
     Console &displayMessages();
