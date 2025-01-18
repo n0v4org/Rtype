@@ -66,7 +66,10 @@ void runClient(int sport, int cport, std::string ip) {
 
 
   engine.registerCommandTcp("202", [](zef::Engine& engine, input_t input) {
-      std::cout << input.tcp_payload << std::endl;
+    nlohmann::json j = nlohmann::json::parse(input.tcp_payload);
+    int id = j["rooms_id"];
+    std::string cmd = "GET_LOBBY " + std::to_string(id);
+    engine.ClientSendTcp(cmd);
   });
   engine.registerCommandTcp("208", [](zef::Engine& engine, input_t input) {
     nlohmann::json j = nlohmann::json::parse(input.tcp_payload);
@@ -75,7 +78,24 @@ void runClient(int sport, int cport, std::string ip) {
     engine.ClientSendTcp(cmd);
   });
   engine.registerCommandTcp("203", [](zef::Engine& engine, input_t input) {
-      std::cout << input.tcp_payload << std::endl;
+      nlohmann::json j = nlohmann::json::parse(input.tcp_payload);
+      std::vector<std::pair<int,int>>playerCoords = {{-100.0f, -250.0f},{-150.0f,100.0f},{0.0f,350.0f},{550.0f,0.0f},{400.0f,-300.0f}};
+      for (auto &&[i,p]: ecs::indexed_zipper(engine.reg.get_components<PlayerSlot>())){
+          engine.reg.kill_entity(ecs::Entity(i));
+      }
+      for (int i = 0; i < 5; i++) {
+          if (i < j["players"].size()){
+            engine.instanciatePatron<LobbyPlayerSlot>(playerCoords[i].first,playerCoords[i].second,j["players"][i]["username"],"lobbyPlayer"+std::to_string(i),j["players"][i]["id"],j["players"][i]["is_admin"],j["players"][i]["is_ready"],false);
+          }
+          else {
+            engine.instanciatePatron<LobbyPlayerSlot>(playerCoords[i].first,playerCoords[i].second,"","lobbyPlayer"+std::to_string(i),0,false,false,false);
+          }
+      }
+//    engine.instanciatePatron<LobbyPlayerSlot>(-100.0f,-250.0f,"tristre","lobbyPlayer1",1,true,false,false);
+//    engine.instanciatePatron<LobbyPlayerSlot>(-150.0f,100.0f,"","lobbyPlayer2",1,true,true,false);
+//    engine.instanciatePatron<LobbyPlayerSlot>(0.0f, 350.0f,"isacre","lobbyPlayer3",1,false,true,false);
+//    engine.instanciatePatron<LobbyPlayerSlot>(550.0f, 0.0f,"#EIPCPPVITE","lobbyPlayer4",1,true,true,false);
+//    engine.instanciatePatron<LobbyPlayerSlot>(400.0f,-300.0f,"I C S","lobbyPlayer0",1,false,false,false);
   });
   engine.registerCommandTcp("204", [ip](zef::Engine& engine, input_t input) {
       std::cout << input.tcp_payload << std::endl;
