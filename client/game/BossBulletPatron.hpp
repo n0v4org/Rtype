@@ -29,12 +29,12 @@ inline zef::comp::event_listener createBossBulletEventListener() {
     engine.reg.kill_entity(ecs::Entity(self));
   });
 
-    evtl.setEvent<GetHittedByBullet>(
+  evtl.setEvent<GetHittedByBullet>(
       [](zef::Engine& engine, size_t self, GetHittedByBullet p) {
         engine.addEntityComponent<Damaged>(ecs::Entity(self), 100 * 1000);
       });
 
-    evtl.setEvent<zef::evt::startCollision>(
+  evtl.setEvent<zef::evt::startCollision>(
       [](zef::Engine& engine, size_t self, zef::evt::startCollision p) {
         engine.sendEvent<GetHittedByMonster>(p.other);
       });
