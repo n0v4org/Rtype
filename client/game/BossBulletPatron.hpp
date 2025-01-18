@@ -39,11 +39,6 @@ inline zef::comp::event_listener createBossBulletEventListener() {
         engine.sendEvent<GetHittedByMonster>(p.other);
       });
 
-    evtl.setEvent<zef::evt::startCollision>(
-      [](zef::Engine& engine, size_t self, zef::evt::startCollision p) {
-        engine.sendEvent<GetHittedByMonsterBullet>(p.other);
-      });
-
   return evtl;
 }
 

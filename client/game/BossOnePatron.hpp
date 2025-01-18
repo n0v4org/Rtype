@@ -35,9 +35,9 @@ inline zef::comp::event_listener createBossOneEventListener() {
   evtl.setEvent<BossShoot>([](zef::Engine& engine, size_t self, BossShoot p) {
     auto& bossPos = engine.fetchEntityComponent<zef::comp::position>(self);
 
-    size_t count = 19;
+    size_t count = 20;
 
-    float amplitudeMax = 400.f;
+    float amplitudeMax = 600.f;
 
     float frequency = 1.f;
 
@@ -47,7 +47,7 @@ inline zef::comp::event_listener createBossOneEventListener() {
       float ratio       = static_cast<float>(i) / (count - 1);
       float myAmplitude = amplitudeMax * ratio;
 
-      float bulletX = bossPos.x - 70.f - i * 30.f;
+      float bulletX = bossPos.x - 70.f - i * 20.f;
       float bulletY = bossPos.y + 240.f;
 
       ecs::Entity bullet = engine.instanciatePatron<BossBulletPatron>(
