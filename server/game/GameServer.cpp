@@ -21,10 +21,9 @@ namespace rtype {
   GameServer::GameServer(int udp_port, int tcp_port) {
     _engine.initServer(udp_port, tcp_port);
     _lobby = std::make_unique<Lobby>(_engine);
-    _game  = std::make_unique<Game>();
+    
     _lobby->RegisterLobbyCmd();
     RegisterLaunchGameCmd();
-    _game->RegisterGameCmd();
     _engine.addSystem<>(ENGINE_NAME, zef::sys::handle_server);
   }
 
@@ -104,7 +103,11 @@ namespace rtype {
           _engine.ServerSendTcp(player.id, player_data.dump());
         }
       }
-      _game->init_game(players_uuid, tcp_port, udp_port);
+
+    _games.push_back(std::thread([this, players_uuid, tcp_port, udp_port]() {
+        _game  = std::make_unique<Game>();
+        _game->init_game(players_uuid, tcp_port, udp_port);
+    }));
     });
   }
 
