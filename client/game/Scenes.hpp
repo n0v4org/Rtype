@@ -26,6 +26,7 @@
 #include "WaterWallPatron.hpp"
 #include "BlockWallPatron.hpp"
 #include "BossOnePatron.hpp"
+#include "RoomPatron.hpp"
 
 class LevelScene {
 public:
@@ -60,6 +61,17 @@ public:
     zef::comp::controllable cont;
     cont.bindOnPressed<testNETtest>(zef::utils::Space);
     engine.addEntityComponent<zef::comp::controllable>(e, cont);
+  }
+};
+
+class TestScene2 {
+public:
+  static void loadScene(zef::Engine& engine) {
+    engine.addEntityComponent<MoveCamera>(engine.reg.spawn_entity());
+    engine.instanciatePatron<PlayerPatron>(0.0f, 0.0f, 0);
+    engine.instanciatePatron<BackgroundPatron>(0.0f, 0.0f);
+    engine.instanciatePatron<BackgroundPatron>(1920.0f, 0.0f);
+    engine.instanciatePatron<RoomPatron>("../Assets/config/bossRoomEx.txt");
   }
 };
 
