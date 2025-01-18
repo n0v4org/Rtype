@@ -21,7 +21,7 @@ namespace rtype {
     _engine.registerCommandTcp(JOIN_ROOM_CMD, [this](zef::Engine& engine,
                                                      input_t input) {
       std::string res = CMD_RES.at(JOIN_ROOM_CMD).at(SUCCESS);
-      std::cout <<  '|' << input.tcp_payload << '|' << std::endl;
+      std::cout << '|' << input.tcp_payload << '|' << std::endl;
 
       if (bad_args(input, std::stoi(CMD_RES.at(JOIN_ROOM_CMD).at(NB_ARGS))))
         return;
