@@ -103,4 +103,18 @@ public:
   }
 };
 
+// Dans components.hpp (ou ailleurs)
+class SinusoidalAboveMotion {
+public:
+    SinusoidalAboveMotion(float baseY, float amplitude, float frequency)
+        : baseY(baseY), amplitude(amplitude), frequency(frequency), phase(0.f)
+    {}
+
+    float baseY;
+    float amplitude;
+    float frequency;
+    float phase;
+};
+
+
 #endif /* !COMPONENTS_HPP_ */

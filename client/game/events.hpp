@@ -48,4 +48,11 @@ struct SetEnemyPos {
 
 struct RobotShoot {};
 
+struct MiniBossShoot {
+  float vx;
+  float vy;
+};
+
+struct BossShoot {};
+
 #endif /* !EVENTS_HPP_ */
