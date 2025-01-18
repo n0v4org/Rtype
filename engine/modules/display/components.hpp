@@ -15,6 +15,42 @@
 
 namespace zef {
   namespace comp {
+
+    class LobbyCreateTrack {
+    public:
+      LobbyCreateTrack() {
+        std::cout << "LobbyCreateTrack" << std::endl;
+      }
+      int _nbSlots = 3;
+      std::string _name = "NewLobby";
+      std::string _pwd = "magicarpe";
+    };
+
+    class LobbyOffset {
+    public:
+      LobbyOffset() {
+      }
+      int offset = -1;
+    };
+
+//UWU  class MyInfo {
+//UWU     public:
+//UWU       MyInfo() {
+//UWU     }
+//UWU     bool admin = false;
+//UWU     int id;
+//UWU   };
+
+    class LobbyInfoTrack{
+    public:
+      LobbyInfoTrack() {
+      }
+      nlohmann::json j = nlohmann::json::parse("{}");
+
+
+    };
+
+
     class drawable {
     public:
       drawable() {
