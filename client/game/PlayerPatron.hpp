@@ -77,7 +77,7 @@ zef::comp::event_listener createPlayerEventListener() {
       [](zef::Engine& engine, size_t self, zef::evt::startCollision p) {
         engine.sendEvent<GetHittedByPlayer>(p.other);
       });
-      
+
   evtl.setEvent<GetHittedByMonster>(
       [](zef::Engine& engine, size_t self, GetHittedByMonster p) {
         engine.addEntityComponent<Damaged>(ecs::Entity(self), 100 * 1000);
