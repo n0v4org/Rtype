@@ -22,32 +22,32 @@
 #include "events.hpp"
 
 inline zef::comp::event_listener createBulletEventListener() {
-  //zef::comp::event_listener evtl;
-//
-  //evtl.setEvent<zef::evt::startCollision>(
+  // zef::comp::event_listener evtl;
+  //
+  // evtl.setEvent<zef::evt::startCollision>(
   //    [](zef::Engine& engine, size_t self, zef::evt::startCollision col) {
-//
+  //
   //    });
-//
-  //evtl.setEvent<OnDeath>([](zef::Engine& engine, size_t self, OnDeath db) {
+  //
+  // evtl.setEvent<OnDeath>([](zef::Engine& engine, size_t self, OnDeath db) {
   //  float& posx = engine.fetchEntityComponent<zef::comp::position>(self).x;
   //  float& posy = engine.fetchEntityComponent<zef::comp::position>(self).y;
-//
+  //
   //  engine.instanciatePatron<BlastPatron>(posx, posy, 1.0f);
   //  engine.reg.kill_entity(ecs::Entity(self));
   //});
-//
-  //evtl.setEvent<GetHittedByPlayer>(
+  //
+  // evtl.setEvent<GetHittedByPlayer>(
   //    [](zef::Engine& engine, size_t self, GetHittedByPlayer p) {
   //      engine.sendEvent<OnDeath>(self);
   //    });
-//
-  //evtl.setEvent<zef::evt::startCollision>(
+  //
+  // evtl.setEvent<zef::evt::startCollision>(
   //    [](zef::Engine& engine, size_t self, zef::evt::startCollision p) {
   //      engine.sendEvent<GetHittedByMonsterBullet>(p.other);
   //    });
-//
-  //return evtl;
+  //
+  // return evtl;
 }
 
 class EnemyBulletPatron {

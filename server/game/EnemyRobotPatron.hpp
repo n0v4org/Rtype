@@ -22,39 +22,40 @@
 #include "RobotBulletPatron.hpp"
 
 inline zef::comp::event_listener createRobotEventListener() {
-  //zef::comp::event_listener evtl;
-//
-  //evtl.setEvent<SetEnemyVectorEvent>(
+  // zef::comp::event_listener evtl;
+  //
+  // evtl.setEvent<SetEnemyVectorEvent>(
   //    [](zef::Engine& engine, size_t self, SetEnemyVectorEvent e) {
   //      auto& vec = engine.fetchEntityComponent<zef::comp::vector>(self);
   //      vec.x     = e.vx;
   //      vec.y     = e.vy;
   //    });
-//
-  //evtl.setEvent<RobotShoot>([](zef::Engine& engine, size_t self, RobotShoot p) {
+  //
+  // evtl.setEvent<RobotShoot>([](zef::Engine& engine, size_t self, RobotShoot
+  // p) {
   //  auto& pos  = engine.fetchEntityComponent<zef::comp::position>(self);
   //  auto& draw = engine.fetchEntityComponent<zef::comp::drawable>(self);
   //  engine.instanciatePatron<RobotBulletPatron>(pos.x - 130, pos.y - 30);
   //  draw.playAnimation("enemyRobotS", 1.f);
   //});
-//
-  //evtl.setEvent<OnDeath>([](zef::Engine& engine, size_t self, OnDeath p) {
+  //
+  // evtl.setEvent<OnDeath>([](zef::Engine& engine, size_t self, OnDeath p) {
   //  auto& pos = engine.fetchEntityComponent<zef::comp::position>(self);
   //  engine.instanciatePatron<BlastPatron>(pos.x, pos.y, 3.0f);
   //  engine.reg.kill_entity(ecs::Entity(self));
   //});
-//
-  //evtl.setEvent<GetHittedByBullet>(
+  //
+  // evtl.setEvent<GetHittedByBullet>(
   //    [](zef::Engine& engine, size_t self, GetHittedByBullet p) {
   //      engine.addEntityComponent<Damaged>(ecs::Entity(self), 100 * 1000);
   //    });
-//
-  //evtl.setEvent<zef::evt::startCollision>(
+  //
+  // evtl.setEvent<zef::evt::startCollision>(
   //    [](zef::Engine& engine, size_t self, zef::evt::startCollision p) {
   //      engine.sendEvent<GetHittedByMonster>(p.other);
   //    });
-//
-  //return evtl;
+  //
+  // return evtl;
 }
 
 class EnemyRobotPatron {

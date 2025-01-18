@@ -21,13 +21,13 @@
 #include "BlastPatron.hpp"
 
 inline zef::comp::event_listener createCrabEventListener() {
-  //zef::comp::event_listener evtl;
-//
-  //evtl.setEvent<SetEnemyVectorEvent>(
+  // zef::comp::event_listener evtl;
+  //
+  // evtl.setEvent<SetEnemyVectorEvent>(
   //    [](zef::Engine& engine, size_t self, SetEnemyVectorEvent e) {
   //      auto& vec      = engine.fetchEntityComponent<zef::comp::vector>(self);
-  //      auto& draw     = engine.fetchEntityComponent<zef::comp::drawable>(self);
-  //      vec.x          = e.vx;
+  //      auto& draw     =
+  //      engine.fetchEntityComponent<zef::comp::drawable>(self); vec.x = e.vx;
   //      vec.y          = e.vy;
   //      float angleRad = std::atan2(-vec.x, vec.y);
   //      float angleDeg = angleRad * 180.f / static_cast<float>(M_PI);
@@ -39,31 +39,31 @@ inline zef::comp::event_listener createCrabEventListener() {
   //      std::cout << angleDeg << std::endl;
   //      draw.rotation = angleDeg;
   //    });
-//
-  //evtl.setEvent<SetEnemyPos>(
+  //
+  // evtl.setEvent<SetEnemyPos>(
   //    [](zef::Engine& engine, size_t self, SetEnemyPos p) {
   //      auto& pos = engine.fetchEntityComponent<zef::comp::position>(self);
   //      pos.x     = p.px;
   //      pos.y     = p.py;
   //    });
-//
-  //evtl.setEvent<OnDeath>([](zef::Engine& engine, size_t self, OnDeath p) {
+  //
+  // evtl.setEvent<OnDeath>([](zef::Engine& engine, size_t self, OnDeath p) {
   //  auto& pos = engine.fetchEntityComponent<zef::comp::position>(self);
   //  engine.instanciatePatron<BlastPatron>(pos.x, pos.y, 3.0f);
   //  engine.reg.kill_entity(ecs::Entity(self));
   //});
-//
-  //evtl.setEvent<GetHittedByBullet>(
+  //
+  // evtl.setEvent<GetHittedByBullet>(
   //    [](zef::Engine& engine, size_t self, GetHittedByBullet p) {
   //      engine.addEntityComponent<Damaged>(ecs::Entity(self), 100 * 1000);
   //    });
-//
-  //evtl.setEvent<zef::evt::startCollision>(
+  //
+  // evtl.setEvent<zef::evt::startCollision>(
   //    [](zef::Engine& engine, size_t self, zef::evt::startCollision p) {
   //      engine.sendEvent<GetHittedByMonster>(p.other);
   //    });
-//
-  //return evtl;
+  //
+  // return evtl;
 }
 
 class EnemyCrabPatron {

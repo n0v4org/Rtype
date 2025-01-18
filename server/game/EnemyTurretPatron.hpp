@@ -24,10 +24,11 @@
 
 zef::comp::event_listener createEnemyTurretEventListener(bool up_down,
                                                          bool left_right) {
-  //zef::comp::event_listener evtl;
-//
-  //evtl.setEvent<TurretTurn>([up_down, left_right](zef::Engine& engine,
-  //                                                size_t self, TurretTurn tt) {
+  // zef::comp::event_listener evtl;
+  //
+  // evtl.setEvent<TurretTurn>([up_down, left_right](zef::Engine& engine,
+  //                                                size_t self, TurretTurn tt)
+  //                                                {
   //  engine.fetchEntityComponent<TurretTurnRate>(self).tr = tt.angle;
   //  size_t& cf =
   //      engine.fetchEntityComponent<zef::comp::drawable>(self).current_frame;
@@ -42,8 +43,8 @@ zef::comp::event_listener createEnemyTurretEventListener(bool up_down,
   //      cf = 3;
   //  }
   //});
-//
-  //return evtl;
+  //
+  // return evtl;
 }
 
 class EnemyTurretPatron {

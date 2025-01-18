@@ -124,5 +124,4 @@ public:
   float phase;
 };
 
-
 #endif /* !COMPONENTS_HPP_ */

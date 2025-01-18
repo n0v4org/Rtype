@@ -23,35 +23,35 @@
 #include "BulletPatron.hpp"
 
 zef::comp::event_listener createAllyEventListener() {
-  //zef::comp::event_listener evtl;
-//
-  //evtl.setEvent<SetPlayerVectorEvent>(
+  // zef::comp::event_listener evtl;
+  //
+  // evtl.setEvent<SetPlayerVectorEvent>(
   //    [](zef::Engine& engine, size_t self, SetPlayerVectorEvent nv) {
   //      engine.fetchEntityComponent<VectorHolder>(self).x += nv.x;
   //      engine.fetchEntityComponent<VectorHolder>(self).y += nv.y;
   //    });
-//
-  //evtl.setEvent<ShootPlayerEvent>(
+  //
+  // evtl.setEvent<ShootPlayerEvent>(
   //    [](zef::Engine& engine, size_t self, ShootPlayerEvent sht) {
-//
+  //
   //    });
-//
-  //evtl.setEvent<GetHittedByMonsterBullet>(
+  //
+  // evtl.setEvent<GetHittedByMonsterBullet>(
   //    [](zef::Engine& engine, size_t self, GetHittedByMonsterBullet p) {
   //      engine.addEntityComponent<Damaged>(ecs::Entity(self), 100 * 1000);
   //    });
-//
-  //evtl.setEvent<zef::evt::startCollision>(
+  //
+  // evtl.setEvent<zef::evt::startCollision>(
   //    [](zef::Engine& engine, size_t self, zef::evt::startCollision p) {
   //      engine.sendEvent<GetHittedByPlayer>(p.other);
   //    });
-//
-  //evtl.setEvent<GetHittedByMonster>(
+  //
+  // evtl.setEvent<GetHittedByMonster>(
   //    [](zef::Engine& engine, size_t self, GetHittedByMonster p) {
   //      engine.addEntityComponent<Damaged>(ecs::Entity(self), 100 * 1000);
   //    });
-//
-  //return evtl;
+  //
+  // return evtl;
 }
 
 class AllyPatron {

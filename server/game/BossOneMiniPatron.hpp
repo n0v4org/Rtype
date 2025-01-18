@@ -23,24 +23,25 @@
 #include "EnemyBulletPatron.hpp"
 
 inline zef::comp::event_listener createMiniBossEventListener() {
-  //zef::comp::event_listener evtl;
-//
-  //evtl.setEvent<MiniBossShoot>(
+  // zef::comp::event_listener evtl;
+  //
+  // evtl.setEvent<MiniBossShoot>(
   //    [](zef::Engine& engine, size_t self, MiniBossShoot p) {
   //      auto& pos = engine.fetchEntityComponent<zef::comp::position>(self);
-//
+  //
   //      for (size_t i = 0; i < 5; i++)
-  //        engine.instanciatePatron<MiniBossBulletPatron>(pos.x - 50 - (i * 80),
+  //        engine.instanciatePatron<MiniBossBulletPatron>(pos.x - 50 - (i *
+  //        80),
   //                                                       pos.y, p.vx, p.vy);
   //    });
-//
-  //evtl.setEvent<OnDeath>([](zef::Engine& engine, size_t self, OnDeath p) {
+  //
+  // evtl.setEvent<OnDeath>([](zef::Engine& engine, size_t self, OnDeath p) {
   //  auto& pos = engine.fetchEntityComponent<zef::comp::position>(self);
   //  engine.instanciatePatron<BlastPatron>(pos.x, pos.y, 3.0f);
   //  engine.reg.kill_entity(ecs::Entity(self));
   //});
 
-  //return evtl;
+  // return evtl;
 }
 
 class BossOneMiniPatron {

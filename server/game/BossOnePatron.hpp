@@ -23,61 +23,63 @@
 #include "BossBulletPatron.hpp"
 
 inline zef::comp::event_listener createBossOneEventListener() {
-  //zef::comp::event_listener evtl;
-//
-  //evtl.setEvent<SetEnemyVectorEvent>(
+  // zef::comp::event_listener evtl;
+  //
+  // evtl.setEvent<SetEnemyVectorEvent>(
   //    [](zef::Engine& engine, size_t self, SetEnemyVectorEvent e) {
   //      auto& vec = engine.fetchEntityComponent<zef::comp::vector>(self);
   //      vec.x     = e.vx;
   //      vec.y     = e.vy;
   //    });
-//
-  //evtl.setEvent<BossShoot>([](zef::Engine& engine, size_t self, BossShoot p) {
+  //
+  // evtl.setEvent<BossShoot>([](zef::Engine& engine, size_t self, BossShoot p)
+  // {
   //  auto& bossPos = engine.fetchEntityComponent<zef::comp::position>(self);
-//
+  //
   //  size_t count = 20;
-//
+  //
   //  float amplitudeMax = 600.f;
-//
+  //
   //  float frequency = 1.f;
-//
+  //
   //  float offsetPhase = 0.3f;
-//
+  //
   //  for (size_t i = 0; i < count; i++) {
   //    float ratio       = static_cast<float>(i) / (count - 1);
   //    float myAmplitude = amplitudeMax * ratio;
-//
+  //
   //    float bulletX = bossPos.x - 70.f - i * 20.f;
   //    float bulletY = bossPos.y + 240.f;
-//
+  //
   //    ecs::Entity bullet = engine.instanciatePatron<BossBulletPatron>(
   //        bulletX, bulletY, 0.f, 0.f);
-//
+  //
   //    engine.addEntityComponent<SinusoidalAboveMotion>(bullet, bulletY,
-  //                                                     myAmplitude, frequency);
-//
+  //                                                     myAmplitude,
+  //                                                     frequency);
+  //
   //    auto& sam = engine.fetchEntityComponent<SinusoidalAboveMotion>(bullet);
   //    sam.phase = (count - i) * offsetPhase;
   //  }
   //});
-//
-  //evtl.setEvent<OnDeath>([](zef::Engine& engine, size_t self, OnDeath p) {
+  //
+  // evtl.setEvent<OnDeath>([](zef::Engine& engine, size_t self, OnDeath p) {
   //  auto& pos = engine.fetchEntityComponent<zef::comp::position>(self);
   //  engine.instanciatePatron<BlastPatron>(pos.x, pos.y, 3.0f);
   //  engine.reg.kill_entity(ecs::Entity(self));
   //});
-//
-  //evtl.setEvent<GetHittedByBullet>(
+  //
+  // evtl.setEvent<GetHittedByBullet>(
   //    [](zef::Engine& engine, size_t self, GetHittedByBullet p) {
   //      engine.addEntityComponent<Damaged>(ecs::Entity(self), 100 * 1000);
   //    });
-//
-  //evtl.setEvent<zef::evt::startCollision>(
+  //
+  // evtl.setEvent<zef::evt::startCollision>(
   //    [](zef::Engine& engine, size_t self, zef::evt::startCollision p) {
   //      engine.sendEvent<GetHittedByMonster>(p.other);
   //    });
-//
-  //return evtl;
+  //
+  // return evtl;
 }
 
 class BossOnePatron {
