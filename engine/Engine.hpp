@@ -256,6 +256,7 @@ namespace zef {
             reg.kill_entity(ecs::Entity(i));
         while (!reg._unusedids.empty()) reg._unusedids.pop();
         reg._maxId = 0;
+        reg._entityCount = 0;
         T::loadScene(*this, args...);
       };
     }
