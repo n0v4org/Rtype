@@ -17,24 +17,19 @@
 #include "modules/movement/components.hpp"
 #include "modules/movement/events.hpp"
 #include "modules/display/components.hpp"
+#include "modules/network/components.hpp"
 
 #include "events.hpp"
 
-inline zef::comp::event_listener createEnemyEventListener() {
-  zef::comp::event_listener evtl;
-
-  evtl.setEvent<GetHittedByBullet>(
-      [](zef::Engine& engine, size_t self, GetHittedByBullet g) {
-        engine.fetchEntityComponent<Health>(self).hp -= g.damage;
-        engine.sendEvent<DestroyBullet>(g.bullet);
-      });
-
-  evtl.setEvent<zef::evt::startCollision>(
-      [](zef::Engine& engine, size_t self, zef::evt::startCollision g) {
-        engine.sendEvent<CollideWithEnnemy>(g.other);
-      });
-
-  return evtl;
+zef::comp::event_listener createEnemyEventListener() {
+  //zef::comp::event_listener evtl;
+//
+  //evtl.setEvent<GetHittedByBullet>(
+  //    [](zef::Engine& engine, size_t self, GetHittedByBullet g) {
+  //      // engine.sendEvent<DestroyBullet>(g.bullet);
+  //    });
+//
+  //return evtl;
 }
 
 class EnemyPatron {
@@ -44,15 +39,8 @@ public:
     engine.addEntityComponent<zef::comp::position>(self, x, y);
     engine.addEntityComponent<zef::comp::vector>(self, -1, 0, 5);
     engine.addEntityComponent<zef::comp::replicable>(self, rep);
-    engine.addEntityComponent<Health>(self, 100, 100);
     engine.addEntityComponent<Monster>(self);
     engine.addEntityComponent<Lifetime>(self, 10 * 1000 * 1000);
-
-    zef::comp::drawable dr;
-    dr.addAnimation("ship", 5, 200);
-    dr.playAnimationLoop("ship", 1);
-    dr.setScale(2.0, 2.0);
-    engine.addEntityComponent<zef::comp::drawable>(self, dr);
 
     engine.addEntityComponent<zef::comp::event_listener>(
         self, createEnemyEventListener());
