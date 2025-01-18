@@ -22,6 +22,16 @@
 #include "CommonCommands.hpp"
 #include "UdpProtoCommands.hpp"
 
+#include <random>
+int generateRandomPort() {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> distr(1024, 65535);
+
+    return distr(gen);
+  }
+
+
 void runClient(int sport, int cport, std::string ip) {
   zef::Engine engine;
 
@@ -78,12 +88,22 @@ void runClient(int sport, int cport, std::string ip) {
   engine.registerCommandTcp("203", [](zef::Engine& engine, input_t input) {
     std::cout << input.tcp_payload << std::endl;
   });
-  engine.registerCommandTcp("204", [ip](zef::Engine& engine, input_t input) {
+
+
+  engine.registerCommandTcp("221", [ip](zef::Engine& engine, input_t input) {
+    std::vector <size_t> idAlly;
+    nlohmann::json rep = nlohmann::json::parse(input.tcp_payload);
+    for (auto &i : rep["players"])
+        idAlly.push_back(i[1]);
+    engine.newLoadScene<LevelScene>(idAlly);
+  });
+
+  engine.registerCommandTcp("207", [ip](zef::Engine& engine, input_t input) {
     std::cout << input.tcp_payload << std::endl;
     nlohmann::json rep = nlohmann::json::parse(input.tcp_payload);
     std::cout << "switching port into " << rep["tcp_port"] << " "
               << rep["udp_port"] << " " << rep["player_uuid"] << std::endl;
-    engine._client->reset_clients(rep["udp_port"], 15005, rep["tcp_port"], ip);
+    engine._client->reset_clients(rep["udp_port"], generateRandomPort(), rep["tcp_port"], ip);
     std::this_thread::sleep_for(std::chrono::microseconds(100));
     std::string uuid     = rep["player_uuid"];
     std::string loginstr = "LOGIN " + uuid;
@@ -96,7 +116,15 @@ void runClient(int sport, int cport, std::string ip) {
     std::cout << "hiih\n";
   });
 
-  // engine.initClient(sport, cport, 14001, ip);
+   engine.initClient(sport, generateRandomPort(), cport, ip);
+   sleep(1);
+
+   engine.ClientSendTcp("JOIN 1 magicarpe");
+   sleep(1);
+   engine.ClientSendTcp("SET_PLAYER_READY");
+
+    
+
   // std::this_thread::sleep_for(std::chrono::microseconds(100));
 
   /*engine.registerCommand(SPAWNALLY, [](zef::Engine& engine, input_t input) {
@@ -234,7 +262,7 @@ void runClient(int sport, int cport, std::string ip) {
           engine.GraphLib->moveCamera(2, 0, 1);
       });
 
-  // engine.addSystem<>("zefir", zef::sys::handle_client);
+   engine.addSystem<>("zefir", zef::sys::handle_client);
 
   engine.addSystem<BackGround, zef::comp::position>("zefir",
                                                     handleBackgroundScroll);
@@ -269,7 +297,7 @@ void runClient(int sport, int cport, std::string ip) {
   // engine.registerScene<LobbyScene>("lobby");
   // engine.loadScene("level");
 
-  engine.newLoadScene<LevelScene>();
+  engine.newLoadScene<TestScene>();
 
   engine.run();
 }
