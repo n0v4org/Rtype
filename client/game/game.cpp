@@ -278,6 +278,13 @@ engine.initClient(sport, cport, 14001, ip);
   engine.registerComponent<zef::comp::clickable>();
   engine.registerComponent<Tab>();
   engine.registerComponent<PlayerSlot>();
+  engine.registerComponent<PlayerKickAdminWindow>();
+  engine.registerComponent<SlotRedo>();
+  engine.registerComponent<zef::comp::LobbyOffset>();
+  engine.registerComponent<zef::comp::LobbyCreateTrack>();
+  engine.registerComponent<zef::comp::LobbyInfoTrack>();
+//UWU  engine.registerComponent<zef::comp::MyInfo>();
+
     //engine.loadModules();
 
   //   // engine.addSystem<>(entitycountdisplay);
