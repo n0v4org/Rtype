@@ -50,6 +50,7 @@ namespace zef {
     struct new_event_listener {
     public:
       new_event_listener() {
+        std::cout << "hhhh\n" << std::endl;
       }
 
       template <typename... U, typename Functor>

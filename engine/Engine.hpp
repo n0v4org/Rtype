@@ -34,6 +34,7 @@
 #include "IModule.hpp"
 #include "LibHolder.hpp"
 #include "Patron.hpp"
+#include "Scene.hpp"
 #include "Console.hpp"
 
 // #include "Scene.hpp"
@@ -170,11 +171,12 @@ namespace zef {
     ecs::Entity instanciatePatron(const std::string& name,
                                   std::vector<std::any> args) {
       ecs::Entity new_entity = reg.spawn_entity();
+      std::cout << "nentity: " << new_entity << std::endl;
       for (auto&& p : _patrons) {
         if (p._name == name) {
           std::map<std::string, std::any> ipt;
           int incr = 0;
-          for (auto&& [n, t] : p._inputs) {
+          for (auto&& [n, t] : p.__inputs) {
             ipt[n] = args[incr++];
           }
 
@@ -201,6 +203,9 @@ namespace zef {
                   pargs.push_back(val);
               }
             }
+            if (n == "SCRIPT")
+              addEntityComponent<comp::new_event_listener>(new_entity, _script_map[std::any_cast<std::string>(pargs[0])]);
+            else
             addEntityComponent(new_entity, n, pargs);
           }
         }
@@ -210,6 +215,31 @@ namespace zef {
 
     void loadPatron(const std::string& fname) {
       _patrons.push_back(PatronParser::parse(fname));
+    }
+
+    void registerScene(const std::string& fname) {
+      _scenes_config.push_back(SceneParser::parse(fname));
+    }
+
+    void loadSceneConfig(const std::string& name) {
+      std::cout << "loading " << name << std::endl;
+      for (auto &&s : _scenes_config) {
+        if (s._name == name) {
+            _new_next_scene = [s](zef::Engine& engine) {
+              std::cout << "maxid " << engine.reg._maxId << std::endl;
+              for (int i = 0; i < engine.reg.getMaxId(); i++)
+                engine.reg.kill_entity(ecs::Entity(i));
+              engine.reg._maxId = 0;
+              engine.reg._entityCount = 0;
+
+              while (!engine.reg._unusedids.empty()) engine.reg._unusedids.pop();
+              
+              for (int i = 0; i < s._pat.size(); i++) {
+                engine.instanciatePatron(s._pat[i], s._args[i]);
+              }
+            };
+        }
+      }
     }
 
     template <typename Scene>
@@ -272,7 +302,6 @@ namespace zef {
     void run() {
       clock = std::chrono::high_resolution_clock::now();
       int i = 0;
-      loadModules();
       // ecs::Entity e(reg.spawn_entity());
       // addEntityComponent(e, "ExampleComp1", 2, 2.0f);
       // addEntityComponent(e, "ExampleComp2", 3.0f, 'c');
@@ -304,6 +333,7 @@ namespace zef {
           _next_scene = "";
         }
       }
+      consoleThread.detach();
     }
 
     void consoleSendMessage(const std::string& message) {
@@ -358,6 +388,8 @@ namespace zef {
       _cmd_map_tcp[cmd] = fn;
     }
 
+    
+
     void loadModule(const std::string& name) {
       _runtime_lib_holder.push_back(
           std::make_unique<LibHolder<IModule>>("module" + name));
@@ -404,6 +436,8 @@ namespace zef {
     Console console;
     std::mutex consoleMutex;
 
+    std::map<std::string, std::unique_ptr<zef::IModule>> _runtime_modules;
+    std::map<std::string, zef::comp::new_event_listener> _script_map;
   private:
     int gameFps = 60;
 
@@ -422,9 +456,9 @@ namespace zef {
 
     std::vector<std::unique_ptr<zef::ILibHolder<zef::IModule>>>
         _runtime_lib_holder;
-    std::map<std::string, std::unique_ptr<zef::IModule>> _runtime_modules;
 
     std::vector<Patron> _patrons;
+    std::vector<Scene> _scenes_config;
   };
 
   namespace sys {

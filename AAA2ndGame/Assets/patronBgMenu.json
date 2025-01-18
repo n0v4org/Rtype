@@ -1,0 +1,14 @@
+{
+    "name": "BackgroundMenu",
+    "inputs" : [],
+    "components" : [
+        {
+            "name": "NewDrawable",
+            "args": ["bgmenu", 2.0, 1]
+        },
+        {
+            "name": "Position",
+            "args": [0.0, 0.0]
+        }
+    ]
+}
