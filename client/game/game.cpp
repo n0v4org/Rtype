@@ -91,6 +91,14 @@ void runClient(int sport, int cport, std::string ip) {
     std::string cmd = "GET_LOBBY " + std::to_string(id);
     engine.ClientSendTcp(cmd);
   });
+
+  engine.registerCommandTcp("204", [](zef::Engine& engine, input_t input) {
+    nlohmann::json j = nlohmann::json::parse(input.tcp_payload);
+    int id = j["rooms_id"];
+    std::string cmd = "GET_LOBBY " + std::to_string(id);
+    engine.ClientSendTcp(cmd);
+  });
+
   engine.registerCommandTcp("208", [](zef::Engine& engine, input_t input) {
     nlohmann::json j = nlohmann::json::parse(input.tcp_payload);
     int id = j["room_id"];
@@ -117,7 +125,7 @@ void runClient(int sport, int cport, std::string ip) {
 //    engine.instanciatePatron<LobbyPlayerSlot>(550.0f, 0.0f,"#EIPCPPVITE","lobbyPlayer4",1,true,true,false);
 //    engine.instanciatePatron<LobbyPlayerSlot>(400.0f,-300.0f,"I C S","lobbyPlayer0",1,false,false,false);
   });
-  engine.registerCommandTcp("204", [ip](zef::Engine& engine, input_t input) {
+  engine.registerCommandTcp("207", [ip](zef::Engine& engine, input_t input) {
       std::cout << input.tcp_payload << std::endl;
         nlohmann::json rep = nlohmann::json::parse(input.tcp_payload);
       std::cout << "switching port into " << rep["tcp_port"] << " " << rep["udp_port"] << " " << rep["player_uuid"]  << std::endl;
