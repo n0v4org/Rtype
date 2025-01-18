@@ -63,6 +63,11 @@ void runClient(int sport, int cport, std::string ip) {
   engine.GraphLib->saveAnimation("BWall", "BWall", 0, 0, 48, 8);
   engine.GraphLib->saveAnimation("CWall", "CWall", 0, 0, 189, 72);
 
+  engine.GraphLib->saveAnimation("BossOne", "BossOne", 0, 0, 162, 212);
+  engine.GraphLib->saveAnimation("BossOneMini", "BossOneMini", 0, 0, 33, 37);
+  engine.GraphLib->saveAnimation("miniBossBullet", "miniBossBullet", 0, 0, 23, 23);
+  engine.GraphLib->saveAnimation("EBullet", "EBullet", 0, 0, 18, 18);
+
   engine.registerCommandTcp("202", [](zef::Engine& engine, input_t input) {
     std::cout << input.tcp_payload << std::endl;
   });
@@ -219,6 +224,7 @@ void runClient(int sport, int cport, std::string ip) {
   engine.registerComponent<Damaged>();
   engine.registerComponent<SinusoidalMotion>();
   engine.registerComponent<MoveCamera>();
+  engine.registerComponent<SinusoidalAboveMotion>();
 
   engine.addSystem<>("zefir", zef::sys::update_user_inputs);
   engine.addSystem<MoveCamera>(
@@ -255,6 +261,9 @@ void runClient(int sport, int cport, std::string ip) {
   engine.addSystem<Player, Laser, zef::comp::position>("zefir", drawLoadBar);
   engine.addSystem<SinusoidalMotion, zef::comp::vector>("zefir",
                                                         sinusoidalVectorSystem);
+  engine.addSystem<SinusoidalAboveMotion, zef::comp::position>(
+    "zefir",
+    sinusoidalAbovePositionSystem);
 
   // engine.registerScene<LevelScene>("level");
   // engine.registerScene<LobbyScene>("lobby");
