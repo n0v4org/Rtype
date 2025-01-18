@@ -145,12 +145,16 @@ public:
 };
 
 
-
+class Tab{
+public:
+  Tab() {
+  }
+};
 
 class LobbyListTabPatronName{
 public:
   static void instanciate(zef::Engine &engine, const ecs::Entity &self, float x, float y, std::string lobbyName){
-
+    engine.addEntityComponent<Tab>(self);
     engine.addEntityComponent<zef::comp::position>(self, x, y);
 
     zef::comp::drawableText txt;
@@ -168,6 +172,7 @@ public:
 class LobbyListTabPatronIcon{
 public:
   static void instanciate(zef::Engine &engine, const ecs::Entity &self, float x, float y){
+    engine.addEntityComponent<Tab>(self);
     engine.addEntityComponent<zef::comp::position>(self, x, y);
 
     zef::comp::drawable dr;
@@ -182,6 +187,7 @@ public:
 class LobbyListTabPatronEmptySlot{
 public:
   static void instanciate(zef::Engine &engine, const ecs::Entity &self, float x, float y){
+    engine.addEntityComponent<Tab>(self);
     engine.addEntityComponent<zef::comp::position>(self, x, y);
 
     zef::comp::drawable dr;
@@ -198,6 +204,7 @@ public:
 class LobbyListTabPatronOccupiedSlot{
 public:
   static void instanciate(zef::Engine &engine, const ecs::Entity &self, float x, float y){
+    engine.addEntityComponent<Tab>(self);
     engine.addEntityComponent<zef::comp::position>(self, x, y);
 
     zef::comp::drawable dr;
@@ -210,7 +217,6 @@ public:
   }
 };
 
-
 class LobbyListTabPatron {
 public:
   static void instanciate(zef::Engine &engine, const ecs::Entity &self,
@@ -220,7 +226,7 @@ public:
                           int lobbyCapacity, int lobbyPlayers,
                           std::function<void(zef::Engine &, size_t)> onClickCallback){
     engine.addEntityComponent<zef::comp::position>(self, x, y);
-
+    engine.addEntityComponent<Tab>(self);
     std::vector<zef::utils::hitbox> hb = {zef::utils::hitbox(0, 0, 420, 170)};
     engine.addEntityComponent<zef::comp::clickable>(self, hb);
     zef::comp::event_listener evtl;
