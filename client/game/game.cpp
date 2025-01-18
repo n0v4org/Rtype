@@ -93,7 +93,7 @@ void runClient(int sport, int cport, std::string ip) {
 
 
 
-//engine.initClient(sport, cport, 14001, ip);
+engine.initClient(sport, cport, 14001, ip);
 //std::this_thread::sleep_for(std::chrono::microseconds(100));
 
   /*engine.registerCommand(SPAWNALLY, [](zef::Engine& engine, input_t input) {
@@ -240,7 +240,7 @@ void runClient(int sport, int cport, std::string ip) {
   //  engine.GraphLib->moveCamera(2, 0, 1);
   //});
 
-  //engine.addSystem<>("zefir", zef::sys::handle_client);
+  engine.addSystem<>("zefir", zef::sys::handle_client);
 
   engine.addSystem<BackGround, zef::comp::position>("zefir",
                                                     handleBackgroundScroll);
@@ -283,7 +283,8 @@ void runClient(int sport, int cport, std::string ip) {
   //engine.registerScene<LobbyScene>("lobby");
   //engine.registerScene<LevelScene>("level");
   //engine.loadScene("lobby");
-  //engine.newLoadScene<LevelScene>();
+
+  engine.newLoadScene<MenuScene>();
 
     engine.run();
 }
