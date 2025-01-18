@@ -106,7 +106,7 @@ public:
         zef::utils::hitbox(0, 0, 161 * 2, 212 * 3)};
     engine.addEntityComponent<zef::comp::collidable>(self, hb);
     ecs::Entity miniboss =
-        engine.instanciatePatron<BossOneMiniPatron>(x + 25, x / 3 - 150, 2);
+        engine.instanciatePatron<BossOneMiniPatron>(x + 25, y + 20, 2);
     engine.sendEvent<MiniBossShoot>(miniboss, -6.f, 0.f);
   }
 };
