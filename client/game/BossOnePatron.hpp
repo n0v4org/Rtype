@@ -32,41 +32,34 @@ inline zef::comp::event_listener createBossOneEventListener() {
         vec.y     = e.vy;
       });
 
-evtl.setEvent<BossShoot>([](zef::Engine& engine, size_t self, BossShoot p) {
-        auto& bossPos = engine.fetchEntityComponent<zef::comp::position>(self);
+  evtl.setEvent<BossShoot>([](zef::Engine& engine, size_t self, BossShoot p) {
+    auto& bossPos = engine.fetchEntityComponent<zef::comp::position>(self);
 
-        size_t count = 19;
+    size_t count = 19;
 
-        float amplitudeMax = 400.f;
+    float amplitudeMax = 400.f;
 
-        float frequency = 1.f;
+    float frequency = 1.f;
 
-        float offsetPhase = 0.3f;
+    float offsetPhase = 0.3f;
 
-        for (size_t i = 0; i < count; i++) {
-            float ratio = static_cast<float>(i) / (count - 1);
-            float myAmplitude = amplitudeMax * ratio;
+    for (size_t i = 0; i < count; i++) {
+      float ratio       = static_cast<float>(i) / (count - 1);
+      float myAmplitude = amplitudeMax * ratio;
 
-            float bulletX = bossPos.x - 70.f - i * 30.f;
-            float bulletY = bossPos.y + 240.f;
+      float bulletX = bossPos.x - 70.f - i * 30.f;
+      float bulletY = bossPos.y + 240.f;
 
-            ecs::Entity bullet = engine.instanciatePatron<BossBulletPatron>(
-                bulletX, bulletY,
-                0.f, 0.f
-            );
+      ecs::Entity bullet = engine.instanciatePatron<BossBulletPatron>(
+          bulletX, bulletY, 0.f, 0.f);
 
-            engine.addEntityComponent<SinusoidalAboveMotion>(
-                bullet,
-                bulletY,
-                myAmplitude,
-                frequency
-            );
+      engine.addEntityComponent<SinusoidalAboveMotion>(bullet, bulletY,
+                                                       myAmplitude, frequency);
 
-            auto& sam = engine.fetchEntityComponent<SinusoidalAboveMotion>(bullet);
-            sam.phase = (count - i) * offsetPhase;
-        }
-    });
-
+      auto& sam = engine.fetchEntityComponent<SinusoidalAboveMotion>(bullet);
+      sam.phase = (count - i) * offsetPhase;
+    }
+  });
 
   evtl.setEvent<OnDeath>([](zef::Engine& engine, size_t self, OnDeath p) {
     auto& pos = engine.fetchEntityComponent<zef::comp::position>(self);

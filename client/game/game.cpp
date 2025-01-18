@@ -65,7 +65,8 @@ void runClient(int sport, int cport, std::string ip) {
 
   engine.GraphLib->saveAnimation("BossOne", "BossOne", 0, 0, 162, 212);
   engine.GraphLib->saveAnimation("BossOneMini", "BossOneMini", 0, 0, 33, 37);
-  engine.GraphLib->saveAnimation("miniBossBullet", "miniBossBullet", 0, 0, 23, 23);
+  engine.GraphLib->saveAnimation("miniBossBullet", "miniBossBullet", 0, 0, 23,
+                                 23);
   engine.GraphLib->saveAnimation("EBullet", "EBullet", 0, 0, 18, 18);
 
   engine.registerCommandTcp("202", [](zef::Engine& engine, input_t input) {
@@ -262,8 +263,7 @@ void runClient(int sport, int cport, std::string ip) {
   engine.addSystem<SinusoidalMotion, zef::comp::vector>("zefir",
                                                         sinusoidalVectorSystem);
   engine.addSystem<SinusoidalAboveMotion, zef::comp::position>(
-    "zefir",
-    sinusoidalAbovePositionSystem);
+      "zefir", sinusoidalAbovePositionSystem);
 
   // engine.registerScene<LevelScene>("level");
   // engine.registerScene<LobbyScene>("lobby");
