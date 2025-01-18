@@ -71,7 +71,8 @@ public:
     engine.instanciatePatron<PlayerPatron>(0.0f, 0.0f, 0);
     engine.instanciatePatron<BackgroundPatron>(0.0f, 0.0f);
     engine.instanciatePatron<BackgroundPatron>(1920.0f, 0.0f);
-    engine.instanciatePatron<RoomPatron>("../Assets/config/bossRoomEx.txt");
+    engine.instanciatePatron<RoomPatron>("../Assets/config/bossRoomEx.txt", 0.f, 0.f);
+
   }
 };
 
