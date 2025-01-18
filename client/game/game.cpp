@@ -69,7 +69,10 @@ void runClient(int sport, int cport, std::string ip) {
       std::cout << input.tcp_payload << std::endl;
   });
   engine.registerCommandTcp("208", [](zef::Engine& engine, input_t input) {
-      std::cout << input.tcp_payload << std::endl;
+    nlohmann::json j = nlohmann::json::parse(input.tcp_payload);
+    int id = j["room_id"];
+    std::string cmd = "GET_LOBBY " + std::to_string(id);
+    engine.ClientSendTcp(cmd);
   });
   engine.registerCommandTcp("203", [](zef::Engine& engine, input_t input) {
       std::cout << input.tcp_payload << std::endl;
