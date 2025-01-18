@@ -200,6 +200,62 @@ public:
 class LobbyListScene {
 public:
     static void loadScene(zef::Engine& engine) {
+
+        engine.registerCommandTcp("203", [](zef::Engine& engine, input_t input) {
+        });
+		engine.registerCommandTcp("204", [](zef::Engine& engine, input_t input) {
+  	 	});
+        engine.registerCommandTcp("202", [](zef::Engine& engine, input_t input) {
+  	 	  nlohmann::json j = nlohmann::json::parse(input.tcp_payload);
+          int id = j["rooms_id"];
+          std::cout << "room" << id << std::endl;
+  	 	  engine.newLoadScene<LobbyScene>(id);
+          std::cout << "room" << id << std::endl;
+        });
+
+        engine.registerCommandTcp("205", [](zef::Engine& engine, input_t input) {
+            nlohmann::json j = nlohmann::json::parse(input.tcp_payload);
+
+            for (auto &&[k,p]: ecs::indexed_zipper(engine.reg.get_components<zef::comp::LobbyCreateTrack>())){
+              int id = j["rooms_id"];
+              std::string cmd = "JOIN  " + std::to_string(id) + " " + p._pwd;
+              engine.ClientSendTcp(cmd);
+            }
+        });
+
+        engine.registerCommandTcp("200", [&](zef::Engine& engine, input_t input) {
+      		nlohmann::json j = nlohmann::json::parse(input.tcp_payload);
+            int running_games = 0;
+            for (auto &&[k,p]: ecs::indexed_zipper(engine.reg.get_components<zef::comp::LobbyOffset>())){
+
+                for (int i = 0; i < j["rooms"].size(); i++) {
+	      	    	if (!j["rooms"][i]["running"]){
+
+                        if (p.offset > 0) {
+                          p.offset = 0;
+                        }
+                        if (p.offset * -1 > j["rooms"].size() - 1) {
+                          p.offset = j["rooms"].size() - 1;
+                          p.offset *= -1 ;
+                        }
+                        if (j["rooms"].size() - i + p.offset - running_games >=0 && j["rooms"].size() - i + p.offset - running_games <= 2){
+      		    		    engine.instanciatePatron<LobbyListTabPatron>(
+         	      		    -575.0f, -80.0f + ((j["rooms"].size() - i + p.offset - running_games) * 200.0f),
+                  		    j["rooms"][i]["rooms_id"], j["rooms"][i]["room_name"],
+                  		    j["rooms"][i]["slot"], j["rooms"][i]["players"].size(),
+                  		    [j,i](zef::Engine &engine, size_t self) {
+                      	        int id = j["rooms"][i]["rooms_id"];
+                      	    	std::string s= "JOIN " + std::to_string(id) + " magicarpe";
+                      	    	engine.ClientSendTcp(s);
+                  		    }
+                  		    );
+                        }
+          	    	} else {
+                      running_games += 1;
+                    }
+                }
+            }
+  		});
     	engine.instanciatePatron<MenuBackgroundPatron>();
         engine.instanciatePatron<ButtonPatron>(
             850.0f, -450.0f,
