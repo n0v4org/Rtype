@@ -103,7 +103,6 @@ public:
   }
 };
 
-// Dans components.hpp (ou ailleurs)
 class SinusoidalAboveMotion {
 public:
   SinusoidalAboveMotion(float baseY, float amplitude, float frequency)
