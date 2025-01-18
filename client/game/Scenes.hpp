@@ -73,7 +73,82 @@ public:
 class LobbyScene{
 public:
   static void loadScene(zef::Engine& engine, size_t lobby_id) {
-    std::cout <<"hùùù" <<lobby_id <<"\n";
+      std::cout << "je chargee" << std::endl;
+	  engine.registerCommandTcp("204", [](zef::Engine& engine, input_t input) {
+          std::cout << "lobby" << std::endl;
+
+    	  nlohmann::json j = nlohmann::json::parse(input.tcp_payload);
+    	  int id = j["rooms_id"];
+    	  std::string cmd = "GET_LOBBY " + std::to_string(id);
+          std::cout << "a" << " " << cmd << std::endl;
+    	  engine.ClientSendTcp(cmd);
+          std::cout << "b" << " " << cmd << std::endl;
+  	  });
+
+  engine.registerCommandTcp("202", [](zef::Engine& engine, input_t input) {
+    std::cout << "lbyscene" << std::endl;
+    nlohmann::json j = nlohmann::json::parse(input.tcp_payload);
+    int id = j["rooms_id"];
+    std::string cmd = "GET_LOBBY " + std::to_string(id);
+    engine.ClientSendTcp(cmd);
+//UWU    engine.ClientSendTcp("GET_ME");
+  });
+
+  engine.registerCommandTcp("208", [](zef::Engine& engine, input_t input) {
+    nlohmann::json j = nlohmann::json::parse(input.tcp_payload);
+    int id = j["room_id"];
+    std::string cmd = "GET_LOBBY " + std::to_string(id);
+    engine.ClientSendTcp(cmd);
+  });
+
+  engine.registerCommandTcp("221", [](zef::Engine& engine, input_t input) {
+	  engine.newLoadScene<LevelScene>();
+  });
+  engine.registerCommandTcp("210", [](zef::Engine& engine, input_t input) {
+    nlohmann::json j = nlohmann::json::parse(input.tcp_payload);
+    int id = j["room_id"];
+    std::string cmd = "GET_LOBBY " + std::to_string(id);
+    std::cout << cmd << " adm " << std::endl;
+    engine.ClientSendTcp(cmd);
+  });
+  engine.registerCommandTcp("211", [](zef::Engine& engine, input_t input) {
+    nlohmann::json j = nlohmann::json::parse(input.tcp_payload);
+    int id = j["room_id"];
+    std::string cmd = "GET_LOBBY " + std::to_string(id);
+    std::cout << cmd << " kic " << std::endl;
+    engine.ClientSendTcp(cmd);
+  });
+//UWU  engine.registerCommandTcp("", [](zef::Engine& engine, input_t input) {
+//UWU    nlohmann::json j =  nlohmann::json::parse(input.tcp_payload);
+//UWU    for (auto &&[i,p]: ecs::indexed_zipper(engine.reg.get_components<MyInfo>())){
+//UWU      p.admin = j["is_admin"];
+//UWU      p.id = j["id"];
+//UWU    }
+//UWU  }
+
+  engine.registerCommandTcp("203", [](zef::Engine& engine, input_t input) {
+      std::cout << "tttry" << std::endl;
+      nlohmann::json j = nlohmann::json::parse(input.tcp_payload);
+      std::vector<std::pair<int,int>>playerCoords = {{-100.0f, -250.0f},{-150.0f,100.0f},{0.0f,350.0f},{550.0f,0.0f},{400.0f,-300.0f}};
+      for (auto &&[i,p]: ecs::indexed_zipper(engine.reg.get_components<PlayerSlot>())){
+          engine.reg.kill_entity(ecs::Entity(i));
+      }
+      for (int i = 0; i < 5; i++) {
+          if (i < j["players"].size()){
+            engine.instanciatePatron<LobbyPlayerSlot>(playerCoords[i].first,playerCoords[i].second,j["players"][i]["username"],"lobbyPlayer"+std::to_string(i),j["players"][i]["id"],j["players"][i]["is_admin"],j["players"][i]["is_ready"],i);
+          }
+          else {
+            engine.instanciatePatron<LobbyPlayerSlot>(playerCoords[i].first,playerCoords[i].second,"","lobbyPlayer"+std::to_string(i),0,false,false,i);
+          }
+      }
+      engine.instanciatePatron<LobbyNameTag>(j["room_name"]);
+      for (auto &&[i,p]: ecs::indexed_zipper(engine.reg.get_components<zef::comp::LobbyInfoTrack>())){
+         p.j = j;
+      }
+  });
+
+//UWU    engine.instanciatePatron<MyInfoTracker>();
+    engine.instanciatePatron<LobbyInfoTracker>();
 
     engine.instanciatePatron<MenuBackgroundPatron>();
     engine.instanciatePatron<ButtonPatron>(
