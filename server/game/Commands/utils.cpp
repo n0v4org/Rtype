@@ -5,6 +5,9 @@
 ** utils
 */
 
+#include <utility>
+#include <string>
+#include <iostream>
 #include "Game.hpp"
 #include "tcp_cmds.hpp"
 
@@ -40,4 +43,4 @@ namespace rtype {
         }
       }
     }
-}
+} // namespace rtype

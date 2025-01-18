@@ -8,6 +8,7 @@
 #include <string>
 #include <cstring>
 #include <chrono>
+#include <iostream>
 
 #include "Engine.hpp"
 #include "Scenes.hpp"

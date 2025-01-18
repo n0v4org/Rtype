@@ -9,6 +9,7 @@
 #define PLAYERPATRON_HPP_
 
 #include <iostream>
+#include <vector>
 
 #include "Engine.hpp"
 

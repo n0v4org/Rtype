@@ -9,6 +9,7 @@
 #define ENEMYROBOTPATRON_HPP_
 
 #include <iostream>
+#include <vector>
 #include "Engine.hpp"
 
 #include "components.hpp"

@@ -9,6 +9,7 @@
 #define ENGINE_MODULES_NETWORK_SYSTEMS_HPP_
 
 #include <string>
+#include <iostream>
 
 #include "../../Engine.hpp"
 #include "components.hpp"
