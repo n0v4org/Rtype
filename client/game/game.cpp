@@ -63,6 +63,26 @@ void runClient(int sport, int cport, std::string ip) {
   engine.GraphLib->saveAnimation("BWall", "BWall", 0, 0, 48, 8);
   engine.GraphLib->saveAnimation("CWall", "CWall", 0, 0, 189, 72);
 
+  engine.registerCommandTcp("200", [](zef::Engine& engine, input_t input) {
+      nlohmann::json j = nlohmann::json::parse(input.tcp_payload);
+
+      for (int i = 0; i < j["rooms"].size(); i++) {
+	      if (!j["rooms"][i]["running"]){
+      		  engine.instanciatePatron<LobbyListTabPatron>(
+         	  -550.0f, -80.0f + (i * 180.0f),
+              j["rooms"][i]["rooms_id"], j["rooms"][i]["room_name"],
+              j["rooms"][i]["slot"], j["rooms"][i]["players"].size(),
+              [j,i](zef::Engine &engine, size_t self) {
+                  int id = j["rooms"][i]["rooms_id"];
+                  std::string s= "JOIN " + std::to_string(id) + " magicarpe";
+                  engine.newLoadScene<LobbyScene>(id);
+                  engine.ClientSendTcp(s);
+              }
+              );
+          }
+      }
+  });
+
 
 
   engine.registerCommandTcp("202", [](zef::Engine& engine, input_t input) {
