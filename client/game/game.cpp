@@ -276,9 +276,17 @@ engine.initClient(sport, cport, 14001, ip);
   engine.registerComponent<SinusoidalMotion>();
   engine.registerComponent<MoveCamera>();
   engine.registerComponent<zef::comp::clickable>();
+  engine.registerComponent<Tab>();
+  engine.registerComponent<PlayerSlot>();
     //engine.loadModules();
 
   //   // engine.addSystem<>(entitycountdisplay);
+
+  //engine.addSystem<Tab>("zefir", [](zef::Engine& engine, ecs::sparse_array<Tab>& mvs){
+  //  for (auto &&[i, mv] : ecs::indexed_zipper(mvs)) {
+  //    std::cout << i;
+  //  } std::cout << "\n";
+  //});
 
   engine.addSystem<>("zefir", zef::sys::update_user_inputs);
   engine.addSystem<MoveCamera>("zefir", [](zef::Engine& engine, ecs::sparse_array<MoveCamera>& mvs) {
