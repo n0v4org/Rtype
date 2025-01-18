@@ -25,8 +25,8 @@ namespace network {
              asio::io_context& io_service);
       void close() {
         if (socket_.is_open()) {
-        socket_.cancel();
-        socket_.close();
+          socket_.cancel();
+          socket_.close();
         }
       }
       ~Client();

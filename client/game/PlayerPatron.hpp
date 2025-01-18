@@ -59,8 +59,8 @@ zef::comp::event_listener createPlayerEventListener() {
       });
   evtl.setEvent<LoadShoot>([](zef::Engine& engine, size_t self, LoadShoot sht) {
     engine.fetchEntityComponent<Laser>(self).load += engine.elapsed.count();
-    //std::cout << engine.fetchEntityComponent<Laser>(self).load << std::endl;
-    // engine.ClientSend<CommandShoot>(SHOOTPLAYER, {});
+    // std::cout << engine.fetchEntityComponent<Laser>(self).load << std::endl;
+    //  engine.ClientSend<CommandShoot>(SHOOTPLAYER, {});
   });
 
   evtl.setEvent<sendingVectorEvt>(
@@ -69,16 +69,14 @@ zef::comp::event_listener createPlayerEventListener() {
       });
 
   evtl.setEvent<GetHittedByMonsterBullet>(
-        [](zef::Engine& engine, size_t self, GetHittedByMonsterBullet p) {
-            engine.addEntityComponent<Damaged>(ecs::Entity(self), 100 * 1000);
-        }
-    );
+      [](zef::Engine& engine, size_t self, GetHittedByMonsterBullet p) {
+        engine.addEntityComponent<Damaged>(ecs::Entity(self), 100 * 1000);
+      });
 
-    evtl.setEvent<zef::evt::startCollision>(
-        [](zef::Engine& engine, size_t self, zef::evt::startCollision p) {
-            engine.sendEvent<GetHittedByPlayer>(p.other);
-        }
-    );
+  evtl.setEvent<zef::evt::startCollision>(
+      [](zef::Engine& engine, size_t self, zef::evt::startCollision p) {
+        engine.sendEvent<GetHittedByPlayer>(p.other);
+      });
 
   return evtl;
 }
@@ -92,7 +90,7 @@ public:
     engine.addEntityComponent<Health>(self, 75, 100);
     engine.addEntityComponent<Laser>(self);
 
-    //engine.addEntityComponent<Damaged>(self, 5000 * 1000);
+    // engine.addEntityComponent<Damaged>(self, 5000 * 1000);
 
     zef::comp::drawable dr;
     dr.addAnimation("player_0", 1, 200);
@@ -125,8 +123,7 @@ public:
     engine.addEntityComponent<Player>(self);
     engine.addEntityComponent<Ship>(self);
     engine.addEntityComponent<zef::comp::replicable>(self, rep);
-    std::vector<zef::utils::hitbox> hb = {
-      zef::utils::hitbox(0, 0, 33, 17)};
+    std::vector<zef::utils::hitbox> hb = {zef::utils::hitbox(0, 0, 33, 17)};
     engine.addEntityComponent<zef::comp::collidable>(self, hb);
   }
 };

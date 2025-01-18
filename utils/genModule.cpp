@@ -43,8 +43,8 @@
 // " << std::endl
 //         << "set(CMAKE_CXX_STANDARD_REQUIRED ON)" << std::endl
 //         << std::endl;
-//   cmake << "project(" + moduleName + " VERSION 1.0)" << std::endl << std::endl;
-//   cmake << "set(SRC" << std::endl
+//   cmake << "project(" + moduleName + " VERSION 1.0)" << std::endl <<
+//   std::endl; cmake << "set(SRC" << std::endl
 //         << "\t" << (moduleName.substr(6)) << ".cpp" << std::endl
 //         << ")" << std::endl
 //         << std::endl;
@@ -135,7 +135,8 @@
 //        << std::endl
 //        << "\tfor (auto [i, c1, c2] : ecs::indexed_zipper(comps1, comps2)) {"
 //        << std::endl
-//        << "\t\tstd::cout << \"i: \" << i << c1._a << c1._b << c2._a << c2._b "
+//        << "\t\tstd::cout << \"i: \" << i << c1._a << c1._b << c2._a << c2._b
+//        "
 //           "<< std::endl;"
 //        << std::endl
 //        << "\t}" << std::endl
@@ -143,10 +144,12 @@
 //        << std::endl;
 
 //   file << "class " << moduleName << " : public zef::AModule<" << std::endl
-//        << "\tzef::Component<ExampleComp1, int, float>, //Name of component 1 "
+//        << "\tzef::Component<ExampleComp1, int, float>, //Name of component 1
+//        "
 //           "and there attributes types in the same order than the constructor"
 //        << std::endl
-//        << "\tzef::Component<ExampleComp2, float, char> //Name of component 2 "
+//        << "\tzef::Component<ExampleComp2, float, char> //Name of component 2
+//        "
 //           "and there attributes types in the same order than the constructor"
 //        << std::endl
 //        << "> {" << std::endl
@@ -183,7 +186,8 @@
 //   }
 //   if (addToRootCmake(moduleName))
 //     return 1;
-//   std::filesystem::current_path(std::filesystem::current_path().string() + "/" +
+//   std::filesystem::current_path(std::filesystem::current_path().string() +
+//   "/" +
 //                                 moduleName);
 //   if (genCmake(moduleName))
 //     return 1;

@@ -60,17 +60,21 @@ namespace rtype {
   }
 
   int Lobby::get_lobby_id(input_t input) {
-    auto it = std::find_if(_lobby.begin(), _lobby.end(), [input](const room_t &room){
-        auto player_it = std::find_if(room.players.begin(), room.players.end(), [input](const player_t &player) {
-          return player.id == input.id;
+    auto it =
+        std::find_if(_lobby.begin(), _lobby.end(), [input](const room_t &room) {
+          auto player_it =
+              std::find_if(room.players.begin(), room.players.end(),
+                           [input](const player_t &player) {
+                             return player.id == input.id;
+                           });
+          return player_it != room.players.end();
         });
-        return player_it != room.players.end();
-      });
-      if (it == _lobby.end()) {
-        send_error(input.id, TCP_ERRORS.at(NOT_IN_ROOM).second, TCP_ERRORS.at(NOT_IN_ROOM).first);
-        return 84;
-      }
-      return it - _lobby.begin();
+    if (it == _lobby.end()) {
+      send_error(input.id, TCP_ERRORS.at(NOT_IN_ROOM).second,
+                 TCP_ERRORS.at(NOT_IN_ROOM).first);
+      return 84;
+    }
+    return it - _lobby.begin();
   }
 
 }  // namespace rtype

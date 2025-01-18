@@ -19,4 +19,4 @@ namespace rtype {
     std::string json_str = res.dump();
     _engine.ServerSendTcp(id, json_str);
   }
-} // namespace rtype
+}  // namespace rtype

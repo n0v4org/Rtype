@@ -29,8 +29,6 @@
 
 #include "modules/IModule.hpp"
 
-
-
 using json = nlohmann::json;
 
 struct game_player_t {

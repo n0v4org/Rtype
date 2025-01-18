@@ -8,6 +8,6 @@
 #ifndef MACRO_HPP_
 #define MACRO_HPP_
 
-#define 
+#define
 
 #endif /* !MACRO_HPP_ */

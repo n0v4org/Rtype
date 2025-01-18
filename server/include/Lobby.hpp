@@ -66,7 +66,7 @@ static const char UPDATE_ROOM_CMD[]      = "UPDATE_LOBBY";
 static const char UPDATE_PERM_CMD[]      = "UPDATE_PERM";
 static const char KICK_PLAYER_CMD[]      = "KICK_PLAYER";
 static const char SEND_MSG_CMD[]         = "SEND_MSG";
-static const char GET_LOBBY_ID_CMD[] = "GET_LOBBY_ID";
+static const char GET_LOBBY_ID_CMD[]     = "GET_LOBBY_ID";
 
 static const char CHARSET[] =
     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";

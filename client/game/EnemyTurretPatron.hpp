@@ -22,23 +22,26 @@
 
 #include "events.hpp"
 
-zef::comp::event_listener createEnemyTurretEventListener(bool up_down, bool left_right) {
+zef::comp::event_listener createEnemyTurretEventListener(bool up_down,
+                                                         bool left_right) {
   zef::comp::event_listener evtl;
 
-    evtl.setEvent<TurretTurn>([up_down, left_right](zef::Engine& engine, size_t self, TurretTurn tt) {
-      engine.fetchEntityComponent<TurretTurnRate>(self).tr = tt.angle;
-      size_t& cf = engine.fetchEntityComponent<zef::comp::drawable>(self).current_frame;
-      if (left_right) {
-        cf = tt.angle;
-      } else {
-        if (tt.angle = 0)
-          cf = 5;
-        if (tt.angle = 1)
-          cf = 4;
-        if (tt.angle = 2)
-          cf = 3;
-      }
-    });
+  evtl.setEvent<TurretTurn>([up_down, left_right](zef::Engine& engine,
+                                                  size_t self, TurretTurn tt) {
+    engine.fetchEntityComponent<TurretTurnRate>(self).tr = tt.angle;
+    size_t& cf =
+        engine.fetchEntityComponent<zef::comp::drawable>(self).current_frame;
+    if (left_right) {
+      cf = tt.angle;
+    } else {
+      if (tt.angle = 0)
+        cf = 5;
+      if (tt.angle = 1)
+        cf = 4;
+      if (tt.angle = 2)
+        cf = 3;
+    }
+  });
 
   return evtl;
 }
@@ -50,7 +53,6 @@ public:
     engine.addEntityComponent<zef::comp::position>(self, x, y);
     engine.addEntityComponent<Monster>(self);
     engine.addEntityComponent<TurretTurnRate>(self);
-
 
     std::string spr = up_down ? "turretu" : "turretd";
     zef::comp::drawable dr;

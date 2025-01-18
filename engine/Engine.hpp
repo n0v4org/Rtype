@@ -249,15 +249,14 @@ namespace zef {
       T::loadScene(*this);
     }
 
-    template <typename T, typename ...Args>
-    void newLoadScene(Args ...args)  {
+    template <typename T, typename... Args>
+    void newLoadScene(Args... args) {
       _new_next_scene = [args..., this](Engine& engine) {
         for (int i = 0; i < reg.getMaxId(); i++)
-            this->reg.kill_entity(ecs::Entity(i));
+          this->reg.kill_entity(ecs::Entity(i));
         T::loadScene(*this, args...);
       };
     }
-
 
     template <typename T>
     void registerScene(const std::string& name) {
@@ -373,7 +372,8 @@ namespace zef {
           loadModule(name);
         }
         if (mdname.rfind("module", 0) == 0) {
-          std::string str  = mdname.substr(6);;
+          std::string str = mdname.substr(6);
+          ;
           auto f           = str.find_last_of('.');
           std::string name = str.substr(0, f);
           loadModule(name);

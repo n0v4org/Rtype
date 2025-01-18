@@ -34,17 +34,15 @@ zef::comp::event_listener createBulletEventListener(size_t size) {
   });
 
   evtl.setEvent<GetHittedByMonster>(
-        [size](zef::Engine& engine, size_t self, GetHittedByMonster p) {
-          if (size == 0)
-            engine.sendEvent<OnDeath>(self);
-      }
-  );
+      [size](zef::Engine& engine, size_t self, GetHittedByMonster p) {
+        if (size == 0)
+          engine.sendEvent<OnDeath>(self);
+      });
 
   evtl.setEvent<zef::evt::startCollision>(
-        [](zef::Engine& engine, size_t self, zef::evt::startCollision p) {
-            engine.sendEvent<GetHittedByBullet>(p.other);
-      }
-  );
+      [](zef::Engine& engine, size_t self, zef::evt::startCollision p) {
+        engine.sendEvent<GetHittedByBullet>(p.other);
+      });
 
   return evtl;
 }

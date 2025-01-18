@@ -9,23 +9,23 @@
 #define UDPPROTOCOMMANDS_HPP_
 
 enum {
-    LOGIN = 0,
+  LOGIN = 0,
 };
 
 enum {
-    PWD_ERRORS = 40,
+  PWD_ERRORS = 40,
 };
 
-//Commands
+// Commands
 
 struct login_t {
-    char pwd[21];
+  char pwd[21];
 };
 
-//Errors
+// Errors
 
 struct pwd_error_t {
-    char error[13];
+  char error[13];
 };
 
 #endif /* !UDPPROTOCOMMANDS_HPP_ */

@@ -35,8 +35,8 @@ namespace zef {
             if (current_animation == "")
               continue;
             engine.GraphLib->drawSprite(current_animation, dr.current_frame,
-                                        pos.x, pos.y, dr.scaleX, dr.scaleY, dr.rotation,
-                                        dr.rgba);
+                                        pos.x, pos.y, dr.scaleX, dr.scaleY,
+                                        dr.rotation, dr.rgba);
           }
         }
       }

@@ -22,9 +22,7 @@ namespace network {
                                                  _io_service);
     _client_tcp =
         std::make_shared<tcp_link::Client>(ip, lobby_port, _io_service);
-    t = std::thread([this]() { 
-      _io_service.run(); 
-      });
+    t = std::thread([this]() { _io_service.run(); });
   }
 
   bool Network_client::isQueueEmpty() {
@@ -32,34 +30,33 @@ namespace network {
   }
 
   void Network_client::reset_clients(int server_port, int client_port,
-                                   int lobby_port, std::string ip) {
-  std::lock_guard<std::mutex> lock(reset_mutex);
+                                     int lobby_port, std::string ip) {
+    std::lock_guard<std::mutex> lock(reset_mutex);
 
     if (_client_tcp) {
-        _client_tcp->close();
+      _client_tcp->close();
     }
     if (_client_udp) {
-        _client_udp->close_connection();
+      _client_udp->close_connection();
     }
 
-     _client_tcp.reset();
-     _client_udp.reset();
+    _client_tcp.reset();
+    _client_udp.reset();
 
     _io_service.stop();
-    _io_service.poll(); 
+    _io_service.poll();
 
     if (t.joinable()) {
-        t.join();
+      t.join();
     }
 
-
-    _client_udp = std::make_shared<game::Client>(server_port, client_port, ip, _io_service);
-    _client_tcp = std::make_shared<tcp_link::Client>(ip, lobby_port, _io_service);
+    _client_udp = std::make_shared<game::Client>(server_port, client_port, ip,
+                                                 _io_service);
+    _client_tcp =
+        std::make_shared<tcp_link::Client>(ip, lobby_port, _io_service);
     _io_service.reset();
 
-    t = std::thread([this]() {
-            _io_service.run();
-    });
+    t = std::thread([this]() { _io_service.run(); });
   }
 
   input_t Network_client::popMessage() {

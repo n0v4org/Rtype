@@ -37,16 +37,14 @@ zef::comp::event_listener createAllyEventListener() {
       });
 
   evtl.setEvent<GetHittedByMonsterBullet>(
-        [](zef::Engine& engine, size_t self, GetHittedByMonsterBullet p) {
-            engine.addEntityComponent<Damaged>(ecs::Entity(self), 100 * 1000);
-        }
-    );
+      [](zef::Engine& engine, size_t self, GetHittedByMonsterBullet p) {
+        engine.addEntityComponent<Damaged>(ecs::Entity(self), 100 * 1000);
+      });
 
-    evtl.setEvent<zef::evt::startCollision>(
-        [](zef::Engine& engine, size_t self, zef::evt::startCollision p) {
-            engine.sendEvent<GetHittedByPlayer>(p.other);
-        }
-    );
+  evtl.setEvent<zef::evt::startCollision>(
+      [](zef::Engine& engine, size_t self, zef::evt::startCollision p) {
+        engine.sendEvent<GetHittedByPlayer>(p.other);
+      });
 
   return evtl;
 }
@@ -71,8 +69,7 @@ public:
     engine.addEntityComponent<zef::comp::event_listener>(
         self, createAllyEventListener());
     engine.addEntityComponent<Ship>(self);
-    std::vector<zef::utils::hitbox> hb = {
-      zef::utils::hitbox(0, 0, 33, 17)};
+    std::vector<zef::utils::hitbox> hb = {zef::utils::hitbox(0, 0, 33, 17)};
     engine.addEntityComponent<zef::comp::collidable>(self, hb);
   }
 };

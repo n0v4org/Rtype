@@ -61,7 +61,7 @@ namespace zef {
         scaleY = y;
       }
 
-      void setRgba(float r, float g, float b,float a) {
+      void setRgba(float r, float g, float b, float a) {
         rgba.R = r;
         rgba.G = g;
         rgba.B = b;

@@ -53,7 +53,8 @@ namespace rtype {
       _engine.ServerSendTcp(input.id, data.dump());
     });
 
-    _engine.registerCommandTcp(GET_LOBBY_ID_CMD, [this](zef::Engine& engine, input_t input) {
+    _engine.registerCommandTcp(GET_LOBBY_ID_CMD, [this](zef::Engine& engine,
+                                                        input_t input) {
       std::string res = CMD_RES.at(GET_LOBBY_ID_CMD).at(SUCCESS);
 
       if (bad_args(input, std::stoi(CMD_RES.at(GET_LOBBY_ID_CMD).at(NB_ARGS))))
@@ -64,7 +65,7 @@ namespace rtype {
       json data;
       data["status"]      = std::stoi(CMD_RES.at(GET_LOBBY_ID_CMD).at(STATUS));
       data["description"] = res;
-      data["room_id"] = lobby_id;
+      data["room_id"]     = lobby_id;
       _engine.ServerSendTcp(input.id, data.dump());
     });
   }

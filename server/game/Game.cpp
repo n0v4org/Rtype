@@ -18,7 +18,7 @@ namespace rtype {
     register_udp_game_cmd();
   }
 
-  void Game::RegisterGameCmd() {  
+  void Game::RegisterGameCmd() {
   }
 
   void Game::launch_game(std::vector<std::string> player_uuid, int tcp_port,

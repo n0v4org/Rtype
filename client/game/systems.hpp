@@ -98,8 +98,9 @@ inline void convertHolderToVect(zef::Engine& engine,
   }
 }
 
-void handleDamageEffect(zef::Engine& engine, ecs::sparse_array<Damaged>& dgs, ecs::sparse_array<zef::comp::drawable>& drs) {
-  for (auto &&[i, dg, dr] : ecs::indexed_zipper(dgs, drs)) {
+void handleDamageEffect(zef::Engine& engine, ecs::sparse_array<Damaged>& dgs,
+                        ecs::sparse_array<zef::comp::drawable>& drs) {
+  for (auto&& [i, dg, dr] : ecs::indexed_zipper(dgs, drs)) {
     dg._microsec -= engine.elapsed.count();
     dr.rgba.R = 1;
     dr.rgba.G = 0;
@@ -114,16 +115,15 @@ void handleDamageEffect(zef::Engine& engine, ecs::sparse_array<Damaged>& dgs, ec
 
 void sinusoidalVectorSystem(zef::Engine& engine,
                             ecs::sparse_array<SinusoidalMotion>& sms,
-                            ecs::sparse_array<zef::comp::vector>& vecs)
-{
-    for (auto&& [i, sm, vec] : ecs::indexed_zipper(sms, vecs)) {
-        float dt = engine.elapsed.count() / 1'000'000.f;
+                            ecs::sparse_array<zef::comp::vector>& vecs) {
+  for (auto&& [i, sm, vec] : ecs::indexed_zipper(sms, vecs)) {
+    float dt = engine.elapsed.count() / 1'000'000.f;
 
-        sm.phase += sm.frequency * dt;
+    sm.phase += sm.frequency * dt;
 
-        vec.x = sm.speedX;
-        vec.y = sm.amplitude * std::sin(sm.phase);
-    }
+    vec.x = sm.speedX;
+    vec.y = sm.amplitude * std::sin(sm.phase);
+  }
 }
 
 #endif /* !SYSTEMS_HPP_ */

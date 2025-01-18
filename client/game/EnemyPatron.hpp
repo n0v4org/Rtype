@@ -26,7 +26,7 @@ zef::comp::event_listener createEnemyEventListener() {
 
   evtl.setEvent<GetHittedByBullet>(
       [](zef::Engine& engine, size_t self, GetHittedByBullet g) {
-        //engine.sendEvent<DestroyBullet>(g.bullet);
+        // engine.sendEvent<DestroyBullet>(g.bullet);
       });
 
   return evtl;
