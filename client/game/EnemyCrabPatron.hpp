@@ -72,7 +72,7 @@ public:
                           float y, size_t rep) {
     engine.addEntityComponent<zef::comp::position>(self, x, y);
 
-    engine.addEntityComponent<zef::comp::vector>(self, 0.f, 0.f, 3.f);
+    engine.addEntityComponent<zef::comp::vector>(self, 0.f, 3.f, 3.f);
 
     engine.addEntityComponent<Health>(self, 25, 25);
 
