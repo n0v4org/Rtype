@@ -20,44 +20,52 @@
 
 #include "events.hpp"
 
-inline zef::comp::event_listener createBulletEventListener() {
-  zef::comp::event_listener evtl;
+#include "BlastPatron.hpp"
 
-  evtl.setEvent<zef::evt::startCollision>(
-      [](zef::Engine& engine, size_t self, zef::evt::startCollision col) {
-        engine.sendEvent<GetHittedByBullet>(col.other, self, 10);
-        // engine.reg.kill_entity(ecs::Entity(self));
-      });
-
-  evtl.setEvent<DestroyBullet>(
-      [](zef::Engine& engine, size_t self, DestroyBullet db) {
-        engine.reg.kill_entity(ecs::Entity(self));
-      });
-
-  return evtl;
+zef::comp::event_listener createBulletEventListener(size_t size) {
+  //zef::comp::event_listener evtl;
+//
+  //evtl.setEvent<OnDeath>([size](zef::Engine& engine, size_t self, OnDeath db) {
+  //  float& posx = engine.fetchEntityComponent<zef::comp::position>(self).x;
+  //  float& posy = engine.fetchEntityComponent<zef::comp::position>(self).y;
+//
+  //  engine.instanciatePatron<BlastPatron>(posx, posy, size == 0 ? 0.7f : 3.0f);
+  //  engine.reg.kill_entity(ecs::Entity(self));
+  //});
+//
+  //evtl.setEvent<GetHittedByMonster>(
+  //    [size](zef::Engine& engine, size_t self, GetHittedByMonster p) {
+  //      if (size == 0)
+  //        engine.sendEvent<OnDeath>(self);
+  //    });
+//
+  //evtl.setEvent<zef::evt::startCollision>(
+  //    [](zef::Engine& engine, size_t self, zef::evt::startCollision p) {
+  //      engine.sendEvent<GetHittedByBullet>(p.other);
+  //    });
+//
+  //return evtl;
 }
 
 class BulletPatron {
 public:
   static void instanciate(zef::Engine& engine, const ecs::Entity& self, float x,
-                          float y) {
+                          float y, size_t size) {
     engine.addEntityComponent<zef::comp::position>(self, x, y);
-    engine.addEntityComponent<zef::comp::vector>(self, 1, 0, 18);
+    engine.addEntityComponent<zef::comp::vector>(self, 18, 0, 18);
     engine.addEntityComponent<Lifetime>(self, 1500 * 1000);
 
-    zef::comp::drawable dr;
-    dr.addAnimation("ship", 5, 200);
-    dr.playAnimationLoop("ship", 1);
-    dr.setScale(0.2, 0.2);
-    engine.addEntityComponent<zef::comp::drawable>(self, dr);
-
     engine.addEntityComponent<zef::comp::event_listener>(
-        self, createBulletEventListener());
+        self, createBulletEventListener(size));
 
-    std::vector<zef::utils::hitbox> hb = {zef::utils::hitbox(0, 0, 20, 20)};
-    engine.addEntityComponent<zef::comp::collidable>(self, hb);
-
-    // std::cout <<" hahahaha\n";
+    if (size == 0) {
+      std::vector<zef::utils::hitbox> hb = {zef::utils::hitbox(0, 0, 20, 20)};
+      engine.addEntityComponent<zef::comp::collidable>(self, hb);
+    }
+    if (size == 2) {
+      std::vector<zef::utils::hitbox> hb = {zef::utils::hitbox(0, 0, 150, 45)};
+      engine.addEntityComponent<zef::comp::collidable>(self, hb);
+    }
   }
 };
 
