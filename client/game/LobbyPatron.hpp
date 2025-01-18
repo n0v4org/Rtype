@@ -30,12 +30,17 @@ public:
   }
 };
 
-
+class PlayerSlot{
+public:
+  PlayerSlot() {
+  }
+};
 
 
 class LobbyEmptyPlayerSlot{
 public:
   static void instanciate(zef::Engine &engine, const ecs::Entity &self, float x, float y){
+    engine.addEntityComponent<PlayerSlot>(self);
     engine.addEntityComponent<zef::comp::position>(self, x, y);
 
     zef::comp::drawable dr;
@@ -52,6 +57,7 @@ public:
 class LobbyOccupiedPlayerSlot{
 public:
   static void instanciate(zef::Engine &engine, const ecs::Entity &self, float x, float y, std::string sprite){
+    engine.addEntityComponent<PlayerSlot>(self);
     engine.addEntityComponent<zef::comp::position>(self, x, y);
 
     zef::comp::drawable dr;
@@ -65,6 +71,7 @@ public:
 class LobbyPlayerUsername{
 public:
   static void instanciate(zef::Engine &engine, const ecs::Entity &self, float x, float y, std::string username){
+    engine.addEntityComponent<PlayerSlot>(self);
     engine.addEntityComponent<zef::comp::position>(self, x, y);
 
     zef::comp::drawableText txt;
@@ -81,15 +88,17 @@ public:
 class LobbyPlayerKick{
 public:
   static void instanciate(zef::Engine &engine, const ecs::Entity &self, float x, float y, int id){
-
+    engine.addEntityComponent<PlayerSlot>(self);
+    engine.addEntityComponent<zef::comp::position>(self, x, y);
   }
 };
 class LobbyPlayerIsAdmin{
 public:
   static void instanciate(zef::Engine &engine, const ecs::Entity &self, float x, float y, bool isAdmin){
+    engine.addEntityComponent<PlayerSlot>(self);
+    engine.addEntityComponent<zef::comp::position>(self, x, y);
     if (!isAdmin)
       return;
-    engine.addEntityComponent<zef::comp::position>(self, x, y);
 
     zef::comp::drawable dr;
     dr.addAnimation("iamadmin", 1, 200);
@@ -102,15 +111,18 @@ public:
 class LobbyPlayerSetUnsetAdmin{
 public:
   static void instanciate(zef::Engine &engine, const ecs::Entity &self, float x, float y, int id, bool isAdmin){
+    engine.addEntityComponent<PlayerSlot>(self);
+    engine.addEntityComponent<zef::comp::position>(self, x, y);
 
   }
 };
 class LobbyPlayerIsReady{
 public:
   static void instanciate(zef::Engine &engine, const ecs::Entity &self, float x, float y, bool isReady){
+    engine.addEntityComponent<PlayerSlot>(self);
+    engine.addEntityComponent<zef::comp::position>(self, x, y);
     if (!isReady)
       return;
-    engine.addEntityComponent<zef::comp::position>(self, x, y);
 
     zef::comp::drawable dr;
     dr.addAnimation("lobbyPlayer1", 1, 200);
@@ -128,6 +140,7 @@ public:
                           float x, float y, std::string username,
                           std::string sprite, int id,
                           bool isAdmin, bool isReady, bool amIAdmin){
+    engine.addEntityComponent<PlayerSlot>(self);
     if (username != ""){
       engine.instanciatePatron<LobbyOccupiedPlayerSlot>(x,y,sprite);
       engine.instanciatePatron<LobbyPlayerUsername>(x,y + 100,username);
