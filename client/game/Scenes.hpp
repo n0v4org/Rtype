@@ -161,15 +161,6 @@ public:
         210.0f, 210.0f, 0.5f, 0.5f
     );
     engine.instanciatePatron<TextButtonPatron>(
-        -650.f,-400.f,
-        "emptyButton",
-        "Jonfre","eth",42,
-        [](zef::Engine &engine, size_t self) {
-          engine.newLoadScene<OptionScene>();
-        },
-        420.0f, 170.0f, 1.f, 1.f
-    );
-    engine.instanciatePatron<TextButtonPatron>(
         550.f, 400.f,
         "emptyButton",
         "READY","eth",72,
@@ -177,6 +168,15 @@ public:
             engine.fetchEntityComponent<zef::comp::drawable>(self).rgba = {0.5,1,0.5,1};
             engine.fetchEntityComponent<zef::comp::drawableText>(self).rgba = {0,1,0,1};
             engine.ClientSendTcp("SET_PLAYER_READY");
+            engine.instanciatePatron<TextButtonPatron>(
+				250.f, 400.f,
+        		"emptyButton",
+        		"LAUNCH GAME","eth",28,
+        		[](zef::Engine &engine, size_t self) {
+            		engine.ClientSendTcp("LAUNCH_GAME");
+        		},
+		        420.0f, 170.0f, 0.4f, 0.4f
+			);
         },
         420.0f, 170.0f, 1.f, 1.f
     );
@@ -185,15 +185,10 @@ public:
         "Window",
         0.6f, 0.4f
     );
+
     std::string cmd = "GET_LOBBY " + std::to_string(lobby_id);
     engine.ClientSendTcp(cmd);
 
-
-//    engine.instanciatePatron<LobbyPlayerSlot>(-100.0f,-250.0f,"tristre","lobbyPlayer1",1,true,false,false);
-//    engine.instanciatePatron<LobbyPlayerSlot>(-150.0f,100.0f,"","lobbyPlayer2",1,true,true,false);
-//    engine.instanciatePatron<LobbyPlayerSlot>(0.0f, 350.0f,"isacre","lobbyPlayer3",1,false,true,false);
-//    engine.instanciatePatron<LobbyPlayerSlot>(550.0f, 0.0f,"#EIPCPPVITE","lobbyPlayer4",1,true,true,false);
-//    engine.instanciatePatron<LobbyPlayerSlot>(400.0f,-300.0f,"I C S","lobbyPlayer0",1,false,false,false);
   }
 };
 
