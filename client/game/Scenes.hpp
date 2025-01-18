@@ -34,6 +34,12 @@
 #include "TitlePatron.hpp"
 #include "LobbyPatron.hpp"
 
+class OptionScene;
+class MenuScene;
+class LobbyScene;
+class LobbyListScene;
+
+
 class LevelScene {
 public:
   static void loadScene(zef::Engine& engine) {
@@ -66,14 +72,16 @@ public:
 
 class LobbyScene{
 public:
-  static void loadScene(zef::Engine& engine) {
+  static void loadScene(zef::Engine& engine, size_t lobby_id) {
+    std::cout <<"hùùù" <<lobby_id <<"\n";
 
     engine.instanciatePatron<MenuBackgroundPatron>();
     engine.instanciatePatron<ButtonPatron>(
         850.0f, -450.0f,
         "returnButton",
         [](zef::Engine &engine, size_t self) {
-            engine.loadScene("lobbyList");
+          engine.ClientSendTcp("QUIT");
+          engine.newLoadScene<LobbyListScene>();
         },
         210.0f, 210.0f, 0.5f, 0.5f
     );
@@ -82,7 +90,7 @@ public:
         "emptyButton",
         "Jonfre","eth",42,
         [](zef::Engine &engine, size_t self) {
-            engine.loadScene("option");
+          engine.newLoadScene<OptionScene>();
         },
         420.0f, 170.0f, 1.f, 1.f
     );
@@ -93,6 +101,7 @@ public:
         [](zef::Engine &engine, size_t self) {
             engine.fetchEntityComponent<zef::comp::drawable>(self).rgba = {0.5,1,0.5,1};
             engine.fetchEntityComponent<zef::comp::drawableText>(self).rgba = {0,1,0,1};
+            engine.ClientSendTcp("SET_PLAYER_READY");
         },
         420.0f, 170.0f, 1.f, 1.f
     );
@@ -101,12 +110,15 @@ public:
         "Window",
         0.6f, 0.4f
     );
+    std::string cmd = "GET_LOBBY " + std::to_string(lobby_id);
+    engine.ClientSendTcp(cmd);
 
-    engine.instanciatePatron<LobbyPlayerSlot>(-100.0f,-250.0f,"tristre","lobbyPlayer1",1,true,false,false);
-    engine.instanciatePatron<LobbyPlayerSlot>(-150.0f,100.0f,"","lobbyPlayer2",1,true,true,false);
-    engine.instanciatePatron<LobbyPlayerSlot>(0.0f, 350.0f,"isacre","lobbyPlayer3",1,false,true,false);
-    engine.instanciatePatron<LobbyPlayerSlot>(550.0f, 0.0f,"#EIPCPPVITE","lobbyPlayer4",1,true,true,false);
-    engine.instanciatePatron<LobbyPlayerSlot>(400.0f,-300.0f,"I C S","lobbyPlayer0",1,false,false,false);
+
+//    engine.instanciatePatron<LobbyPlayerSlot>(-100.0f,-250.0f,"tristre","lobbyPlayer1",1,true,false,false);
+//    engine.instanciatePatron<LobbyPlayerSlot>(-150.0f,100.0f,"","lobbyPlayer2",1,true,true,false);
+//    engine.instanciatePatron<LobbyPlayerSlot>(0.0f, 350.0f,"isacre","lobbyPlayer3",1,false,true,false);
+//    engine.instanciatePatron<LobbyPlayerSlot>(550.0f, 0.0f,"#EIPCPPVITE","lobbyPlayer4",1,true,true,false);
+//    engine.instanciatePatron<LobbyPlayerSlot>(400.0f,-300.0f,"I C S","lobbyPlayer0",1,false,false,false);
   }
 };
 
@@ -118,7 +130,7 @@ public:
             850.0f, -450.0f,
             "returnButton",
             [](zef::Engine &engine, size_t self) {
-                engine.loadScene("menu");
+                engine.newLoadScene<MenuScene>();
             },
             210.0f, 210.0f, 0.5f, 0.5f
         );
@@ -127,7 +139,7 @@ public:
             "emptyButton",
             "Lobby List","eth",42,
             [](zef::Engine &engine, size_t self) {
-                engine.loadScene("option");
+                engine.newLoadScene<OptionScene>();
             },
             420.0f, 170.0f, 1.f, 1.f
         );
@@ -137,19 +149,31 @@ public:
             0.8f, 0.5f
         );
 
-        std::vector<std::string> names = {"Pierre", "Jonfre", "JOE(tek4)", "ANTOINETTE"};
-        int slots = 1;
-        for (int i = 0; i < 3; i += 1) {
-        slots = rand() % 5;
-        engine.instanciatePatron<LobbyListTabPatron>(
-            -550.0f, -80.0f + (i * 180.0f),
-            8, names[rand() % 4],
-            slots, rand() % slots,
-            [](zef::Engine &engine, size_t self) {
-                engine.loadScene("lobby");
-            }
+        engine.instanciatePatron<ButtonPatron>(
+                  -200.0f, -400.0f,
+                  "returnButton",
+                  [](zef::Engine &engine, size_t self) {
+                      for (auto &&[i,p]: ecs::indexed_zipper(engine.reg.get_components<Tab>())){
+                          engine.reg.kill_entity(ecs::Entity(i));
+                          std::cout << i << " " <<std::endl;
+                      }
+                      engine.ClientSendTcp("GET_ALL_LOBBY");
+                  },
+                  210.0f, 210.0f, 0.5f, 0.5f
         );
-        }
+
+        engine.ClientSendTcp("GET_ALL_LOBBY");
+   //     for (int i = 0; i < 3; i += 1) {
+   //     slots = rand() % 5;
+   //     engine.instanciatePatron<LobbyListTabPatron>(
+   //         -550.0f, -80.0f + (i * 180.0f),
+   //         8, names[rand() % 4],
+   //         slots, rand() % slots,
+   //         [](zef::Engine &engine, size_t self) {
+   //             engine.newLoadScene<LobbyScene>();
+   //         }
+   //     );
+    //    }
     }
 };
 
@@ -168,7 +192,7 @@ public:
             0.0f, 100.0f,
             "Start",
             [](zef::Engine &engine, size_t self) {
-                engine.loadScene("lobbyList");
+                engine.newLoadScene<LobbyListScene>();
             },
             410.0f, 121.0f
         );
@@ -187,7 +211,7 @@ public:
             "Settings",
             [](zef::Engine &engine, size_t self) {
                 std::cout << "Settings clicked!" << std::endl;
-                engine.loadScene("option");
+                engine.newLoadScene<OptionScene>();
             },
             210.0f, 210.0f, 0.5f, 0.5f
         );
@@ -204,7 +228,7 @@ public:
             "Backward_BTN",
             [](zef::Engine &engine, size_t self) {
                 std::cout << "return clicked!" << std::endl;
-                engine.loadScene("menu");
+                engine.newLoadScene<MenuScene>();
             },
             210.0f, 210.0f, 0.5f, 0.5f
         );
