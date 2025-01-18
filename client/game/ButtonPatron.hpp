@@ -25,7 +25,7 @@ public:
                             const std::string &spriteName,
                             std::function<void(zef::Engine &, size_t)> onClickCallback,
                             float width = 200.0f, float height = 100.0f, float scale_w = 1.0f,
-                            float scale_h = 1.0f) {
+                            float scale_h = 1.0f, float rotation = 0.0f, int layer = 1) {
         engine.addEntityComponent<zef::comp::position>(self, x, y);
 
         std::vector<zef::utils::hitbox> hb = {zef::utils::hitbox(0, 0, width * scale_w, height * scale_h)};
@@ -42,8 +42,9 @@ public:
         zef::comp::drawable dr;
         dr.addAnimation(spriteName, 1, 200);
         dr.playAnimationLoop(spriteName, 1);
-        dr.layer = 1;             
-        dr.setScale(scale_w, scale_h);           
+        dr.layer = layer;
+        dr.setScale(scale_w, scale_h);
+        dr.rotation =rotation;
         engine.addEntityComponent<zef::comp::drawable>(self, dr);
     }
 };
@@ -65,7 +66,7 @@ public:
                           const std::string &text, const std::string &font, int textSize,
                           std::function<void(zef::Engine &, size_t)> onClickCallback,
                           float width = 200.0f, float height = 100.0f, float scale_w = 1.0f,
-                          float scale_h = 1.0f) {
+                          float scale_h = 1.0f, int layer= 1) {
     engine.addEntityComponent<zef::comp::position>(self, x, y);
 
     std::vector<zef::utils::hitbox> hb = {zef::utils::hitbox(0, 0, width * scale_w, height * scale_h)};
@@ -82,7 +83,7 @@ public:
     zef::comp::drawable dr;
     dr.addAnimation(spriteName, 1, 200);
     dr.playAnimationLoop(spriteName, 1);
-    dr.layer = 0;
+    dr.layer = layer;
     dr.setScale(scale_w, scale_h);
     engine.addEntityComponent<zef::comp::drawable>(self, dr);
 
