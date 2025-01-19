@@ -409,6 +409,7 @@ void runClient(int sport, int cport, std::string ip) {
   engine.registerComponent<NameZone>();
   engine.registerComponent<MsgZone>();
   engine.registerComponent<UsrZone>();
+  engine.registerComponent<PasswordZone>();
   engine.registerComponent<ChatMsgTrack>();
   engine.registerComponent<MsgDel>();
 

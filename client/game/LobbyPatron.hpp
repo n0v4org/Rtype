@@ -181,7 +181,7 @@ public:
             engine.instanciatePatron<LobbyPlayerKickAdminPatronButton>(x, y, "Window", " ", "eth", 42, [](zef::Engine &engine, size_t self){}, 940.f, 1400.f,0.3f,0.25f,2,0.f);
 
            int id = p.j["players"][slotId]["id"];
-            int permission = (p.j["players"][slotId]["is_admin"] ? 0 : 1);
+            int permission = (p.j["players"][slotId]["is_admin"] ? 1 : 0);
             std::string cmdadmin = "UPDATE_PERM " + std::to_string(id) + " " + std::to_string(permission);
             std::string cmdkick = "KICK_PLAYER " + std::to_string(id);
 
@@ -477,7 +477,7 @@ public:
 
     zef::comp::drawableText txt;
     txt.layer = 4;
-    txt.text = "Lobby Name";
+    txt.text = "New Lobby Name";
     txt.font = "eth";
     txt.scaleX = 1.0f;
     txt.scaleY = 1.0f;
@@ -568,11 +568,11 @@ public:
 
     zef::comp::drawableText txt;
     txt.layer = 4;
-    txt.text = "Lobby Password";
+    txt.text = "New Lobby Password";
     txt.font = "eth";
     txt.scaleX = 1.0f;
     txt.scaleY = 1.0f;
-    txt.textSize = 24;
+    txt.textSize = 22;
     engine.addEntityComponent<zef::comp::drawableText>(self, txt);
   }
 };
@@ -645,7 +645,7 @@ class LobbyCreatePatron{
       engine.instanciatePatron<LobbyCreateTracker>();
 
       engine.instanciatePatron<LobbyCreateWindow>(x, y);
-      engine.instanciatePatron<LobbyCreateTitle>(x, y + 500.0f);
+      engine.instanciatePatron<LobbyCreateTitle>(x, y + 450.0f);
       engine.instanciatePatron<LobbyCreateNameTitle>(x, y -200.0f);
       engine.instanciatePatron<LobbyCreateName>(x, y - 150.0f);
       engine.instanciatePatron<LobbyCreateSlotsTitle>(x, y - 50.0f);
