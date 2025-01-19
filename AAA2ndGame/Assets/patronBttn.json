@@ -1,0 +1,32 @@
+{
+    "name": "Bttn",
+    "inputs" : [
+        {"name": "n", "type": "str"},
+        {"name": "x", "type": "int"},
+        {"name": "y", "type": "int"},
+        {"name": "c", "type": "str"}
+        
+    ],
+    "components" : [
+        {
+            "name": "NewDrawable",
+            "args": ["button", 0.5, 2]
+        },
+        {
+            "name": "Position",
+            "args": [{"input": "x"},{"input": "y"}]
+        },
+        {
+            "name": "Text",
+            "args": [{"input": "n"}, 40]
+        },
+        {
+            "name": "SCRIPT",
+            "args": [{"input": "c"}]
+        },
+        {
+            "name": "Clickable",
+            "args": [100, 100]
+        }
+    ]
+}

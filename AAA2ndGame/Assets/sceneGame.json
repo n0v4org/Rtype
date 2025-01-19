@@ -1,0 +1,15 @@
+{
+
+    "name" : "Game",
+
+
+    "patrons" : [
+        ["Duck", 0.0, 100.0],
+        ["Duck", -500.0, -200.0],
+        ["Duck", 700.0, -400.0],
+        ["Background"],
+        ["Grass"],
+        ["Score"]
+    ]
+
+}

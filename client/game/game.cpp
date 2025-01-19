@@ -413,6 +413,9 @@ void runClient(int sport, int cport, std::string ip) {
   engine.registerComponent<MsgDel>();
 
 
+  engine.registerComponent<zef::comp::gravity>();
+  engine.registerComponent<zef::comp::rigidbody>();
+  engine.registerComponent<zef::comp::name>();
     //engine.loadModules();
 
   //   // engine.addSystem<>(entitycountdisplay);
@@ -450,6 +453,9 @@ void runClient(int sport, int cport, std::string ip) {
   engine.addSystem<zef::comp::vector, Player>("zefir", resetPlayerMovement);
   engine.addSystem<zef::comp::controllable>("zefir",
                                             zef::sys::system_constrollables);
+
+    engine.addSystem<zef::comp::vector, zef::comp::position, zef::comp::gravity>("zefir", zef::sys::apply_gravity);
+
   engine.addSystem<zef::comp::event_listener>("zefir", zef::sys::resolveEvent);
   // engine.addSystem<zef::comp::vector>("zefir",
   //                                     zef::sys::normalize_velocity_vectors);
@@ -486,6 +492,10 @@ void runClient(int sport, int cport, std::string ip) {
     "zefir",
     send_player_position
 );
+  
+  engine.addSystem<zef::comp::collidable, zef::comp::position>(
+      "zefir", zef::sys::check_collidables);
+  engine.addSystem<zef::comp::rigidbody, zef::comp::position, zef::comp::vector>("zefir", zef::sys::check_rigidity);
 
   // engine.registerScene<LevelScene>("level");
   // engine.registerScene<LobbyScene>("lobby");

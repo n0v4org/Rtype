@@ -65,6 +65,7 @@ public:
     engine.addEntityComponent<zef::comp::vector>(self, -5.f, 0.f, 3.f);
 
     engine.addEntityComponent<Health>(self, 50, 50);
+        engine.addEntityComponent<zef::comp::name>(self, "EnemyPlane");
 
     engine.addEntityComponent<zef::comp::event_listener>(self,
                                                          creatPlaneMove());

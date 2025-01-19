@@ -53,6 +53,7 @@ public:
     engine.addEntityComponent<zef::comp::position>(self, x, y);
     engine.addEntityComponent<Monster>(self);
     engine.addEntityComponent<TurretTurnRate>(self);
+    engine.addEntityComponent<zef::comp::name>(self, "EnemyTurret");
 
     std::string spr = up_down ? "turretu" : "turretd";
     zef::comp::drawable dr;

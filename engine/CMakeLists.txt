@@ -8,6 +8,7 @@ project(rtype_sfml VERSION 1.0)
 
 set(SRC
     Engine.cpp
+    Console.cpp
 )
 
 

@@ -7,6 +7,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 
 project(Rtype VERSION 1.0)
+add_subdirectory(AAA2ndGame)
 add_subdirectory(network)
 add_subdirectory(engine)
 add_subdirectory(engine/graphic/sfml)

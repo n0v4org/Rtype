@@ -34,6 +34,8 @@
 #include "IModule.hpp"
 #include "LibHolder.hpp"
 #include "Patron.hpp"
+#include "Scene.hpp"
+#include "Console.hpp"
 
 // #include "Scene.hpp"
 // #include "Patron.hpp"
@@ -52,6 +54,7 @@ namespace zef {
     Engine() {
       clock = std::chrono::high_resolution_clock::now();
     }
+
     ecs::registry reg;
 
     friend void sys::resolveEvent(
@@ -152,7 +155,7 @@ namespace zef {
 
     template <class... Components, typename Function>
     void addSystem(const std::string& moduleName, Function&& f) {
-      reg.add_system<Components...>(moduleName, f);
+      reg.add_system<Components...>(*this, moduleName, f);
     }
 
     template <typename Patron, typename... T>
@@ -169,11 +172,12 @@ namespace zef {
     ecs::Entity instanciatePatron(const std::string& name,
                                   std::vector<std::any> args) {
       ecs::Entity new_entity = reg.spawn_entity();
+      std::cout << "nentity: " << new_entity << std::endl;
       for (auto&& p : _patrons) {
         if (p._name == name) {
           std::map<std::string, std::any> ipt;
           int incr = 0;
-          for (auto&& [n, t] : p._inputs) {
+          for (auto&& [n, t] : p.__inputs) {
             ipt[n] = args[incr++];
           }
 
@@ -200,6 +204,9 @@ namespace zef {
                   pargs.push_back(val);
               }
             }
+            if (n == "SCRIPT")
+              addEntityComponent<comp::new_event_listener>(new_entity, _script_map[std::any_cast<std::string>(pargs[0])]);
+            else
             addEntityComponent(new_entity, n, pargs);
           }
         }
@@ -209,6 +216,31 @@ namespace zef {
 
     void loadPatron(const std::string& fname) {
       _patrons.push_back(PatronParser::parse(fname));
+    }
+
+    void registerScene(const std::string& fname) {
+      _scenes_config.push_back(SceneParser::parse(fname));
+    }
+
+    void loadSceneConfig(const std::string& name) {
+      std::cout << "loading " << name << std::endl;
+      for (auto &&s : _scenes_config) {
+        if (s._name == name) {
+            _new_next_scene = [s](zef::Engine& engine) {
+              std::cout << "maxid " << engine.reg._maxId << std::endl;
+              for (int i = 0; i < engine.reg.getMaxId(); i++)
+                engine.reg.kill_entity(ecs::Entity(i));
+              engine.reg._maxId = 0;
+              engine.reg._entityCount = 0;
+
+              while (!engine.reg._unusedids.empty()) engine.reg._unusedids.pop();
+              
+              for (int i = 0; i < s._pat.size(); i++) {
+                engine.instanciatePatron(s._pat[i], s._args[i]);
+              }
+            };
+        }
+      }
     }
 
     template <typename Scene>
@@ -279,20 +311,53 @@ namespace zef {
       // ecs::Entity e(reg.spawn_entity());
       // addEntityComponent(e, "ExampleComp1", 2, 2.0f);
       // addEntityComponent(e, "ExampleComp2", 3.0f, 'c');
+      std::thread consoleThread([this](){
+        console.run(consoleMutex, *this);
+      });
+      int FPS = 0;
+      int nbFrames = 0;
+      getCpuUsage(prevActiveTime, prevTotalTime);
+      getRamUsage(prevTotalMem, prevAvailableMem);
       while (running) {
         if (GraphLib)
         elapsed = std::chrono::duration_cast<std::chrono::microseconds>(
             std::chrono::high_resolution_clock::now() - clock);
         clock = std::chrono::high_resolution_clock::now();
-        // std::cout << i++ << std::endl;
-        //std::cout <<"---"
+
         if (GraphLib)
           GraphLib->clear();
         reg.run_systems(*this);
+        console.displayMessages();
 
-        if (GraphLib)
+        nbFrames++;
+        _totalElapsed += elapsed.count();
+        if (_totalElapsed >= 1000000) {
+          FPS = nbFrames;
+          nbFrames = 0;
+          _totalElapsed = 0;
+
+          long long currActiveTime = 0, currTotalTime = 0;
+          getCpuUsage(currActiveTime, currTotalTime);
+
+          cpuUsage = 100.0 * (currActiveTime - prevActiveTime) / (currTotalTime - prevTotalTime);
+          prevActiveTime = currActiveTime;
+          prevTotalTime = currTotalTime;
+
+          long long totalMem = 0, availableMem = 0;
+          getRamUsage(totalMem, availableMem);
+          ramUsage = 100.0 * (totalMem - availableMem) / totalMem;
+          prevAvailableMem = availableMem;
+          prevTotalMem = totalMem;
+
+        }
+
+        if (GraphLib) {
+          if (showMetrics)
+            displayMetrics(FPS);
           GraphLib->refresh();
-        
+        }
+          
+
 
         _new_next_scene(*this);
         _new_next_scene = [](zef::Engine& e) {};
@@ -305,6 +370,54 @@ namespace zef {
           _next_scene = "";
         }
       }
+      consoleThread.detach();
+    }
+
+    void displayMetrics(int FPS) {
+      GraphLib->drawTextHUD("FPS: " + std::to_string(FPS), "michelin", 13, 860, -520, 1, 1, 0, {0, 1, 0, 1});
+
+      std::ostringstream oss;
+      oss << std::fixed << std::setprecision(4) << cpuUsage;
+      std::string res = oss.str();
+      GraphLib->drawTextHUD("CPU Usage: " + res + "%", "michelin", 13, 860, -500, 1, 1, 0, {0, 1, 0, 1});
+
+      std::ostringstream oss2;
+      oss2 << std::fixed << std::setprecision(4) << ramUsage;
+      std::string res2 = oss2.str();
+      GraphLib->drawTextHUD("RAM Usage: " + res2 + "%", "michelin", 13, 860, -480, 1, 1, 0, {0, 1, 0, 1});
+
+      GraphLib->drawTextHUD("Entity count: " + std::to_string(reg.getEntityCount()), "michelin", 13, 860, -460, 1, 1, 0, {0, 1, 0, 1});
+    }
+
+    void getCpuUsage(long long &activeTime, long long &totalTime) {
+      std::ifstream statFile("/proc/stat");
+      std::string line;
+      std::getline(statFile, line);
+      statFile.close();
+      std::istringstream stream(line);
+      std::string cpu;
+      long long user, nice, system, idle, iowait, irq, softirq, steal;
+      stream >> cpu >> user >> nice >> system >> idle >> iowait >> irq >> softirq >> steal;
+      activeTime = user + nice + system + irq + softirq + steal;
+      totalTime = activeTime + idle + iowait;
+    }
+
+    void getRamUsage(long long &totalMem, long long &availableMem) {
+      std::ifstream file("/proc/meminfo");
+      std::string line;
+
+      while (std::getline(file, line)) {
+          if (line.find("MemTotal:") == 0) {
+              totalMem = std::stoll(line.substr(9)) * 1024;
+          } else if (line.find("MemAvailable:") == 0) {
+              availableMem = std::stoll(line.substr(13)) * 1024;
+          }
+      }
+      file.close();
+    }
+
+    void consoleSendMessage(const std::string& message) {
+      console.sendMessage(message);
     }
 
     void initServer(int udpport, int tcpport) {
@@ -355,6 +468,8 @@ namespace zef {
       _cmd_map_tcp[cmd] = fn;
     }
 
+    
+
     void loadModule(const std::string& name) {
       _runtime_lib_holder.push_back(
           std::make_unique<LibHolder<IModule>>("module" + name));
@@ -371,7 +486,6 @@ namespace zef {
       for (const auto& entry : std::filesystem::directory_iterator("./")) {
         std::string mdname = entry.path().filename().string();
         if (mdname.rfind("libmodule", 0) == 0) {
-          std::cout << "akjhakezjhezfakjhbefza \n";
           std::string str  = mdname.substr(9);
           auto f           = str.find_last_of('.');
           std::string name = str.substr(0, f);
@@ -399,11 +513,26 @@ namespace zef {
         clock;  // = std::chrono::high_resolution_clock::now();
     std::chrono::microseconds elapsed;
     size_t _enemyCooldown = 0;
+    Console console;
+    std::mutex consoleMutex;
 
+    std::map<std::string, std::unique_ptr<zef::IModule>> _runtime_modules;
+    std::map<std::string, zef::comp::new_event_listener> _script_map;
+
+    bool showHitboxes = false;
   private:
+
+    long long prevActiveTime = 0;
+    long long prevTotalTime = 0;
+    long long prevTotalMem = 0;
+    long long prevAvailableMem = 0;
+    double cpuUsage = 0;
+    double ramUsage = 0;
+
     int gameFps = 60;
 
     bool running = true;
+    
 
     utils::UserInputs _user_inputs;
     std::queue<Event> _events;
@@ -418,9 +547,13 @@ namespace zef {
 
     std::vector<std::unique_ptr<zef::ILibHolder<zef::IModule>>>
         _runtime_lib_holder;
-    std::map<std::string, std::unique_ptr<zef::IModule>> _runtime_modules;
 
     std::vector<Patron> _patrons;
+    int64_t _totalElapsed = 0;
+    std::vector<Scene> _scenes_config;
+
+    friend class Console;
+    bool showMetrics = false;    
   };
 
   namespace sys {

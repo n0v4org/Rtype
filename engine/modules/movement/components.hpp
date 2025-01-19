@@ -64,10 +64,6 @@ namespace zef {
         : _hitboxes(hitboxes), _rigidity_type(rigidity_type) {
       }
 
-      rigidbody(std::vector<utils::hitbox> &hitboxes, type rigidity_type)
-        : _hitboxes(hitboxes), _rigidity_type(rigidity_type) {
-      }
-
       ~rigidbody() {
       }
 
@@ -93,6 +89,21 @@ namespace zef {
       std::vector<utils::hitbox> _hitboxes;
       std::vector<std::string> _tags;
       std::vector<std::string> _pass_through;
+    };
+
+    class gravity {
+      public:
+        gravity(float x, float y, float weight) : _x(x), _y(y), _weight(weight) {
+
+        }
+
+        ~gravity() {}
+
+        constexpr static float GlobalDistance = 1000000000.0f;
+
+        float _x;
+        float _y;
+        float _weight;
     };
 
   }  // namespace comp

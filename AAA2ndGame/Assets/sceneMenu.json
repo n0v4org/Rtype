@@ -1,0 +1,12 @@
+{
+
+    "name" : "Menu",
+
+
+    "patrons" : [
+        ["Bttn", "play", 0.0, -100.0, "play_bttn"],
+        ["Bttn", "quit", 0.0, 100.0, "quit_bttn"],
+        ["BackgroundMenu"]
+    ]
+
+}
