@@ -45,14 +45,16 @@ namespace rtype {
                    int udp_port);
     ~Game();
 
+    std::vector<game_player_t> _players;
+    size_t rep_id = 200;
   protected:
   private:
     std::vector<std::thread> _games;
     std::vector<std::string> _player_uuid;
     std::vector<std::pair<std::string, int>> _players_tcp;
     std::vector<std::pair<std::string, int>> _players_udp;
-    std::vector<game_player_t> _players;
     zef::Engine _engine;
+
 
     void send_error(int id, const std::string &ec, int status);
     bool bad_args(input_t input, int nb_args);

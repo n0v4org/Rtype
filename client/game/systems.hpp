@@ -149,8 +149,6 @@ void send_player_position(zef::Engine& engine,
 
         engine.ClientSendUdp<pos_t>(GET_POS, temp);
 
-         std::cout << "Envoyé position player " << entityIndex
-                   << " : (" << temp.x << ", " << temp.y << ")\n";
     }
 }
 

@@ -22,7 +22,9 @@ struct SetPlayerVectorEvent {
   float x;
   float y;
 };
-struct ShootPlayerEvent {};
+struct ShootPlayerEvent {
+  size_t size;
+};
 struct LoadShoot {};
 
 struct OnDeath {};

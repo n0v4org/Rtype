@@ -17,13 +17,8 @@
 
 class LevelScene {
 public:
-  static void loadScene(zef::Engine& engine, std::vector<game_player_t> _players) {
-    std::cout << "player ========= " << _players.size() << std::endl;
-    for (int i = 0; i <= _players.size(); i++) {
-      std::cout << "pkkkkkkkkkkkkkkkkkkkkkkkkkkkkk" << std::endl;
-      engine.instanciatePatron<AllyPatron>(0.f, 0.f, i);
-    }
-    // engine.instanciatePatron<PlayerPatron>(0.0f, 150.0f)
+  static void loadScene(zef::Engine& engine) {
+    
   }
 };
 

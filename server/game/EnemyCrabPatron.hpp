@@ -14,56 +14,31 @@
 
 #include "components.hpp"
 #include "modules/movement/components.hpp"
+#include "modules/movement/events.hpp"
 #include "modules/display/components.hpp"
 #include "modules/controller/components.hpp"
 #include "modules/network/components.hpp"
 #include "events.hpp"
-#include "BlastPatron.hpp"
 
 inline zef::comp::event_listener createCrabEventListener() {
-  // zef::comp::event_listener evtl;
+  zef::comp::event_listener evtl;
+ 
+   evtl.setEvent<OnDeath>([](zef::Engine& engine, size_t self, OnDeath p) {
+    engine.reg.kill_entity(ecs::Entity(self));
+  });
   //
-  // evtl.setEvent<SetEnemyVectorEvent>(
-  //    [](zef::Engine& engine, size_t self, SetEnemyVectorEvent e) {
-  //      auto& vec      = engine.fetchEntityComponent<zef::comp::vector>(self);
-  //      auto& draw     =
-  //      engine.fetchEntityComponent<zef::comp::drawable>(self); vec.x = e.vx;
-  //      vec.y          = e.vy;
-  //      float angleRad = std::atan2(-vec.x, vec.y);
-  //      float angleDeg = angleRad * 180.f / static_cast<float>(M_PI);
-  //      if (angleDeg < 0)
-  //        angleDeg += 360.f;
-  //      angleDeg += 270.f;
-  //      if (angleDeg >= 360.f)
-  //        angleDeg -= 360.f;
-  //      std::cout << angleDeg << std::endl;
-  //      draw.rotation = angleDeg;
-  //    });
-  //
-  // evtl.setEvent<SetEnemyPos>(
-  //    [](zef::Engine& engine, size_t self, SetEnemyPos p) {
-  //      auto& pos = engine.fetchEntityComponent<zef::comp::position>(self);
-  //      pos.x     = p.px;
-  //      pos.y     = p.py;
-  //    });
-  //
-  // evtl.setEvent<OnDeath>([](zef::Engine& engine, size_t self, OnDeath p) {
-  //  auto& pos = engine.fetchEntityComponent<zef::comp::position>(self);
-  //  engine.instanciatePatron<BlastPatron>(pos.x, pos.y, 3.0f);
-  //  engine.reg.kill_entity(ecs::Entity(self));
-  //});
-  //
-  // evtl.setEvent<GetHittedByBullet>(
-  //    [](zef::Engine& engine, size_t self, GetHittedByBullet p) {
-  //      engine.addEntityComponent<Damaged>(ecs::Entity(self), 100 * 1000);
-  //    });
-  //
-  // evtl.setEvent<zef::evt::startCollision>(
-  //    [](zef::Engine& engine, size_t self, zef::evt::startCollision p) {
-  //      engine.sendEvent<GetHittedByMonster>(p.other);
-  //    });
-  //
-  // return evtl;
+  evtl.setEvent<GetHittedByBullet>(
+     [](zef::Engine& engine, size_t self, GetHittedByBullet p) {
+       auto& hp = engine.fetchEntityComponent<Health>(self).hp -= p.size == 0 ? 2 : 10;
+      std::cout << "toucheey\n";
+     });
+
+   evtl.setEvent<zef::evt::startCollision>(
+      [](zef::Engine& engine, size_t self, zef::evt::startCollision p) {
+        engine.sendEvent<GetHittedByMonster>(p.other);
+    });
+  
+  return evtl;
 }
 
 class EnemyCrabPatron {
@@ -74,7 +49,7 @@ public:
 
     engine.addEntityComponent<zef::comp::vector>(self, 0.f, 0.f, 3.f);
 
-    engine.addEntityComponent<Health>(self, 25, 25);
+    engine.addEntityComponent<Health>(self, 15, 10);
 
     engine.addEntityComponent<zef::comp::event_listener>(
         self, createCrabEventListener());

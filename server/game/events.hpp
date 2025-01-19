@@ -8,7 +8,9 @@
 #ifndef GEVENTS_HPP_
 #define GEVENTS_HPP_
 
-struct GetHittedByBullet {};
+struct GetHittedByBullet {
+  size_t size;
+};
 
 struct GetHittedByMonster {};
 

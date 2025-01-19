@@ -269,24 +269,26 @@ namespace zef {
     }
 
     void run() {
+
       clock = std::chrono::high_resolution_clock::now();
       int i = 0;
       // ecs::Entity e(reg.spawn_entity());
       // addEntityComponent(e, "ExampleComp1", 2, 2.0f);
       // addEntityComponent(e, "ExampleComp2", 3.0f, 'c');
       while (running) {
+        if (GraphLib)
         elapsed = std::chrono::duration_cast<std::chrono::microseconds>(
             std::chrono::high_resolution_clock::now() - clock);
         clock = std::chrono::high_resolution_clock::now();
         // std::cout << i++ << std::endl;
-
+        //std::cout <<"---"
         if (GraphLib)
           GraphLib->clear();
-
         reg.run_systems(*this);
 
         if (GraphLib)
           GraphLib->refresh();
+        
 
         _new_next_scene(*this);
         _new_next_scene = [](zef::Engine& e) {};

@@ -50,7 +50,7 @@ public:
 
     engine.addEntityComponent<zef::comp::vector>(self, vx, vy, 6);
 
-    engine.addEntityComponent<Lifetime>(self, 15000 * 1000);
+    //engine.addEntityComponent<Lifetime>(self, 15000 * 1000);
 
     zef::comp::drawable dr;
     dr.addAnimation("EBullet", 8, 150);

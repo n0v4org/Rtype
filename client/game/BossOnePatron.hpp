@@ -63,7 +63,7 @@ inline zef::comp::event_listener createBossOneEventListener() {
 
   evtl.setEvent<OnDeath>([](zef::Engine& engine, size_t self, OnDeath p) {
     auto& pos = engine.fetchEntityComponent<zef::comp::position>(self);
-    engine.instanciatePatron<BlastPatron>(pos.x, pos.y, 3.0f);
+    engine.instanciatePatron<BlastPatron>(pos.x, pos.y, 10.0f);
     engine.reg.kill_entity(ecs::Entity(self));
   });
 
@@ -106,8 +106,7 @@ public:
         zef::utils::hitbox(0, 0, 161 * 2, 212 * 3)};
     engine.addEntityComponent<zef::comp::collidable>(self, hb);
     ecs::Entity miniboss =
-        engine.instanciatePatron<BossOneMiniPatron>(x + 25, y + 20, 2);
-    engine.sendEvent<MiniBossShoot>(miniboss, -6.f, 0.f);
+        engine.instanciatePatron<BossOneMiniPatron>(x + 25, y + 20, rep);
   }
 };
 

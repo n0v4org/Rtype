@@ -45,12 +45,12 @@ inline zef::comp::event_listener createMiniBossBulletEventListener() {
 class MiniBossBulletPatron {
 public:
   static void instanciate(zef::Engine& engine, const ecs::Entity& self, float x,
-                          float y, float vx, float vy) {
+                          float y) {
     engine.addEntityComponent<zef::comp::position>(self, x, y);
 
-    engine.addEntityComponent<zef::comp::vector>(self, vx, vy, 6);
+    engine.addEntityComponent<zef::comp::vector>(self, -20.0f, 0.0f, 6);
 
-    engine.addEntityComponent<Lifetime>(self, 15000 * 1000);
+    engine.addEntityComponent<Lifetime>(self, 5000 * 1000);
 
     zef::comp::drawable dr;
     dr.addAnimation("miniBossBullet", 4, 150);

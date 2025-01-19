@@ -21,14 +21,20 @@
 #include "modules/network/components.hpp"
 
 #include "CommonCommands.hpp"
+#include "UdpProtoCommands.hpp"
 
 #include "events.hpp"
 
 #include "BulletPatron.hpp"
+#include "BlastPatron.hpp"
 
 struct sendingVectorEvt {
   float x;
   float y;
+};
+
+struct testercmd {
+  int test;
 };
 
 zef::comp::event_listener createPlayerEventListener() {
@@ -46,8 +52,11 @@ zef::comp::event_listener createPlayerEventListener() {
             engine.fetchEntityComponent<zef::comp::position>(self);
         size_t& ld = engine.fetchEntityComponent<Laser>(self).load;
 
+        
+        size_t ss = ld >= 16000 * 30 ? 2 : 0;
         engine.instanciatePatron<BulletPatron>(p.x + 70.0f, p.y,
-                                               ld >= 16000 * 30 ? 2 : 0);
+                                               ss);
+        engine.ClientSendUdp<shoot_t>(SHOOT, {ss});
         // engine.instanciatePatron<BulletPatron>(p.x + 80.0f, p.y, ld >= 16000
         // * 30 ? 2 : 0); engine.instanciatePatron<BulletPatron>(p.x + 90.0f,
         // p.y, ld >= 16000 * 30 ? 2 : 0);
@@ -61,6 +70,11 @@ zef::comp::event_listener createPlayerEventListener() {
     engine.fetchEntityComponent<Laser>(self).load += engine.elapsed.count();
     // std::cout << engine.fetchEntityComponent<Laser>(self).load << std::endl;
     //  engine.ClientSend<CommandShoot>(SHOOTPLAYER, {});
+  });
+
+  evtl.setEvent<testercmd>([](zef::Engine& engine, size_t self, testercmd sve) {
+    test_t tt = {static_cast<size_t>(sve.test)};
+    engine.ClientSendUdp(TEST, tt);
   });
 
   evtl.setEvent<sendingVectorEvt>(
@@ -81,6 +95,14 @@ zef::comp::event_listener createPlayerEventListener() {
   evtl.setEvent<GetHittedByMonster>(
       [](zef::Engine& engine, size_t self, GetHittedByMonster p) {
         engine.addEntityComponent<Damaged>(ecs::Entity(self), 100 * 1000);
+      });
+
+  evtl.setEvent<OnDeath>(
+      [](zef::Engine& engine, size_t self, OnDeath p) {
+        float& posx = engine.fetchEntityComponent<zef::comp::position>(self).x;
+        float& posy = engine.fetchEntityComponent<zef::comp::position>(self).y;
+        engine.instanciatePatron<BlastPatron>(posx, posy, 5.0f);
+        engine.reg.kill_entity(ecs::Entity(self));
       });
 
   return evtl;
@@ -109,6 +131,8 @@ public:
         self, createPlayerEventListener());
 
     zef::comp::controllable cont;
+    cont.bindOnPressed<testercmd>(zef::utils::U, 5);
+    cont.bindOnPressed<testercmd>(zef::utils::P, 6);
     cont.bindOnDown<SetPlayerVectorEvent>(zef::utils::ArrowUp, 0.0f, -10.0f);
     cont.bindOnDown<SetPlayerVectorEvent>(zef::utils::ArrowDown, 0.0f, 10.0f);
     cont.bindOnDown<SetPlayerVectorEvent>(zef::utils::ArrowRight, 10.0f, 0.0f);
@@ -127,7 +151,6 @@ public:
 
     engine.addEntityComponent<Player>(self);
     engine.addEntityComponent<Ship>(self);
-    engine.addEntityComponent<zef::comp::replicable>(self, rep);
     std::vector<zef::utils::hitbox> hb = {zef::utils::hitbox(0, 0, 33, 17)};
     engine.addEntityComponent<zef::comp::collidable>(self, hb);
   }

@@ -170,8 +170,8 @@ namespace ecs {
       }
     }
 
-  private:
     size_t _entityCount = 0;
+  private:
     std::unordered_map<std::type_index, std::any> _components_arrays;
     std::unordered_map<std::type_index,
                        std::function<void(registry &, entity_t const &)>>
