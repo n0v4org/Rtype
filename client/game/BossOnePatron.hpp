@@ -63,7 +63,7 @@ inline zef::comp::event_listener createBossOneEventListener() {
 
   evtl.setEvent<OnDeath>([](zef::Engine& engine, size_t self, OnDeath p) {
     auto& pos = engine.fetchEntityComponent<zef::comp::position>(self);
-    engine.instanciatePatron<BlastPatron>(pos.x, pos.y, 10.0f);
+    engine.instanciatePatron<BlastPatron>(pos.x, pos.y, 15.0f);
     engine.reg.kill_entity(ecs::Entity(self));
   });
 
@@ -107,6 +107,35 @@ public:
     engine.addEntityComponent<zef::comp::collidable>(self, hb);
     ecs::Entity miniboss =
         engine.instanciatePatron<BossOneMiniPatron>(x + 25, y + 20, rep);
+
+
+
+
+
+    size_t count = 20;
+
+    float amplitudeMax = 600.f;
+
+    float frequency = 1.f;
+
+    float offsetPhase = 0.3f;
+
+    for (size_t i = 0; i < count; i++) {
+      float ratio       = static_cast<float>(i) / (count - 1);
+      float myAmplitude = amplitudeMax * ratio;
+
+      float bulletX = x - 70.f - i * 20.f;
+      float bulletY = y + 240.f;
+
+      ecs::Entity bullet = engine.instanciatePatron<BossBulletPatron>(
+          bulletX, bulletY, 0.f, 0.f);
+
+      engine.addEntityComponent<SinusoidalAboveMotion>(bullet, bulletY,
+                                                       myAmplitude, frequency);
+
+      auto& sam = engine.fetchEntityComponent<SinusoidalAboveMotion>(bullet);
+      sam.phase = (count - i) * offsetPhase;
+    }
   }
 };
 

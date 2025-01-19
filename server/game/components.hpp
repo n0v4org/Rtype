@@ -137,5 +137,10 @@ class Robot {
     Robot() {}
 };
 
+class Boss {
+  public:
+    Boss() {}
+};
+
 
 #endif /* !COMPONENTS_HPP_ */

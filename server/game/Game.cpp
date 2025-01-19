@@ -13,7 +13,7 @@
 #include "EnemyPlanePatron.hpp"
 #include "EnemyRobotPatron.hpp"
 
-#include "EnemyBulletPatron.hpp"
+#include "BossOnePatron.hpp"
 
 #include "Game.hpp"
 
@@ -78,9 +78,9 @@ namespace rtype {
 
       
       if (post.t == 5) {
-        engine.instanciatePatron<EnemyRobotPatron>(500.0f, 0.0f, 303);
+        engine.instanciatePatron<BossOnePatron>(500.0f, 0.0f, 303);
         for (auto &&i : this->_players) {
-          engine.ServerSendUdp<spawn_robot_t>(i.udp_id, SPAWN_ROBOT, {303, 500.0f, 0.0f});
+          engine.ServerSendUdp<spawn_boss_t>(i.udp_id, SPAWN_BOSS, {303, 500.0f, 0.0f});
         }
       }
       if (post.t == 6) {
@@ -115,6 +115,7 @@ namespace rtype {
     _engine.registerComponent<SinusoidalAboveMotion>();
     _engine.registerComponent<Plane>();
     _engine.registerComponent<Robot>();
+    _engine.registerComponent<Boss>();
 
     _engine.addSystem<>("zefir", zef::sys::handle_server);
     _engine.addSystem<Lifetime>("zefir", lifetime_system);
@@ -196,6 +197,19 @@ namespace rtype {
 
             for (auto &i : this->_players)  engine.ServerSendUdp<ally_update_hp_t>(i.udp_id, ALLY_UPDATE_HP, {r._id ,hp.hp});
             hp.up = false;
+          }
+        }
+    });
+
+    _engine.addSystem<zef::comp::replicable, Boss, zef::comp::position>("zefir", [this](zef::Engine& engine, ecs::sparse_array<zef::comp::replicable>& rps, ecs::sparse_array<Boss>& hhs, ecs::sparse_array<zef::comp::position>& pss) {
+        for (auto &&[i, r, b, pos]: ecs::indexed_zipper(rps, hhs, pss)) {
+          std::cout<< "kkk" << r._id << "\n";
+          int rd = rand() % 100;
+          if (rd == 89) {
+            for (auto &i : this->_players)  engine.ServerSendUdp<boss_shoot_t>(i.udp_id, BOSS_SHOOT, {r._id});
+            for (size_t i = 0; i < 5; i++)
+              engine.instanciatePatron<RobotBulletPatron>(pos.x - 50 - (i * 80),
+                                                            pos.y);
           }
         }
     });

@@ -194,7 +194,6 @@ void runClient(int sport, int cport, std::string ip) {
     spawn_boss_t sp = network::game::Commands<spawn_boss_t>(input).getCommand();
     std::cout << "spawnboss"  << sp.rep << "\n";
     const ecs::Entity& b = engine.instanciatePatron<BossOnePatron>(sp.x, sp.y, sp.rep);
-    engine.sendEvent<BossShoot>(b);
   });
 
   engine.registerCommand(PLANE_SHOOT, [](zef::Engine& engine, input_t input) {

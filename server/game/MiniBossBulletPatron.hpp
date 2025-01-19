@@ -17,29 +17,13 @@
 #include "modules/display/components.hpp"
 
 #include "events.hpp"
-#include "BlastPatron.hpp"
 
 inline zef::comp::event_listener createMiniBossBulletEventListener() {
-  // zef::comp::event_listener evtl;
-  //
-  // evtl.setEvent<OnDeath>([](zef::Engine& engine, size_t self, OnDeath db) {
-  //  auto& pos = engine.fetchEntityComponent<zef::comp::position>(self);
-  //  engine.instanciatePatron<BlastPatron>(pos.x, pos.y, 2.0f);
-  //
-  //  engine.reg.kill_entity(ecs::Entity(self));
-  //});
-  //
-  // evtl.setEvent<GetHittedByPlayer>(
-  //    [](zef::Engine& engine, size_t self, GetHittedByPlayer p) {
-  //      engine.sendEvent<OnDeath>(self);
-  //    });
-  //
-  // evtl.setEvent<zef::evt::startCollision>(
-  //    [](zef::Engine& engine, size_t self, zef::evt::startCollision p) {
-  //      engine.sendEvent<GetHittedByMonsterBullet>(p.other);
-  //    });
-  //
-  // return evtl;
+   zef::comp::event_listener evtl;
+  
+   
+  
+   return evtl;
 }
 
 class MiniBossBulletPatron {

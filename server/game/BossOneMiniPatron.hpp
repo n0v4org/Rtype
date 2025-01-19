@@ -18,30 +18,19 @@
 #include "modules/controller/components.hpp"
 #include "modules/network/components.hpp"
 #include "events.hpp"
-#include "BlastPatron.hpp"
 #include "MiniBossBulletPatron.hpp"
 #include "EnemyBulletPatron.hpp"
 
 inline zef::comp::event_listener createMiniBossEventListener() {
-  // zef::comp::event_listener evtl;
-  //
-  // evtl.setEvent<MiniBossShoot>(
-  //    [](zef::Engine& engine, size_t self, MiniBossShoot p) {
-  //      auto& pos = engine.fetchEntityComponent<zef::comp::position>(self);
-  //
-  //      for (size_t i = 0; i < 5; i++)
-  //        engine.instanciatePatron<MiniBossBulletPatron>(pos.x - 50 - (i *
-  //        80),
-  //                                                       pos.y, p.vx, p.vy);
-  //    });
-  //
-  // evtl.setEvent<OnDeath>([](zef::Engine& engine, size_t self, OnDeath p) {
-  //  auto& pos = engine.fetchEntityComponent<zef::comp::position>(self);
-  //  engine.instanciatePatron<BlastPatron>(pos.x, pos.y, 3.0f);
-  //  engine.reg.kill_entity(ecs::Entity(self));
-  //});
+   zef::comp::event_listener evtl;
 
-  // return evtl;
+  
+   evtl.setEvent<OnDeath>([](zef::Engine& engine, size_t self, OnDeath p) {
+    auto& pos = engine.fetchEntityComponent<zef::comp::position>(self);
+    engine.reg.kill_entity(ecs::Entity(self));
+  });
+
+  return evtl;
 }
 
 class BossOneMiniPatron {
@@ -56,6 +45,7 @@ public:
     engine.addEntityComponent<Monster>(self);
 
     engine.addEntityComponent<zef::comp::replicable>(self, rep);
+
   }
 };
 
