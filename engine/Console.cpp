@@ -30,8 +30,12 @@ void Console::run(std::mutex &mutex, Engine &engine) {
         debug(input.substr(6));
         else if (engine.GraphLib && input.rfind("hitbox ", 0) == 0)
         hitbox(engine, input.substr(7));
+        else if (input.rfind("entities", 0) == 0)
+            displayEntities(engine);
         else if (engine.GraphLib && input.rfind("metrics ", 0) == 0)
             metrics(engine, input.substr(8));
+        else if (engine.GraphLib && input.rfind("kill ", 0) == 0)
+            killEntity(engine, input.substr(5));
         else
         std::cout << "Command \"" << input
                     << "\" unknown type \"help\" to display all commands."
@@ -48,6 +52,28 @@ void Console::help() {
     std::cout << "\tplaySound [name]   -> Play a sound by name." << std::endl;
     std::cout << "\tmetrics [on | off] -> Toggle metrics displaying." << std::endl;
     std::cout << "\thitbox  [on | off] -> Toggle hitboxes displaying." << std::endl;
+    std::cout << "\tentities           -> Display all entities." << std::endl;
+    std::cout << "\tkill [entity]      -> Kill an entity." << std::endl;
+}
+
+void Console::killEntity(Engine &engine, const std::string &entity) {
+    try {
+        size_t e = std::atoll(entity.c_str());
+        ecs::Entity en(e);
+        engine.reg.kill_entity(en);
+    } catch (std::exception &e) {
+        std::cout << "[KILL] entity" << entity << "not found, try \"entities\" command.";
+    }
+}
+
+void Console::displayEntities(Engine &engine) {
+    std::vector<size_t> vec = engine.reg.getInstanciatedEntity();
+    for (auto e : vec) {
+        std::cout << e;
+        if (e != vec.back())
+            std::cout << ", ";
+    }
+    std::cout << std::endl;
 }
 
 void Console::hitbox(Engine &engine, const std::string &turn) {

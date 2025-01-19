@@ -89,6 +89,30 @@ namespace ecs {
       return entity_t(idx);
     }
 
+    std::vector<size_t> getInstanciatedEntity() const {
+      std::vector<size_t> ret;
+      std::vector<size_t> unusedVec;
+      std::queue<size_t> unusedIdCopy = _unusedids;
+      while (!unusedIdCopy.empty()) {
+        unusedVec.push_back(unusedIdCopy.front());
+        unusedIdCopy.pop();
+      }
+
+      for (size_t i = 0; i < _maxId; ++i) {
+        bool isInQueue = false;
+        for (auto id : unusedVec) {
+          if (i == id) {
+            isInQueue = true;
+            break;
+          }
+        }
+        if (!isInQueue) {
+          ret.push_back(i);
+        }
+      }
+      return ret;
+    }
+
     void kill_entity(entity_t const &e) {
       std::cout << e << std::endl;
       for (auto &func : _deleteFunctions) {

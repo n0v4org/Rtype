@@ -35,6 +35,10 @@ namespace zef {
 
     void playSound(Engine &engine, const std::string &name);
 
+    void displayEntities(Engine &engine);
+
+    void killEntity(Engine &engine, const std::string &entity);
+
     Console &displayMessages();
 
     Console &sendMessage(const std::string &message);
