@@ -6,6 +6,7 @@
 */
 
 #include <random>
+#include <filesystem>
 
 #include "Engine.hpp"
 #include "AModule.hpp"
@@ -44,6 +45,19 @@ class zfr : public zef::AModule<
     }
 };
 
+void registerPatronAndScene(zef::Engine& engine) {
+    std::filesystem::directory_iterator it("../AAA2ndGame/Assets");
+
+    for (auto file : it) {
+        std::cout << file.path().filename() << std::endl;
+        if (std::string(file.path().filename()).substr(0, 6) == "patron") {
+            engine.loadPatron(file.path());
+        } else if (std::string(file.path().filename()).substr(0, 5) == "scene") {
+            engine.registerScene(file.path());
+        }
+    }
+}
+
 int main() {
 
     srand(time(NULL));
@@ -58,20 +72,7 @@ int main() {
     Scripts sc;
     engine._script_map = sc._scr;
 
-
-
-    engine.loadPatron("../AAA2ndGame/Assets/patronBg.json");
-    engine.loadPatron("../AAA2ndGame/Assets/patronBgMenu.json");
-    engine.loadPatron("../AAA2ndGame/Assets/patronBttn.json");
-    engine.loadPatron("../AAA2ndGame/Assets/patronDuck.json");
-    engine.loadPatron("../AAA2ndGame/Assets/patronGrass.json");
-    engine.loadPatron("../AAA2ndGame/Assets/patronScore.json");
-    engine.loadPatron("../AAA2ndGame/Assets/patronScoreBoard.json");
-
-
-    engine.registerScene("../AAA2ndGame/Assets/sceneMenu.json");
-    engine.registerScene("../AAA2ndGame/Assets/sceneGame.json");
-    engine.registerScene("../AAA2ndGame/Assets/sceneGameOver.json");
+    registerPatronAndScene(engine);
 
     engine.loadSceneConfig("Menu");
 

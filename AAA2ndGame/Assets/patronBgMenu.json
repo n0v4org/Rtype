@@ -4,7 +4,7 @@
     "components" : [
         {
             "name": "NewDrawable",
-            "args": ["bgmenu", 2.0, 1]
+            "args": ["bgmenu", 4.0, 1]
         },
         {
             "name": "Position",
