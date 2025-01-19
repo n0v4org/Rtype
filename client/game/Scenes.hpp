@@ -520,6 +520,62 @@ public:
         engine.instanciatePatron<SoundBarPatron>(
             0.0f, -50.0f
         );
+
+        engine.instanciatePatron<TitlePatron>(
+            0.0f, 100.0f,
+            "colorBlind",
+            0.5f, 0.5f, 1
+        );
+
+        engine.instanciatePatron<ButtonPatron>(
+            -250.0f, 200.0f,
+            "deutera",
+            [](zef::Engine &engine, size_t self) {
+                std::cout << "deutera" << std::endl;
+                engine.GraphLib->updateSettings("ColorBlindness", "Deuteranopia");
+            },
+            1486.0f, 194.0f, 0.25f, 0.25f
+        );
+
+        engine.instanciatePatron<ButtonPatron>(
+            250.0f, 200.0f,
+            "grey",
+            [](zef::Engine &engine, size_t self) {
+                std::cout << "grey" << std::endl;
+                engine.GraphLib->updateSettings("ColorBlindness", "GreyScale");
+            },
+            1153.0f, 194.0f, 0.25f, 0.25f
+        );
+
+        engine.instanciatePatron<ButtonPatron>(
+            -250.0f, 300.0f,
+            "prota",
+            [](zef::Engine &engine, size_t self) {
+                std::cout << "prota" << std::endl;
+                engine.GraphLib->updateSettings("ColorBlindness", "Protanopia");
+            },
+            1248.0f, 194.0f, 0.25f, 0.25f
+        );
+
+        engine.instanciatePatron<ButtonPatron>(
+            250.0f, 300.0f,
+            "trita",
+            [](zef::Engine &engine, size_t self) {
+                std::cout << "trita" << std::endl;
+                engine.GraphLib->updateSettings("ColorBlindness", "Tritanopia");
+            },
+            1125.0f, 194.0f, 0.25f, 0.25f
+        );
+
+        engine.instanciatePatron<ButtonPatron>(
+            0.0f, 400.0f,
+            "none",
+            [](zef::Engine &engine, size_t self) {
+                std::cout << "none" << std::endl;
+                engine.GraphLib->updateSettings("ColorBlindness", "None");
+            },
+            532.0f, 194.0f, 0.25f, 0.25f
+        );
     }
 };
 
