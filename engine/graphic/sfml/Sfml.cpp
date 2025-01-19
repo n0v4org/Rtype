@@ -182,8 +182,10 @@ namespace zef {
       if (!font.loadFromFile(assetPath.c_str())) {
         throw AssetLoadException();
       }
+      sf::Text text("",font,1);
       std::cout << "Loading fonts: " << assetName << std::endl;
-      _fonts[assetName.c_str()] = font;
+
+      _fonts[assetName.c_str()] = {font,text};
     }
 
     void Sfml::storeAssetsSHAD(std::string assetPath) {
@@ -255,7 +257,7 @@ namespace zef {
       sf::RenderTexture renderTexture2;
       if (!renderTexture1.create(_windowSize.first, _windowSize.second) ||
           !renderTexture2.create(_windowSize.first, _windowSize.second)) {
-        throw("Failed to create render textures.");
+        throw std::runtime_error("Failed to create render textures.");
       }
 
       sf::RenderTexture* front = &renderTexture1;
@@ -268,7 +270,7 @@ namespace zef {
 
       std::vector<std::string> shaderParts = splitstring(shaderNames[0], '|');
       if (_shaders.find(shaderParts[0]) == _shaders.end()) {
-        throw("Shader not found: " + shaderParts[0]);
+        throw std::runtime_error("Shader not found: " + shaderParts[0]);
       }
 
       for (int i = 1; i < shaderParts.size() - 1; i += 2) {
@@ -281,7 +283,7 @@ namespace zef {
       for (std::size_t i = 1; i < shaderNames.size(); ++i) {
         shaderParts = splitstring(shaderNames[i], '|');
         if (_shaders.find(shaderParts[0]) == _shaders.end()) {
-          throw("Shader not found: " + shaderNames[i]);
+          throw std::runtime_error("Shader not found: " + shaderNames[i]);
         }
 
         for (int j = 1; j < shaderParts.size() - 1; j += 2) {
@@ -328,9 +330,9 @@ namespace zef {
       sp.setScale(scaleX, scaleY);
 
       _window.setView(_views["Default"]);
-      _window.draw(_sprites.at(anim.SpriteSheet).first);
-      // drawShaders(_sprites.at(anim.SpriteSheet).first, objectShaders,
-      //             addActive);
+      //_window.draw(_sprites.at(anim.SpriteSheet).first);
+       drawShaders(_sprites.at(anim.SpriteSheet).first, objectShaders,
+                   addActive);
     }
 
     void Sfml::drawSpriteHUD(std::string animationName,
@@ -366,40 +368,38 @@ namespace zef {
     void Sfml::drawText(std::string textString, std::string fontName,
                         std::size_t fontSize, int posX, int posY, float scaleX,
                         float scaleY, float rotation, RGBA mask) {
-      sf::Font font = _fonts.find(fontName)->second;
-      sf::Text text(textString, font, fontSize);
+      _fonts.find(fontName)->second.second.setFont(_fonts.find(fontName)->second.first);
       sf::Color color(255 * mask.R, 255 * mask.G, 255 * mask.B, 255 * mask.A);
 
-      sf::FloatRect textRect = text.getLocalBounds();
-      text.setOrigin(textRect.left + textRect.width / 2,
+      sf::FloatRect textRect = _fonts.find(fontName)->second.second.getLocalBounds();
+      _fonts.find(fontName)->second.second.setOrigin(textRect.left + textRect.width / 2,
                      textRect.top + textRect.height / 2);
-      text.setPosition(posX, posY);
-      text.setScale(scaleX, scaleY);
-      text.setFillColor(color);
-      text.setRotation(rotation);
+      _fonts.find(fontName)->second.second.setPosition(posX, posY);
+      _fonts.find(fontName)->second.second.setScale(scaleX, scaleY);
+      _fonts.find(fontName)->second.second.setFillColor(color);
+      _fonts.find(fontName)->second.second.setRotation(rotation);
 
       _window.setView(_views["Default"]);
-      _window.draw(text);
+      _window.draw(_fonts.find(fontName)->second.second);
     }
 
     void Sfml::drawTextHUD(std::string textString, std::string fontName,
                            std::size_t fontSize, int posX, int posY,
                            float scaleX, float scaleY, float rotation,
                            RGBA mask) {
-      sf::Font font = _fonts.find(fontName)->second;
-      sf::Text text(textString, font, fontSize);
+            _fonts.find(fontName)->second.second.setFont(_fonts.find(fontName)->second.first);
       sf::Color color(255 * mask.R, 255 * mask.G, 255 * mask.B, 255 * mask.A);
 
-      sf::FloatRect textRect = text.getLocalBounds();
-      text.setOrigin(textRect.left + textRect.width / 2,
+      sf::FloatRect textRect = _fonts.find(fontName)->second.second.getLocalBounds();
+      _fonts.find(fontName)->second.second.setOrigin(textRect.left + textRect.width / 2,
                      textRect.top + textRect.height / 2);
-      text.setPosition(posX, posY);
-      text.setScale(scaleX, scaleY);
-      text.setFillColor(color);
-      text.setRotation(rotation);
+      _fonts.find(fontName)->second.second.setPosition(posX, posY);
+      _fonts.find(fontName)->second.second.setScale(scaleX, scaleY);
+      _fonts.find(fontName)->second.second.setFillColor(color);
+      _fonts.find(fontName)->second.second.setRotation(rotation);
 
       _window.setView(_views["HUD"]);
-      _window.draw(text);
+      _window.draw(_fonts.find(fontName)->second.second);
     }
 
     void Sfml::drawHPBar(float posX, float posY, float width, float height,

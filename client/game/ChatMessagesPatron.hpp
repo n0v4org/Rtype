@@ -34,6 +34,12 @@ public:
   }
 };
 
+class PasswordZone{
+public:
+  PasswordZone(){
+  }
+};
+
 class UsrZone{
 public:
   UsrZone(){
@@ -52,6 +58,32 @@ class ChatMessageTracker{
 public:
   static void instanciate(zef::Engine &engine, const ecs::Entity &self){
     engine.addEntityComponent<ChatMsgTrack>(self);
+  }
+};
+
+class LobbyPasswordEntry{
+public:
+  static void instanciate(zef::Engine &engine, const ecs::Entity &self, float x, float y){
+
+    engine.addEntityComponent<zef::comp::position>(self, x, y);
+    engine.addEntityComponent<zef::comp::textZone>(self);
+    engine.addEntityComponent<PasswordZone>(self);
+
+    engine.instanciatePatron<TextButtonPatron>(
+        x, y,
+        "emptyButton",
+        "","eth",42,
+        [&](zef::Engine &engine, size_t self) {
+          for (auto &&[k,z,t]: ecs::indexed_zipper(engine.reg.get_components<PasswordZone>(), engine.reg.get_components<zef::comp::textZone>())){
+            t._focused = !t._focused;
+            t._posX = x;
+            t._posY = y;
+            t._size = 18;
+          }
+        },
+        420.0f, 170.0f, 0.8f, 0.8f, 5
+    );
+
   }
 };
 
@@ -74,6 +106,7 @@ public:
               t._focused = !t._focused;
               t._posX = x;
               t._posY = y;
+              t._size = 24;
             }
           },
           420.0f, 170.0f, 1.0f, 1.0f, 5
@@ -101,6 +134,7 @@ public:
               t._focused = !t._focused;
               t._posX = x;
               t._posY = y;
+              t._size = 15;
             }
           },
           420.0f, 170.0f, 0.6f, 0.6f, 5
