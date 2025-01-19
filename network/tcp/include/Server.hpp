@@ -28,7 +28,7 @@ namespace network {
     public:
       input_t popMessage();
       bool isQueueEmpty();
-      
+
       Server(asio::io_context&, int);
       void send(int idx, std::string cmd);
       void send_all(const std::string& cmd);

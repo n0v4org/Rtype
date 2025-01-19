@@ -43,12 +43,14 @@ namespace client {
         std::cout << USAGE << std::endl;
         return;
       }
-      network::Network_client _client = network::Network_client(50000, 34232, 50003, "127.0.0.1");
+      network::Network_client _client =
+          network::Network_client(50000, 34232, 50003, "127.0.0.1");
 
       std::string line;
       while (std::getline(std::cin, line)) {
         uint8_t tt = 1;
-        std::cout << tt << std::endl;;
+        std::cout << tt << std::endl;
+        ;
         _client.get_udp_client()->send<int>(43, tt);
       }
 
