@@ -408,11 +408,20 @@ void runClient(int sport, int cport, std::string ip) {
   engine.registerComponent<SinusoidalAboveMotion>();
 
   engine.addSystem<>("zefir", zef::sys::update_user_inputs);
-  //engine.addSystem<MoveCamera>(
-  //    "zefir", [](zef::Engine& engine, ecs::sparse_array<MoveCamera>& mvs) {
-  //      for (auto&& [i, mv] : ecs::indexed_zipper(mvs))
-  //        engine.GraphLib->moveCamera(2, 0, 1);
-  //    });
+  engine.addSystem<MoveCamera>(
+      "zefir", [](zef::Engine& engine, ecs::sparse_array<MoveCamera>& mvs) {
+        for (auto&& [i, mv] : ecs::indexed_zipper(mvs))
+            engine.GraphLib->moveCamera(2, 0, 1);
+      });
+
+    engine.addSystem<Player, zef::comp::position, MoveCamera>("zefir", [](zef::Engine& engine, ecs::sparse_array<Player>& pls, ecs::sparse_array<zef::comp::position>& poss, ecs::sparse_array<MoveCamera>& mvs){
+        for (auto &&[i, p, pos] : ecs::indexed_zipper(pls, poss)) {
+            if (pos.x >= 2000)
+                for (auto &&[j, m] : ecs::indexed_zipper(mvs)) {
+                    engine.reg.kill_entity(ecs::Entity(j));
+                }
+        }
+    });
 
    engine.addSystem<>("zefir", zef::sys::handle_client);
 
@@ -429,7 +438,7 @@ void runClient(int sport, int cport, std::string ip) {
                                                                  animateShips);
   engine.addSystem<zef::comp::position, zef::comp::vector>("zefir",
                                                            zef::sys::move);
-  //engine.addSystem<Ship, zef::comp::position>("zefir", autoWalkShips);
+  engine.addSystem<Ship, zef::comp::position, MoveCamera>("zefir", autoWalkShips);
   engine.addSystem<zef::comp::collidable, zef::comp::position>(
       "zefir", zef::sys::check_collidables);
   engine.addSystem<zef::comp::event_listener>("zefir", zef::sys::resolveEvent);
