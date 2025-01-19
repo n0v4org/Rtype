@@ -155,7 +155,7 @@ namespace rtype {
       }
       res += std::to_string(room);
       json data;
-      data["status"]      = std::stoi(CMD_RES.at(KICK_PLAYER_CMD).at(STATUS));
+      data["status"]      = std::stoi(CMD_RES.at(SEND_MSG_CMD).at(STATUS));
       data["description"] = res;
       data["from"]        = _usernames[input.id];
       data["room_id"]     = room;
