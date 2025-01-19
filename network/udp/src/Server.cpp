@@ -13,7 +13,6 @@
 #include "Server.hpp"
 #include "Commands.hpp"
 
-
 namespace network {
   namespace game {
 
