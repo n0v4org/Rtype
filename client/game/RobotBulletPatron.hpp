@@ -51,6 +51,7 @@ public:
     engine.addEntityComponent<zef::comp::vector>(self, -5.f, 0.f, 5);
 
     engine.addEntityComponent<Lifetime>(self, 15000 * 1000);
+        engine.addEntityComponent<zef::comp::name>(self, "RobotBullet");
 
     zef::comp::drawable dr;
     dr.addAnimation("robotBulletA", 2, 150);

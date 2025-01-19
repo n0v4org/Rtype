@@ -73,6 +73,6 @@ namespace rtype {
       return false;
     }
     return true;
-    ;
   }
+
 }  // namespace rtype

@@ -31,6 +31,7 @@ public:
     dr.setScale(size, size);
     dr.layer = 10;
     engine.addEntityComponent<zef::comp::drawable>(self, dr);
+    engine.addEntityComponent<zef::comp::name>(self, "Blast");
   }
 };
 

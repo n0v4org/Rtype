@@ -16,6 +16,7 @@
 
 #include <nlohmann/json.hpp>
 
+  
 namespace zef {
 
   class Patron {
@@ -29,7 +30,10 @@ namespace zef {
     std::string _name;
     std::map<std::string, nlohmann::json> _components;
     std::map<std::string, std::string> _inputs;
+    std::vector<std::pair<std::string, std::string>> __inputs;
+    std::string _script_name = "";
   };
+
 
   class PatronParser {
   public:
@@ -44,12 +48,15 @@ namespace zef {
       std::cout << j << std::endl;
 
       ret.setName(j["name"]);
+      //ret._script_name = j["SCRIPT"];
 
       for (auto &&comp : j["components"]) {
         ret._components[comp["name"]] = comp["args"];
       }
       for (auto &&i : j["inputs"]) {
         ret._inputs[i["name"]] = i["type"];
+        ret.__inputs.push_back({i["name"], i["type"]});
+        std::cout << "ambiance: " << i << std::endl;
       }
 
       return ret;

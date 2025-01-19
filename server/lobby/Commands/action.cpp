@@ -21,6 +21,7 @@ namespace rtype {
     _engine.registerCommandTcp(JOIN_ROOM_CMD, [this](zef::Engine& engine,
                                                      input_t input) {
       std::string res = CMD_RES.at(JOIN_ROOM_CMD).at(SUCCESS);
+      std::cout << '|' << input.tcp_payload << '|' << std::endl;
 
       if (bad_args(input, std::stoi(CMD_RES.at(JOIN_ROOM_CMD).at(NB_ARGS))))
         return;
@@ -154,7 +155,7 @@ namespace rtype {
       }
       res += std::to_string(room);
       json data;
-      data["status"]      = std::stoi(CMD_RES.at(KICK_PLAYER_CMD).at(STATUS));
+      data["status"]      = std::stoi(CMD_RES.at(SEND_MSG_CMD).at(STATUS));
       data["description"] = res;
       data["from"]        = _usernames[input.id];
       data["room_id"]     = room;

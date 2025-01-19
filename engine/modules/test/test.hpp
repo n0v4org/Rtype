@@ -34,7 +34,7 @@ public:
 void exampleSystem(zef::Engine &engine, ecs::sparse_array<ExampleComp1> &comps1,
                    ecs::sparse_array<ExampleComp2> &comps2) {
   for (auto [i, c1, c2] : ecs::indexed_zipper(comps1, comps2)) {
-    std::cout << "i: " << i << c1._a << c1._b << c2._a << c2._b << std::endl;
+    engine.consoleSendMessage("OAUI OUAI OUAI");
   }
 }
 

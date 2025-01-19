@@ -11,6 +11,7 @@
 
 #include "Core.hpp"
 #include "macro.hpp"
+#include "game.hpp"
 
 int main(int argc, char *argv[]) {
   try {
