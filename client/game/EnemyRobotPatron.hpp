@@ -40,7 +40,7 @@ inline zef::comp::event_listener createRobotEventListener() {
 
   evtl.setEvent<OnDeath>([](zef::Engine& engine, size_t self, OnDeath p) {
     auto& pos = engine.fetchEntityComponent<zef::comp::position>(self);
-    engine.instanciatePatron<BlastPatron>(pos.x, pos.y, 3.0f);
+    engine.instanciatePatron<BlastPatron>(pos.x, pos.y, 6.0f);
     engine.reg.kill_entity(ecs::Entity(self));
   });
 
@@ -63,7 +63,7 @@ public:
                           float y, size_t rep) {
     engine.addEntityComponent<zef::comp::position>(self, x, y);
 
-    engine.addEntityComponent<zef::comp::vector>(self, -3.f, 0.f, 3.f);
+    engine.addEntityComponent<zef::comp::vector>(self, 0.f, 0.f, 3.f);
 
     engine.addEntityComponent<Health>(self, 50, 50);
 

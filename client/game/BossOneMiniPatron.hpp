@@ -31,7 +31,7 @@ inline zef::comp::event_listener createMiniBossEventListener() {
 
         for (size_t i = 0; i < 5; i++)
           engine.instanciatePatron<MiniBossBulletPatron>(pos.x - 50 - (i * 80),
-                                                         pos.y, p.vx, p.vy);
+                                                         pos.y);
       });
 
   evtl.setEvent<OnDeath>([](zef::Engine& engine, size_t self, OnDeath p) {

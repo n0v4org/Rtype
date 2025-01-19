@@ -118,6 +118,8 @@ struct robot_new_dir_t {
 };
 struct robot_shoot_t {
   size_t rep;
+  float x;
+  float y;
 };
 
 struct boss_shoot_t {

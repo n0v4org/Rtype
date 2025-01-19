@@ -10,6 +10,7 @@
 #include <iostream>
 #include "Game.hpp"
 #include "tcp_cmds.hpp"
+#include "PlanePatron.hpp"
 
 namespace rtype {
   void Game::check_game_start(input_t input) {
@@ -36,6 +37,7 @@ namespace rtype {
         _players.push_back(new_player);
       }
       for (int j = 0; j < _players.size(); j++) {
+        
         json start_json;
         start_json["status"] =
             std::stoi(CMD_TCP_RES.at(START_GAME_CMD).at(GAME_STATUS));
@@ -47,6 +49,8 @@ namespace rtype {
             continue;
           start_json["players"].push_back({"id", i});
         }
+        std::cout << "instanship " << j << std::endl;
+        _engine.instanciatePatron<AllyPatron>(0.0f, 0.0f, static_cast<size_t>(j));
         _engine.ServerSendTcp(_players.at(j).tcp_id, start_json.dump());
       }
     }

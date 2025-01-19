@@ -16,6 +16,8 @@ public:
   }
   int hp;
   int max;
+
+  bool up = false;
 };
 
 class Owner {
@@ -123,5 +125,22 @@ public:
   float frequency;
   float phase;
 };
+
+
+class Plane {
+  public:
+    Plane() {}
+};
+
+class Robot {
+  public:
+    Robot() {}
+};
+
+class Boss {
+  public:
+    Boss() {}
+};
+
 
 #endif /* !COMPONENTS_HPP_ */

@@ -15,6 +15,7 @@
 #include "Engine.hpp"
 #include "CommonCommands.hpp"
 #include "modules/network/components.hpp"
+#include "UdpProtoCommands.hpp"
 
 inline void entitycountdisplay(zef::Engine& engine) {
   std::cout << engine.reg.getEntityCount() << std::endl;
@@ -29,39 +30,7 @@ inline void lifetime_system(zef::Engine& engine,
   }
 }
 
-inline void handleHealth(zef::Engine& engine, ecs::sparse_array<Health>& hps) {
-  for (auto&& [i, hp] : ecs::indexed_zipper(hps)) {
-    if (hp.hp <= 0) {
-      try {
-        engine.fetchEntityComponent<Monster>(i);
 
-        zef::comp::replicable& r =
-            engine.fetchEntityComponent<zef::comp::replicable>(i);
-        for (auto&& [pl, rep] :
-             ecs::zipper(engine.reg.get_components<Player>(),
-                         engine.reg.get_components<zef::comp::replicable>())) {
-          // engine.ServerSend<CommandKillMonster>(rep._id, KILLMONSTER,
-          // {r._id});
-        }
-      } catch (const std::exception& e) {
-      }
-      try {
-        engine.fetchEntityComponent<Player>(i);
-
-        zef::comp::replicable& r =
-            engine.fetchEntityComponent<zef::comp::replicable>(i);
-        // engine.ServerSend<CommandDeath>(r._id, DEATH, {});
-        for (auto&& [pl, rep] :
-             ecs::zipper(engine.reg.get_components<Player>(),
-                         engine.reg.get_components<zef::comp::replicable>())) {
-          // engine.ServerSend<CommandDeatAlly>(rep._id, DEATHALLY, {r._id});
-        }
-      } catch (const std::exception& e) {
-      }
-      engine.reg.kill_entity(ecs::Entity(i));
-    }
-  }
-}
 
 // inline void spawnEnemies(
 //     zef::Engine& engine, ecs::sparse_array<Player>& players,
@@ -147,8 +116,10 @@ inline void sinusoidalAbovePositionSystem(
 
 inline void showShipPos(zef::Engine& e, ecs::sparse_array<Ship>& sss,ecs::sparse_array<zef::comp::position>& pss) {
     for (auto &&[i, ss, pos] : ecs::indexed_zipper(sss, pss)) {
-      std::cout << "theo bibou" << pos.x << " " << pos.y << "\n";
+      //std::cout << "ship: " << i << " pos: " << pos.x << " " << pos.y << "\n";
     } 
 }
+
+
 
 #endif /* !SYSTEMS_HPP_ */

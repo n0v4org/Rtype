@@ -17,7 +17,6 @@
 #include "modules/movement/components.hpp"
 #include "modules/movement/events.hpp"
 #include "modules/display/components.hpp"
-#include "BlastPatron.hpp"
 
 #include "events.hpp"
 

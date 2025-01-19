@@ -21,29 +21,25 @@
 #include "events.hpp"
 
 inline zef::comp::event_listener createBulletEventListener(size_t size) {
-  // zef::comp::event_listener evtl;
-  //
-  // evtl.setEvent<OnDeath>([size](zef::Engine& engine, size_t self, OnDeath db)
-  // {
-  //  float& posx = engine.fetchEntityComponent<zef::comp::position>(self).x;
-  //  float& posy = engine.fetchEntityComponent<zef::comp::position>(self).y;
-  //
-  //  engine.instanciatePatron<BlastPatron>(posx, posy, size == 0 ? 0.7f
-  //  : 3.0f); engine.reg.kill_entity(ecs::Entity(self));
-  //});
-  //
-  // evtl.setEvent<GetHittedByMonster>(
-  //    [size](zef::Engine& engine, size_t self, GetHittedByMonster p) {
-  //      if (size == 0)
-  //        engine.sendEvent<OnDeath>(self);
-  //    });
-  //
-  // evtl.setEvent<zef::evt::startCollision>(
-  //    [](zef::Engine& engine, size_t self, zef::evt::startCollision p) {
-  //      engine.sendEvent<GetHittedByBullet>(p.other);
-  //    });
-  //
-  // return evtl;
+   zef::comp::event_listener evtl;
+  
+   evtl.setEvent<OnDeath>([size](zef::Engine& engine, size_t self, OnDeath db)
+   {
+    engine.reg.kill_entity(ecs::Entity(self));
+  });
+  
+   evtl.setEvent<GetHittedByMonster>(
+      [size](zef::Engine& engine, size_t self, GetHittedByMonster p) {
+        if (size == 0)
+          engine.sendEvent<OnDeath>(self);
+      });
+  
+   evtl.setEvent<zef::evt::startCollision>(
+      [size](zef::Engine& engine, size_t self, zef::evt::startCollision p) {
+        engine.sendEvent<GetHittedByBullet>(p.other, size);
+      });
+  
+  return evtl;
 }
 
 class BulletPatron {

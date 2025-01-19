@@ -93,7 +93,14 @@ void animateShips(zef::Engine& engine, ecs::sparse_array<Ship>& pls,
 }
 
 void autoWalkShips(zef::Engine& engine, ecs::sparse_array<Ship>& shs,
-                   ecs::sparse_array<zef::comp::position>& pss) {
+                   ecs::sparse_array<zef::comp::position>& pss, ecs::sparse_array<MoveCamera>& mvs) {
+  bool act = false;
+
+  for (auto &&[i, m] : ecs::indexed_zipper(mvs)) {
+    act = true;
+  }
+
+  if (act)
   for (auto&& [i, p, pos] : ecs::indexed_zipper(shs, pss)) {
     pos.x += 2;
   }
@@ -158,8 +165,6 @@ void send_player_position(zef::Engine& engine,
 
         engine.ClientSendUdp<pos_t>(GET_POS, temp);
 
-         std::cout << "Envoyé position player " << entityIndex
-                   << " : (" << temp.x << ", " << temp.y << ")\n";
     }
 }
 
