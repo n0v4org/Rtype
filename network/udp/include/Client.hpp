@@ -11,6 +11,7 @@
 #include <string>
 #include <array>
 #include <deque>
+#include <vector>
 #include <thread>
 #include <mutex>
 #include <iostream>

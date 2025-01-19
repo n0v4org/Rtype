@@ -14,7 +14,6 @@
 #include <deque>
 #include <string>
 #include <vector>
-#include <lz4.h>
 #include <asio.hpp>
 #include "Connection.hpp"
 #include "queue.hpp"

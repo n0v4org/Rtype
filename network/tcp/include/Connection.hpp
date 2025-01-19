@@ -8,9 +8,9 @@
 #include <vector>
 #include <iostream>
 #include <asio.hpp>
-#include <lz4.h>
 #include "Input.hpp"
 #include "queue.hpp"
+#include <lz4.h>
 
 using asio::ip::tcp;
 

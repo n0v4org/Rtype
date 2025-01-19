@@ -9,11 +9,12 @@
 #define NETWORK_UDP_INCLUDE_COMMANDS_HPP_
 
 #include <algorithm>
+#include <vector> 
 #include <cstring>
 #include <iostream>
 
-#include <lz4.h>
 #include "Input.hpp"
+#include <lz4.h>
 
 namespace network {
   namespace game {
@@ -89,7 +90,7 @@ static input_t unpack(std::size_t byte_size, const std::array<uint8_t, 1024>& _r
     for (int i = 0; i < 4; i++) {
         input.seq = (input.seq << 8) | decompressed_data[3 + i];
     }
-    
+
     if (input.payload_size > 1024 || input.payload_size > (decompressed_data.size() - 7)) {
         throw std::runtime_error("Invalid payload size");
     }

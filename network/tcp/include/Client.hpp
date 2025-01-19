@@ -7,8 +7,8 @@
 #include <string>
 #include <vector>
 #include <asio.hpp>
-#include <lz4.h>
 #include "Input.hpp"
+#include <lz4.h>
 
 namespace network {
 namespace tcp_link {
