@@ -225,6 +225,11 @@ namespace zef {
         _window.draw(sprite);
         return;
       }
+      if (_settings.find(std::string("ColorBlindness"))->second == "None"){
+        _window.draw(sprite);
+        return;
+      }
+
       applyShaders(sprite, shaders);
     }
 
