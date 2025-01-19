@@ -44,43 +44,7 @@ namespace rtype {
                            std::stoi(CMD_RES.at(LAUNCH_GAME_CMD).at(NB_ARGS))))
         return;
       int room = _lobby->get_lobby_id(input);
-      if (room == KO)
-        return;
-      if (_lobby->bad_room(input, room))
-        return;
-      player_t temp_player = {};
-      bool status          = false;
-      for (const auto& room : _lobby->get_lobby()) {
-        for (const auto& player : room.players) {
-          if (player.id == input.id) {
-            status      = true;
-            temp_player = player;
-          }
-        }
-      }
-      if (!status) {
-        _lobby->send_error(input.id, TCP_ERRORS.at(NOT_IN_ROOM).second,
-                           TCP_ERRORS.at(NOT_IN_ROOM).first);
-        return;
-      }
-      if (!temp_player.is_admin &&
-          _lobby->get_lobby().at(room).owner != DEFAULT_OWNER) {
-        _lobby->send_error(input.id, TCP_ERRORS.at(NOT_ADMIN).second,
-                           TCP_ERRORS.at(NOT_ADMIN).first);
-        return;
-      }
-      for (const auto& player : _lobby->get_lobby().at(room).players) {
-        if (!player.is_ready) {
-          _lobby->send_error(input.id, TCP_ERRORS.at(NOT_READY).second,
-                             TCP_ERRORS.at(NOT_READY).first);
-          return;
-        }
-      }
-      if (_lobby->get_lobby().at(room).running) {
-        _lobby->send_error(input.id, TCP_ERRORS.at(GAME_ALREADY_RUNNING).second,
-                           TCP_ERRORS.at(GAME_ALREADY_RUNNING).first);
-        return;
-      }
+      
       _lobby->set_game_running(room);
       res += _lobby->get_lobby().at(room).name;
       std::vector<std::string> players_uuid;

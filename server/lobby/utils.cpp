@@ -77,4 +77,44 @@ namespace rtype {
     return it - _lobby.begin();
   }
 
+  bool Lobby::check_start_game(int room, input_t input) {
+    if (room == 84)
+        return;
+      if (bad_room(input, room))
+        return;
+      player_t temp_player = {};
+      bool status          = false;
+      for (const auto& room : _lobby) {
+        for (const auto& player : room.players) {
+          if (player.id == input.id) {
+            status      = true;
+            temp_player = player;
+          }
+        }
+      }
+      if (!status) {
+        send_error(input.id, TCP_ERRORS.at(NOT_IN_ROOM).second,
+                           TCP_ERRORS.at(NOT_IN_ROOM).first);
+        return;
+      }
+      if (!temp_player.is_admin &&
+          _lobby.at(room).owner != DEFAULT_OWNER) {
+        send_error(input.id, TCP_ERRORS.at(NOT_ADMIN).second,
+                           TCP_ERRORS.at(NOT_ADMIN).first);
+        return;
+      }
+      for (const auto& player : _lobby.at(room).players) {
+        if (!player.is_ready) {
+          send_error(input.id, TCP_ERRORS.at(NOT_READY).second,
+                             TCP_ERRORS.at(NOT_READY).first);
+          return;
+        }
+      }
+      if (_lobby->.at(room).running) {
+        send_error(input.id, TCP_ERRORS.at(GAME_ALREADY_RUNNING).second,
+                           TCP_ERRORS.at(GAME_ALREADY_RUNNING).first);
+        return;
+      }
+  }
+
 }  // namespace rtype

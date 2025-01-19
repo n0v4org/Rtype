@@ -149,6 +149,7 @@ namespace rtype {
     void set_game_running(int room);
     json get_data_single_room(room_t room, int room_id);
     int get_lobby_id(input_t input);
+    bool check_start_game(int room, input_t input);
     ~Lobby();
 
   protected:
