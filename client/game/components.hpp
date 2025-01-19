@@ -85,6 +85,11 @@ public:
   float y;
 };
 
+class SounbdBar {
+public:
+  SounbdBar() {}
+};
+
 class SinusoidalMotion {
 public:
   SinusoidalMotion(float amplitude, float frequency, float speedX)
@@ -101,6 +106,18 @@ class MoveCamera {
 public:
   MoveCamera() {
   }
+};
+
+class SinusoidalAboveMotion {
+public:
+  SinusoidalAboveMotion(float baseY, float amplitude, float frequency)
+    : baseY(baseY), amplitude(amplitude), frequency(frequency), phase(0.f) {
+  }
+
+  float baseY;
+  float amplitude;
+  float frequency;
+  float phase;
 };
 
 #endif /* !COMPONENTS_HPP_ */

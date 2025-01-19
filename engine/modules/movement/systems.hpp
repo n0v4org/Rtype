@@ -32,6 +32,10 @@ namespace zef {
         ecs::sparse_array<comp::position> &positions) {
       for (auto &&[i, col, pos] : ecs::indexed_zipper(collidables, positions)) {
         for (auto &hitboxe : col._hitboxes) {
+          if (engine.showHitboxes) {
+            engine.GraphLib->drawRectangle(hitboxe._posX, hitboxe._posY, hitboxe._width, hitboxe._height, {0, 1, 0, 1});
+          }
+
           hitboxe._posX = pos.x + hitboxe._offsetX - (hitboxe._width / 2);
           hitboxe._posY = pos.y + hitboxe._offsetY - (hitboxe._height / 2);
         }
@@ -71,6 +75,11 @@ namespace zef {
       }
       for (auto &&[i, rgdb, pos, vec] :
            ecs::indexed_zipper(rigidbodies, positions, vectors)) {
+            if (engine.showHitboxes) {
+              for (auto bx : rgdb._hitboxes) {
+                engine.GraphLib->drawRectangle(bx._posX, bx._posY, bx._width, bx._height, {1, 0, 0, 1});
+              }
+          }
         for (auto &&[j, rgdb2] : ecs::indexed_zipper(rigidbodies)) {
           if (i != j) {
             if (rgdb.isColliding(rgdb2) &&
@@ -95,18 +104,43 @@ namespace zef {
     }
     inline void normalize_velocity_vectors(
         Engine &engine, ecs::sparse_array<comp::vector> &vecs) {
-      for (auto &&[i, vec] : ecs::indexed_zipper(vecs)) {
-        float tmpx = vec.x;
-        float tmpy = vec.y;
+      // for (auto &&[i, vec] : ecs::indexed_zipper(vecs)) {
+      //   float tmpx = vec.x;
+      //   float tmpy = vec.y;
 
-        if (tmpx == 0 && tmpy == 0)
-          continue;
+      //   if (tmpx == 0 && tmpy == 0)
+      //     continue;
 
-        float norm = std::sqrt(std::pow(tmpx, 2) + std::pow(tmpy, 2));
-        vec.x /= norm;
-        vec.y /= norm;
-        vec.x *= vec.norm;
-        vec.y *= vec.norm;
+      //   float norm = std::sqrt(std::pow(tmpx, 2) + std::pow(tmpy, 2));
+      //   vec.x /= norm;
+      //   vec.y /= norm;
+      //   vec.x *= vec.norm;
+      //   vec.y *= vec.norm;
+      // }
+    }
+
+    inline void apply_gravity(Engine &engine, ecs::sparse_array<comp::vector> &vecs, ecs::sparse_array<comp::position> &posistions, ecs::sparse_array<comp::gravity> &gravities) {
+      for (auto &&[i, vec, pos, grav] : ecs::indexed_zipper(vecs, posistions, gravities)) {
+        float destX = pos.x + vec.x;
+        float destY = pos.y + vec.y;
+
+        float posToGravX = grav._x - pos.x; // a
+        float posToGravY = grav._y - pos.y;
+
+        float dist = sqrt(pow(posToGravX, 2) + pow(posToGravY, 2));
+
+        float destToGravX = posToGravX - vec.x; // b
+        float destToGravY = posToGravY - vec.y; // b
+
+        float nDestX = destX + (destToGravX * (grav._weight / dist));
+        float nDestY = destY + (destToGravY * (grav._weight / dist));
+
+        float nDirX = nDestX - pos.x;
+        float nDirY = nDestY - pos.y;
+
+        vec.x = nDirX;
+        vec.y = nDirY;
+
       }
     }
   }  // namespace sys

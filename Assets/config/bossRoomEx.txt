@@ -1,0 +1,27 @@
+# Room config avec (0,0) comme centre
+
+# Une rangée horizontale de 20 murs "Wall2" (BlockWallPatron)
+#   Centrée sur y=-600 (au-dessus du 0,0), partant de x=-500
+#   spacingX=150
+#   inclination=0
+#   scale=5 en x et y
+#   rotation=180
+RepeatWall2 -500 -600 20 150 0 5.0 5.0 180
+
+RepeatWall1 -900 500 30 200 0 7.0 7.0 0
+
+#   posx=0 posy=300 scale 5 en x et y et 0 rota
+Wall1 0 300 5.0 5.0 0
+
+# Des ennemis autour du centre(pos x/y)
+Crab  650 10
+Crab  700 0
+Crab  550 -10
+Robot   100   250
+Robot   100   200
+Robot   100   150
+Plane  400  -200
+Plane  400  -300
+Plane  400  -400
+
+Boss  1000   0

@@ -15,6 +15,45 @@
 
 namespace zef {
   namespace comp {
+    class name {
+      public:
+        name(std::string string) : str(string) {}
+
+      std::string str;
+    };
+
+    class LobbyCreateTrack {
+    public:
+      LobbyCreateTrack() {
+      }
+      int _nbSlots = 3;
+      std::string _name = "NewLobby";
+      std::string _pwd = "magicarpe";
+    };
+
+    class LobbyOffset {
+    public:
+      LobbyOffset() {
+      }
+      int offset = -1;
+    };
+
+  class MyInfo {
+     public:
+       MyInfo() {
+     }
+     bool admin;
+     int id;
+   };
+
+    class LobbyInfoTrack{
+    public:
+      LobbyInfoTrack() {
+      }
+      nlohmann::json j = nlohmann::json::parse("{}");
+    };
+
+
     class drawable {
     public:
       drawable() {
@@ -88,6 +127,23 @@ namespace zef {
 
       std::map<std::string, std::pair<size_t, size_t>> _animation_sizes;
     };
+
+    class drawableText{
+      public:
+		drawableText(){
+		}
+
+        std::string text;
+        std::string font;
+        int textSize = 42;
+        float scaleX = 1.0f;
+        float scaleY = 1.0f;
+        float rotation = 0.0f;
+        zef::graph::RGBA rgba = {1,1,1,1};
+
+        int layer;
+    };
+
   }  // namespace comp
 
 }  // namespace zef

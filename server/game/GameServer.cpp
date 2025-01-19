@@ -21,10 +21,9 @@ namespace rtype {
   GameServer::GameServer(int udp_port, int tcp_port) {
     _engine.initServer(udp_port, tcp_port);
     _lobby = std::make_unique<Lobby>(_engine);
-    _game  = std::make_unique<Game>();
+    
     _lobby->RegisterLobbyCmd();
     RegisterLaunchGameCmd();
-    _game->RegisterGameCmd();
     _engine.addSystem<>(ENGINE_NAME, zef::sys::handle_server);
   }
 
@@ -49,11 +48,6 @@ namespace rtype {
         return;
       if (_lobby->bad_room(input, room))
         return;
-      json datar =
-          _lobby->get_data_single_room(_lobby->get_lobby().at(room), room);
-      datar["status"]      = std::stoi(CMD_RES.at(GET_LOBBY_CMD).at(STATUS));
-      datar["description"] = res;
-      _engine.ServerSendTcp(input.id, datar.dump());
       player_t temp_player = {};
       bool status          = false;
       for (const auto& room : _lobby->get_lobby()) {
@@ -95,7 +89,7 @@ namespace rtype {
       int tcp_port = generateRandomPort();
       int udp_port = generateRandomPort();
       json data;
-      data["status"]      = std::stoi(CMD_RES.at(QUIT_ROOM_CMD).at(STATUS));
+      data["status"]      = std::stoi(CMD_RES.at(LAUNCH_GAME_CMD).at(STATUS));
       data["description"] = res;
       data["room_id"]     = room;
       data["tcp_port"]    = tcp_port;
@@ -109,7 +103,11 @@ namespace rtype {
           _engine.ServerSendTcp(player.id, player_data.dump());
         }
       }
-      _game->init_game(players_uuid, tcp_port, udp_port);
+
+    _games.push_back(std::thread([this, players_uuid, tcp_port, udp_port]() {
+        _game  = std::make_unique<Game>();
+        _game->init_game(players_uuid, tcp_port, udp_port);
+    }));
     });
   }
 

@@ -72,12 +72,14 @@ public:
                           float y, size_t rep) {
     engine.addEntityComponent<zef::comp::position>(self, x, y);
 
-    engine.addEntityComponent<zef::comp::vector>(self, 0.f, 0.f, 3.f);
+    engine.addEntityComponent<zef::comp::vector>(self, 0.f, 0.f, 4.f);
 
     engine.addEntityComponent<Health>(self, 25, 25);
 
     engine.addEntityComponent<zef::comp::event_listener>(
         self, createCrabEventListener());
+        engine.addEntityComponent<zef::comp::event_listener>(self, createCrabEventListener());
+        engine.addEntityComponent<zef::comp::name>(self, "EnemyCrab");
 
     zef::comp::drawable dr;
     dr.addAnimation("enemyCrab", 1, 200);

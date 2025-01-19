@@ -66,7 +66,8 @@ static const char UPDATE_ROOM_CMD[]      = "UPDATE_LOBBY";
 static const char UPDATE_PERM_CMD[]      = "UPDATE_PERM";
 static const char KICK_PLAYER_CMD[]      = "KICK_PLAYER";
 static const char SEND_MSG_CMD[]         = "SEND_MSG";
-static const char GET_LOBBY_ID_CMD[]     = "GET_LOBBY_ID";
+static const char GET_LOBBY_ID_CMD[] = "GET_LOBBY_ID";
+static const char GET_PLAYER_DATA_CMD[] = "GET_PLAYER_DATA";
 
 static const char CHARSET[] =
     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -113,7 +114,8 @@ static const std::map<std::string, std::array<std::string, NB_TCP_CMD>>
         {UPDATE_PERM_CMD, {"successfully updated perm of ", "2", "210"}},
         {KICK_PLAYER_CMD, {"kick player ", "1", "211"}},
         {SEND_MSG_CMD, {"send message in lobby ", "1", "212"}},
-        {GET_LOBBY_ID_CMD, {"successfully get lobby id ", "0", "213"}}};
+        {GET_LOBBY_ID_CMD, {"successfully get lobby id ", "0", "213"}},
+        {GET_PLAYER_DATA_CMD, {"successfully get data of player", "0", "214"}}};
 
 struct player_t {
   int id;

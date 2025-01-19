@@ -42,8 +42,8 @@ namespace zef {
   class Component {
   public:
     static std::string getType() {
-      std::cout << "Pretty Name: " << demangle(typeid(Comp).name())
-                << std::endl;
+      //std::cout << "Pretty Name: " << demangle(typeid(Comp).name())
+      //          << std::endl;
       return demangle(typeid(Comp).name());
     }
 

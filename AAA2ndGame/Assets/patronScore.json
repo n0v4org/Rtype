@@ -1,0 +1,18 @@
+{
+    "name": "Score",
+    "inputs" : [],
+    "components" : [
+        {
+            "name": "Text",
+            "args": ["0", 35]
+        },
+        {
+            "name": "Position",
+            "args": [800.0, -500.0]
+        },
+        {
+            "name": "Score",
+            "args": []
+        }
+    ]
+}

@@ -1,0 +1,10 @@
+# Use this file to create Animation based on sprite sheets, see usage below.
+#animationName spriteSheetName startTileX startTileY tileSizeX tileSizeY
+
+
+stalin stalin 0 0 100 100
+bg bg  0 0 940 585
+grass grass 0 0 940 585
+bgmenu bgmenu  0 0 626 417
+button button  0 0 512 256
+canard canard4L  0 0 500 500

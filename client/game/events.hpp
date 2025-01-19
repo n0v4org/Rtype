@@ -22,7 +22,9 @@ struct SetPlayerVectorEvent {
   float x;
   float y;
 };
-struct ShootPlayerEvent {};
+struct ShootPlayerEvent {
+  size_t size;
+};
 struct LoadShoot {};
 
 struct OnDeath {};
@@ -47,5 +49,12 @@ struct SetEnemyPos {
 };
 
 struct RobotShoot {};
+
+struct MiniBossShoot {
+  float vx;
+  float vy;
+};
+
+struct BossShoot {};
 
 #endif /* !EVENTS_HPP_ */

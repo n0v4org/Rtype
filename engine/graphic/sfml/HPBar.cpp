@@ -20,6 +20,7 @@ namespace zef {
       sharedRect.setPosition({posX, posY});
       sharedRect.setSize({width, height});
       sharedRect.setFillColor(backgroundColor);
+      sharedRect.setOutlineColor(sf::Color(0, 0, 0, 0));
 
       target.draw(sharedRect);
 

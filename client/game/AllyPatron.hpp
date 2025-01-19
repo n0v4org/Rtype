@@ -21,6 +21,7 @@
 #include "events.hpp"
 
 #include "BulletPatron.hpp"
+#include "BlastPatron.hpp"
 
 zef::comp::event_listener createAllyEventListener() {
   zef::comp::event_listener evtl;
@@ -33,7 +34,10 @@ zef::comp::event_listener createAllyEventListener() {
 
   evtl.setEvent<ShootPlayerEvent>(
       [](zef::Engine& engine, size_t self, ShootPlayerEvent sht) {
-
+        zef::comp::position& p =
+            engine.fetchEntityComponent<zef::comp::position>(self);
+        engine.instanciatePatron<BulletPatron>(p.x + 70.0f, p.y,
+                                               sht.size);
       });
 
   evtl.setEvent<GetHittedByMonsterBullet>(
@@ -46,6 +50,19 @@ zef::comp::event_listener createAllyEventListener() {
         engine.sendEvent<GetHittedByPlayer>(p.other);
       });
 
+  evtl.setEvent<GetHittedByMonster>(
+      [](zef::Engine& engine, size_t self, GetHittedByMonster p) {
+        engine.addEntityComponent<Damaged>(ecs::Entity(self), 100 * 1000);
+      });
+
+  evtl.setEvent<OnDeath>(
+      [](zef::Engine& engine, size_t self, OnDeath p) {
+        float& posx = engine.fetchEntityComponent<zef::comp::position>(self).x;
+        float& posy = engine.fetchEntityComponent<zef::comp::position>(self).y;
+        engine.instanciatePatron<BlastPatron>(posx, posy, 5.0f);
+        engine.reg.kill_entity(ecs::Entity(self));
+      });
+
   return evtl;
 }
 
@@ -55,8 +72,9 @@ public:
                           float y, size_t rep) {
     engine.addEntityComponent<zef::comp::position>(self, x, y);
     engine.addEntityComponent<zef::comp::vector>(self, 0, 0, 10);
-    engine.addEntityComponent<Health>(self, 45, 100);
+    engine.addEntityComponent<Health>(self, 100, 100);
     engine.addEntityComponent<zef::comp::replicable>(self, rep);
+    std::cout << "instancanlly: " << rep << std::endl;
 
     zef::comp::drawable dr;
     dr.addAnimation("player_0", 1, 200);

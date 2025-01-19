@@ -69,13 +69,16 @@ namespace zef {
                      float value, RGBA backgroundColor,
                      RGBA foregroundColor) override;
 
-      void playSound(std::string soundName, int volume = 50) override;
+      void drawRectangle(float posX, float posY, float wigth, float height, RGBA color) override;
+
+      bool playSound(std::string soundName, int volume = 50) override;
 
       void saveAnimation(std::string, std::string, std::size_t, std::size_t,
                          std::size_t, std::size_t) override;
 
       void setCamera(int, int, int) override;
       void moveCamera(int, int, float) override;
+      std::pair<int,int> getCameraPos() override;
 
       UserInput getEvent() override;
       void updateUserInputs(utils::UserInputs& ui) override;

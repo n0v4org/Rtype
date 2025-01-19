@@ -12,6 +12,7 @@
 
 #include "components.hpp"
 #include "Engine.hpp"
+#include "../Common/UdpProtoCommands.hpp"
 
 void entitycountdisplay(zef::Engine& engine) {
   std::cout << engine.reg.getEntityCount() << std::endl;
@@ -56,6 +57,15 @@ void drawHpBarPlayer(zef::Engine& engine, ecs::sparse_array<Ship>& pls,
   }
 }
 
+void drawSoundBar(zef::Engine& engine,
+                                ecs::sparse_array<SounbdBar>& sss,
+                                ecs::sparse_array<zef::comp::position>& pss) {
+   for (auto &&[i, s, pos] : ecs::indexed_zipper(sss, pss)) {
+    engine.GraphLib->drawHPBar(pos.x - 250, pos.y, 500, 20, std::stof(engine.GraphLib->getSetting("Volume"))/100, {255, 255, 255, 255}, {70, 62, 255, 255});
+   }
+  }
+
+
 void drawLoadBar(zef::Engine& engine, ecs::sparse_array<Player>& pls,
                  ecs::sparse_array<Laser>& lss,
                  ecs::sparse_array<zef::comp::position>& pss) {
@@ -83,7 +93,14 @@ void animateShips(zef::Engine& engine, ecs::sparse_array<Ship>& pls,
 }
 
 void autoWalkShips(zef::Engine& engine, ecs::sparse_array<Ship>& shs,
-                   ecs::sparse_array<zef::comp::position>& pss) {
+                   ecs::sparse_array<zef::comp::position>& pss, ecs::sparse_array<MoveCamera>& mvs) {
+  bool act = false;
+
+  for (auto &&[i, m] : ecs::indexed_zipper(mvs)) {
+    act = true;
+  }
+
+  if (act)
   for (auto&& [i, p, pos] : ecs::indexed_zipper(shs, pss)) {
     pos.x += 2;
   }
@@ -124,6 +141,31 @@ void sinusoidalVectorSystem(zef::Engine& engine,
     vec.x = sm.speedX;
     vec.y = sm.amplitude * std::sin(sm.phase);
   }
+}
+
+void sinusoidalAbovePositionSystem(
+    zef::Engine& engine, ecs::sparse_array<SinusoidalAboveMotion>& sams,
+    ecs::sparse_array<zef::comp::position>& poss) {
+  for (auto&& [i, sam, pos] : ecs::indexed_zipper(sams, poss)) {
+    float dt = engine.elapsed.count() / 1'000'000.f;
+    sam.phase += sam.frequency * dt;
+    float wave = (std::sin(sam.phase) + 1.f) * 0.5f;
+    pos.y      = sam.baseY - wave * sam.amplitude;
+  }
+}
+
+void send_player_position(zef::Engine& engine,
+                          ecs::sparse_array<zef::comp::position>& positions,
+                          ecs::sparse_array<Player>& players)
+{
+    for (auto&& [entityIndex, pos, ply] : ecs::indexed_zipper(positions, players)) {
+        pos_t temp;
+        temp.x = pos.x;
+        temp.y = pos.y;
+
+        engine.ClientSendUdp<pos_t>(GET_POS, temp);
+
+    }
 }
 
 #endif /* !SYSTEMS_HPP_ */
