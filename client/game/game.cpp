@@ -93,7 +93,7 @@ void runClient(int sport, int cport, std::string ip) {
       std::cout << input.tcp_payload << std::endl;
         nlohmann::json rep = nlohmann::json::parse(input.tcp_payload);
       std::cout << "switching port into " << rep["tcp_port"] << " " << rep["udp_port"] << " " << rep["player_uuid"]  << std::endl;
-      engine._client->reset_clients(rep["udp_port"], 15005, rep["tcp_port"], ip);
+      engine._client->reset_clients(rep["udp_port"], generateRandomPort(), rep["tcp_port"], ip);
       std::this_thread::sleep_for(std::chrono::microseconds(100));
       std::string uuid = rep["player_uuid"];
       std::string loginstr = "LOGIN " + uuid;
