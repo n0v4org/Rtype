@@ -137,7 +137,12 @@ public:
       txt.scaleX = 1.0f;
       txt.scaleY = 1.0f;
       txt.textSize = 20;
-
+      std::hash<std::string> hashFunction;
+      size_t hash = hashFunction(p._player[i]);
+      float r = (hash & 0xFF0000) >> 16;
+      float g = (hash & 0x00FF00) >> 8;
+      float b = (hash & 0x0000FF);
+      txt.rgba = {r/200.0f, g/200.0f, b/200.0f, 1.0f};
       engine.addEntityComponent<zef::comp::drawableText>(self, txt);
     }
   }
@@ -157,6 +162,7 @@ public:
     txt.scaleX = 1.0f;
     txt.scaleY = 1.0f;
     txt.textSize = 20;
+    txt.rgba = {.75f,.75f,.75f,1.0f};
 
     engine.addEntityComponent<zef::comp::drawableText>(self, txt);
     }
