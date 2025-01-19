@@ -15,6 +15,12 @@ Forward_BTN Forward_BTN 0 0 210 210
 emptyButton emptyButton 0 0 421 171
 emptyButton emptyButton 0 0 421 171
 returnButton return 0 0 210 210
+colorBlind colorBlind 0 0 1218 194
+deutera deutera 0 0 1486 194
+grey grey 0 0 1153 194
+none none 0 0 532 194
+prota prota 0 0 1248 194
+trita trita 0 0 1125 194
 
 lobbyPlayer0 player2 3 0 101 50
 lobbyPlayer1 player2 3 1 101 50
