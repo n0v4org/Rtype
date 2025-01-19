@@ -219,7 +219,15 @@ engine.initClient(sport, cport, 14001, ip);
   engine.registerComponent<zef::comp::LobbyOffset>();
   engine.registerComponent<zef::comp::LobbyCreateTrack>();
   engine.registerComponent<zef::comp::LobbyInfoTrack>();
-//UWU  engine.registerComponent<zef::comp::MyInfo>();
+  engine.registerComponent<zef::comp::MyInfo>();
+  engine.registerComponent<zef::comp::textZone>();
+  engine.registerComponent<PwdZone>();
+  engine.registerComponent<NameZone>();
+  engine.registerComponent<MsgZone>();
+  engine.registerComponent<UsrZone>();
+  engine.registerComponent<ChatMsgTrack>();
+  engine.registerComponent<MsgDel>();
+
 
     //engine.loadModules();
 

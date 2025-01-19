@@ -74,25 +74,19 @@ public:
 class LobbyScene{
 public:
   static void loadScene(zef::Engine& engine, size_t lobby_id) {
-      std::cout << "je chargee" << std::endl;
 	  engine.registerCommandTcp("204", [](zef::Engine& engine, input_t input) {
-          std::cout << "lobby" << std::endl;
-
     	  nlohmann::json j = nlohmann::json::parse(input.tcp_payload);
     	  int id = j["rooms_id"];
     	  std::string cmd = "GET_LOBBY " + std::to_string(id);
-          std::cout << "a" << " " << cmd << std::endl;
     	  engine.ClientSendTcp(cmd);
-          std::cout << "b" << " " << cmd << std::endl;
   	  });
 
   engine.registerCommandTcp("202", [](zef::Engine& engine, input_t input) {
-    std::cout << "lbyscene" << std::endl;
     nlohmann::json j = nlohmann::json::parse(input.tcp_payload);
     int id = j["rooms_id"];
     std::string cmd = "GET_LOBBY " + std::to_string(id);
     engine.ClientSendTcp(cmd);
-//UWU    engine.ClientSendTcp("GET_ME");
+    engine.ClientSendTcp("GET_LOBBY_ID");
   });
 
   engine.registerCommandTcp("208", [](zef::Engine& engine, input_t input) {
@@ -109,26 +103,42 @@ public:
     nlohmann::json j = nlohmann::json::parse(input.tcp_payload);
     int id = j["room_id"];
     std::string cmd = "GET_LOBBY " + std::to_string(id);
-    std::cout << cmd << " adm " << std::endl;
     engine.ClientSendTcp(cmd);
   });
-  engine.registerCommandTcp("211", [](zef::Engine& engine, input_t input) {
+  engine.registerCommandTcp("213", [](zef::Engine& engine, input_t input) {
     nlohmann::json j = nlohmann::json::parse(input.tcp_payload);
     int id = j["room_id"];
     std::string cmd = "GET_LOBBY " + std::to_string(id);
-    std::cout << cmd << " kic " << std::endl;
     engine.ClientSendTcp(cmd);
   });
-//UWU  engine.registerCommandTcp("", [](zef::Engine& engine, input_t input) {
-//UWU    nlohmann::json j =  nlohmann::json::parse(input.tcp_payload);
-//UWU    for (auto &&[i,p]: ecs::indexed_zipper(engine.reg.get_components<MyInfo>())){
-//UWU      p.admin = j["is_admin"];
-//UWU      p.id = j["id"];
-//UWU    }
-//UWU  }
+  engine.registerCommandTcp("214", [](zef::Engine& engine, input_t input) {
+    nlohmann::json j =  nlohmann::json::parse(input.tcp_payload);
+
+    for (auto &&[i,p]: ecs::indexed_zipper(engine.reg.get_components<zef::comp::MyInfo>())){
+      p.admin = j["is_admin"];
+      p.id = j["id"];
+    }
+  });
+
+  engine.registerCommandTcp("211", [](zef::Engine& engine, input_t input) {
+    nlohmann::json j =  nlohmann::json::parse(input.tcp_payload);
+
+    for (auto &&[i,p]: ecs::indexed_zipper(engine.reg.get_components<ChatMsgTrack>())){
+      p._player.push_back(j["from"]);
+      p._message.push_back(j["message"]);
+
+    }
+    for (auto &&[i,p]: ecs::indexed_zipper(engine.reg.get_components<MsgDel>())){
+          engine.reg.kill_entity(ecs::Entity(i));
+    }
+
+    engine.instanciatePatron<ChatMessagesPatron>(-650.f,60.f);
+
+
+  });
+
 
   engine.registerCommandTcp("203", [](zef::Engine& engine, input_t input) {
-      std::cout << "tttry" << std::endl;
       nlohmann::json j = nlohmann::json::parse(input.tcp_payload);
       std::vector<std::pair<int,int>>playerCoords = {{-100.0f, -250.0f},{-150.0f,100.0f},{0.0f,350.0f},{550.0f,0.0f},{400.0f,-300.0f}};
       for (auto &&[i,p]: ecs::indexed_zipper(engine.reg.get_components<PlayerSlot>())){
@@ -148,7 +158,7 @@ public:
       }
   });
 
-//UWU    engine.instanciatePatron<MyInfoTracker>();
+    engine.instanciatePatron<MyInfoTracker>();
     engine.instanciatePatron<LobbyInfoTracker>();
 
     engine.instanciatePatron<MenuBackgroundPatron>();
@@ -209,9 +219,7 @@ public:
         engine.registerCommandTcp("202", [](zef::Engine& engine, input_t input) {
   	 	  nlohmann::json j = nlohmann::json::parse(input.tcp_payload);
           int id = j["rooms_id"];
-          std::cout << "room" << id << std::endl;
   	 	  engine.newLoadScene<LobbyScene>(id);
-          std::cout << "room" << id << std::endl;
         });
 
         engine.registerCommandTcp("205", [](zef::Engine& engine, input_t input) {
@@ -261,7 +269,6 @@ public:
   		});
     	engine.instanciatePatron<MenuBackgroundPatron>();
         engine.instanciatePatron<LobbyOffsetTracker>();
-
         engine.instanciatePatron<ButtonPatron>(
             850.0f, -450.0f,
             "returnButton",
@@ -369,7 +376,6 @@ public:
             850.0f, -450.0f,
             "Settings",
             [](zef::Engine &engine, size_t self) {
-                std::cout << "Settings clicked!" << std::endl;
                 engine.newLoadScene<OptionScene>();
             },
             210.0f, 210.0f, 0.5f, 0.5f
@@ -386,7 +392,6 @@ public:
             -850.0f, -450.0f,
             "Backward_BTN",
             [](zef::Engine &engine, size_t self) {
-                std::cout << "return clicked!" << std::endl;
                 engine.newLoadScene<MenuScene>();
             },
             210.0f, 210.0f, 0.5f, 0.5f
@@ -419,10 +424,8 @@ public:
             -250.0f, -200.0f,
             "Backward_BTN",
             [](zef::Engine &engine, size_t self) {
-                std::cout << "minus clicked!" << std::endl;
                 std::string vol = "Volume";
                 int currentVolume = std::stoi(engine.GraphLib->getSetting(vol).c_str());
-                std::cout << currentVolume << std::endl;
                 int newVolume;
                 if (currentVolume <= 0) {
                     newVolume = 0;
@@ -431,7 +434,6 @@ public:
                     engine.GraphLib->playSound("checkSound");
                 }
                 engine.GraphLib->updateSettings("Volume", std::to_string(newVolume));
-                std::cout << newVolume << std::endl;
             },
             210.0f, 210.0f, 0.75f, 0.75f
         );
@@ -440,10 +442,8 @@ public:
             250.0f, -200.0f,
             "Forward_BTN",
             [](zef::Engine &engine, size_t self) {
-                std::cout << "plus clicked!" << std::endl;
                 std::string vol = "Volume";
                 int currentVolume = std::stoi(engine.GraphLib->getSetting(vol).c_str());
-                std::cout << currentVolume << std::endl;
                 int newVolume;
                 if (currentVolume >= 100) {
                     newVolume = 100;
@@ -452,7 +452,6 @@ public:
                     engine.GraphLib->playSound("checkSound");
                 }
                 engine.GraphLib->updateSettings("Volume", std::to_string(newVolume));
-                std::cout << newVolume << std::endl;
             },
             210.0f, 210.0f, 0.75f, 0.75f
         );
