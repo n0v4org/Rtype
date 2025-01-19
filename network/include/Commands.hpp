@@ -8,13 +8,14 @@
 #ifndef NETWORK_UDP_INCLUDE_COMMANDS_HPP_
 #define NETWORK_UDP_INCLUDE_COMMANDS_HPP_
 
+#include <lz4.h>
+
 #include <algorithm>
 #include <vector> 
 #include <cstring>
 #include <iostream>
 
 #include "Input.hpp"
-#include <lz4.h>
 
 namespace network {
   namespace game {
