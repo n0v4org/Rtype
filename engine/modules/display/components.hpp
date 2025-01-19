@@ -15,6 +15,12 @@
 
 namespace zef {
   namespace comp {
+    class name {
+      public:
+        name(std::string string) : str(string) {}
+
+      std::string str;
+    };
 
     class LobbyCreateTrack {
     public:
@@ -48,12 +54,6 @@ namespace zef {
     };
 
 
-    class name {
-      public:
-        name(std::string string) : str(string) {}
-
-      std::string str;
-    };
     class drawable {
     public:
       drawable() {

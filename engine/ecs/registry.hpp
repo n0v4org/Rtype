@@ -226,6 +226,8 @@ namespace ecs {
     }
 
     std::queue<size_t> _unusedids;
+    size_t _maxId = 0;
+
     size_t _entityCount = 0;
     size_t _maxId = 0;
   private:
