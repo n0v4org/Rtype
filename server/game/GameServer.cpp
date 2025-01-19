@@ -71,7 +71,7 @@ namespace rtype {
 
     _games.push_back(std::thread([this, players_uuid, tcp_port, udp_port]() {
         _game  = std::make_unique<Game>();
-        _game->init_game(players_uuid, tcp_port, udp_port);
+        _game->launch_game(players_uuid, tcp_port, udp_port);
     }));
     });
   }
