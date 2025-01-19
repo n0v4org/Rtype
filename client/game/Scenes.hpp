@@ -233,7 +233,9 @@ public:
     //engine.instanciatePatron<ChatMessagesPatron>(-650.f,60.f);
     engine.instanciatePatron<ChatMessageTracker>();
     engine.instanciatePatron<ChatEntry>(-650.f,400.f);
-    engine.instanciatePatron<UsernameEntry>(550.f,280.f);
+    engine.instanciatePatron<TextPatron>(-650.f,350.f, "Send Message", "eth",30);
+    engine.instanciatePatron<UsernameEntry>(550.f,230.f);
+    engine.instanciatePatron<TextPatron>(550.f,190.f, "Change Username", "eth",16);
     engine.instanciatePatron<WindowMessagePatron>(-650.f,00.f);
 
 
