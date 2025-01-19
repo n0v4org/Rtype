@@ -47,7 +47,9 @@ namespace client {
 
       std::string line;
       while (std::getline(std::cin, line)) {
-        _client.get_udp_client()->send<int>(4, 1);
+        uint8_t tt = 1;
+        std::cout << tt << std::endl;;
+        _client.get_udp_client()->send<int>(43, tt);
       }
 
       // runClient(_params->get_lobby_server_port(), _params->get_client_port(),

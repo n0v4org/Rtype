@@ -34,19 +34,23 @@ namespace network {
       template <typename T>
       void send(T payload, int cmd) {
         try {
-         std::array<uint8_t, 1024> message = Commands<T>::toArray(payload, cmd, _sequence_id);
+        std::array<uint8_t, 1024> message = 
+        Commands<T>::toArray(payload, cmd, _sequence_id);
 
+    std::vector<uint8_t> temp (message.begin(), message.end());
+    temp.resize(sizeof(T) + 7);
     std::vector<uint8_t> compressed_message = compressVector(
-        std::vector<uint8_t>(message.begin(), message.end())
+       temp
     );
 
-    uint32_t compressed_size = message.size();
-    std::cout << "Compressed size: " << compressed_size << std::endl;
-    std::vector<uint8_t> header(4 + compressed_size);
+    std::vector<uint8_t> header(4 + compressed_message.size());
+    uint32_t compressed_size = sizeof(T) + 7;
     header[0] = static_cast<uint8_t>((compressed_size >> 24) & 0xFF);
     header[1] = static_cast<uint8_t>((compressed_size >> 16) & 0xFF);
     header[2] = static_cast<uint8_t>((compressed_size >> 8) & 0xFF);
     header[3] = static_cast<uint8_t>(compressed_size & 0xFF);
+
+    std::memcpy(header.data() + 4, compressed_message.data(), compressed_message.size());
 
     std::memcpy(header.data() + 4, compressed_message.data(), compressed_size);
             _socket.send_to(asio::buffer(header), _server_endpoint);
