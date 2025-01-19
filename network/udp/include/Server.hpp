@@ -51,8 +51,6 @@ namespace network {
     header[3] = static_cast<uint8_t>(compressed_size & 0xFF);
 
     std::memcpy(header.data() + 4, compressed_message.data(), compressed_message.size());
-  std::cout << "Compressed message size: " << compressed_message.size() << std::endl;
-  std::cout << "Header size: " << header.size() << std::endl;
     _socket.async_send_to(
         asio::buffer(header), _clients[idx],
         [this](const std::error_code& ec, std::size_t bytes_transferred) {

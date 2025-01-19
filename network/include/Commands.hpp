@@ -61,49 +61,35 @@ static std::vector<uint8_t> decompressVector(const std::vector<uint8_t>& compres
 static input_t unpack(std::size_t byte_size, const std::array<uint8_t, 1024>& _recv_buffer_) {
     input_t input = {};
 
-
-    // Ensure the buffer has at least the header size
     if (byte_size < 4) {
         throw std::runtime_error("Invalid data: Header too small");
     }
 
-    // Step 1: Extract the original size from the header (first 4 bytes)
     uint32_t original_size =
         (_recv_buffer_[0] << 24) | (_recv_buffer_[1] << 16) |
         (_recv_buffer_[2] << 8) | _recv_buffer_[3];
 
-    // Step 2: Extract the compressed data
     if (byte_size <= 4) {
         throw std::runtime_error("Invalid data: No compressed payload");
     }
-    std::cout << original_size << std::endl;
     std::vector<uint8_t> compressed_data(
         _recv_buffer_.begin() + 4,
         _recv_buffer_.begin() + byte_size
     );
-        std::cout << "Received byte size: " << byte_size << std::endl;
-std::cout << "Original size from header: " << original_size << std::endl;
-std::cout << "Compressed data size: " << compressed_data.size() << std::endl;
     std::cout << compressed_data.size() << std::endl;
-    // Step 3: Decompress the data
     std::vector<uint8_t> decompressed_data = decompressVector(compressed_data, original_size);
-
-    // Step 4: Perform existing unpack logic on decompressed data
     if (decompressed_data.size() < 11) {
         throw std::runtime_error("Invalid decompressed data: Too small");
     }
 
     input.cmd = decompressed_data[0];
-    std::cout << "cmd : " <<  input.cmd << std::endl;
     input.payload_size = (decompressed_data[1] << 8) | decompressed_data[2];
-    std::cout << "pay : " <<  input.payload_size << std::endl;
     input.seq = 0;
 
     for (int i = 0; i < 4; i++) {
         input.seq = (input.seq << 8) | decompressed_data[3 + i];
     }
-    std::cout << "seq : " <<  input.seq << std::endl;
-
+    
     if (input.payload_size > 1024 || input.payload_size > (decompressed_data.size() - 7)) {
         throw std::runtime_error("Invalid payload size");
     }
@@ -129,7 +115,7 @@ std::cout << "Compressed data size: " << compressed_data.size() << std::endl;
       }
       Commands() = default;
 
-      static std::array<uint8_t, 1024> toArray(const T& data, uint8_t cmd,
+      static std::array<uint8_t, 1024> toArray(const T& data, int cmd,
                                                uint32_t seq) {
         std::array<uint8_t, 1024> result = {};
 
