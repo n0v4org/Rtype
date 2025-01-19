@@ -13,11 +13,6 @@
 #include "Server.hpp"
 #include "Commands.hpp"
 
-struct test1 {
-  int id;
-  char name[20];
-};
-
 
 namespace network {
   namespace game {

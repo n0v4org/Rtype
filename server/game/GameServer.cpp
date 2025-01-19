@@ -75,15 +75,13 @@ namespace rtype {
                            TCP_ERRORS.at(NOT_ADMIN).first);
         return;
       }
-      for (const auto& room : _lobby->get_lobby()) {
-        for (const auto& player : room.players) {
+        for (const auto& player : _lobby->get_lobby().at(room).players) {
           if (!player.is_ready) {
             _lobby->send_error(input.id, TCP_ERRORS.at(NOT_READY).second,
                                TCP_ERRORS.at(NOT_READY).first);
             return;
           }
         }
-      }
       if (_lobby->get_lobby().at(room).running) {
         _lobby->send_error(input.id, TCP_ERRORS.at(GAME_ALREADY_RUNNING).second,
                            TCP_ERRORS.at(GAME_ALREADY_RUNNING).first);
