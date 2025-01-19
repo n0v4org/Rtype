@@ -100,6 +100,30 @@ public:
   }
 };
 
+class TextPatron {
+public:
+  static void instanciate(zef::Engine &engine, const ecs::Entity &self,
+                          float x, float y,
+                          const std::string &text, const std::string &font, int textSize,
+                          float width = 200.0f, float height = 100.0f, float scale_w = 1.0f,
+                          float scale_h = 1.0f, int layer= 1) {
+    engine.addEntityComponent<zef::comp::position>(self, x, y);
+
+    zef::comp::drawableText txt;
+    txt.layer = 999;
+    txt.text = text;
+    txt.font = font;
+    txt.scaleX = scale_w;
+    txt.scaleY = scale_h;
+    txt.textSize = textSize;
+
+    engine.addEntityComponent<zef::comp::drawableText>(self, txt);
+
+  }
+};
+
+
+
 
 
 
