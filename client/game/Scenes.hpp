@@ -58,6 +58,7 @@ public:
     engine.instanciatePatron<BackgroundPatron>(1920.0f * 5, 0.0f);
     engine.instanciatePatron<BackgroundPatron>(1920.0f * 6, 0.0f);
     engine.instanciatePatron<BackgroundPatron>(1920.0f * 7, 0.0f);
+    engine.instanciatePatron<BorderPatron>();
 
     for (auto &i : allyId)
       engine.instanciatePatron<AllyPatron>(0.f, 0.f, i);
