@@ -1,6 +1,7 @@
 #ifndef CLIENT_HPP_
 #define CLIENT_HPP_
 
+#include <lz4.h>
 #include <iostream>
 #include <mutex>
 #include <deque>
@@ -8,7 +9,6 @@
 #include <vector>
 #include <asio.hpp>
 #include "Input.hpp"
-#include <lz4.h>
 
 namespace network {
 namespace tcp_link {

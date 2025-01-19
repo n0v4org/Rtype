@@ -1,6 +1,7 @@
 #ifndef NETWORK_TCP_INCLUDE_CONNECTION_HPP_
 #define NETWORK_TCP_INCLUDE_CONNECTION_HPP_
 
+#include <lz4.h>
 #include <string>
 #include <memory>
 #include <mutex>
@@ -10,7 +11,6 @@
 #include <asio.hpp>
 #include "Input.hpp"
 #include "queue.hpp"
-#include <lz4.h>
 
 using asio::ip::tcp;
 
