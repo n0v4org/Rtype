@@ -253,7 +253,10 @@ namespace zef {
     void newLoadScene(Args... args) {
       _new_next_scene = [args..., this](Engine& engine) {
         for (int i = 0; i < reg.getMaxId(); i++)
-          this->reg.kill_entity(ecs::Entity(i));
+            reg.kill_entity(ecs::Entity(i));
+        while (!engine.reg._unusedids.empty()) engine.reg._unusedids.pop();
+        engine.reg._entityCount = 0;
+        engine.reg._maxId = 0;
         T::loadScene(*this, args...);
       };
     }
@@ -272,6 +275,7 @@ namespace zef {
 
       clock = std::chrono::high_resolution_clock::now();
       int i = 0;
+      //loadModules();
       // ecs::Entity e(reg.spawn_entity());
       // addEntityComponent(e, "ExampleComp1", 2, 2.0f);
       // addEntityComponent(e, "ExampleComp2", 3.0f, 'c');
@@ -374,8 +378,7 @@ namespace zef {
           loadModule(name);
         }
         if (mdname.rfind("module", 0) == 0) {
-          std::string str = mdname.substr(6);
-          ;
+          std::string str  = mdname.substr(6);;
           auto f           = str.find_last_of('.');
           std::string name = str.substr(0, f);
           loadModule(name);

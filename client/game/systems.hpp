@@ -57,6 +57,15 @@ void drawHpBarPlayer(zef::Engine& engine, ecs::sparse_array<Ship>& pls,
   }
 }
 
+void drawSoundBar(zef::Engine& engine,
+                                ecs::sparse_array<SounbdBar>& sss,
+                                ecs::sparse_array<zef::comp::position>& pss) {
+   for (auto &&[i, s, pos] : ecs::indexed_zipper(sss, pss)) {
+    engine.GraphLib->drawHPBar(pos.x - 250, pos.y, 500, 20, std::stof(engine.GraphLib->getSetting("Volume"))/100, {255, 255, 255, 255}, {70, 62, 255, 255});
+   }
+  }
+
+
 void drawLoadBar(zef::Engine& engine, ecs::sparse_array<Player>& pls,
                  ecs::sparse_array<Laser>& lss,
                  ecs::sparse_array<zef::comp::position>& pss) {

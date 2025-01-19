@@ -18,6 +18,8 @@
 #include "modules/movement/systems.hpp"
 #include "modules/network/systems.hpp"
 #include "modules/controller/systems.hpp"
+#include "modules/textzone/systems.hpp"
+#include "events.hpp"
 #include "asio.hpp"
 #include "CommonCommands.hpp"
 #include "UdpProtoCommands.hpp"
@@ -79,41 +81,27 @@ void runClient(int sport, int cport, std::string ip) {
                                  23);
   engine.GraphLib->saveAnimation("EBullet", "EBullet", 0, 0, 18, 18);
 
-  engine.registerCommandTcp("202", [](zef::Engine& engine, input_t input) {
-    std::cout << input.tcp_payload << std::endl;
-  });
-  engine.registerCommandTcp("208", [](zef::Engine& engine, input_t input) {
-    std::cout << input.tcp_payload << std::endl;
-  });
-  engine.registerCommandTcp("203", [](zef::Engine& engine, input_t input) {
-    std::cout << input.tcp_payload << std::endl;
-  });
-
-
-  engine.registerCommandTcp("221", [ip](zef::Engine& engine, input_t input) {
-    std::vector <size_t> idAlly;
-    nlohmann::json rep = nlohmann::json::parse(input.tcp_payload);
-    for (auto &i : rep["players"])
-        idAlly.push_back(i[1]);
-    engine.newLoadScene<LevelScene>(idAlly);
-  });
-
+  //engine.registerCommandTcp("221", [ip](zef::Engine& engine, input_t input) {
+  //  std::vector <size_t> idAlly;
+  //  nlohmann::json rep = nlohmann::json::parse(input.tcp_payload);
+  //  for (auto &i : rep["players"])
+  //      idAlly.push_back(i[1]);
+  //  engine.newLoadScene<LevelScene>(idAlly);
+  //});
+//
   engine.registerCommandTcp("207", [ip](zef::Engine& engine, input_t input) {
-    std::cout << input.tcp_payload << std::endl;
-    nlohmann::json rep = nlohmann::json::parse(input.tcp_payload);
-    std::cout << "switching port into " << rep["tcp_port"] << " "
-              << rep["udp_port"] << " " << rep["player_uuid"] << std::endl;
-    engine._client->reset_clients(rep["udp_port"], generateRandomPort(), rep["tcp_port"], ip);
-    std::this_thread::sleep_for(std::chrono::microseconds(100));
-    std::string uuid     = rep["player_uuid"];
-    std::string loginstr = "LOGIN " + uuid;
-    std::cout << "sending " << uuid << " " << loginstr << std::endl;
-    engine.ClientSendTcp(loginstr);
-    login_t lgt;
-    strncpy(lgt.pwd, uuid.c_str(), 21);
-    std::cout << "hohoho\n";
-    engine.ClientSendUdp<login_t>(LOGIN, lgt);
-    std::cout << "hiih\n";
+      std::cout << input.tcp_payload << std::endl;
+        nlohmann::json rep = nlohmann::json::parse(input.tcp_payload);
+      std::cout << "switching port into " << rep["tcp_port"] << " " << rep["udp_port"] << " " << rep["player_uuid"]  << std::endl;
+      engine._client->reset_clients(rep["udp_port"], 15005, rep["tcp_port"], ip);
+      std::this_thread::sleep_for(std::chrono::microseconds(100));
+      std::string uuid = rep["player_uuid"];
+      std::string loginstr = "LOGIN " + uuid;
+      std::cout << "sending " << uuid << " " << loginstr << std::endl;
+      engine.ClientSendTcp(loginstr);
+        login_t lgt;
+      strncpy(lgt.pwd, uuid.c_str(), 21);
+      engine.ClientSendUdp<login_t>(LOGIN, lgt);
   });
 
 
@@ -177,7 +165,7 @@ void runClient(int sport, int cport, std::string ip) {
     spawn_plane_t sp = network::game::Commands<spawn_plane_t>(input).getCommand();
     std::cout << "spawnplane"  << sp.rep << "\n";
     engine.instanciatePatron<EnemyPlanePatron>(sp.x, sp.y, sp.rep);
-    
+
   });
 
   engine.registerCommand(SPAWN_CRAB, [](zef::Engine& engine, input_t input) {
@@ -214,7 +202,7 @@ void runClient(int sport, int cport, std::string ip) {
             v.y = sp.vy;
             p.x = sp.x;
             p.y = sp.y;
-        }  
+        }
     }
   });
 
@@ -227,7 +215,7 @@ void runClient(int sport, int cport, std::string ip) {
             v.y = sp.vy;
             p.x = sp.x;
             p.y = sp.y;
-        }  
+        }
     }
   });
 
@@ -243,8 +231,8 @@ void runClient(int sport, int cport, std::string ip) {
             engine.sendEvent<RobotShoot>(i);
             p.x = tmpx;
             p.y = tmpy;
-            
-        }  
+
+        }
     }
   });
 
@@ -254,7 +242,7 @@ void runClient(int sport, int cport, std::string ip) {
     for (auto &&[i, m, r] : ecs::indexed_zipper(engine.reg.get_components<Monster>(), engine.reg.get_components<zef::comp::replicable>())) {
         if (r._id == sp.rep) {
             engine.sendEvent<MiniBossShoot>(i);
-        }  
+        }
     }
   });
 
@@ -264,18 +252,17 @@ void runClient(int sport, int cport, std::string ip) {
     for (auto &&[i, m, r] : ecs::indexed_zipper(engine.reg.get_components<Monster>(), engine.reg.get_components<zef::comp::replicable>())) {
         if (r._id == sp.rep) {
             engine.sendEvent<OnDeath>(i);
-        }  
+        }
     }
   });
 
    engine.initClient(sport, generateRandomPort(), cport, ip);
    sleep(1);
 
-   engine.ClientSendTcp("JOIN 1 magicarpe");
-   sleep(1);
-   engine.ClientSendTcp("SET_PLAYER_READY");
+//   engine.ClientSendTcp("JOIN 1 magicarpe");
+//   sleep(1);
+//   engine.ClientSendTcp("SET_PLAYER_READY");
 
-    
 
   // std::this_thread::sleep_for(std::chrono::microseconds(100));
 
@@ -388,6 +375,7 @@ void runClient(int sport, int cport, std::string ip) {
   engine.registerComponent<zef::comp::position>();
   engine.registerComponent<zef::comp::vector>();
   engine.registerComponent<zef::comp::drawable>();
+  engine.registerComponent<zef::comp::drawableText>();
   engine.registerComponent<zef::comp::collidable>();
   engine.registerComponent<Owner>();
   engine.registerComponent<Health>();
@@ -396,6 +384,7 @@ void runClient(int sport, int cport, std::string ip) {
   engine.registerComponent<zef::comp::controllable>();
   engine.registerComponent<Player>();
   engine.registerComponent<BackGround>();
+  engine.registerComponent<SounbdBar>();
   engine.registerComponent<zef::comp::replicable>();
   engine.registerComponent<VectorHolder>();
   engine.registerComponent<Monster>();
@@ -406,6 +395,33 @@ void runClient(int sport, int cport, std::string ip) {
   engine.registerComponent<SinusoidalMotion>();
   engine.registerComponent<MoveCamera>();
   engine.registerComponent<SinusoidalAboveMotion>();
+  engine.registerComponent<zef::comp::clickable>();
+  engine.registerComponent<Tab>();
+  engine.registerComponent<PlayerSlot>();
+  engine.registerComponent<PlayerKickAdminWindow>();
+  engine.registerComponent<SlotRedo>();
+  engine.registerComponent<zef::comp::LobbyOffset>();
+  engine.registerComponent<zef::comp::LobbyCreateTrack>();
+  engine.registerComponent<zef::comp::LobbyInfoTrack>();
+  engine.registerComponent<zef::comp::MyInfo>();
+  engine.registerComponent<zef::comp::textZone>();
+  engine.registerComponent<PwdZone>();
+  engine.registerComponent<NameZone>();
+  engine.registerComponent<MsgZone>();
+  engine.registerComponent<UsrZone>();
+  engine.registerComponent<ChatMsgTrack>();
+  engine.registerComponent<MsgDel>();
+
+
+    //engine.loadModules();
+
+  //   // engine.addSystem<>(entitycountdisplay);
+
+  //engine.addSystem<Tab>("zefir", [](zef::Engine& engine, ecs::sparse_array<Tab>& mvs){
+  //  for (auto &&[i, mv] : ecs::indexed_zipper(mvs)) {
+  //    std::cout << i;
+  //  } std::cout << "\n";
+  //});
 
   engine.addSystem<>("zefir", zef::sys::update_user_inputs);
   engine.addSystem<MoveCamera>(
@@ -423,10 +439,13 @@ void runClient(int sport, int cport, std::string ip) {
         }
     });
 
-   engine.addSystem<>("zefir", zef::sys::handle_client);
+  engine.addSystem<zef::comp::clickable, zef::comp::position>("zefir", zef::sys::handleclickable);
+  engine.addSystem<zef::comp::event_listener>("zefir",
+                                              zef::sys::resolveEvent
+                                              );
 
-  engine.addSystem<BackGround, zef::comp::position>("zefir",
-                                                    handleBackgroundScroll);
+  engine.addSystem<>("zefir", zef::sys::handle_client);
+
   engine.addSystem<Lifetime>("zefir", lifetime_system);
   engine.addSystem<zef::comp::vector, Player>("zefir", resetPlayerMovement);
   engine.addSystem<zef::comp::controllable>("zefir",
@@ -447,6 +466,13 @@ void runClient(int sport, int cport, std::string ip) {
   engine.addSystem<zef::comp::drawable>("zefir", zef::sys::update_animations);
   engine.addSystem<zef::comp::drawable, zef::comp::position>(
       "zefir", zef::sys::draw_drawables);
+  engine.addSystem<zef::comp::drawableText, zef::comp::position>(
+      "zefir", zef::sys::draw_texts);
+  engine.addSystem<zef::comp::textZone, zef::comp::position>(
+      "zefir", zef::sys::UpdateTextInputs);
+  engine.addSystem<zef::comp::textZone, zef::comp::position>(
+      "zefir", zef::sys::DrawTextInputs);
+  engine.addSystem<SounbdBar, zef::comp::position>("zefir",drawSoundBar);
   engine.addSystem<Ship, Health, zef::comp::position>("zefir", drawHpBarPlayer);
   engine.addSystem<Player, Laser, zef::comp::position>("zefir", drawLoadBar);
   engine.addSystem<SinusoidalMotion, zef::comp::vector>("zefir",
@@ -454,7 +480,7 @@ void runClient(int sport, int cport, std::string ip) {
   engine.addSystem<SinusoidalAboveMotion, zef::comp::position>(
       "zefir", sinusoidalAbovePositionSystem);
 
-    
+
 
   engine.addSystem<zef::comp::position, Player>(
     "zefir",
@@ -465,7 +491,8 @@ void runClient(int sport, int cport, std::string ip) {
   // engine.registerScene<LobbyScene>("lobby");
   // engine.loadScene("level");
 
-  engine.newLoadScene<TestScene>();
+  engine.newLoadScene<MenuScene>();
+//  engine.newLoadScene<TestScene>();
 
-  engine.run();
+    engine.run();
 }

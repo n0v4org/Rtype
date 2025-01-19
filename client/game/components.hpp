@@ -85,6 +85,11 @@ public:
   float y;
 };
 
+class SounbdBar {
+public:
+  SounbdBar() {}
+};
+
 class SinusoidalMotion {
 public:
   SinusoidalMotion(float amplitude, float frequency, float speedX)

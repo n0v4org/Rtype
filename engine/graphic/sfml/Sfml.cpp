@@ -5,16 +5,15 @@
 ** SFML DisplayModule
 */
 
+
+#ifdef _MSC_VER
+  #include <windows.h>
+#endif
 #include <iostream>
 #include <string>
-
-#include "Sfml.hpp"
-#ifdef _MSC_VER
-#include <windows.h>
-#endif
 #include <vector>
 #include <utility>
-
+#include "Sfml.hpp"
 #include "HPBar.hpp"
 #define M_PI 3.14159265358979323846
 
@@ -414,13 +413,25 @@ namespace zef {
                             foregroundColor.B, foregroundColor.A));
     }
 
-    void Sfml::playSound(std::string soundName, int volume) {
-      _sounds.find(soundName)->second.first.setBuffer(
-          _sounds.find(soundName)->second.second);
-      _sounds.find(soundName)->second.first.setVolume(volume);
-      std::cout << soundName << std::endl;
-      _sounds.find(soundName)->second.first.play();
+    bool Sfml::playSound(std::string soundName, int volume) {
+      auto soundIt = _sounds.find(soundName);
+
+      if (soundIt == _sounds.end()) {
+        return false;
+      }
+
+      auto& soundPair = soundIt->second;
+      soundPair.first.setBuffer(soundPair.second);
+
+      int globalVolume = 100;
+      if (!getSetting("Volume").empty()) {
+        globalVolume = std::atoi(getSetting("Volume").c_str());
+      }
+      soundPair.first.setVolume(volume * globalVolume / 100);
+      soundPair.first.play();
+      return true;
     }
+
 
     void Sfml::saveAnimation(std::string animationName,
                              std::string spriteSheetName,
@@ -452,6 +463,11 @@ namespace zef {
       _views["Default"].move(X, Y);
       _views["Default"].zoom(1.0f + Z / 100.0f);
       _window.setView(_views["Default"]);
+    }
+
+    std::pair<int,int> Sfml::getCameraPos(){
+      sf::Vector2f center = _views["Default"].getCenter();
+      return {static_cast<int>(center.x), static_cast<int>(center.y)};
     }
 
     void Sfml::updateUserInputs(utils::UserInputs& ui) {
