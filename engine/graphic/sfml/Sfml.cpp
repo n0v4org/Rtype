@@ -374,6 +374,7 @@ namespace zef {
       sf::FloatRect textRect = _fonts.find(fontName)->second.second.getLocalBounds();
       _fonts.find(fontName)->second.second.setOrigin(textRect.left + textRect.width / 2,
                      textRect.top + textRect.height / 2);
+      _fonts.find(fontName)->second.second.setCharacterSize(fontSize);
       _fonts.find(fontName)->second.second.setPosition(posX, posY);
       _fonts.find(fontName)->second.second.setScale(scaleX, scaleY);
       _fonts.find(fontName)->second.second.setFillColor(color);
@@ -393,6 +394,7 @@ namespace zef {
       sf::FloatRect textRect = _fonts.find(fontName)->second.second.getLocalBounds();
       _fonts.find(fontName)->second.second.setOrigin(textRect.left + textRect.width / 2,
                      textRect.top + textRect.height / 2);
+      _fonts.find(fontName)->second.second.setCharacterSize(fontSize);
       _fonts.find(fontName)->second.second.setPosition(posX, posY);
       _fonts.find(fontName)->second.second.setScale(scaleX, scaleY);
       _fonts.find(fontName)->second.second.setFillColor(color);
