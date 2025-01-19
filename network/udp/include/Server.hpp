@@ -52,11 +52,11 @@ namespace network {
         std::memcpy(header.data() + 4, compressed_message.data(),
                     compressed_message.size());
         for (int i = 0; i < 10; i++) {
-           _socket.async_send_to(
-            asio::buffer(header), _clients[idx],
-            [this](const std::error_code& ec, std::size_t bytes_transferred) {
-              handle_send(ec, bytes_transferred);
-            });
+          _socket.async_send_to(
+              asio::buffer(header), _clients[idx],
+              [this](const std::error_code& ec, std::size_t bytes_transferred) {
+                handle_send(ec, bytes_transferred);
+              });
         }
         _sequence_id++;
       }

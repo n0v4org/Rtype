@@ -73,11 +73,11 @@ namespace network {
         input_t message = unpack(bytes_transferred, _recv_buffer_);
         auto it    = find(_clients.begin(), _clients.end(), _remote_endpoint_);
         message.id = it - _clients.begin();
-          {
-            std::lock_guard<std::mutex> lock(_mutex);
-            if (_read_id.find(message.seq) == _read_id.end()) {
-        _command_queue.push_back(message);
-    _read_id.insert(message.seq);
+        {
+          std::lock_guard<std::mutex> lock(_mutex);
+          if (_read_id.find(message.seq) == _read_id.end()) {
+            _command_queue.push_back(message);
+            _read_id.insert(message.seq);
           }
         }
 
