@@ -45,6 +45,9 @@ namespace rtype {
         return;
       int room = _lobby->get_lobby_id(input);
       
+      if (!_lobby->check_start_game(room, input)) {
+        return;
+      }
       _lobby->set_game_running(room);
       res += _lobby->get_lobby().at(room).name;
       std::vector<std::string> players_uuid;
