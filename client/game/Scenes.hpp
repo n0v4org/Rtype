@@ -118,7 +118,13 @@ public:
   });
 
   engine.registerCommandTcp("221", [](zef::Engine& engine, input_t input) {
-	  engine.newLoadScene<LevelScene>();
+    std::cout << "got 221" << std::endl;
+    nlohmann::json j = nlohmann::json::parse(input.tcp_payload);
+	std::vector<size_t> ids;
+	for (auto &i : j["players"]) {
+    ids.push_back(i[1]);
+	}
+	  engine.newLoadScene<LevelScene>(ids);
   });
 
   engine.registerCommandTcp("201", [](zef::Engine& engine, input_t input) {
