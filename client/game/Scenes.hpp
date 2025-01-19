@@ -217,10 +217,12 @@ public:
         engine.registerCommandTcp("205", [](zef::Engine& engine, input_t input) {
             nlohmann::json j = nlohmann::json::parse(input.tcp_payload);
 
+            for (auto &&[a,b,c]: ecs::indexed_zipper(engine.reg.get_components<zef::comp::textZone>(), engine.reg.get_components<PwdZone>())){
             for (auto &&[k,p]: ecs::indexed_zipper(engine.reg.get_components<zef::comp::LobbyCreateTrack>())){
               int id = j["rooms_id"];
-              std::string cmd = "JOIN  " + std::to_string(id) + " " + p._pwd;
+              std::string cmd = "JOIN  " + std::to_string(id) + " " + (b._string != "" ? b._string : "magicarpe");
               engine.ClientSendTcp(cmd);
+            }
             }
         });
 
