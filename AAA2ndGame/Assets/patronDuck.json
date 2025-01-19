@@ -1,0 +1,37 @@
+{
+    "name": "Duck",
+    "inputs" : [
+        {"name": "x", "type": "int"},
+        {"name": "y", "type": "int"}
+    ],
+    "components" : [
+        {
+            "name": "NewDrawable",
+            "args": ["canard", 0.3, 2]
+        },
+        {
+            "name": "Position",
+            "args": [{"input": "x"}, {"input": "y"}]
+        },
+        {
+            "name": "Vector",
+            "args": [0.0, 0.0]
+        },
+        {
+            "name": "Clickable",
+            "args": [150, 150]
+        },
+        {
+            "name": "SCRIPT",
+            "args": ["duck_script"]
+        },
+        {
+            "name": "Duck",
+            "args": []
+        },
+        {
+            "name": "Respawn",
+            "args": [1]
+        }
+    ]
+}

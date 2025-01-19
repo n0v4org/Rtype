@@ -42,6 +42,7 @@ class MenuScene;
 class LobbyScene;
 class LobbyListScene;
 
+#include "BorderPatron.hpp"
 
 class LevelScene {
 public:
