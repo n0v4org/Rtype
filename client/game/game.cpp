@@ -17,6 +17,7 @@
 #include "modules/movement/systems.hpp"
 #include "modules/network/systems.hpp"
 #include "modules/controller/systems.hpp"
+#include "modules/textzone/systems.hpp"
 #include "events.hpp"
 #include "asio.hpp"
 #include "CommonCommands.hpp"

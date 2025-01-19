@@ -490,19 +490,25 @@ public:
   static void instanciate(zef::Engine &engine, const ecs::Entity &self, float x, float y){
 
     engine.addEntityComponent<zef::comp::position>(self, x, y);
+    engine.addEntityComponent<zef::comp::textZone>(self);
+    engine.addEntityComponent<NameZone>(self);
 
     for (auto &&[k,p]: ecs::indexed_zipper(engine.reg.get_components<zef::comp::LobbyCreateTrack>())){
         engine.instanciatePatron<TextButtonPatron>(
             x, y,
             "emptyButton",
-            p._name,"eth",42,
-            [](zef::Engine &engine, size_t self) {
-
+            "","eth",42,
+            [&](zef::Engine &engine, size_t self) {
+              for (auto &&[k,z,t]: ecs::indexed_zipper(engine.reg.get_components<NameZone>(), engine.reg.get_components<zef::comp::textZone>())){
+                t._focused = !t._focused;
+                p._pwd = t._string;
+                t._posX = x;
+                t._posY = y;
+              }
             },
             420.0f, 170.0f, 1.f, 1.f, 5
         );
-  }
-
+    }
   }
 };
 class LobbyCreateSlotsTitle{
@@ -564,17 +570,30 @@ public:
     engine.addEntityComponent<zef::comp::drawableText>(self, txt);
   }
 };
+class PwdZone {
+public:
+  PwdZone(){
+  }
+};
 class LobbyCreatePassword{
 public:
   static void instanciate(zef::Engine &engine, const ecs::Entity &self, float x, float y){
     engine.addEntityComponent<zef::comp::position>(self, x, y);
+    engine.addEntityComponent<zef::comp::textZone>(self);
+    engine.addEntityComponent<PwdZone>(self);
 
     for (auto &&[k,p]: ecs::indexed_zipper(engine.reg.get_components<zef::comp::LobbyCreateTrack>())){
         engine.instanciatePatron<TextButtonPatron>(
             x, y,
             "emptyButton",
-            p._pwd,"eth",42,
-            [](zef::Engine &engine, size_t self) {
+            "","eth",42,
+            [&](zef::Engine &engine, size_t self) {
+              for (auto &&[k,z,t]: ecs::indexed_zipper(engine.reg.get_components<PwdZone>(), engine.reg.get_components<zef::comp::textZone>())){
+                t._focused = !t._focused;
+                p._pwd = t._string;
+                t._posX = x;
+                t._posY = y;
+              }
             },
             420.0f, 170.0f, 1.f, 1.f, 5
         );
@@ -582,18 +601,47 @@ public:
   }
 };
 
+class LobbyCreateTitle{
+public:
+  static void instanciate(zef::Engine &engine, const ecs::Entity &self, float x, float y){
+    engine.addEntityComponent<zef::comp::position>(self, x, y);
+
+//    std::string cmd = "";
+//    for (auto &&[k,l]: ecs::indexed_zipper(engine.reg.get_components<zef::comp::LobbyCreateTrack>())){
+//    for (auto &&[k,n,i]: ecs::indexed_zipper(engine.reg.get_components<NameZone>(),engine.reg.get_components<zef::comp::textZone>())){
+//    for (auto &&[k,p,j]: ecs::indexed_zipper(engine.reg.get_components<PwdZone>(),engine.reg.get_components<zef::comp::textZone>())){
+//      cmd = "SET_NEW_LOBBY " + i._string + " " + std::to_string(l._nbSlots) + " " + j._string;
+//    }}}
+    engine.instanciatePatron<TextButtonPatron>(
+      x, y,
+      "emptyButton",
+      "Create New Lobby","eth",22,
+      [&](zef::Engine &engine, size_t self) {
+        std::string cmd = "";
+        std::cout << cmd << std::endl;
+        for (auto &&[a,l]: ecs::indexed_zipper(engine.reg.get_components<zef::comp::LobbyCreateTrack>())){
+        for (auto &&[b,n,i]: ecs::indexed_zipper(engine.reg.get_components<NameZone>(),engine.reg.get_components<zef::comp::textZone>())){
+        for (auto &&[c,p,j]: ecs::indexed_zipper(engine.reg.get_components<PwdZone>(),engine.reg.get_components<zef::comp::textZone>())){
+        cmd = "SET_NEW_LOBBY " + i._string + " " + std::to_string(l._nbSlots) + " " + (j._string != "" ? j._string :"magicarpe");
+        }}}
+        std::cout << cmd << std::endl;
+
+        engine.ClientSendTcp(cmd);
+      },
+      420.0f, 170.0f, 1.f, 1.f
+    );
+  }
+};
+
 class LobbyCreatePatron{
   public:
     static void instanciate(zef::Engine &engine, const ecs::Entity &self, float x, float y){
-      std::cout << "miam le patron" << std::endl;
       engine.instanciatePatron<LobbyCreateTracker>();
-      std::cout << "webedia" << std::endl;
 
       engine.instanciatePatron<LobbyCreateWindow>(x, y);
       engine.instanciatePatron<LobbyCreateTitle>(x, y + 500.0f);
       engine.instanciatePatron<LobbyCreateNameTitle>(x, y -250.0f);
       engine.instanciatePatron<LobbyCreateName>(x, y - 200.0f);
-      std::cout << "l'entreprise familiale a été reprise par ma tante" << std::endl;
       engine.instanciatePatron<LobbyCreateSlotsTitle>(x, y - 100.0f);
       for (auto &&[k,p]: ecs::indexed_zipper(engine.reg.get_components<zef::comp::LobbyCreateTrack>())){
         for (int i = 0; i < 5; i ++){
@@ -604,7 +652,6 @@ class LobbyCreatePatron{
           }
         }
       }
-      std::cout << "l'entreprise familiale a été reprise par ma tante" << std::endl;
 
       engine.instanciatePatron<ButtonPatron>(
         x + 180.0f, y,
@@ -628,7 +675,6 @@ class LobbyCreatePatron{
         },
         210.0f, 210.0f, 0.5f, 0.5f, 0.0f, 4
       );
-      std::cout << "l'entreprise familiale a été reprise par ma tante" << std::endl;
 
       engine.instanciatePatron<ButtonPatron>(
         x - 180.0f, y,
@@ -652,10 +698,8 @@ class LobbyCreatePatron{
         },
         210.0f, 210.0f, 0.5f, 0.5f, 180.0f, 4
       );
-      std::cout << "l'entreprise familiale a été reprise par ma tante" << std::endl;
       engine.instanciatePatron<LobbyCreatePasswordTitle>(x, y + 150.0f);
       engine.instanciatePatron<LobbyCreatePassword>(x, y + 200.0f );
-      std::cout << "l'entreprise familiale a été reprise par le chien (frédérique le chientre de jonfre)" << std::endl;
 
     }
 
