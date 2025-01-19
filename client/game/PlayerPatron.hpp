@@ -116,6 +116,7 @@ public:
     engine.addEntityComponent<zef::comp::vector>(self, 0, 0, 10);
     engine.addEntityComponent<Health>(self, 100, 100);
     engine.addEntityComponent<Laser>(self);
+    //engine.addEntityComponent<zef::comp::gravity>(self, zef::comp::gravity::GlobalDistance, 0.0f, 0.3f);
 
     // engine.addEntityComponent<Damaged>(self, 5000 * 1000);
 
@@ -131,8 +132,6 @@ public:
         self, createPlayerEventListener());
 
     zef::comp::controllable cont;
-    cont.bindOnPressed<testercmd>(zef::utils::U, 5);
-    cont.bindOnPressed<testercmd>(zef::utils::P, 6);
     cont.bindOnDown<SetPlayerVectorEvent>(zef::utils::ArrowUp, 0.0f, -10.0f);
     cont.bindOnDown<SetPlayerVectorEvent>(zef::utils::ArrowDown, 0.0f, 10.0f);
     cont.bindOnDown<SetPlayerVectorEvent>(zef::utils::ArrowRight, 10.0f, 0.0f);
@@ -151,8 +150,12 @@ public:
 
     engine.addEntityComponent<Player>(self);
     engine.addEntityComponent<Ship>(self);
-    std::vector<zef::utils::hitbox> hb = {zef::utils::hitbox(0, 0, 33, 17)};
+    //engine.addEntityComponent<zef::comp::replicable>(self, rep);
+    std::vector<zef::utils::hitbox> hb = {
+      zef::utils::hitbox(0, 0, 100, 55)};
     engine.addEntityComponent<zef::comp::collidable>(self, hb);
+    engine.addEntityComponent<zef::comp::rigidbody>(self, hb, zef::comp::rigidbody::DYNAMIC);
+    engine.addEntityComponent<zef::comp::name>(self, "Player");
   }
 };
 

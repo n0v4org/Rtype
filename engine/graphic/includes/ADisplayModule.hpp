@@ -187,6 +187,8 @@ namespace zef {
 
       virtual bool playSound(std::string soundName, int volume = 50) = 0;
 
+      virtual void drawRectangle(float posX, float posY, float wigth, float height, RGBA color) = 0;
+
       virtual void saveAnimation(std::string animationName,
                                  std::string spriteSheetName,
                                  std::size_t startTileX, std::size_t startTileY,

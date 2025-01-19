@@ -70,6 +70,8 @@ namespace zef {
                      float value, RGBA backgroundColor,
                      RGBA foregroundColor) override;
 
+      void drawRectangle(float posX, float posY, float wigth, float height, RGBA color) override;
+
       bool playSound(std::string soundName, int volume = 50) override;
 
       void saveAnimation(std::string, std::string, std::size_t, std::size_t,

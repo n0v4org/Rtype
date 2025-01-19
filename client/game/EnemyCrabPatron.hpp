@@ -78,6 +78,8 @@ public:
 
     engine.addEntityComponent<zef::comp::event_listener>(
         self, createCrabEventListener());
+        engine.addEntityComponent<zef::comp::event_listener>(self, createCrabEventListener());
+        engine.addEntityComponent<zef::comp::name>(self, "EnemyCrab");
 
     zef::comp::drawable dr;
     dr.addAnimation("enemyCrab", 1, 200);

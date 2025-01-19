@@ -29,6 +29,7 @@
 #include "BasicWallPatron.hpp"
 #include "WaterWallPatron.hpp"
 #include "BlockWallPatron.hpp"
+#include "BorderPatron.hpp"
 #include "BossOnePatron.hpp"
 #include "RoomPatron.hpp"
 #include "MenuBackgroundPatron.hpp"
