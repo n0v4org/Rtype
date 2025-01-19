@@ -139,50 +139,44 @@ public:
   static void instanciate(zef::Engine &engine, const ecs::Entity &self, float x, float y, int slotId){
     engine.addEntityComponent<PlayerKickAdminWindow>(self);
     for (auto &&[k,p]: ecs::indexed_zipper(engine.reg.get_components<zef::comp::LobbyInfoTrack>())){
-//UWU    for (auto &&[k,p]: ecs::indexed_zipper(engine.reg.get_components<zef::comp::MyInfo>())){
-//UWU      if (p.admin){
-//      if (true){
-//        engine.instanciatePatron<TitlePatron>(
-//            x, y,
-//            "Window",
-//            0.3f, 0.2f
-//        );
-        int id = p.j["players"][slotId]["id"];
-        int permission = (p.j["players"][slotId]["is_admin"] ? 0 : 1);
-        std::string cmdadmin = "UPDATE_PERM " + std::to_string(id) + " " + std::to_string(permission);
-        std::string cmdkick = "KICK_PLAYER " + std::to_string(id);
-        engine.instanciatePatron<TextButtonPatron>(
-            x + 100.f, y + 200.0f,
-            "EmptyButton",
-//UWU            "Admin " + p.j["players"][slotId]["username"],"eth",22,
-            "Admin ","eth",52,
-          [cmdadmin](zef::Engine &engine, size_t self) {
-            engine.ClientSendTcp(cmdadmin);
-          },
-          420.0f, 170.0f, 0.3f, 0.3f, 8
-        );
-        engine.instanciatePatron<TextButtonPatron>(
-            x - 100.0f, y + 200.0f,
-            "EmptyButton",
-//UWU            "Kick " + p.j["players"][slotId]["username"],"eth",22,
-            "Kick " ,"eth",52,
-          [cmdkick](zef::Engine &engine, size_t self) {
-            engine.ClientSendTcp(cmdkick);
-          },
-          420.0f, 170.0f, 0.3f, 0.3f,8
-        );
-        engine.instanciatePatron<ButtonPatron>(
-            x + 250.f, y + 200.0f,
-            "returnButton",
-            [](zef::Engine &engine, size_t self) {
-              std::cout << "x" << std::endl;
-              for (auto &&[k,p]: ecs::indexed_zipper(engine.reg.get_components<PlayerKickAdminWindow>())){
-                engine.reg.kill_entity(ecs::Entity(k));
-              }
-            },
-            100.0f, 100.0f, 0.4f, 0.4f, 0.f, 5
-        );
-        std::cout << "J'AI DÉJA JOUÉ A CE JEUÉ" << std::endl;
+      for (auto &&[l,m]: ecs::indexed_zipper(engine.reg.get_components<zef::comp::MyInfo>())){
+        if (m.admin){
+            engine.instanciatePatron<LobbyPlayerKickAdminPatronButton>(x, y, "Window", " ", "eth", 42, [](zef::Engine &engine, size_t self){}, 940.f, 1400.f,0.3f,0.25f,2,0.f);
+
+           int id = p.j["players"][slotId]["id"];
+            int permission = (p.j["players"][slotId]["is_admin"] ? 0 : 1);
+            std::string cmdadmin = "UPDATE_PERM " + std::to_string(id) + " " + std::to_string(permission);
+            std::string cmdkick = "KICK_PLAYER " + std::to_string(id);
+
+            engine.instanciatePatron<LobbyPlayerKickAdminPatronButton>(
+              x + 100.f, y + 200.0f,
+              "EmptyButton",
+              "Admin"/* + p.j["players"][slotId]["username"]*/,"eth",42,
+              [cmdadmin](zef::Engine &engine, size_t self) {
+                engine.ClientSendTcp(cmdadmin);
+              },
+              420.0f, 170.0f, 0.3f, 0.3f, 8, 0.f
+            );
+            engine.instanciatePatron<LobbyPlayerKickAdminPatronButton>(
+              x - 100.0f, y + 200.0f,
+              "EmptyButton",
+              "Kick"/* + p.j["players"][slotId]["username"]*/,"eth",42,
+              [cmdkick](zef::Engine &engine, size_t self) {
+                engine.ClientSendTcp(cmdkick);
+              },
+              420.0f, 170.0f, 0.3f, 0.3f,8, 0.f
+            );
+            engine.instanciatePatron<LobbyPlayerKickAdminPatronButton>(
+              x + 0.f, y + 200.0f,
+              "Forward_BTN", " " , "eth", 42,
+              [](zef::Engine &engine, size_t self) {
+                for (auto &&[k,p]: ecs::indexed_zipper(engine.reg.get_components<PlayerKickAdminWindow>())){
+                  engine.reg.kill_entity(ecs::Entity(k));
+                }
+              },
+                      100.0f, 100.0f, 0.4f, 0.4f, 5,  270.f
+            );
+        }
       }
 //UWU      }
 //    }
@@ -199,7 +193,8 @@ public:
         engine.addEntityComponent<zef::comp::position>(self, x, y);
         std::function<void(zef::Engine &, size_t)> onClickCallback =
             [x,y,slotId](zef::Engine &engine, size_t self) {
-            engine.instanciatePatron<LobbyPlayerKickAdminPatron>(x,y,slotId);};
+            engine.instanciatePatron<LobbyPlayerKickAdminPatron>(x,y,slotId);
+            };
 
         std::vector<zef::utils::hitbox> hb = {zef::utils::hitbox(0, 0, 100.f * 2.4f, 50.f * 2.4f)};
         engine.addEntityComponent<zef::comp::clickable>(self, hb);
@@ -256,16 +251,18 @@ public:
     engine.addEntityComponent<zef::comp::drawable>(self, dr);
   }
 };
+
 class LobbyPlayerKick{
 public:
   static void instanciate(zef::Engine &engine, const ecs::Entity &self, float x, float y, int id){
+    engine.addEntityComponent<PlayerKickAdminWindow>(self);
     engine.addEntityComponent<zef::comp::position>(self, x, y);
   }
 };
 class LobbyPlayerSetUnsetAdmin{
 public:
   static void instanciate(zef::Engine &engine, const ecs::Entity &self, float x, float y, int id, bool isAdmin){
-    engine.addEntityComponent<PlayerSlot>(self);
+    engine.addEntityComponent<PlayerKickAdminWindow>(self);
     engine.addEntityComponent<zef::comp::position>(self, x, y);
 
   }
@@ -304,7 +301,6 @@ public:
     } else {
       engine.instanciatePatron<LobbyEmptyPlayerSlot>(x, y);
     }
-
   }
 };
 
@@ -435,25 +431,6 @@ public:
     dr.layer = 3;
     dr.setScale(0.8f,0.5f);
     engine.addEntityComponent<zef::comp::drawable>(self, dr);
-  }
-};
-class LobbyCreateTitle{
-public:
-  static void instanciate(zef::Engine &engine, const ecs::Entity &self, float x, float y){
-    engine.addEntityComponent<zef::comp::position>(self, x, y);
-    for (auto &&[k,p]: ecs::indexed_zipper(engine.reg.get_components<zef::comp::LobbyCreateTrack>())){
-      std::string cmd = "SET_NEW_LOBBY " + p._name + " " + std::to_string(p._nbSlots) + " " + p._pwd;
-      engine.instanciatePatron<TextButtonPatron>(
-          x, y,
-          "emptyButton",
-          "Create New Lobby","eth",22,
-          [cmd](zef::Engine &engine, size_t self) {
-            std::cout << cmd << std::endl;
-            engine.ClientSendTcp(cmd);
-          },
-          420.0f, 170.0f, 1.f, 1.f
-      );
-    }
   }
 };
 class LobbyCreateNameTitle{

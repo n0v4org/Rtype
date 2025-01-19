@@ -268,6 +268,10 @@ engine.initClient(sport, cport, 14001, ip);
       "zefir", zef::sys::draw_drawables);
   engine.addSystem<zef::comp::drawableText, zef::comp::position>(
       "zefir", zef::sys::draw_texts);
+  engine.addSystem<zef::comp::textZone, zef::comp::position>(
+      "zefir", zef::sys::UpdateTextInputs);
+  engine.addSystem<zef::comp::textZone, zef::comp::position>(
+      "zefir", zef::sys::DrawTextInputs);
   engine.addSystem<SounbdBar, zef::comp::position>("zefir",drawSoundBar);
   engine.addSystem<Ship, Health, zef::comp::position>("zefir", drawHpBarPlayer);
   engine.addSystem<Player, Laser, zef::comp::position>("zefir", drawLoadBar);
