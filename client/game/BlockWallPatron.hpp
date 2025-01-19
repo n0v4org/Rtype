@@ -29,7 +29,7 @@ public:
     dr.rotation = rotation;
     engine.addEntityComponent<zef::comp::drawable>(self, dr);
     std::vector<zef::utils::hitbox> hb = {
-        zef::utils::hitbox(0, 0, 48.f * scaleX, 8.f * scaleY)};
+        zef::utils::hitbox(0, 0, 189.f * scaleX, 72.f * scaleY)};
     engine.addEntityComponent<zef::comp::collidable>(self, hb);
   }
 };
