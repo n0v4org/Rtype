@@ -191,7 +191,6 @@ namespace network {
       std::mutex& queue_mutex_;
       int _id = 0;
     };
-
   }  // namespace tcp_link
 }  // namespace network
 

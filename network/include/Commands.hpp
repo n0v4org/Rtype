@@ -74,7 +74,6 @@ namespace network {
       }
       std::vector<uint8_t> compressed_data(_recv_buffer_.begin() + 4,
                                            _recv_buffer_.begin() + byte_size);
-      std::cout << compressed_data.size() << std::endl;
       std::vector<uint8_t> decompressed_data =
           decompressVector(compressed_data, original_size);
       if (decompressed_data.size() < 11) {
@@ -121,9 +120,7 @@ namespace network {
         if ((dataSize + 7) > result.size()) {
           throw std::runtime_error("Combined data size exceeds array capacity");
         }
-        std::cout << "cmf" << cmd << std::endl;
         result[0] = cmd;
-        std::cout << dataSize << std::endl;
         result[1] = static_cast<uint8_t>(dataSize >> 8);
         result[2] = static_cast<uint8_t>(dataSize & 0xFF);
 

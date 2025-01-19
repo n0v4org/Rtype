@@ -13,6 +13,12 @@
 #include "Server.hpp"
 #include "Commands.hpp"
 
+struct test1 {
+  int id;
+  char name[20];
+};
+
+
 namespace network {
   namespace game {
 
@@ -70,16 +76,14 @@ namespace network {
         if (f == _clients.end())
           throw std::runtime_error("client does not exist");
         input_t message = unpack(bytes_transferred, _recv_buffer_);
-        network::game::Commands<int> cmd_handler =
-            network::game::Commands<int>(message);
-        std::cout << "Command: " << cmd_handler.getCommand() << std::endl;
-        std::cout << "message: " << message.seq << " and " << message.cmd
-                  << std::endl;
         auto it    = find(_clients.begin(), _clients.end(), _remote_endpoint_);
         message.id = it - _clients.begin();
-        {
-          std::lock_guard<std::mutex> lock(_mutex);
-          _command_queue.push_back(message);
+          {
+            std::lock_guard<std::mutex> lock(_mutex);
+            if (_read_id.find(message.seq) == _read_id.end()) {
+        _command_queue.push_back(message);
+    _read_id.insert(message.seq);
+          }
         }
 
       } catch (const std::exception& e) {

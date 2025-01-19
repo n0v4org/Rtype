@@ -11,6 +11,7 @@
 #include <string>
 #include <array>
 #include <deque>
+#include <unordered_set>
 #include <vector>
 #include <thread>
 #include <mutex>
@@ -54,7 +55,9 @@ namespace network {
 
           std::memcpy(header.data() + 4, compressed_message.data(),
                       compressed_size);
-          _socket.send_to(asio::buffer(header), _server_endpoint);
+          for (int i = 0; i < 10; i++) {
+            _socket.send_to(asio::buffer(header), _server_endpoint);
+          }
           _sequence_id++;
         } catch (const std::exception &e) {
           std::cerr << "Send error: " << e.what() << std::endl;
@@ -72,6 +75,7 @@ namespace network {
       std::array<uint8_t, 1024> _recvBuffer;
       std::deque<input_t> _command_queue;
       std::mutex _mutex;
+      std::unordered_set<uint32_t> _read_id;
 
       void handleReceive(const asio::error_code &error,
                          std::size_t bytes_transferred);

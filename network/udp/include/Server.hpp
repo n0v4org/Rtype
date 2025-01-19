@@ -12,6 +12,7 @@
 #include <memory>
 #include <thread>
 #include <deque>
+#include <unordered_set>
 #include <mutex>
 #include <vector>
 #include <asio.hpp>
@@ -50,12 +51,13 @@ namespace network {
 
         std::memcpy(header.data() + 4, compressed_message.data(),
                     compressed_message.size());
-        _socket.async_send_to(
+        for (int i = 0; i < 10; i++) {
+           _socket.async_send_to(
             asio::buffer(header), _clients[idx],
             [this](const std::error_code& ec, std::size_t bytes_transferred) {
               handle_send(ec, bytes_transferred);
             });
-
+        }
         _sequence_id++;
       }
 
@@ -77,6 +79,7 @@ namespace network {
       std::mutex _mutex;
       int _sequence_id;
       bool _debug;
+      std::unordered_set<uint32_t> _read_id;
     };
 
   }  // namespace game

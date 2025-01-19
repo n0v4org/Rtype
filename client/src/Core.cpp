@@ -30,6 +30,11 @@ struct login_t {
   char pwd[21];
 };
 
+struct test1 {
+  int id;
+  char name[20];
+};
+
 namespace client {
 
   Core::Core(int argc, char *argv[]) {
@@ -48,10 +53,8 @@ namespace client {
 
       std::string line;
       while (std::getline(std::cin, line)) {
-        uint8_t tt = 1;
-        std::cout << tt << std::endl;
-        ;
-        _client.get_udp_client()->send<int>(43, tt);
+        test1 pp = {42, "hello"};
+        _client.get_udp_client()->send<test1>(pp, 1);
       }
 
       // runClient(_params->get_lobby_server_port(), _params->get_client_port(),
