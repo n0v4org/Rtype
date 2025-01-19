@@ -75,6 +75,11 @@ namespace zef {
       }
       for (auto &&[i, rgdb, pos, vec] :
            ecs::indexed_zipper(rigidbodies, positions, vectors)) {
+            if (engine.showHitboxes) {
+              for (auto bx : rgdb._hitboxes) {
+                engine.GraphLib->drawRectangle(bx._posX, bx._posY, bx._width, bx._height, {1, 0, 0, 1});
+              }
+          }
         for (auto &&[j, rgdb2] : ecs::indexed_zipper(rigidbodies)) {
           if (i != j) {
             if (rgdb.isColliding(rgdb2) &&

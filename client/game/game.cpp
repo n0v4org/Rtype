@@ -253,8 +253,6 @@ engine.ClientSendTcp("LAUNCH_GAME");
                                                                  animateShips);
   engine.addSystem<zef::comp::position, zef::comp::vector>("zefir",
                                                            zef::sys::move);
-  engine.addSystem<zef::comp::rigidbody, zef::comp::position, zef::comp::vector>("zefir", zef::sys::check_rigidity);
-  engine.addSystem<Ship, zef::comp::vector>("zefir", autoWalkShips);
   
   engine.addSystem<zef::comp::event_listener>("zefir", zef::sys::resolveEvent);
 
@@ -271,6 +269,8 @@ engine.ClientSendTcp("LAUNCH_GAME");
   
   engine.addSystem<zef::comp::collidable, zef::comp::position>(
       "zefir", zef::sys::check_collidables);
+  engine.addSystem<zef::comp::rigidbody, zef::comp::position, zef::comp::vector>("zefir", zef::sys::check_rigidity);
+  engine.addSystem<Ship, zef::comp::vector>("zefir", autoWalkShips);
 
   //engine.registerScene<LevelScene>("level");
   //engine.registerScene<LobbyScene>("lobby");

@@ -126,7 +126,7 @@ public:
     engine.addEntityComponent<Ship>(self);
     engine.addEntityComponent<zef::comp::replicable>(self, rep);
     std::vector<zef::utils::hitbox> hb = {
-      zef::utils::hitbox(0, 0, 33, 17)};
+      zef::utils::hitbox(0, 0, 100, 55)};
     engine.addEntityComponent<zef::comp::collidable>(self, hb);
     engine.addEntityComponent<zef::comp::rigidbody>(self, hb, zef::comp::rigidbody::DYNAMIC);
   }

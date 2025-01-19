@@ -25,6 +25,7 @@
 #include "BasicWallPatron.hpp"
 #include "WaterWallPatron.hpp"
 #include "BlockWallPatron.hpp"
+#include "BorderPatron.hpp"
 
 class LevelScene {
 public:
@@ -49,6 +50,7 @@ public:
     engine.instanciatePatron<WaterWallPatron>(0.f, 0.f, 10.0f, 3.0f);
     engine.instanciatePatron<BlockWallPatron>(0.f, 500.f, 15.0f, 3.0f);
     engine.instanciatePatron<BlockWallPatron>(0.f, -500.f, 15.0f, 3.0f, 180.f);
+    engine.instanciatePatron<BorderPatron>();
     //engine.sendEvent<SetEnemyPos>(crab, -500.0f, 200.0f);
     // engine.instanciatePatron<BackgroundPatron>(470.0f, 0.0f);
   }
