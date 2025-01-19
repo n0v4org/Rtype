@@ -7,6 +7,7 @@
 
 #include "Console.hpp"
 #include "Engine.hpp"
+#include "modules/display/components.hpp"
 
 namespace zef {
 
@@ -69,11 +70,17 @@ void Console::killEntity(Engine &engine, const std::string &entity) {
 void Console::displayEntities(Engine &engine) {
     std::vector<size_t> vec = engine.reg.getInstanciatedEntity();
     for (auto e : vec) {
-        std::cout << e;
-        if (e != vec.back())
-            std::cout << ", ";
+        bool contains = false;
+        for (auto &&[i, name] : ecs::indexed_zipper(engine.reg.get_components<zef::comp::name>())) {
+            if (e == i) {
+                contains = true;
+                std::cout << e << " -> " << name.str << std::endl;
+                break;
+            }
+        }
+        if (!contains)
+            std::cout << e << std::endl;
     }
-    std::cout << std::endl;
 }
 
 void Console::hitbox(Engine &engine, const std::string &turn) {

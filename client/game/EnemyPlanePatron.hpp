@@ -74,6 +74,7 @@ public:
         engine.addEntityComponent<SinusoidalMotion>(self, 10.f, 3.f, -5.f);
 
         engine.addEntityComponent<Health>(self, 50, 50);
+        engine.addEntityComponent<zef::comp::name>(self, "EnemyPlane");
 
         engine.addEntityComponent<zef::comp::event_listener>(
             self, 

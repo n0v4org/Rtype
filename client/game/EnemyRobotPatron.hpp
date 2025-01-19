@@ -96,6 +96,7 @@ public:
             zef::utils::hitbox(0, 0, 56 * 2, 56 * 2)
         };
         engine.addEntityComponent<zef::comp::collidable>(self, hb);
+        engine.addEntityComponent<zef::comp::name>(self, "EnemyRobot");
     }
 };
 

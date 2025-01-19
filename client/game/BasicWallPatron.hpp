@@ -35,6 +35,7 @@ public:
         };
         engine.addEntityComponent<zef::comp::collidable>(self, hb);
         engine.addEntityComponent<zef::comp::rigidbody>(self, hb, zef::comp::rigidbody::STATIC);
+        engine.addEntityComponent<zef::comp::name>(self, "BasicWall");
     }
 };
 

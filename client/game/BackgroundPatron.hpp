@@ -32,6 +32,7 @@ public:
     dr.layer = -6;
     dr.setScale(2.0f, 2.0f);
     engine.addEntityComponent<zef::comp::drawable>(self, dr);
+    engine.addEntityComponent<zef::comp::name>(self, "Background");
   }
 };
 

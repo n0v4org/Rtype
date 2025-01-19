@@ -56,6 +56,7 @@ public:
     engine.addEntityComponent<zef::comp::position>(self, x, y);
     engine.addEntityComponent<zef::comp::vector>(self, 18, 0, 18);
     engine.addEntityComponent<Lifetime>(self, 1500 * 1000);
+    engine.addEntityComponent<zef::comp::name>(self, "Bullet");
 
     zef::comp::drawable dr;
     if (size == 2) {

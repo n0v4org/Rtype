@@ -41,6 +41,7 @@ public:
     engine.addEntityComponent<zef::comp::replicable>(self, rep);
     engine.addEntityComponent<Monster>(self);
     engine.addEntityComponent<Lifetime>(self, 10 * 1000 * 1000);
+    engine.addEntityComponent<zef::comp::name>(self, "Enemy");
 
     zef::comp::drawable dr;
     dr.addAnimation("ship", 5, 200);

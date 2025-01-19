@@ -22,6 +22,7 @@ class BorderPatron {
             engine.addEntityComponent<zef::comp::rigidbody>(self, hitboxes, zef::comp::rigidbody::STATIC);
             engine.addEntityComponent<zef::comp::position>(self, 0, 0);
             engine.addEntityComponent<zef::comp::vector>(self, 2, 0, 0);
+            engine.addEntityComponent<zef::comp::name>(self, "ScreenBorder");
         }
 };
 

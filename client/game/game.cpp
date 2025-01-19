@@ -226,6 +226,7 @@ engine.ClientSendTcp("LAUNCH_GAME");
   engine.registerComponent<SinusoidalMotion>();
   engine.registerComponent<zef::comp::gravity>();
   engine.registerComponent<zef::comp::rigidbody>();
+  engine.registerComponent<zef::comp::name>();
     //engine.loadModules();
     
   //   // engine.addSystem<>(entitycountdisplay);
