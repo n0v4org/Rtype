@@ -47,7 +47,6 @@ class LobbyListScene;
 class LevelScene {
 public:
   static void loadScene(zef::Engine& engine, std::vector<size_t> allyId) {
-    std::cout << "ùlakenlkeazneazlkneazlkneaz\n";
     engine.addEntityComponent<MoveCamera>(engine.reg.spawn_entity());
     engine.instanciatePatron<PlayerPatron>(0.0f, 0.0f, 0);
     engine.instanciatePatron<BackgroundPatron>(0.0f, 0.0f);
@@ -146,6 +145,7 @@ public:
 
   engine.registerCommandTcp("210", [](zef::Engine& engine, input_t input) {
     nlohmann::json j = nlohmann::json::parse(input.tcp_payload);
+    std::cout << j << std::endl;
     int id = j["room_id"];
     std::string cmd = "GET_LOBBY " + std::to_string(id);
     engine.ClientSendTcp(cmd);
@@ -166,6 +166,14 @@ public:
   });
 
   engine.registerCommandTcp("211", [](zef::Engine& engine, input_t input) {
+    nlohmann::json j = nlohmann::json::parse(input.tcp_payload);
+    std::cout << j << std::endl;
+    int id = j["room_id"];
+    std::string cmd = "GET_LOBBY " + std::to_string(id);
+    engine.ClientSendTcp(cmd);
+  });
+
+  engine.registerCommandTcp("212", [](zef::Engine& engine, input_t input) {
     nlohmann::json j =  nlohmann::json::parse(input.tcp_payload);
 
     for (auto &&[i,p]: ecs::indexed_zipper(engine.reg.get_components<ChatMsgTrack>())){
@@ -189,17 +197,18 @@ public:
       for (auto &&[i,p]: ecs::indexed_zipper(engine.reg.get_components<PlayerSlot>())){
           engine.reg.kill_entity(ecs::Entity(i));
       }
-      for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < j["slot"]; i++) {
           if (i < j["players"].size()){
             engine.instanciatePatron<LobbyPlayerSlot>(playerCoords[i].first,playerCoords[i].second,j["players"][i]["username"],"lobbyPlayer"+std::to_string(i),j["players"][i]["id"],j["players"][i]["is_admin"],j["players"][i]["is_ready"],i);
           }
           else {
             engine.instanciatePatron<LobbyPlayerSlot>(playerCoords[i].first,playerCoords[i].second,"","lobbyPlayer"+std::to_string(i),0,false,false,i);
           }
-      }
+        }
       engine.instanciatePatron<LobbyNameTag>(j["room_name"]);
       for (auto &&[i,p]: ecs::indexed_zipper(engine.reg.get_components<zef::comp::LobbyInfoTrack>())){
-         p.j = j;
+        p.j = j;
+
       }
   });
 
@@ -298,13 +307,16 @@ public:
                         }
                         if (j["rooms"].size() - i + p.offset - running_games >=0 && j["rooms"].size() - i + p.offset - running_games <= 2){
       		    		    engine.instanciatePatron<LobbyListTabPatron>(
-         	      		    -575.0f, -80.0f + ((j["rooms"].size() - i + p.offset - running_games) * 200.0f),
+         	      		    -575.0f, -40.0f + ((j["rooms"].size() - i + p.offset - running_games) * 200.0f),
                   		    j["rooms"][i]["rooms_id"], j["rooms"][i]["room_name"],
                   		    j["rooms"][i]["slot"], j["rooms"][i]["players"].size(),
                   		    [j,i](zef::Engine &engine, size_t self) {
                       	        int id = j["rooms"][i]["rooms_id"];
-                      	    	std::string s= "JOIN " + std::to_string(id) + " magicarpe";
+                                for (auto &&[a,b,c] : ecs::indexed_zipper(engine.reg.get_components<zef::comp::textZone>(), engine.reg.get_components<PasswordZone>())) {
+                      	    	std::string s= "JOIN " + std::to_string(id) + " " + (b._string != "" ? b._string : "magicarpe");
+                                b._string = "";
                       	    	engine.ClientSendTcp(s);
+                                }
                   		    }
                   		    );
                         }
@@ -325,21 +337,23 @@ public:
             210.0f, 210.0f, 0.5f, 0.5f
         );
         engine.instanciatePatron<TextButtonPatron>(
-            -550.f,-400.f,
+            -550.f,-450.f,
             "emptyButton",
             "Lobby List","eth",42,
             [](zef::Engine &engine, size_t self) {
             },
             420.0f, 170.0f, 1.f, 1.f
         );
+        engine.instanciatePatron<LobbyPasswordEntry>(-550.f, -280.f);
+        engine.instanciatePatron<TextPatron>(-550.f,-320.f, "Password", "eth",30);
         engine.instanciatePatron<TitlePatron>(
-            -550.0f, 100.0f,
+            -550.0f, 150.0f,
             "Window",
             0.8f, 0.5f
         );
 
         engine.instanciatePatron<ButtonPatron>(
-            -175.0f, 100.0f,
+            -175.0f, 150.0f,
             "Forward_BTN",
             [](zef::Engine &engine, size_t self) {
                 for (auto &&[i,p]: ecs::indexed_zipper(engine.reg.get_components<Tab>())){
@@ -354,7 +368,7 @@ public:
         );
 
 		engine.instanciatePatron<ButtonPatron>(
-            -175.0f, -50.0f,
+            -175.0f, 00.0f,
             "Forward_BTN",
             [](zef::Engine &engine, size_t self) {
                 for (auto &&[i,p]: ecs::indexed_zipper(engine.reg.get_components<Tab>())){
@@ -369,7 +383,7 @@ public:
         );
 
     	engine.instanciatePatron<ButtonPatron>(
-            -175.0f, 250.0f,
+            -175.0f, 300.0f,
             "Forward_BTN",
             [](zef::Engine &engine, size_t self) {
                 for (auto &&[i,p]: ecs::indexed_zipper(engine.reg.get_components<Tab>())){
@@ -505,6 +519,62 @@ public:
 
         engine.instanciatePatron<SoundBarPatron>(
             0.0f, -50.0f
+        );
+
+        engine.instanciatePatron<TitlePatron>(
+            0.0f, 100.0f,
+            "colorBlind",
+            0.5f, 0.5f, 1
+        );
+
+        engine.instanciatePatron<ButtonPatron>(
+            -250.0f, 200.0f,
+            "deutera",
+            [](zef::Engine &engine, size_t self) {
+                std::cout << "deutera" << std::endl;
+                engine.GraphLib->updateSettings("ColorBlindness", "Deuteranopia");
+            },
+            1486.0f, 194.0f, 0.25f, 0.25f
+        );
+
+        engine.instanciatePatron<ButtonPatron>(
+            250.0f, 200.0f,
+            "grey",
+            [](zef::Engine &engine, size_t self) {
+                std::cout << "grey" << std::endl;
+                engine.GraphLib->updateSettings("ColorBlindness", "GreyScale");
+            },
+            1153.0f, 194.0f, 0.25f, 0.25f
+        );
+
+        engine.instanciatePatron<ButtonPatron>(
+            -250.0f, 300.0f,
+            "prota",
+            [](zef::Engine &engine, size_t self) {
+                std::cout << "prota" << std::endl;
+                engine.GraphLib->updateSettings("ColorBlindness", "Protanopia");
+            },
+            1248.0f, 194.0f, 0.25f, 0.25f
+        );
+
+        engine.instanciatePatron<ButtonPatron>(
+            250.0f, 300.0f,
+            "trita",
+            [](zef::Engine &engine, size_t self) {
+                std::cout << "trita" << std::endl;
+                engine.GraphLib->updateSettings("ColorBlindness", "Tritanopia");
+            },
+            1125.0f, 194.0f, 0.25f, 0.25f
+        );
+
+        engine.instanciatePatron<ButtonPatron>(
+            0.0f, 400.0f,
+            "none",
+            [](zef::Engine &engine, size_t self) {
+                std::cout << "none" << std::endl;
+                engine.GraphLib->updateSettings("ColorBlindness", "None");
+            },
+            532.0f, 194.0f, 0.25f, 0.25f
         );
     }
 };

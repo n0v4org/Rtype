@@ -56,7 +56,7 @@ public:
                           float y, float vx, float vy) {
     engine.addEntityComponent<zef::comp::position>(self, x, y);
     engine.addEntityComponent<zef::comp::vector>(self, vx, vy, 5);
-    engine.addEntityComponent<Lifetime>(self, 15000 * 1000);
+    engine.addEntityComponent<Lifetime>(self, 1500 * 1000);
     engine.addEntityComponent<zef::comp::name>(self, "EnemyBullet");
 
     zef::comp::drawable dr;

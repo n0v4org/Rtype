@@ -79,7 +79,7 @@ namespace network {
       std::mutex _mutex;
       int _sequence_id;
       bool _debug;
-      std::unordered_set<uint32_t> _read_id;
+      std::unordered_map<int, std::unordered_set<uint32_t>> _read_id;
     };
 
   }  // namespace game

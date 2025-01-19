@@ -11,6 +11,9 @@
 #include "Game.hpp"
 #include "tcp_cmds.hpp"
 #include "PlanePatron.hpp"
+#include "EnemyRobotPatron.hpp"
+#include "EnemyPlanePatron.hpp"
+#include "BossOnePatron.hpp"
 
 namespace rtype {
   void Game::check_game_start(input_t input) {
@@ -53,6 +56,65 @@ namespace rtype {
         _engine.instanciatePatron<AllyPatron>(0.0f, 0.0f, static_cast<size_t>(j));
         _engine.ServerSendTcp(_players.at(j).tcp_id, start_json.dump());
       }
+      std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+      for (int j = 0; j < _players.size(); j++) {
+        rep_id = 345;
+        _engine.instanciatePatron<sEnemyRobotPatron>(600.0f, 0.0f, rep_id);
+        _engine.ServerSendUdp<spawn_robot_t>(_players.at(j).tcp_id, SPAWN_ROBOT, {rep_id, 600.0f, 0.0f} );
+        rep_id++;
+        _engine.instanciatePatron<sEnemyRobotPatron>(1200.0f, 0.0f, rep_id);
+        _engine.ServerSendUdp<spawn_robot_t>(_players.at(j).tcp_id, SPAWN_ROBOT, {rep_id, 1200.0f, 0.0f} );
+        rep_id++;
+        _engine.instanciatePatron<sEnemyRobotPatron>(1800.0f, 0.0f, rep_id);
+        _engine.ServerSendUdp<spawn_robot_t>(_players.at(j).tcp_id, SPAWN_ROBOT, {rep_id, 1800.0f, 0.0f} );
+        rep_id++;
+
+        _engine.instanciatePatron<EnemyPlanePatron>(700.0f, 100.0f, rep_id);
+        _engine.ServerSendUdp<spawn_plane_t>(_players.at(j).tcp_id, SPAWN_PLANE, {rep_id, 700.0f, 100.0f} );
+        rep_id++;
+        _engine.instanciatePatron<EnemyPlanePatron>(2000.0f, 100.0f, rep_id);
+        _engine.ServerSendUdp<spawn_plane_t>(_players.at(j).tcp_id, SPAWN_PLANE, {rep_id, 700.0f, 100.0f} );
+        rep_id++;
+        _engine.instanciatePatron<EnemyPlanePatron>(3000.0f, 100.0f, rep_id);
+        _engine.ServerSendUdp<spawn_plane_t>(_players.at(j).tcp_id, SPAWN_PLANE, {rep_id, 700.0f, 100.0f} );
+        rep_id++;
+
+
+        _engine.instanciatePatron<BossOnePatron>(3000.0f, 0.0f, rep_id);
+        _engine.ServerSendUdp<spawn_boss_t>(_players.at(j).tcp_id, SPAWN_BOSS, {rep_id, 3000.0f, 100.0f} );
+        rep_id++;
+        //_engine.instanciatePatron<EnemyPlanePatron>(800.0f, -400.0f, rep_id);
+        //_engine.ServerSendUdp<spawn_plane_t>(_players.at(j).tcp_id, SPAWN_PLANE, {rep_id, 800.0f, -400.0f} );
+        //rep_id++;
+        //_engine.instanciatePatron<EnemyPlanePatron>(1500.0f, 0.0f, rep_id);
+        //_engine.ServerSendUdp<spawn_plane_t>(_players.at(j).tcp_id, SPAWN_PLANE, {rep_id, 1500.0f, 0.0f} );
+        //rep_id++;
+        //_engine.instanciatePatron<EnemyPlanePatron>(2500.0f, 400.0f, rep_id);
+        //_engine.ServerSendUdp<spawn_plane_t>(_players.at(j).tcp_id, SPAWN_PLANE, {rep_id, 2500.0f, 400.0f} );
+        //rep_id++;
+      }
+        /*_engine.instanciatePatron<EnemyRobotPatron>(400.0f, 0.0f, rep_id);
+        _engine.ServerSendUdp<spawn_robot_t>(_players.at(j).tcp_id, SPAWN_ROBOT, {rep_id, 400.0f, 0.0f});
+        rep_id++;
+        _engine.instanciatePatron<EnemyRobotPatron>(600.0f, 0.0f, rep_id);
+        _engine.ServerSendUdp<spawn_robot_t>(_players.at(j).tcp_id, SPAWN_ROBOT, {rep_id, 600.0f, 0.0f});
+        rep_id++;
+        _engine.instanciatePatron<EnemyRobotPatron>(800.0f, 0.0f, rep_id);
+        _engine.ServerSendUdp<spawn_robot_t>(_players.at(j).tcp_id, SPAWN_ROBOT, {rep_id, 800.0f, 0.0f});
+        rep_id++;
+        _engine.instanciatePatron<EnemyRobotPatron>(1000.0f, 0.0f, rep_id);
+        _engine.ServerSendUdp<spawn_robot_t>(_players.at(j).tcp_id, SPAWN_ROBOT, {rep_id, 1000.0f, 0.0f});
+        rep_id++;
+        _engine.instanciatePatron<EnemyRobotPatron>(1200.0f, 0.0f, rep_id);
+        _engine.ServerSendUdp<spawn_robot_t>(_players.at(j).tcp_id, SPAWN_ROBOT, {rep_id, 1200.0f, 0.0f});
+        rep_id++;
+        _engine.instanciatePatron<EnemyRobotPatron>(1400.0f, 0.0f, rep_id);
+        _engine.ServerSendUdp<spawn_robot_t>(_players.at(j).tcp_id, SPAWN_ROBOT, {rep_id, 1400.0f, 0.0f});
+        rep_id++;
+        _engine.instanciatePatron<EnemyRobotPatron>(1600.0f, 0.0f, rep_id);
+        _engine.ServerSendUdp<spawn_robot_t>(_players.at(j).tcp_id, SPAWN_ROBOT, {rep_id, 1600.0f, 0.0f});
+        rep_id++;*/
+      
     }
   }
 }  // namespace rtype

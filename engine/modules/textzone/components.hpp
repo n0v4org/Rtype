@@ -25,6 +25,7 @@ namespace zef {
       std::string _string = "";
       float _posX;
       float _posY;
+      int _size = 28;
     };
 
   }  // namespace comp

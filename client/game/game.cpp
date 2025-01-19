@@ -7,6 +7,7 @@
 
 #include <string>
 #include <cstring>
+#include <iostream>
 #include <chrono>
 #include <iostream>
 
@@ -94,7 +95,7 @@ void runClient(int sport, int cport, std::string ip) {
         nlohmann::json rep = nlohmann::json::parse(input.tcp_payload);
       std::cout << "switching port into " << rep["tcp_port"] << " " << rep["udp_port"] << " " << rep["player_uuid"]  << std::endl;
       engine._client->reset_clients(rep["udp_port"], generateRandomPort(), rep["tcp_port"], ip);
-      std::this_thread::sleep_for(std::chrono::microseconds(100));
+      std::this_thread::sleep_for(std::chrono::milliseconds(1000));
       std::string uuid = rep["player_uuid"];
       std::string loginstr = "LOGIN " + uuid;
       std::cout << "sending " << uuid << " " << loginstr << std::endl;
@@ -257,10 +258,9 @@ void runClient(int sport, int cport, std::string ip) {
   });
 
    engine.initClient(sport, generateRandomPort(), cport, ip);
-   sleep(1);
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 
 //   engine.ClientSendTcp("JOIN 1 magicarpe");
-//   sleep(1);
 //   engine.ClientSendTcp("SET_PLAYER_READY");
 
 
@@ -409,6 +409,7 @@ void runClient(int sport, int cport, std::string ip) {
   engine.registerComponent<NameZone>();
   engine.registerComponent<MsgZone>();
   engine.registerComponent<UsrZone>();
+  engine.registerComponent<PasswordZone>();
   engine.registerComponent<ChatMsgTrack>();
   engine.registerComponent<MsgDel>();
 
@@ -432,6 +433,15 @@ void runClient(int sport, int cport, std::string ip) {
         for (auto&& [i, mv] : ecs::indexed_zipper(mvs))
             engine.GraphLib->moveCamera(2, 0, 1);
       });
+    engine.addSystem<Monster>(
+      "zefir", [](zef::Engine& engine, ecs::sparse_array<Monster>& mvs) {
+        for (auto&& [i, mv] : ecs::indexed_zipper(mvs)) {
+//std::cout << "x: " << engine.fetchEntityComponent<zef::comp::position>(i).x << std::endl;
+//std::cout << "y: " << engine.fetchEntityComponent<zef::comp::position>(i).y << std::endl;
+
+        }
+            //std::cout << engine.fetchEntityComponent<zef::comp::position>(i).y << std::endl;
+      });
 
     engine.addSystem<Player, zef::comp::position, MoveCamera>("zefir", [](zef::Engine& engine, ecs::sparse_array<Player>& pls, ecs::sparse_array<zef::comp::position>& poss, ecs::sparse_array<MoveCamera>& mvs){
         for (auto &&[i, p, pos] : ecs::indexed_zipper(pls, poss)) {
@@ -454,7 +464,7 @@ void runClient(int sport, int cport, std::string ip) {
   engine.addSystem<zef::comp::controllable>("zefir",
                                             zef::sys::system_constrollables);
 
-    engine.addSystem<zef::comp::vector, zef::comp::position, zef::comp::gravity>("zefir", zef::sys::apply_gravity);
+    //engine.addSystem<zef::comp::vector, zef::comp::position, zef::comp::gravity>("zefir", zef::sys::apply_gravity);
 
   engine.addSystem<zef::comp::event_listener>("zefir", zef::sys::resolveEvent);
   // engine.addSystem<zef::comp::vector>("zefir",

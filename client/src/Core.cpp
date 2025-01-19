@@ -30,11 +30,6 @@ struct login_t {
   char pwd[21];
 };
 
-struct test1 {
-  int id;
-  char name[20];
-};
-
 namespace client {
 
   Core::Core(int argc, char *argv[]) {
@@ -48,17 +43,9 @@ namespace client {
         std::cout << USAGE << std::endl;
         return;
       }
-      network::Network_client _client =
-          network::Network_client(50000, 34232, 50003, "127.0.0.1");
 
-      std::string line;
-      while (std::getline(std::cin, line)) {
-        test1 pp = {42, "hello"};
-        _client.get_udp_client()->send<test1>(pp, 1);
-      }
-
-      // runClient(_params->get_lobby_server_port(), _params->get_client_port(),
-      //           _params->get_ip());
+      runClient(_params->get_lobby_server_port(), _params->get_client_port(),
+                _params->get_ip());
     } catch (const std::exception &e) {
       if (strcmp(e.what(), EXCEPTION) != 0)
         std::cerr << e.what() << '\n';

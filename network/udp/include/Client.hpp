@@ -75,7 +75,7 @@ namespace network {
       std::array<uint8_t, 1024> _recvBuffer;
       std::deque<input_t> _command_queue;
       std::mutex _mutex;
-      std::unordered_set<uint32_t> _read_id;
+      std::unordered_map<int, std::unordered_set<uint32_t>> _read_id;
 
       void handleReceive(const asio::error_code &error,
                          std::size_t bytes_transferred);

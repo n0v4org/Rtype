@@ -41,7 +41,7 @@ inline zef::comp::event_listener createAllyEventListener() {
   
    evtl.setEvent<GetHittedByMonster>(
       [](zef::Engine& engine, size_t self, GetHittedByMonster p) {
-        engine.fetchEntityComponent<Health>(self).hp = 0;
+        engine.fetchEntityComponent<Health>(self).hp -= 1;
       });
    evtl.setEvent<OnDeath>(
       [](zef::Engine& engine, size_t self, OnDeath p) {
