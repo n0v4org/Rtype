@@ -15,6 +15,7 @@
 #include "Engine.hpp"
 #include "modules/controller/components.hpp"
 #include "modules/display/components.hpp"
+#include "modules/textzone/components.hpp"
 #include "modules/controller/events.hpp"
 #include "components.hpp"
 #include "ButtonPatron.hpp"

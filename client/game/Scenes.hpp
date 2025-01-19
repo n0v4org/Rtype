@@ -33,6 +33,7 @@
 #include "ButtonPatron.hpp"
 #include "TitlePatron.hpp"
 #include "LobbyPatron.hpp"
+#include "ChatMessagesPatron.hpp"
 
 class OptionScene;
 class MenuScene;
@@ -180,14 +181,19 @@ public:
         },
         420.0f, 170.0f, 1.f, 1.f
     );
-    engine.instanciatePatron<TitlePatron>(
-        -650.0f, 60.0f,
-        "Window",
-        0.6f, 0.4f
-    );
+
+
+    //engine.instanciatePatron<ChatMessagesPatron>(-650.f,60.f);
+    engine.instanciatePatron<ChatMessageTracker>();
+    engine.instanciatePatron<ChatEntry>(-650.f,400.f);
+    engine.instanciatePatron<UsernameEntry>(550.f,280.f);
+    engine.instanciatePatron<WindowMessagePatron>(-650.f,00.f);
+
 
     std::string cmd = "GET_LOBBY " + std::to_string(lobby_id);
     engine.ClientSendTcp(cmd);
+
+    engine.ClientSendTcp("GET_PLAYER_DATA");
 
   }
 };
