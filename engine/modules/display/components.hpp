@@ -19,7 +19,6 @@ namespace zef {
     class LobbyCreateTrack {
     public:
       LobbyCreateTrack() {
-        std::cout << "LobbyCreateTrack" << std::endl;
       }
       int _nbSlots = 3;
       std::string _name = "NewLobby";
@@ -33,21 +32,19 @@ namespace zef {
       int offset = -1;
     };
 
-//UWU  class MyInfo {
-//UWU     public:
-//UWU       MyInfo() {
-//UWU     }
-//UWU     bool admin = false;
-//UWU     int id;
-//UWU   };
+  class MyInfo {
+     public:
+       MyInfo() {
+     }
+     bool admin;
+     int id;
+   };
 
     class LobbyInfoTrack{
     public:
       LobbyInfoTrack() {
       }
       nlohmann::json j = nlohmann::json::parse("{}");
-
-
     };
 
 

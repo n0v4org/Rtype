@@ -99,6 +99,16 @@ public:
   engine.registerCommandTcp("221", [](zef::Engine& engine, input_t input) {
 	  engine.newLoadScene<LevelScene>();
   });
+
+  engine.registerCommandTcp("201", [](zef::Engine& engine, input_t input) {
+    int  id = 0;
+    for (auto &&[i,p]: ecs::indexed_zipper(engine.reg.get_components<zef::comp::LobbyInfoTrack>())){
+	  id = p.j["rooms_id"];
+    }
+	std::string cmd = "GET_LOBBY " + std::to_string(id);
+  	engine.ClientSendTcp(cmd);
+  });
+
   engine.registerCommandTcp("210", [](zef::Engine& engine, input_t input) {
     nlohmann::json j = nlohmann::json::parse(input.tcp_payload);
     int id = j["room_id"];

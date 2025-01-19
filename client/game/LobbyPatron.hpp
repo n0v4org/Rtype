@@ -485,6 +485,12 @@ public:
     engine.addEntityComponent<zef::comp::drawableText>(self, txt);
   }
 };
+
+class NameZone{
+public:
+  NameZone(){
+  }
+};
 class LobbyCreateName{
 public:
   static void instanciate(zef::Engine &engine, const ecs::Entity &self, float x, float y){
