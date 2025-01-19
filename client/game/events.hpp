@@ -8,17 +8,13 @@
 #ifndef GEVENTS_HPP_
 #define GEVENTS_HPP_
 
-struct GetHittedByBullet {
-};
+struct GetHittedByBullet {};
 
-struct GetHittedByMonster {
-};
+struct GetHittedByMonster {};
 
-struct GetHittedByMonsterBullet {
-};
+struct GetHittedByMonsterBullet {};
 
-struct GetHittedByPlayer{
-};
+struct GetHittedByPlayer {};
 
 struct DestroyBullet {};
 
@@ -31,19 +27,18 @@ struct LoadShoot {};
 
 struct OnDeath {};
 
-
 struct TurretTurn {
-  int angle; // 0 up 1 diag 2 side
+  int angle;  // 0 up 1 diag 2 side
 };
 
 struct SetEnemyVectorEvent {
-    float vx;
-    float vy;
+  float vx;
+  float vy;
 };
 
 struct PlaneShootEvent {
-    float vx;
-    float vy;
+  float vx;
+  float vy;
 };
 
 struct SetEnemyPos {
@@ -52,5 +47,12 @@ struct SetEnemyPos {
 };
 
 struct RobotShoot {};
+
+struct MiniBossShoot {
+  float vx;
+  float vy;
+};
+
+struct BossShoot {};
 
 #endif /* !EVENTS_HPP_ */

@@ -60,4 +60,68 @@ public:
   size_t time = 0;
 };
 
+class Ship {
+public:
+  Ship() {
+  }
+};
+
+class Damaged {
+public:
+  explicit Damaged(int microsec) : _microsec(microsec) {
+  }
+
+  int _microsec;
+};
+
+class TurretTurnRate {
+public:
+  TurretTurnRate() {
+  }
+  int tr = 0;
+};
+
+class BackGround {
+public:
+  BackGround() {
+  }
+};
+
+class Laser {
+public:
+  Laser() {
+  }
+  size_t load = 0.0;
+};
+
+class SinusoidalMotion {
+public:
+  SinusoidalMotion(float amplitude, float frequency, float speedX)
+    : amplitude(amplitude), frequency(frequency), speedX(speedX), phase(0.f) {
+  }
+
+  float amplitude;
+  float frequency;
+  float speedX;
+  float phase;
+};
+
+class MoveCamera {
+public:
+  MoveCamera() {
+  }
+};
+
+class SinusoidalAboveMotion {
+public:
+  SinusoidalAboveMotion(float baseY, float amplitude, float frequency)
+    : baseY(baseY), amplitude(amplitude), frequency(frequency), phase(0.f) {
+  }
+
+  float baseY;
+  float amplitude;
+  float frequency;
+  float phase;
+};
+
 #endif /* !COMPONENTS_HPP_ */

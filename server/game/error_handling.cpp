@@ -35,4 +35,4 @@ namespace rtype {
     }
     return false;
   }
-} // namespace rtype
+}  // namespace rtype

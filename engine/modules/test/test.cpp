@@ -12,8 +12,8 @@
 
 extern "C"
 #ifdef _MSC_VER
-  __declspec(dllexport)
+    __declspec(dllexport)
 #endif
-zef::IModule *entryPoint() {
+        zef::IModule *entryPoint() {
   return new test;
 }

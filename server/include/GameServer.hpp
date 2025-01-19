@@ -15,6 +15,7 @@
 #include <iostream>
 #include <map>
 #include <random>
+#include <thread>
 #include <memory>
 #include <utility>
 
@@ -51,6 +52,7 @@ namespace rtype {
     zef::Engine _engine;
     std::unique_ptr<Lobby> _lobby;
     std::unique_ptr<Game> _game;
+    std::vector<std::thread> _games;
   };
 
 }  // namespace rtype

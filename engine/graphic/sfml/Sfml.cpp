@@ -473,6 +473,10 @@ namespace zef {
     void Sfml::updateUserInputs(utils::UserInputs& ui) {
       sf::Event evt;
       while (_window.pollEvent(evt)) {
+        if (evt.type == evt.Closed) {
+          std::cout << "mqkdsqkfdsjhkjqhfdsdsqkfjh\n";
+          ui.keyboard.close = true;
+        }
         if (evt.type == evt.KeyPressed) {
           if (ui.keyboard._key_map[static_cast<utils::Keys>(evt.key.code)] ==
               false)

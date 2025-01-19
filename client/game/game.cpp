@@ -8,6 +8,7 @@
 #include <string>
 #include <cstring>
 #include <chrono>
+#include <iostream>
 
 #include "Engine.hpp"
 #include "Scenes.hpp"
@@ -22,6 +23,16 @@
 #include "asio.hpp"
 #include "CommonCommands.hpp"
 #include "UdpProtoCommands.hpp"
+
+#include <random>
+int generateRandomPort() {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> distr(1024, 65535);
+
+    return distr(gen);
+  }
+
 
 void runClient(int sport, int cport, std::string ip) {
   zef::Engine engine;
@@ -49,21 +60,62 @@ void runClient(int sport, int cport, std::string ip) {
 
   engine.GraphLib->saveAnimation("blast", "blast", 0, 0, 33, 32);
 
-
   engine.GraphLib->saveAnimation("turretu", "turret", 0, 0, 17, 18);
   engine.GraphLib->saveAnimation("turretd", "turret", 0, 1, 17, 18);
 
   engine.GraphLib->saveAnimation("enemyPlaneG", "enemyPlaneG", 0, 0, 33, 35);
-  engine.GraphLib->saveAnimation("enemyCrab", "enemyCrab", 4*33, 1, 33, 34);
+  engine.GraphLib->saveAnimation("enemyCrab", "enemyCrab", 4 * 33, 1, 33, 34);
 
-  engine.GraphLib->saveAnimation("enemyRobot", "enemyRobot", 1*56, 0, 56, 59);
+  engine.GraphLib->saveAnimation("enemyRobot", "enemyRobot", 1 * 56, 0, 56, 59);
   engine.GraphLib->saveAnimation("robotBulletA", "robotBulletA", 0, 0, 65, 17);
-  engine.GraphLib->saveAnimation("enemyRobotS", "enemyRobot", 2*56, 0, 56, 59);
+  engine.GraphLib->saveAnimation("enemyRobotS", "enemyRobot", 2 * 56, 0, 56,
+                                 59);
 
   engine.GraphLib->saveAnimation("AWall", "AWall", 0, 0, 48, 40);
   engine.GraphLib->saveAnimation("BWall", "BWall", 0, 0, 48, 8);
   engine.GraphLib->saveAnimation("CWall", "CWall", 0, 0, 189, 72);
 
+  engine.GraphLib->saveAnimation("BossOne", "BossOne", 0, 0, 162, 212);
+  engine.GraphLib->saveAnimation("BossOneMini", "BossOneMini", 0, 0, 33, 37);
+  engine.GraphLib->saveAnimation("miniBossBullet", "miniBossBullet", 0, 0, 23,
+                                 23);
+  engine.GraphLib->saveAnimation("EBullet", "EBullet", 0, 0, 18, 18);
+
+  engine.registerCommandTcp("202", [](zef::Engine& engine, input_t input) {
+    std::cout << input.tcp_payload << std::endl;
+  });
+  engine.registerCommandTcp("208", [](zef::Engine& engine, input_t input) {
+    std::cout << input.tcp_payload << std::endl;
+  });
+  engine.registerCommandTcp("203", [](zef::Engine& engine, input_t input) {
+    std::cout << input.tcp_payload << std::endl;
+  });
+
+
+  engine.registerCommandTcp("221", [ip](zef::Engine& engine, input_t input) {
+    std::vector <size_t> idAlly;
+    nlohmann::json rep = nlohmann::json::parse(input.tcp_payload);
+    for (auto &i : rep["players"])
+        idAlly.push_back(i[1]);
+    engine.newLoadScene<LevelScene>(idAlly);
+  });
+
+  engine.registerCommandTcp("207", [ip](zef::Engine& engine, input_t input) {
+    std::cout << input.tcp_payload << std::endl;
+    nlohmann::json rep = nlohmann::json::parse(input.tcp_payload);
+    std::cout << "switching port into " << rep["tcp_port"] << " "
+              << rep["udp_port"] << " " << rep["player_uuid"] << std::endl;
+    engine._client->reset_clients(rep["udp_port"], generateRandomPort(), rep["tcp_port"], ip);
+    std::this_thread::sleep_for(std::chrono::microseconds(100));
+    std::string uuid     = rep["player_uuid"];
+    std::string loginstr = "LOGIN " + uuid;
+    std::cout << "sending " << uuid << " " << loginstr << std::endl;
+    engine.ClientSendTcp(loginstr);
+    login_t lgt;
+    strncpy(lgt.pwd, uuid.c_str(), 21);
+    std::cout << "hohoho\n";
+    engine.ClientSendUdp<login_t>(LOGIN, lgt);
+    std::cout << "hiih\n";
   engine.registerCommandTcp("207", [ip](zef::Engine& engine, input_t input) {
       std::cout << input.tcp_payload << std::endl;
         nlohmann::json rep = nlohmann::json::parse(input.tcp_payload);
@@ -212,6 +264,7 @@ engine.initClient(sport, cport, 14001, ip);
   engine.registerComponent<Damaged>();
   engine.registerComponent<SinusoidalMotion>();
   engine.registerComponent<MoveCamera>();
+  engine.registerComponent<SinusoidalAboveMotion>();
   engine.registerComponent<zef::comp::clickable>();
   engine.registerComponent<Tab>();
   engine.registerComponent<PlayerSlot>();
@@ -241,6 +294,11 @@ engine.initClient(sport, cport, 14001, ip);
   //});
 
   engine.addSystem<>("zefir", zef::sys::update_user_inputs);
+  engine.addSystem<MoveCamera>(
+      "zefir", [](zef::Engine& engine, ecs::sparse_array<MoveCamera>& mvs) {
+        for (auto&& [i, mv] : ecs::indexed_zipper(mvs))
+          engine.GraphLib->moveCamera(2, 0, 1);
+      });
   engine.addSystem<MoveCamera>("zefir", [](zef::Engine& engine, ecs::sparse_array<MoveCamera>& mvs) {
     for (auto &&[i, mv] : ecs::indexed_zipper(mvs))
         engine.GraphLib->moveCamera(2, 0, 1);
@@ -251,7 +309,7 @@ engine.initClient(sport, cport, 14001, ip);
   //  engine.GraphLib->moveCamera(2, 0, 1);
   //});
 
-  engine.addSystem<>("zefir", zef::sys::handle_client);
+   engine.addSystem<>("zefir", zef::sys::handle_client);
 
   engine.addSystem<BackGround, zef::comp::position>("zefir",
                                                     handleBackgroundScroll);
@@ -260,8 +318,8 @@ engine.initClient(sport, cport, 14001, ip);
   engine.addSystem<zef::comp::controllable>("zefir",
                                             zef::sys::system_constrollables);
   engine.addSystem<zef::comp::event_listener>("zefir", zef::sys::resolveEvent);
-  //engine.addSystem<zef::comp::vector>("zefir",
-  //                                    zef::sys::normalize_velocity_vectors);
+  // engine.addSystem<zef::comp::vector>("zefir",
+  //                                     zef::sys::normalize_velocity_vectors);
   engine.addSystem<Ship, zef::comp::vector, zef::comp::drawable>("zefir",
                                                                  animateShips);
   engine.addSystem<zef::comp::position, zef::comp::vector>("zefir",
@@ -284,10 +342,15 @@ engine.initClient(sport, cport, 14001, ip);
   engine.addSystem<SounbdBar, zef::comp::position>("zefir",drawSoundBar);
   engine.addSystem<Ship, Health, zef::comp::position>("zefir", drawHpBarPlayer);
   engine.addSystem<Player, Laser, zef::comp::position>("zefir", drawLoadBar);
-  engine.addSystem<SinusoidalMotion, zef::comp::vector>(
-      "zefir",
-      sinusoidalVectorSystem
-  );
+  engine.addSystem<SinusoidalMotion, zef::comp::vector>("zefir",
+                                                        sinusoidalVectorSystem);
+  engine.addSystem<SinusoidalAboveMotion, zef::comp::position>(
+      "zefir", sinusoidalAbovePositionSystem);
+
+  engine.addSystem<zef::comp::position, Player>(
+    "zefir",
+    send_player_position
+);
 
   //engine.registerScene<LevelScene>("level");
   //engine.registerScene<LobbyScene>("lobby");
@@ -298,8 +361,12 @@ engine.initClient(sport, cport, 14001, ip);
   //engine.registerScene<LobbyScene>("lobby");
   //engine.registerScene<LevelScene>("level");
   //engine.loadScene("lobby");
+  // engine.registerScene<LevelScene>("level");
+  // engine.registerScene<LobbyScene>("lobby");
+  // engine.loadScene("level");
 
-  engine.newLoadScene<MenuScene>();
+//  engine.newLoadScene<MenuScene>();
+  engine.newLoadScene<TestScene>();
 
     engine.run();
 }

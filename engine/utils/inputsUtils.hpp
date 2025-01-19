@@ -136,6 +136,7 @@ namespace zef {
       std::map<utils::Keys, bool> _key_map;
       std::vector<utils::Keys> _released;
       std::vector<utils::Keys> _pressed;
+      bool close = false;
     };
 
     struct MouseInputs {

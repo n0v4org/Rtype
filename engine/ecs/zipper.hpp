@@ -33,7 +33,7 @@ namespace ecs {
     }
     iterator end() {
       auto it = iterator(_end, _end, _size, _size);
-      //it._idx = _size;
+      // it._idx = _size;
       return it;
     }
 

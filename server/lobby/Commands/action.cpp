@@ -21,6 +21,7 @@ namespace rtype {
     _engine.registerCommandTcp(JOIN_ROOM_CMD, [this](zef::Engine& engine,
                                                      input_t input) {
       std::string res = CMD_RES.at(JOIN_ROOM_CMD).at(SUCCESS);
+      std::cout << '|' << input.tcp_payload << '|' << std::endl;
 
       if (bad_args(input, std::stoi(CMD_RES.at(JOIN_ROOM_CMD).at(NB_ARGS))))
         return;
@@ -138,11 +139,10 @@ namespace rtype {
     _engine.registerCommandTcp(SEND_MSG_CMD, [this](zef::Engine& engine,
                                                     input_t input) {
       std::string res = CMD_RES.at(SEND_MSG_CMD).at(SUCCESS);
-      int room = get_lobby_id(input);
+      int room        = get_lobby_id(input);
       if (room == KO)
         return;
-      std::string msg =
-          input.tcp_payload;
+      std::string msg = input.tcp_payload;
       if (bad_room(input, room))
         return;
       std::vector<player_t>::iterator it = std::find_if(

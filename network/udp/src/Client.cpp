@@ -48,10 +48,10 @@ namespace network {
     }
 
     void Client::close_connection() {
-       if (_socket.is_open()) {
-      _socket.cancel();
-      _socket.close();
-       }
+      if (_socket.is_open()) {
+        _socket.cancel();
+        _socket.close();
+      }
     }
 
     void Client::startReceive() {

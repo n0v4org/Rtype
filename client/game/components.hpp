@@ -45,7 +45,6 @@ public:
 class Damaged {
 public:
   explicit Damaged(int microsec) : _microsec(microsec) {
-
   }
 
   int _microsec;
@@ -54,7 +53,6 @@ public:
 class TurretTurnRate {
 public:
   TurretTurnRate() {
-
   }
   int tr = 0;
 };
@@ -94,20 +92,32 @@ public:
 
 class SinusoidalMotion {
 public:
-    SinusoidalMotion(float amplitude, float frequency, float speedX)
-        : amplitude(amplitude), frequency(frequency),
-          speedX(speedX), phase(0.f) {}
+  SinusoidalMotion(float amplitude, float frequency, float speedX)
+    : amplitude(amplitude), frequency(frequency), speedX(speedX), phase(0.f) {
+  }
 
-    float amplitude;
-    float frequency;
-    float speedX;
-    float phase;
+  float amplitude;
+  float frequency;
+  float speedX;
+  float phase;
 };
 
 class MoveCamera {
-  public:
-  MoveCamera() {}
+public:
+  MoveCamera() {
+  }
 };
 
+class SinusoidalAboveMotion {
+public:
+  SinusoidalAboveMotion(float baseY, float amplitude, float frequency)
+    : baseY(baseY), amplitude(amplitude), frequency(frequency), phase(0.f) {
+  }
+
+  float baseY;
+  float amplitude;
+  float frequency;
+  float phase;
+};
 
 #endif /* !COMPONENTS_HPP_ */

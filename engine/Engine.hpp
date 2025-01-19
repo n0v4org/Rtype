@@ -249,18 +249,14 @@ namespace zef {
       T::loadScene(*this);
     }
 
-    template <typename T, typename ...Args>
-    void newLoadScene(Args ...args)  {
+    template <typename T, typename... Args>
+    void newLoadScene(Args... args) {
       _new_next_scene = [args..., this](Engine& engine) {
         for (int i = 0; i < reg.getMaxId(); i++)
             reg.kill_entity(ecs::Entity(i));
-        while (!reg._unusedids.empty()) reg._unusedids.pop();
-        reg._maxId = 0;
-        reg._entityCount = 0;
         T::loadScene(*this, args...);
       };
     }
-
 
     template <typename T>
     void registerScene(const std::string& name) {
@@ -268,6 +264,7 @@ namespace zef {
     }
 
     void stop() {
+      std::cout << "qkegr\n";
       running = false;
     }
 

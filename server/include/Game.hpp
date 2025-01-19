@@ -28,15 +28,10 @@
 #include "modules/network/systems.hpp"
 
 #include "modules/IModule.hpp"
-
-
-
+#include "GamerT.hpp"
 using json = nlohmann::json;
 
-struct game_player_t {
-  int tcp_id;
-  int udp_id;
-};
+
 
 namespace rtype {
 
