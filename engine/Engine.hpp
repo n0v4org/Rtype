@@ -254,6 +254,9 @@ namespace zef {
       _new_next_scene = [args..., this](Engine& engine) {
         for (int i = 0; i < reg.getMaxId(); i++)
             reg.kill_entity(ecs::Entity(i));
+        while (!engine.reg._unusedids.empty()) engine.reg._unusedids.pop();
+        engine.reg._entityCount = 0;
+        engine.reg._maxId = 0;
         T::loadScene(*this, args...);
       };
     }

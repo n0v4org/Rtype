@@ -646,9 +646,9 @@ class LobbyCreatePatron{
 
       engine.instanciatePatron<LobbyCreateWindow>(x, y);
       engine.instanciatePatron<LobbyCreateTitle>(x, y + 500.0f);
-      engine.instanciatePatron<LobbyCreateNameTitle>(x, y -250.0f);
-      engine.instanciatePatron<LobbyCreateName>(x, y - 200.0f);
-      engine.instanciatePatron<LobbyCreateSlotsTitle>(x, y - 100.0f);
+      engine.instanciatePatron<LobbyCreateNameTitle>(x, y -200.0f);
+      engine.instanciatePatron<LobbyCreateName>(x, y - 150.0f);
+      engine.instanciatePatron<LobbyCreateSlotsTitle>(x, y - 50.0f);
       for (auto &&[k,p]: ecs::indexed_zipper(engine.reg.get_components<zef::comp::LobbyCreateTrack>())){
         for (int i = 0; i < 5; i ++){
           if (i < p._nbSlots) {

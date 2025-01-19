@@ -81,41 +81,14 @@ void runClient(int sport, int cport, std::string ip) {
                                  23);
   engine.GraphLib->saveAnimation("EBullet", "EBullet", 0, 0, 18, 18);
 
-  engine.registerCommandTcp("202", [](zef::Engine& engine, input_t input) {
-    std::cout << input.tcp_payload << std::endl;
-  });
-  engine.registerCommandTcp("208", [](zef::Engine& engine, input_t input) {
-    std::cout << input.tcp_payload << std::endl;
-  });
-  engine.registerCommandTcp("203", [](zef::Engine& engine, input_t input) {
-    std::cout << input.tcp_payload << std::endl;
-  });
-
-
-  engine.registerCommandTcp("221", [ip](zef::Engine& engine, input_t input) {
-    std::vector <size_t> idAlly;
-    nlohmann::json rep = nlohmann::json::parse(input.tcp_payload);
-    for (auto &i : rep["players"])
-        idAlly.push_back(i[1]);
-    engine.newLoadScene<LevelScene>(idAlly);
-  });
-
-  engine.registerCommandTcp("207", [ip](zef::Engine& engine, input_t input) {
-    std::cout << input.tcp_payload << std::endl;
-    nlohmann::json rep = nlohmann::json::parse(input.tcp_payload);
-    std::cout << "switching port into " << rep["tcp_port"] << " "
-              << rep["udp_port"] << " " << rep["player_uuid"] << std::endl;
-    engine._client->reset_clients(rep["udp_port"], generateRandomPort(), rep["tcp_port"], ip);
-    std::this_thread::sleep_for(std::chrono::microseconds(100));
-    std::string uuid     = rep["player_uuid"];
-    std::string loginstr = "LOGIN " + uuid;
-    std::cout << "sending " << uuid << " " << loginstr << std::endl;
-    engine.ClientSendTcp(loginstr);
-    login_t lgt;
-    strncpy(lgt.pwd, uuid.c_str(), 21);
-    std::cout << "hohoho\n";
-    engine.ClientSendUdp<login_t>(LOGIN, lgt);
-    std::cout << "hiih\n";
+  //engine.registerCommandTcp("221", [ip](zef::Engine& engine, input_t input) {
+  //  std::vector <size_t> idAlly;
+  //  nlohmann::json rep = nlohmann::json::parse(input.tcp_payload);
+  //  for (auto &i : rep["players"])
+  //      idAlly.push_back(i[1]);
+  //  engine.newLoadScene<LevelScene>(idAlly);
+  //});
+//
   engine.registerCommandTcp("207", [ip](zef::Engine& engine, input_t input) {
       std::cout << input.tcp_payload << std::endl;
         nlohmann::json rep = nlohmann::json::parse(input.tcp_payload);
@@ -365,8 +338,8 @@ engine.initClient(sport, cport, 14001, ip);
   // engine.registerScene<LobbyScene>("lobby");
   // engine.loadScene("level");
 
-//  engine.newLoadScene<MenuScene>();
-  engine.newLoadScene<TestScene>();
+  engine.newLoadScene<MenuScene>();
+//  engine.newLoadScene<TestScene>();
 
     engine.run();
 }
