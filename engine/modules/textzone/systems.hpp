@@ -33,7 +33,7 @@ namespace zef {
                 if (k == zef::utils::Enter) {
                   /**/
                   for (auto &&[a,b,c] : ecs::indexed_zipper(textZones, engine.reg.get_components<MsgZone>())) {
-					if (b._string != ""){
+          					if (b._string != ""){
                       std::string q = "SEND_MSG " + b._string;
                       std::cout << q << std::endl;
                       txt._string = "";
@@ -62,7 +62,7 @@ namespace zef {
     inline void DrawTextInputs(zef::Engine& engine, ecs::sparse_array<comp::textZone>& textZones,
                                ecs::sparse_array<comp::position>& positions) {
       for (auto&& [i, txt, pos] : ecs::indexed_zipper(textZones, positions)) {
-        engine.GraphLib->drawText(txt._string, "eth", 28, pos.x, pos.y,
+        engine.GraphLib->drawText(txt._string, "eth", txt._size, pos.x, pos.y,
                                         1,1,0,{1,1,1,1});
       }
     }
