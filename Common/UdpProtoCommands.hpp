@@ -136,7 +136,9 @@ struct update_hp_t {
 struct kill_ally_t {
   size_t rep;
 };
-struct kill_t {};
+struct kill_t {
+  int id;
+};
 
 struct test_t {
   size_t t;

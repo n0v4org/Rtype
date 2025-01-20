@@ -61,11 +61,12 @@ class EnemyRobotPatron {
 public:
   static void instanciate(zef::Engine& engine, const ecs::Entity& self, float x,
                           float y, size_t rep) {
+
+
+                            std::cout << "hhhhhhhhhhhh" << x << y<< std::endl;
     engine.addEntityComponent<zef::comp::position>(self, x, y);
 
     engine.addEntityComponent<zef::comp::vector>(self, 0.f, 0.f, 3.f);
-
-    engine.addEntityComponent<Health>(self, 50, 50);
 
     engine.addEntityComponent<zef::comp::event_listener>(
         self, createRobotEventListener());
@@ -73,6 +74,7 @@ public:
     dr.addAnimation("enemyRobot", 1, 200);
     dr.addAnimation("enemyRobotS", 1, 1000);
     dr.playAnimationLoop("enemyRobot", 1);
+    dr.layer = 9;
     dr.setScale(3.0f, 3.0f);
     engine.addEntityComponent<zef::comp::drawable>(self, dr);
 

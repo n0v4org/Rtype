@@ -29,7 +29,7 @@ namespace zef {
     class Sfml
       : public ADisplayModule<std::pair<sf::Sprite, sf::Texture>,
                               std::pair<sf::Sound, sf::SoundBuffer>,
-                              std::pair<sf::Font,sf::Text>,
+                              sf::Font,
                               sf::Shader, sf::RectangleShape> {
     public:
       ~Sfml();
