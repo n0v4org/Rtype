@@ -156,9 +156,9 @@ namespace rtype {
       for (auto &&[i, pl, r, pos] : ecs::indexed_zipper(pls, rss, pss)) {
         int rd = rand() % 100;
         if (rd == 90) {
-          std::cout << "shootingp" << std::endl;
-          for (auto &i : this->_players) engine.ServerSendUdp<plane_shoot_t>(i.udp_id, PLANE_SHOOT, {r._id, -5.0f,  -1.0f});
-          engine.instanciatePatron<EnemyBulletPatron>(pos.x, pos.y, -5.0f,  -1.0f);
+          //std::cout << "shootingp" << std::endl;
+          //for (auto &i : this->_players) engine.ServerSendUdp<plane_shoot_t>(i.udp_id, PLANE_SHOOT, {r._id, -5.0f,  -1.0f});
+          //engine.instanciatePatron<EnemyBulletPatron>(pos.x, pos.y, -5.0f,  -1.0f);
         }
       }
     });
@@ -181,9 +181,11 @@ namespace rtype {
         int rd2 = rand() % 200;
         if (rd2 == 5) {
           
+          std::cout << "hiiiiiii\n";
           engine.instanciatePatron<RobotBulletPatron>(pos.x, pos.y);
           for (auto &i : this->_players) engine.ServerSendUdp<robot_shoot_t>(i.udp_id, ROBOT_SHOOT, {r._id, pos.x, pos.y});
         }
+
         
       }
     });

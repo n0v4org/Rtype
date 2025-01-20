@@ -47,7 +47,6 @@ class LobbyListScene;
 class LevelScene {
 public:
   static void loadScene(zef::Engine& engine, std::vector<size_t> allyId) {
-    std::cout << "ùlakenlkeazneazlkneazlkneaz\n";
     engine.addEntityComponent<MoveCamera>(engine.reg.spawn_entity());
     engine.instanciatePatron<PlayerPatron>(0.0f, 0.0f, 0);
     engine.instanciatePatron<BackgroundPatron>(0.0f, 0.0f);

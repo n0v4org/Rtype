@@ -40,6 +40,7 @@ inline zef::comp::event_listener createRobotEventListener() {
   
    evtl.setEvent<OnDeath>([](zef::Engine& engine, size_t self, OnDeath p) {
     auto& pos = engine.fetchEntityComponent<zef::comp::position>(self);
+    std::cout << ".???????????????????????????\n";
     engine.reg.kill_entity(ecs::Entity(self));
   });
   
@@ -56,7 +57,7 @@ inline zef::comp::event_listener createRobotEventListener() {
    return evtl;
 }
 
-class EnemyRobotPatron {
+class sEnemyRobotPatron {
 public:
   static void instanciate(zef::Engine& engine, const ecs::Entity& self, float x,
                           float y, size_t rep) {
