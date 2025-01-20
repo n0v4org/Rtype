@@ -73,8 +73,14 @@ namespace network {
         auto it    = find(_clients.begin(), _clients.end(), _remote_endpoint_);
         message.id = it - _clients.begin();
         {
-          std::lock_guard<std::mutex> lock(_mutex);
-          _command_queue.push_back(message);
+           std::lock_guard<std::mutex> lock(_mutex);
+
+            auto& client_set = _read_id[message.id];
+
+            if (client_set.find(message.seq) == client_set.end()) {
+                _command_queue.push_back(message);
+                client_set.insert(message.seq);
+            }
         }
 
       } catch (const std::exception& e) {

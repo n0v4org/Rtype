@@ -232,15 +232,6 @@ namespace rtype {
     _engine.run();
   }
 
-  
-
-  void Game::init_game(std::vector<std::string> player_uuid, int tcp_port,
-                       int udp_port) {
-    _games.push_back(std::thread([this, player_uuid, tcp_port, udp_port]() {
-      this->launch_game(player_uuid, tcp_port, udp_port);
-    }));
-  }
-
   Game::~Game() {
   }
 

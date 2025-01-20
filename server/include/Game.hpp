@@ -41,8 +41,6 @@ namespace rtype {
     void RegisterGameCmd();
     void launch_game(std::vector<std::string> player_uuid, int tcp_port,
                      int udp_port);
-    void init_game(std::vector<std::string> player_uuid, int tcp_port,
-                   int udp_port);
     ~Game();
 
     std::vector<game_player_t> _players;

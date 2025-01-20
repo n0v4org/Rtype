@@ -52,6 +52,7 @@ namespace rtype {
     zef::Engine _engine;
     std::unique_ptr<Lobby> _lobby;
     std::unique_ptr<Game> _game;
+    std::vector<std::thread> _thread;
     std::vector<std::thread> _games;
   };
 

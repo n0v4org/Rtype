@@ -14,7 +14,7 @@
 
 namespace client {
 
-  static const std::array<std::string, 6> FLAGS = {"-sp", "-cp",  "-h",
+  static const std::array<std::string, 7> FLAGS = {"-sp", "-cp",  "-h",
                                                    "-ip", "-lsp", "-lcp"};
 
   enum {
@@ -41,6 +41,7 @@ namespace client {
 
   protected:
   private:
+    int generateRandomPort();
     bool is_number(std::string);
     bool is_valid_ip(std::string);
     std::vector<std::string> _args;
