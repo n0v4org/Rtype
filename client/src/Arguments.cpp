@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <string>
+#include <random>
 
 #include "ClientError.hpp"
 #include "Arguments.hpp"
@@ -27,7 +28,7 @@ namespace client {
     , _ip(SERVER_ADDRESS)
     , _client_port(PORT_CLIENT)
     , _server_port(PORT_SERVER)
-    , _lobby_client_port(LOBBY_PORT_CLIENT)
+    , _lobby_client_port(generateRandomPort())
     , _lobby_server_port(LOBBY_PORT_SERVER) {
     for (int i = 1; i < argc; i++) _args.push_back(argv[i]);
   }
@@ -40,6 +41,14 @@ namespace client {
     , _lobby_client_port(LOBBY_PORT_CLIENT)
     , _lobby_server_port(LOBBY_PORT_SERVER) {
     for (int i = 1; i < argc; i++) _args.push_back(argv[i]);
+  }
+
+  int Arguments::generateRandomPort() {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> distr(1024, 65535);
+
+    return distr(gen);
   }
 
   bool Arguments::is_number(std::string str) {

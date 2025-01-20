@@ -66,9 +66,16 @@ namespace network {
                                std::size_t bytes_transferred) {
       if (!error && bytes_transferred > 0) {
         input_t receivedMessage = unpack(bytes_transferred, _recvBuffer);
+
         {
-          std::lock_guard<std::mutex> lock(_mutex);
-          _command_queue.push_back(receivedMessage);
+            std::lock_guard<std::mutex> lock(_mutex);
+
+            auto& client_set = _read_id[receivedMessage.id];
+
+            if (client_set.find(receivedMessage.seq) == client_set.end()) {
+                _command_queue.push_back(receivedMessage);
+                client_set.insert(receivedMessage.seq);
+            }
         }
         startReceive();
       } else if (error) {

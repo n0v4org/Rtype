@@ -20,9 +20,11 @@ add_library(rtype_network STATIC ${SRCS})
 
 find_package(asio REQUIRED CONFIG)
 
+find_package(lz4 CONFIG REQUIRED)
+
 find_package(nlohmann_json 3.2.0 REQUIRED)
 
-target_link_libraries(rtype_network PRIVATE asio nlohmann_json::nlohmann_json)
+target_link_libraries(rtype_network PRIVATE asio nlohmann_json::nlohmann_json lz4::lz4)
 
 target_include_directories(rtype_network PUBLIC
  ${CMAKE_CURRENT_SOURCE_DIR}/include
