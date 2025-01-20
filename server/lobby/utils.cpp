@@ -118,4 +118,30 @@ namespace rtype {
       return true;
   }
 
+  int Lobby::generateRandomPort() {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> distr(1024, 65535);
+
+    return distr(gen);
+  }
+
+  std::vector<std::string> Lobby::notify_launch_game(std::string res, int room , int tcp_port , int udp_port) {
+    std::vector<std::string> players_uuid;
+      json data;
+      data["status"]      = std::stoi(CMD_RES.at(LAUNCH_GAME_CMD).at(STATUS));
+      data["description"] = res;
+      data["room_id"]     = room;
+      data["tcp_port"]    = tcp_port;
+      data["udp_port"]    = udp_port;
+      for (const auto& player : _lobby.at(room).players) {
+          std::string uuid = generateFixedLengthString();
+          players_uuid.push_back(uuid);
+          json player_data           = data;
+          player_data["player_uuid"] = uuid;
+          _engine.ServerSendTcp(player.id, player_data.dump());
+      }
+      return players_uuid;
+  }
+
 }  // namespace rtype

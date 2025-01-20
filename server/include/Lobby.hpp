@@ -150,6 +150,7 @@ namespace rtype {
     json get_data_single_room(room_t room, int room_id);
     int get_lobby_id(input_t input);
     bool check_start_game(int room, input_t input);
+    std::vector<std::string> notify_launch_game(std::string res, int room, int tcp, int udp);
     ~Lobby();
 
   protected:
@@ -159,6 +160,7 @@ namespace rtype {
     void LobbyActionCmd();
     void lobbyDeleteCmd();
     void lobbyUpdateCmd();
+    int generateRandomPort();
     bool bad_perm(input_t input, int nb_args);
     std::vector<std::string> parse_input(std::string input);
     int get_player_lobby(int player_id);

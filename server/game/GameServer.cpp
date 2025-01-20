@@ -50,22 +50,10 @@ namespace rtype {
       }
       _lobby->set_game_running(room);
       res += _lobby->get_lobby().at(room).name;
-      std::vector<std::string> players_uuid;
-      int tcp_port = generateRandomPort();
+        int tcp_port = generateRandomPort();
       int udp_port = generateRandomPort();
-      json data;
-      data["status"]      = std::stoi(CMD_RES.at(LAUNCH_GAME_CMD).at(STATUS));
-      data["description"] = res;
-      data["room_id"]     = room;
-      data["tcp_port"]    = tcp_port;
-      data["udp_port"]    = udp_port;
-        for (const auto& player : _lobby->get_lobby().at(room).players) {
-          std::string uuid = _lobby->generateFixedLengthString();
-          players_uuid.push_back(uuid);
-          json player_data           = data;
-          player_data["player_uuid"] = uuid;
-          _engine.ServerSendTcp(player.id, player_data.dump());
-        }
+      std::vector<std::string> players_uuid = _lobby->notify_launch_game(res, room, tcp_port, udp_port);
+     
 
     _games.push_back(std::thread([this, players_uuid, tcp_port, udp_port]() {
         _game  = std::make_unique<Game>();
