@@ -12,6 +12,7 @@
 #include <memory>
 #include <thread>
 #include <deque>
+#include <unordered_set>
 #include <mutex>
 #include <vector>
 #include <asio.hpp>
@@ -33,14 +34,30 @@ namespace network {
       bool isQueueEmpty();
 
       template <typename T>
-      void send(int idx, int cmd, T payload) {
+      void send(int idx, int cmd, const T& payload) {
         std::array<uint8_t, 1024> message =
             Commands<T>::toArray(payload, cmd, _sequence_id);
-        _socket.async_send_to(
-            asio::buffer(message), _clients[idx],
-            [this](const std::error_code& ec, std::size_t bytes_transferred) {
-              handle_send(ec, bytes_transferred);
-            });
+
+        std::vector<uint8_t> temp(message.begin(), message.end());
+        temp.resize(sizeof(T) + 7);
+        std::vector<uint8_t> compressed_message = compressVector(temp);
+
+        std::vector<uint8_t> header(4 + compressed_message.size());
+        uint32_t compressed_size = sizeof(T) + 7;
+        header[0] = static_cast<uint8_t>((compressed_size >> 24) & 0xFF);
+        header[1] = static_cast<uint8_t>((compressed_size >> 16) & 0xFF);
+        header[2] = static_cast<uint8_t>((compressed_size >> 8) & 0xFF);
+        header[3] = static_cast<uint8_t>(compressed_size & 0xFF);
+
+        std::memcpy(header.data() + 4, compressed_message.data(),
+                    compressed_message.size());
+        for (int i = 0; i < 10; i++) {
+          _socket.async_send_to(
+              asio::buffer(header), _clients[idx],
+              [this](const std::error_code& ec, std::size_t bytes_transferred) {
+                handle_send(ec, bytes_transferred);
+              });
+        }
         _sequence_id++;
       }
 
@@ -62,6 +79,7 @@ namespace network {
       std::mutex _mutex;
       int _sequence_id;
       bool _debug;
+      std::unordered_map<int, std::unordered_set<uint32_t>> _read_id;
     };
 
   }  // namespace game

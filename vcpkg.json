@@ -4,6 +4,7 @@
     "asio",
     "nlohmann-json",
     "sfml",
-    "dylib"
+    "dylib",
+    "lz4"
   ]
 }
