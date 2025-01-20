@@ -141,7 +141,7 @@ namespace rtype {
       for (auto &&[i, h, r, s]: ecs::indexed_zipper(hss, rps, mss)) {
         if (h.hp <= 0) {
           for (auto &i : this->_players) engine.ServerSendUdp<kill_ally_t>(i.udp_id, KILL_ALLY, {r._id});
-          engine.ServerSendUdp<kill_t>(this->_players[r._id].udp_id, KILL, {});
+          engine.ServerSendUdp<kill_t>(this->_players[r._id].udp_id, KILL, {4});
           engine.sendEvent<OnDeath>(i);
           std::cout << "h\n";
         }
