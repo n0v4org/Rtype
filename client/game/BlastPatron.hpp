@@ -32,6 +32,11 @@ public:
     dr.layer = 10;
     engine.addEntityComponent<zef::comp::drawable>(self, dr);
     engine.addEntityComponent<zef::comp::name>(self, "Blast");
+
+    zef::comp::event_listener ev;
+    ev.setEvent<OnDeath>([](zef::Engine& engine, size_t self, OnDeath e){
+      engine.reg.kill_entity(ecs::Entity(self));
+    });
   }
 };
 
