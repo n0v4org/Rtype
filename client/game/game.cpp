@@ -436,8 +436,8 @@ void runClient(int sport, int cport, std::string ip) {
     engine.addSystem<Monster>(
       "zefir", [](zef::Engine& engine, ecs::sparse_array<Monster>& mvs) {
         for (auto&& [i, mv] : ecs::indexed_zipper(mvs)) {
-            std::cout << "x: " << engine.fetchEntityComponent<zef::comp::position>(i).x << std::endl;
-            std::cout << "y: " << engine.fetchEntityComponent<zef::comp::position>(i).y << std::endl;
+//std::cout << "x: " << engine.fetchEntityComponent<zef::comp::position>(i).x << std::endl;
+//std::cout << "y: " << engine.fetchEntityComponent<zef::comp::position>(i).y << std::endl;
 
         }
             //std::cout << engine.fetchEntityComponent<zef::comp::position>(i).y << std::endl;

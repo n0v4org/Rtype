@@ -50,7 +50,7 @@ public:
 
     engine.addEntityComponent<zef::comp::vector>(self, -5.0f, 0.0f, 6);
 
-    engine.addEntityComponent<Lifetime>(self, 5000 * 1000);
+    engine.addEntityComponent<Lifetime>(self, 1500 * 1000);
 
     zef::comp::drawable dr;
     dr.addAnimation("miniBossBullet", 4, 150);
