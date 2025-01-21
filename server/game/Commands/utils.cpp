@@ -56,7 +56,7 @@ namespace rtype {
         _engine.instanciatePatron<AllyPatron>(0.0f, 0.0f, static_cast<size_t>(j));
         _engine.ServerSendTcp(_players.at(j).tcp_id, start_json.dump());
       }
-      sleep(1);
+      std::this_thread::sleep_for(std::chrono::milliseconds(1000));
       for (int j = 0; j < _players.size(); j++) {
         rep_id = 345;
         _engine.instanciatePatron<sEnemyRobotPatron>(600.0f, 0.0f, rep_id);

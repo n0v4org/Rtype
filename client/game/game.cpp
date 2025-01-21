@@ -257,10 +257,9 @@ void runClient(int sport, int cport, std::string ip) {
   });
 
    engine.initClient(sport, generateRandomPort(), cport, ip);
-   sleep(1);
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 
 //   engine.ClientSendTcp("JOIN 1 magicarpe");
-//   sleep(1);
 //   engine.ClientSendTcp("SET_PLAYER_READY");
 
 
