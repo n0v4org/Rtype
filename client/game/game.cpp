@@ -473,7 +473,7 @@ void runClient(int sport, int cport, std::string ip) {
                                                                  animateShips);
   engine.addSystem<zef::comp::position, zef::comp::vector>("zefir",
                                                            zef::sys::move);
-  engine.addSystem<Ship, zef::comp::position, MoveCamera>("zefir", autoWalkShips);
+  engine.addSystem<Ship, zef::comp::vector, MoveCamera>("zefir", autoWalkShips);
   engine.addSystem<zef::comp::collidable, zef::comp::position>(
       "zefir", zef::sys::check_collidables);
   engine.addSystem<zef::comp::event_listener>("zefir", zef::sys::resolveEvent);
