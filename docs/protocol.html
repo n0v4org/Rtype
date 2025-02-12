@@ -21,186 +21,521 @@
                 <li><strong><-</strong>: Reply from <strong>server</strong> to <strong>client</strong>.</li>
             </ul>
 
-            <h3>Connection Establishment</h3>
-            <pre><code>&lt;- 220</code></pre>
+            <h3>Error Format</h3>
+            <pre><code>{
+    "description": "error description",
+    "status": error_code
+}</code></pre>
+
+            <h4>List of Errors</h4>
+            <ul>
+                <li><code>400</code>: Invalid arguments</li>
+                <li><code>401</code>: Maximum number of players reached</li>
+                <li><code>402</code>: Room not found</li>
+                <li><code>403</code>: Player already in lobby</li>
+                <li><code>404</code>: Player is not in this lobby</li>
+                <li><code>405</code>: Invalid password</li>
+                <li><code>406</code>: Number of slots should be > 0 and < 5</li>
+                <li><code>407</code>: Lobby name already exists, please provide another</li>
+                <li><code>408</code>: Only the owner has the right</li>
+                <li><code>409</code>: Default lobby, you do not have the right</li>
+                <li><code>410</code>: Only admin can launch the game</li>
+                <li><code>411</code>: Some players are not ready</li>
+                <li><code>412</code>: Some parameters must be numbers</li>
+                <li><code>413</code>: Game already running</li>
+            </ul>
 
             <h3>Commands and Responses</h3>
 
-            <h4>1. JOIN Lobby</h4>
-            <p>Request to join a specific lobby.</p>
-            <pre><code>JOIN&lt;SP&gt;${Lobby_id}&lt;CLRF&gt; -&gt;</code></pre>
-            <p>Responses:</p>
-            <ul>
-                <li><code>200</code>: Lobby join successful.</li>
-                <li><code>404</code>: Lobby not found.</li>
-                <li><code>403</code>: Maximum number of players reached.</li>
-                <li><code>402</code>: Player already in a lobby.</li>
-                <li><code>400</code>: Invalid arguments.</li>
-            </ul>
+            <h4>GET_ALL_LOBBY</h4>
+            <pre><code>GET_ALL_LOBBY&lt;CRLF&gt;</code></pre>
+            <p>Response:</p>
+            <pre><code>{
+    "description": "successfully retrieved all lobbies",
+    "status": 200,
+    "rooms": [
+        {
+            "room_name": "lobby_name",
+            "room_id": lobby_id,
+            "slot": nb_slot,
+            "running": is_game_running,
+            "players": [
+                {
+                    "id": player_id,
+                    "is_admin": is_player_admin,
+                    "is_ready": is_player_ready,
+                    "username": "player_username"
+                }
+            ]
+        }
+    ]
+}</code></pre>
 
-            <h4>2. GET_ALL_LOBBY</h4>
-            <p>Request to retrieve the list of all available lobbies.</p>
-            <pre><code>GET_ALL_LOBBY&lt;CLRF&gt; -&gt;</code></pre>
-            <p>Responses:</p>
-            <ul>
-                <li><code>lobby_id_list</code>: List of available lobbies.</li>
-                <li><code>400</code>: Invalid arguments.</li>
-            </ul>
+            <h4>GET_LOBBY</h4>
+            <pre><code>GET_LOBBY&lt;SP&gt;${lobby_id}&lt;CRLF&gt;</code></pre>
+            <p>Response:</p>
+            <pre><code>{
+    "description": "successfully retrieved lobby data",
+    "status": 203,
+    "room_name": "lobby_name",
+    "room_id": lobby_id,
+    "slot": nb_slot,
+    "running": is_game_running,
+    "players": [
+        {
+            "id": player_id,
+            "is_admin": is_player_admin,
+            "is_ready": is_player_ready,
+            "username": "player_username"
+        }
+    ]
+}</code></pre>
 
-            <h4>3. QUIT Lobby</h4>
-            <p>Request to leave a specific lobby.</p>
-            <pre><code>QUIT&lt;SP&gt;${Lobby_id}&lt;CLRF&gt; -&gt;</code></pre>
-            <p>Responses:</p>
-            <ul>
-                <li><code>200</code>: Lobby quit successful.</li>
-                <li><code>404</code>: Client is not in a lobby.</li>
-                <li><code>400</code>: Invalid arguments.</li>
-            </ul>
+            <h4>JOIN</h4>
+            <pre><code>JOIN&lt;SP&gt;${lobby_id}&lt;CRLF&gt;</code></pre>
+            <p>Response:</p>
+            <pre><code>{
+    "description": "successfully joined lobby",
+    "status": 202,
+    "room_name": "joined_lobby_name",
+    "room_id": joined_lobby_id,
+    "slot": nb_slot,
+    "running": is_game_running,
+    "players": [
+        {
+            "id": player_id,
+            "is_admin": is_player_admin,
+            "is_ready": is_player_ready,
+            "username": "player_username"
+        }
+    ]
+}</code></pre>
 
-            <h4>4. GET_LOBBY Information</h4>
-            <p>Request details of a specific lobby, such as the list of users.</p>
-            <pre><code>GET_LOBBY&lt;SP&gt;${Lobby_id}&lt;CLRF&gt; -&gt;</code></pre>
-            <p>Responses:</p>
-            <ul>
-                <li><code>200</code>: List of lobby users' IDs.</li>
-                <li><code>404</code>: Lobby ID does not exist.</li>
-                <li><code>400</code>: Invalid arguments.</li>
-            </ul>
+            <h4>QUIT</h4>
+            <pre><code>QUIT&lt;SP&gt;${lobby_id}&lt;CRLF&gt;</code></pre>
+            <p>Response:</p>
+            <pre><code>{
+    "description": "successfully quit room",
+    "status": 204,
+    "player": {
+        "player_id": player_id,
+        "name": "username"
+    },
+    "players": [
+        {
+            "id": player_id,
+            "is_admin": is_player_admin,
+            "is_ready": is_player_ready,
+            "username": "player_username"
+        }
+    ],
+    "room_name": "quited_lobby_name",
+    "room_id": quited_lobby_id,
+    "slot": nb_slot,
+    "running": is_game_running
+}</code></pre>
 
-            <h4>5. LAUNCH_GAME</h4>
-            <p>Request to launch the game in the current lobby.</p>
-            <pre><code>LAUNCH_GAME&lt;CLRF&gt; -&gt;</code></pre>
-            <p>Responses:</p>
-            <ul>
-                <li><code>200</code>: Game is launching.</li>
-                <li><code>401</code>: Client is not in a lobby.</li>
-                <li><code>400</code>: Invalid arguments.</li>
-            </ul>
-        </section>
+            <h4>SET_NEW_LOBBY</h4>
+            <pre><code>SET_NEW_LOBBY&lt;SP&gt;${lobby_name}&lt;SP&gt;${slot}&lt;SP&gt;${password}&lt;CRLF&gt;</code></pre>
+            <p>Response:</p>
+            <pre><code>{
+    "description": "successfully created lobby",
+    "status": 205,
+    "player": {
+        "player_id": player_id,
+        "name": "username"
+    },
+    "players": [
+        {
+            "id": player_id,
+            "is_admin": is_player_admin,
+            "is_ready": is_player_ready,
+            "username": "player_username"
+        }
+    ],
+    "room_name": "created_lobby_name",
+    "room_id": created_lobby_id,
+    "slot": nb_slot,
+    "running": is_game_running
+}</code></pre>
 
-        <section id="udp-protocol">
-            <h2>UDP Protocol</h2>
+            <h4>DELETE_LOBBY</h4>
+            <pre><code>DELETE_LOBBY&lt;SP&gt;${lobby_id}&lt;CRLF&gt;</code></pre>
+            <p>Response:</p>
+            <pre><code>{
+    "description": "successfully deleted lobby",
+    "status": 206,
+    "room_id": deleted_lobby_id
+}</code></pre>
 
-            <h3>Header Format</h3>
-            <p>The UDP packet header is 7 bytes long and structured as follows:</p>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Field</th>
-                        <th>Type</th>
-                        <th>Description</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><code>cmd</code></td>
-                        <td><code>uint8_t</code></td>
-                        <td>Command type</td>
-                    </tr>
-                    <tr>
-                        <td><code>payload_size</code></td>
-                        <td><code>uint16_t</code></td>
-                        <td>Size of the payload</td>
-                    </tr>
-                    <tr>
-                        <td><code>sequence_id</code></td>
-                        <td><code>uint32_t</code></td>
-                        <td>Sequence ID of the packet</td>
-                    </tr>
-                    <tr>
-                        <td><code>payload</code></td>
-                        <td>Variable</td>
-                        <td>Content of the payload</td>
-                    </tr>
-                </tbody>
-            </table>
+            <h4>LAUNCH_GAME</h4>
+            <pre><code>LAUNCH_GAME&lt;SP&gt;${lobby_id}&lt;CRLF&gt;</code></pre>
+            <p>Response:</p>
+            <pre><code>{
+    "description": "launching game in lobby",
+    "status": 207,
+    "room_id": launched_lobby_id,
+    "tcp_port": tcp_port,
+    "udp_port": udp_port,
+    "player_uuid": "player_code"
+}</code></pre>
 
-            <h3>Commands</h3>
+            <h4>SET_PLAYER_READY</h4>
+            <pre><code>SET_PLAYER_READY&lt;SP&gt;${lobby_id}&lt;CRLF&gt;</code></pre>
+            <p>Response:</p>
+            <pre><code>{
+    "description": "player is ready",
+    "status": 208,
+    "room_id": lobby_id,
+    "player_id": ready_player_id
+}</code></pre>
 
-            <h4>1. CONNECT</h4>
-            <p>Connects the player to the server.</p>
+            <h4>UPDATE_LOBBY</h4>
+            <pre><code>UPDATE_LOBBY&lt;SP&gt;${lobby_id}&lt;SP&gt;${lobby_name}&lt;SP&gt;${slot}&lt;SP&gt;${password}&lt;CRLF&gt;</code></pre>
+            <p>Response:</p>
+            <pre><code>{
+    "description": "successfully updated lobby",
+    "status": 209,
+    "room_name": "updated_lobby_name",
+    "room_id": updated_lobby_id,
+    "slot": nb_slot,
+    "players": [
+        {
+            "id": player_id,
+            "is_admin": is_player_admin,
+            "is_ready": is_player_ready,
+            "username": "player_username"
+        }
+    ],
+    "running": is_game_running
+}</code></pre>
 
-            <h4>2. MOVEPLAYER</h4>
-            <p>Moves the player.</p>
-            <ul>
-                <li><code>float x</code>: X-coordinate of movement.</li>
-                <li><code>float y</code>: Y-coordinate of movement.</li>
-            </ul>
+            <h4>UPDATE_PERM</h4>
+            <pre><code>UPDATE_PERM&lt;SP&gt;${lobby_id}&lt;SP&gt;${player_id}&lt;SP&gt;${new_perm}&lt;CRLF&gt;</code></pre>
+            <p>Response:</p>
+            <pre><code>{
+    "description": "successfully updated permissions",
+    "status": 210,
+    "room_id": lobby_id,
+    "player_id": target_player_id,
+    "is_admin": new_permission
+}</code></pre>
 
-            <h4>3. SHOOTPLAYER</h4>
-            <p>Player shoots.</p>
+            <h4>KICK_PLAYER</h4>
+            <pre><code>KICK_PLAYER&lt;SP&gt;${lobby_id}&lt;SP&gt;${player_id}&lt;CRLF&gt;</code></pre>
+            <p>Response:</p>
+            <pre><code>{
+    "description": "successfully kicked player",
+    "status": 211,
+    "room_id": lobby_id,
+    "kicked_player": kicked_player_id
+}</code></pre>
 
-            <h4>4. SENDPOSITION</h4>
-            <p>Sends the player's position to the server.</p>
-            <ul>
-                <li><code>float x</code>: X-coordinate.</li>
-                <li><code>float y</code>: Y-coordinate.</li>
-            </ul>
+            <h4>SEND_MSG</h4>
+            <pre><code>SEND_MSG&lt;SP&gt;${lobby_id}&lt;SP&gt;${msg}&lt;CRLF&gt;</code></pre>
+            <p>Response:</p>
+            <pre><code>{
+    "description": "message sent",
+    "status": 211,
+    "room_id": lobby_id,
+    "from": sender_id,
+    "msg": "message_content"
+}</code></pre>
 
-            <h4>5. SPAWNPLAYER</h4>
-            <p>Spawns a new player.</p>
-            <ul>
-                <li><code>size_t replicable</code>: Replication flag.</li>
-            </ul>
-        </section>
+</section>
 
-        <section id="summary">
-            <h2>Summary Table</h2>
+<section id="udp-protocol">
+    <h2>UDP Protocol</h2>
 
-            <h3>TCP Commands</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Command</th>
-                        <th>Description</th>
-                        <th>Response Codes</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><code>JOIN&lt;SP&gt;${Lobby_id}&lt;CLRF&gt;</code></td>
-                        <td>Join a specific lobby</td>
-                        <td><code>200, 404, 403, 402, 400</code></td>
-                    </tr>
-                    <tr>
-                        <td><code>GET_ALL_LOBBY&lt;CLRF&gt;</code></td>
-                        <td>Retrieve all available lobbies</td>
-                        <td><code>lobby_id_list, 400</code></td>
-                    </tr>
-                </tbody>
-            </table>
+    <h3>Header Format</h3>
+    <p>The UDP packet header is 7 bytes long and structured as follows:</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Field</th>
+                <th>Type</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>cmd</code></td>
+                <td><code>uint8_t</code></td>
+                <td>Command type</td>
+            </tr>
+            <tr>
+                <td><code>payload_size</code></td>
+                <td><code>uint16_t</code></td>
+                <td>Size of the payload</td>
+            </tr>
+            <tr>
+                <td><code>sequence_id</code></td>
+                <td><code>uint32_t</code></td>
+                <td>Sequence ID of the packet</td>
+            </tr>
+            <tr>
+                <td><code>payload</code></td>
+                <td>Variable</td>
+                <td>Content of the payload</td>
+            </tr>
+        </tbody>
+    </table>
 
-            <h3>UDP Commands</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Command</th>
-                        <th>Description</th>
-                        <th>Parameters</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><code>CONNECT</code></td>
-                        <td>Connects the player</td>
-                        <td>None</td>
-                    </tr>
-                    <tr>
-                        <td><code>MOVEPLAYER</code></td>
-                        <td>Moves the player</td>
-                        <td><code>float x, float y</code></td>
-                    </tr>
-                </tbody>
-            </table>
-            <ul>
-                <li><a href="engine.html">Engine Overview</a>: Learn about the engine architecture.</li>
-                <li><a href="graphical.html">Graphical Module</a>: Details about the graphical implementation.</li>
-                <li><a href="getting-start.html">Protocol Reference</a>: Learn about the communication protocols.</li>
-                <li><a href="server.html">Server Details</a>: Information about the server implementation.</li>
-                <li><a href="assets.html">Contribution Guide</a>: Guidelines for contributing to the project.</li>
-                <li><a href="cicd.html">Contribution Guide</a>: Guidelines for contributing to the project.</li>
-            </ul>
-        </section>
-    </main>
+    <h3>Commands</h3>
+
+    <h4>CONNECT</h4>
+    <p>Connects the player to the server.</p>
+
+    <h4>MOVEPLAYER</h4>
+    <p>Moves the player.</p>
+    <ul>
+        <li><code>float x</code>: X-coordinate of movement.</li>
+        <li><code>float y</code>: Y-coordinate of movement.</li>
+    </ul>
+
+    <h4>SHOOTPLAYER</h4>
+    <p>Player shoots.</p>
+
+    <h4>SENDPOSITION</h4>
+    <p>Sends the player's position to the server.</p>
+    <ul>
+        <li><code>float x</code>: X-coordinate.</li>
+        <li><code>float y</code>: Y-coordinate.</li>
+    </ul>
+
+    <h4>SPAWNPLAYER</h4>
+    <p>Spawns a new player.</p>
+    <ul>
+        <li><code>size_t replicable</code>: Replication flag.</li>
+    </ul>
+
+    <h4>SPAWNALLY</h4>
+    <p>Spawns an ally.</p>
+    <ul>
+        <li><code>float x</code>: X-coordinate.</li>
+        <li><code>float y</code>: Y-coordinate.</li>
+        <li><code>size_t replicable</code>: Replication flag.</li>
+    </ul>
+
+    <h4>MOVEALLY</h4>
+    <p>Moves an ally.</p>
+    <ul>
+        <li><code>int id</code>: Ally ID.</li>
+        <li><code>float x</code>: X-coordinate.</li>
+        <li><code>float y</code>: Y-coordinate.</li>
+    </ul>
+
+    <h4>SPAWNBULLET</h4>
+    <p>Spawns a bullet.</p>
+    <ul>
+        <li><code>size_t ship</code>: Ship ID associated with the bullet.</li>
+    </ul>
+
+    <h4>SETPLAYERPOS</h4>
+    <p>Sets the player's position.</p>
+    <ul>
+        <li><code>float x</code>: X-coordinate.</li>
+        <li><code>float y</code>: Y-coordinate.</li>
+    </ul>
+
+    <h4>SETALLYPOS</h4>
+    <p>Sets the ally's position.</p>
+    <ul>
+        <li><code>size_t rep</code>: Ally replication ID.</li>
+        <li><code>float x</code>: X-coordinate.</li>
+        <li><code>float y</code>: Y-coordinate.</li>
+    </ul>
+
+    <h4>ASKPOSITION</h4>
+    <p>Requests the position of entities.</p>
+
+    <h4>SPAWNMONSTER</h4>
+    <p>Spawns a monster.</p>
+    <ul>
+        <li><code>size_t rep</code>: Replication ID.</li>
+        <li><code>float x</code>: X-coordinate.</li>
+        <li><code>float y</code>: Y-coordinate.</li>
+    </ul>
+
+    <h4>KILLMONSTER</h4>
+    <p>Kills a monster.</p>
+    <ul>
+        <li><code>size_t rep</code>: Replication ID.</li>
+    </ul>
+
+    <h4>DEATH</h4>
+    <p>Registers a player death.</p>
+
+    <h4>DEATHALLY</h4>
+    <p>Registers an ally death.</p>
+    <ul>
+        <li><code>size_t rep</code>: Replication ID.</li>
+    </ul>
+</section>
+
+<section id="summary">
+    <h2>Summary Table</h2>
+        <h3>TCP Commands</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Command</th>
+                    <th>Description</th>
+                    <th>Response Codes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>GET_ALL_LOBBY&lt;CRLF&gt;</code></td>
+                    <td>Retrieve all available lobbies</td>
+                    <td><code>200</code></td>
+                </tr>
+                <tr>
+                    <td><code>GET_LOBBY&lt;SP&gt;${lobby_id}&lt;CRLF&gt;</code></td>
+                    <td>Retrieve information about a specific lobby</td>
+                    <td><code>203</code></td>
+                </tr>
+                <tr>
+                    <td><code>JOIN&lt;SP&gt;${lobby_id}&lt;CRLF&gt;</code></td>
+                    <td>Join a specific lobby</td>
+                    <td><code>202</code></td>
+                </tr>
+                <tr>
+                    <td><code>QUIT&lt;SP&gt;${lobby_id}&lt;CRLF&gt;</code></td>
+                    <td>Quit a specific lobby</td>
+                    <td><code>204</code></td>
+                </tr>
+                <tr>
+                    <td><code>SET_NEW_LOBBY&lt;SP&gt;${lobby_name}&lt;SP&gt;${slot}&lt;SP&gt;${password}&lt;CRLF&gt;</code></td>
+                    <td>Create a new lobby</td>
+                    <td><code>205</code></td>
+                </tr>
+                <tr>
+                    <td><code>DELETE_LOBBY&lt;SP&gt;${lobby_id}&lt;CRLF&gt;</code></td>
+                    <td>Delete a lobby</td>
+                    <td><code>206</code></td>
+                </tr>
+                <tr>
+                    <td><code>LAUNCH_GAME&lt;SP&gt;${lobby_id}&lt;CRLF&gt;</code></td>
+                    <td>Launch a game in a lobby</td>
+                    <td><code>207</code></td>
+                </tr>
+                <tr>
+                    <td><code>SET_PLAYER_READY&lt;SP&gt;${lobby_id}&lt;CRLF&gt;</code></td>
+                    <td>Set a player as ready</td>
+                    <td><code>208</code></td>
+                </tr>
+                <tr>
+                    <td><code>UPDATE_LOBBY&lt;SP&gt;${lobby_id}&lt;SP&gt;${lobby_name}&lt;SP&gt;${slot}&lt;SP&gt;${password}&lt;CRLF&gt;</code></td>
+                    <td>Update the lobby information</td>
+                    <td><code>209</code></td>
+                </tr>
+                <tr>
+                    <td><code>UPDATE_PERM&lt;SP&gt;${lobby_id}&lt;SP&gt;${player_id}&lt;SP&gt;${new_perm}&lt;CRLF&gt;</code></td>
+                    <td>Update player permissions</td>
+                    <td><code>210</code></td>
+                </tr>
+                <tr>
+                    <td><code>KICK_PLAYER&lt;SP&gt;${lobby_id}&lt;SP&gt;${player_id}&lt;CRLF&gt;</code></td>
+                    <td>Kick a player from a lobby</td>
+                    <td><code>211</code></td>
+                </tr>
+                <tr>
+                    <td><code>SEND_MSG&lt;SP&gt;${lobby_id}&lt;SP&gt;${msg}&lt;CRLF&gt;</code></td>
+                    <td>Send a message in a lobby</td>
+                    <td><code>212</code></td>
+                </tr>
+            </tbody>
+        </table>
+
+    <h3>UDP Commands</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Command</th>
+                <th>Description</th>
+                <th>Parameters</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>CONNECT</code></td>
+                <td>Connects the player</td>
+                <td>None</td>
+            </tr>
+            <tr>
+                <td><code>MOVEPLAYER</code></td>
+                <td>Moves the player</td>
+                <td><code>float x, float y</code></td>
+            </tr>
+            <tr>
+                <td><code>SHOOTPLAYER</code></td>
+                <td>Player shoots</td>
+                <td>None</td>
+            </tr>
+            <tr>
+                <td><code>SENDPOSITION</code></td>
+                <td>Sends player position</td>
+                <td><code>float x, float y</code></td>
+            </tr>
+            <tr>
+                <td><code>SPAWNPLAYER</code></td>
+                <td>Spawns a player</td>
+                <td><code>size_t replicable</code></td>
+            </tr>
+            <tr>
+                <td><code>SPAWNALLY</code></td>
+                <td>Spawns an ally</td>
+                <td><code>float x, float y, size_t replicable</code></td>
+            </tr>
+            <tr>
+                <td><code>MOVEALLY</code></td>
+                <td>Moves an ally</td>
+                <td><code>int id, float x, float y</code></td>
+            </tr>
+            <tr>
+                <td><code>SPAWNBULLET</code></td>
+                <td>Spawns a bullet</td>
+                <td><code>size_t ship</code></td>
+            </tr>
+            <tr>
+                <td><code>SETPLAYERPOS</code></td>
+                <td>Sets player position</td>
+                <td><code>float x, float y</code></td>
+            </tr>
+            <tr>
+                <td><code>SETALLYPOS</code></td>
+                <td>Sets ally position</td>
+                <td><code>size_t rep, float x, float y</code></td>
+            </tr>
+            <tr>
+                <td><code>ASKPOSITION</code></td>
+                <td>Requests positions</td>
+                <td>None</td>
+            </tr>
+            <tr>
+                <td><code>SPAWNMONSTER</code></td>
+                <td>Spawns a monster</td>
+                <td><code>size_t rep, float x, float y</code></td>
+            </tr>
+            <tr>
+                <td><code>KILLMONSTER</code></td>
+                <td>Kills a monster</td>
+                <td><code>size_t rep</code></td>
+            </tr>
+            <tr>
+                <td><code>DEATH</code></td>
+                <td>Registers a player death</td>
+                <td>None</td>
+            </tr>
+            <tr>
+                <td><code>DEATHALLY</code></td>
+                <td>Registers an ally death</td>
+                <td><code>size_t rep</code></td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+</main>
 </body>
 </html>
